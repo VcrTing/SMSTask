@@ -1,0 +1,90 @@
+<!-- /.modal-content -->
+<div class="modal fade" tabindex="-1" id="preview_modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button -->
+                <h1 class="modal-title d-inline">郵件服務審核單</h1>
+
+                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="submit">立即提交</button>
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">返回更改</button>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">
+                    任務信息
+                </h3>
+                <hr/>
+                <form class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">接收者：</label>
+                        <div class="col-sm-9">
+                            <div class="reciver reciver-lg">
+                                <div class="d-inline" id="preview_named"></div>
+                                &nbsp;&lt;
+                                <div class="d-inline" id="preview_email"></div>
+                                &gt;&nbsp; 
+                                <!-- span class="glyphicon glyphicon-remove hand error"></span -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">發出者：</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" disabled value="{{ reply }}">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">服務項目：</label>
+                        <div class="col-sm-9">
+                            <input type="text" value="個人化漸進鏡" disabled class="form-control" id="preview_service">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">時間規則：</label>
+                        <div class="col-sm-9">
+                            <a href="#"><h4 id="preview_time_rule" class="form-in-p"></h4></a>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">到訪時間：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_visit_time">
+                        </div>
+                    </div>
+                </form>
+                <div style="height: 30px;" class="text-right">
+                    <a class="fs-14 mr-t-main hand"
+                        data-toggle="collapse" data-target="#collspse_preview" aria-expanded="false" aria-controls="collspse_preview"
+                        >
+                        <i>電郵內容明細?</i>
+                    </a>
+                </div>
+                <div class="collapse in" id="collspse_preview">
+                        <form class="form-horizontal">
+                            <div class="form-group form-group-lg">
+                                <label class="col-sm-3 control-label">電郵標題：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" value="" class="form-control" disabled id="preview_subject">
+                                </div>
+                            </div>
+                            <div class="form-group form-group-lg">
+                                <label class="col-sm-3 control-label">電郵內容：</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" rows="6" disabled id="preview_message"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#submit').on('click', function() {
+        $('#submitTask').click()
+    })
+    $('#collspse_preview').collapse('hide')
+</script>
+<style>
+
+</style>

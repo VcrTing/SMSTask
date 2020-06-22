@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block center %}
+<meta http-equiv=refresh content="10;url=/task/">
+{% include 'base/top.html' %}
+{% include 'base/title.html' %}
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-4">
+            <h2>
+                任務申請表填寫成功！！！
+            </h2>
+            <div class="space"></div>
+            <h3>
+                妳有<a href>{{ wait_minute }}分鐘</a>時間去檢查申請數據的正確性，2分鐘後申請的表格將自動遞交審核，審核通過的任務將自動加入到任務隊列。
+            </h3>
+            <h4>
+                2分鐘內若發現任務數據有誤，可先將申請表刪除，再次填寫表格後申請提交。
+            </h4>
+            <h4>
+                申請提交後的表暫時不支持修改，支持刪除，刪除後的任務將失效，失效後的任務短信不會發送。
+            </h4>
+            <h4>
+                註：已發送的短信無法撤銷
+            </h4>
+            <div class="space"></div>
+            <a class="btn btn-info btn-lg" role="button" href="/task/">
+                確定
+            </a>
+            <div class="space"></div>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+<style>
+.space {
+    height: 15px;
+}
+</style>
+{% include 'base/footer.html' %}
+{% endblock center %}
+
+<!-- Css -->
+{% block css %}
+{% endblock css %}
+<!-- Js -->
+{% block js %}
+{% endblock js %}

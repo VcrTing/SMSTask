@@ -1,0 +1,558 @@
+<!-- 聯系人 修改 Modal -->
+<div class="modal fade" tabindex="-1" id="contact_one_modal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group form-group-lg">
+                        <label for="first_named" class="control-label">名字</label>
+                        <input type="text" class="form-control first_named" id="first_named" placeholder="名字">
+                    </div>
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-4">
+                            <label for="area" class="control-label">區域</label>
+                            <select class="form-control def-select area" name="area" disabled id="area">
+                                {% for area in areas %}
+                                <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
+                                    {{ area.named }}({{ area.phoned_prefix }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-8">
+                            <label for="phoned" class="control-label">
+                                手機號碼&nbsp;
+                                <div data-lock="true" id="lock_update" style="padding-top: 2px;"
+                                    class="hand fr d-inline text-info fw-400 fs-14 lock_update" onclick="lockManager()">
+                                    <span class="iconfont icon-lock hand lock"></span>
+                                </div>
+                            </label>
+                            <input type="text" data-origin="" class="form-control phoned" id="phoned" disabled placeholder="手機號碼">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label for="email" class="control-label">
+                            電郵&nbsp;
+                            <div style="padding-top: 2px;"
+                            class="hand fr d-inline text-info fw-400 fs-14 lock_update" onclick="lockManager()">
+                            <span class="iconfont icon-lock hand lock"></span>
+                        </div>
+                        </label>
+                        <input type="text" data-origin="" class="form-control email" id="email" disabled placeholder="郵箱地址">
+                    </div>
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-4">
+                            <label for="bith" class="control-label">
+                                出生年
+                                <div class="d-inline">
+                                    <span id="update_bith_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                                    <input type="text" style="width: 15px; visibility: hidden; height: 10px;" id="update_bith">
+                                </div>
+                            </label>
+                            <input type="text" class="form-control bith_year" id="bith_year" placeholder="">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="bith" class="control-label">月</label>
+                            <input type="text" class="form-control bith_month" id="bith_month" placeholder="">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="bith" class="control-label">日</label>
+                            <input type="text" class="form-control bith_day" id="bith_day" placeholder="">
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="" id="contact_one_id" class="contact_one_id">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="contactOneUpdate()">確認修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 聯系人 增加 Modal -->
+<div class="modal fade" tabindex="-1" id="contact_plus_modal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group form-group-lg">
+                        <label for="plus_first_named" class="control-label">
+                            名字<span class="form-tip">*</span>
+                        </label>
+                        <input type="text" class="form-control first_named" name="plus_first_named" id="plus_first_named" placeholder="名字">
+                    </div>
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-4">
+                            <label for="plus_area" class="control-label">
+                                區域
+                            </label>
+                            <select class="form-control def-select area" name="plus_area" id="plus_area">
+                                {% for area in areas %}
+                                <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}" {% if area.phoned_prefix == '+852' %} selected {% endif %}>
+                                    {{ area.named }}({{ area.phoned_prefix }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-8">
+                            <label for="plus_phoned" class="control-label">
+                                手機號碼<span class="form-tip text-info">*</span>
+                            </label>
+                            <input type="text" onchange="contactPhoneSame()" class="form-control phoned" id="plus_phoned" placeholder="手機號碼">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label for="plus_email" class="control-label">
+                            電郵<span class="form-tip text-info">*</span>
+                        </label>
+                        <input type="email" onchange="contactEmailSame()" class="form-control " id="plus_email" placeholder="郵箱地址">
+                    </div>
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-4">
+                            <label for="plus_bith" class="control-label">
+                                出生年 
+                                <div class="d-inline">
+                                    <span id="plus_bith_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                                    <input type="text" style="width: 15px; visibility: hidden; height: 10px;" id="plus_bith">
+                                </div>
+                            </label>
+                            <input type="text" class="form-control bith_year" id="plus_bith_year" placeholder="">
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="bith" class="control-label">月</label>
+                            <input type="text" id="plus_bith_month" class="form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            <label for="bith" class="control-label">日</label>
+                            <input type="text" id="plus_bith_day" class="form-control" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-primary btn-lg" onclick="contactOnePlus()">確認新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact Plus -->
+<script>
+    laydate.render({
+        elem: '#plus_bith',
+        lang: 'en',
+        theme: '#46b8da',
+        eventElem: '#plus_bith_laydate',
+        trigger: 'click',
+        value: '1990-12-1',
+        showBottom: false,
+        done: function(value, date){
+            $('#plus_bith_year').val(date['year'])
+            $('#plus_bith_month').val(date['month'])
+            $('#plus_bith_day').val(date['date'])
+        }
+    });
+    locationLayDate = function (del_date) {
+        laydate.render({
+            elem: '#update_bith',
+            lang: 'en',
+            theme: '#46b8da',
+            eventElem: '#update_bith_laydate',
+            trigger: 'click',
+            showBottom: true,
+            value: del_date,
+            btns: ['confirm'],
+            done: function(value, date){
+                $('#bith_year').val(date['year'])
+                $('#bith_month').val(date['month'])
+                $('#bith_day').val(date['date'])
+            }
+        });
+    }
+
+    $('#contact_plus').on('click', () => {
+        $('#contact_plus_modal').modal('show')
+    })
+    lockManager = function (must_lock = false) {
+        let lockF = $('#lock_update').data('lock')
+        if (lockF) {
+            if (!must_lock) {
+                $('#area').removeAttr('disabled')
+                $('#phoned').removeAttr('disabled')
+                $('#email').removeAttr('disabled')
+                $('.lock_update').html('<span class="iconfont icon-unlock hand lock"></span>')
+            } else {
+                $('#area').attr('disabled', '')
+                $('#phoned').attr('disabled', '')
+                $('#email').attr('disabled', '')
+                $('.lock_update').html('<span class="iconfont icon-lock hand lock"></span>')
+            }
+        } else {
+            $('#area').attr('disabled', '')
+            $('#phoned').attr('disabled', '')
+            $('#email').attr('disabled', '')
+            $('.lock_update').html('<span class="iconfont icon-lock hand lock"></span>')
+        }
+        lockF = !lockF
+        if (must_lock) { lockF = true }
+        $('#lock_update').data('lock', lockF)
+    }
+    _clearPlusInput = function () {
+        $('#plus_first_named').val('')
+        $('#plus_phoned').val('')
+
+        $('#plus_bith_year').val('')
+        $('#plus_bith_month').val('')
+        $('#plus_bith_day').val('')
+    }
+    contactPhoneSame = function () {
+        const phoned = $('#plus_phoned').val()
+
+        if (_valide_phone(phoned) != true) {
+            // alert(_valide_phone(phoned))
+            return
+        } else {
+            $.ajax({
+                url: _url + 'contact/?phoned=' + phoned,
+                type: 'GET',
+                success: function (e) {
+                    try {
+                        alert(
+                            '已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！'
+                        )
+                    } catch(e) {
+                        
+                    }
+                }
+            })
+        }
+    }
+
+    contactEmailSame = function () {
+        const email = $('#plus_email').val()
+
+        if (_val_email(email) != true) {
+            // alert(_valide_phone(phoned))
+            return
+        } else {
+            $.ajax({
+                url: _url + 'contact/?email=' + email,
+                type: 'GET',
+                success: function (e) {
+                    try {
+                        alert(
+                            '已經存在 [' + e[0]['first_named'] + ']' + email + ' 用戶了！！！'
+                        )
+                    } catch(e) {
+                        
+                    }
+                }
+            })
+        }
+    }
+    _plus = function (data) {
+        console.log('data =', data)
+        
+        $.ajax({
+            url: _root + '/contact/',
+            type: 'POST',
+            data: data,
+            dataType: 'json',
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+            }, 
+            success: function (e) {
+                if (e['res'] == false) {
+                    alert('' + e['msg'] + ' 修改輸入後可再次提交。')
+                } else {
+                    _loadData(_build_url(_offset))
+                    $('#msg_dom').html(
+                        '<div class="alert alert-success" role="alert">' + '聯系人新增成功！！！' + '</div>'
+                    )
+                    _sleep(300).then(() => {
+                        $('#contact_plus_modal').modal('hide')
+                        _clearPlusInput()
+                    })
+                }
+                _clearMsgDom()
+            }
+        }) 
+    }
+    contactOnePlus = function () {
+        const first_named = $('#plus_first_named').val()
+        const phoned = $('#plus_phoned').val()
+        const area = $('#plus_area').find('option:selected').val()
+        const email = $('#plus_email').val()
+
+        const year = $('#plus_bith_year').val()
+        const month = $('#plus_bith_month').val()
+        const day = $('#plus_bith_day').val()
+        let bith = year + '-' + month + '-' + day
+
+        if (_valide_named(first_named) != true) {
+            alert(_valide_named(first_named))
+            return
+        }
+
+        if (year.trim() == '') {
+            bith = ''
+        } else {
+            if (_valide_date(bith) != true) {
+                alert(_valide_date(bith))
+                return
+            }
+        }
+
+        const data = {
+            'first_named': first_named,
+            'area': area,
+            'phoned': phoned,
+            'email': email,
+            'bith': bith
+        }
+
+        if ((phoned.trim() == '') & (email.trim() == '')) {
+            alert('電話號碼和郵箱地址至少要填寫壹個！！！')
+            return
+        } else {
+            if (phoned.trim() != '') {
+                if (_valide_phone(phoned) != true) {
+                    alert(_valide_phone(phoned))
+                    return
+                } else {
+                    $.ajax({
+                        url: _url + 'contact/?phoned=' + phoned,
+                        type: 'GET',
+                        success: function (e) {
+                            try {
+                                const id = e[0]['id']
+                                alert('已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！')
+                                _clearMsgDom()
+                            } catch(e) {
+                                _plus(data)
+                            }
+                        }
+                    })
+                }
+            } else {
+                if (_val_email(email) != true) {
+                    alert(_val_email(email))
+                    return
+                } else {
+                    $.ajax({
+                        url: _url + 'contact/?email=' + email,
+                        type: 'GET',
+                        success: function (e) {
+                            try {
+                                const id = e[0]['id']
+                                alert('已經存在 [' + e[0]['first_named'] + ']' + email + ' 用戶了！！！')
+                                _clearMsgDom()
+                            } catch(e) {
+                                _plus(data)
+                            }
+                        }
+                    })
+                }
+            }
+        }
+
+    }
+</script>
+<!-- Contact One -->
+<script>
+    _locationConatctOne = function(res, locationDom) {
+        const bith = _ser_bith(res['bith'], true, false)
+        if (bith) {
+            locationDom.find('.bith_year').val(bith['year'])
+            locationDom.find('.bith_month').val(bith['month'])
+            locationDom.find('.bith_day').val(bith['day'])
+
+            locationLayDate(bith['year'] + '-' + bith['month'] + '-' + bith['day'])
+        } else {
+            locationLayDate('')
+        }
+        
+        locationDom.find('.contact_one_id').val(res['id'])
+        locationDom.find('.first_named').val(res['first_named'])
+
+        locationDom.find('.phoned').data('origin', res['phoned'])
+        locationDom.find('.phoned').val(res['phoned'])
+
+        locationDom.find('.email').data('origin', res['email'])
+        locationDom.find('.email').val(res['email'])
+
+        locationDom.find('.area').find('option[value="' + res['area']['id'] + '"]').attr('selected', true)
+        // locationDom.find('.gender').find('option[value="' + res['gender'] + '"]').attr('selected', true)
+    }
+    contactOne = function(id) {
+        $.ajax({
+            url: _url + _api_name + '/' + id + '/',
+            type: 'GET',
+            dataType: 'json',
+            async: false,
+            success: function(e) {
+                const locationDom = $('#contact_one_modal')
+                _locationConatctOne(e, locationDom)
+            }
+        })
+    }
+   
+    contactOneManager = function(id) {
+        contactOne(id)
+        lockManager(must_lock = true)
+        $('#contact_one_modal').modal('show')
+    }
+    locationCOUpdate = function(res, locationDom) {
+        locationDom.find('.phoned').html( res['area']['phoned_prefix'] + ' ' + res['phoned'])
+        // locationDom.find('.gender').html(_ser_gender(res['gender']))
+        locationDom.find('.bith').html(_ser_bith(res['bith']))
+        locationDom.find('.first_named').html(res['first_named'])
+        locationDom.find('.email').html(res['email'])
+    }
+    _update = function (data, id) {
+        console.log(data)
+        $.ajax({
+            url: _url + _api_name + '/' + id + '/',
+            type: 'PUT',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json;charset=utf8'
+            },
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+            },
+            success: function(e) {
+                _loadData(_build_url(_offset))
+                $('#contact_one_modal').modal('hide')
+            },
+            error: function(e) {
+                alert('修改失敗！！！')
+            }
+        })  
+    }
+    contactOneUpdate = function() {
+        // 獲取數據
+        const id = $('#contact_one_id').val()
+        const first_named = $('#first_named').val()
+        const area = $('#area').find('option:selected').val();
+        // const gender = $('#gender').find('option:selected').val();
+
+        const email = $('#email').val().trim()
+        const phoned = $('#phoned').val().trim()
+
+        const bith_year = $('#bith_year').val()
+        const bith_month = $('#bith_month').val()
+        const bith_day = $('#bith_day').val()
+        let bith = bith_year + '-' + bith_month + '-' + bith_day
+
+        // 驗證數據
+        if (bith_year != '') {
+            const is_bith = _valide_bith(bith, true)
+            if (is_bith != true) {
+                alert(is_bith)
+                return
+            }
+        } else {
+            bith = ''
+        }
+        // 裝載數據
+        const data = {
+            'first_named': first_named,
+            'area': area,
+            'area_id': area,
+            'phoned': phoned,
+            'bith': bith,
+            'email': email,
+            'status': true
+        }
+        console.log(data)
+        
+        if ((phoned == '') & (email == '')) {
+            alert('電話號碼和郵箱地址至少要填寫壹個！！！')
+            return
+        } else {
+            if (phoned != $('#phoned').data('origin').trim()) {
+                if (_valide_phone(phoned) != true) {
+                    alert(_valide_phone(phoned))
+                    return
+                } else {
+                    $.ajax({
+                        url: _url + 'contact/?phoned=' + phoned,
+                        type: 'GET',
+                        success: function (e) {
+                            console.log('Into the Phone')
+                            try {
+                                const id = e[0]['id']
+                                alert('已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！')
+                                _clearMsgDom()
+                            } catch(e) {
+                                _update(data, id)
+                            }
+                        }
+                    })
+                }
+            }
+            else if (email != $('#email').data('origin')) {
+                if (_val_email(email) != true) {
+                    alert(_val_email(email))
+                    return
+                } else {
+                    $.ajax({
+                        url: _url + 'contact/?email=' + email,
+                        type: 'GET',
+                        success: function (e) {
+                            console.log('Into the Email')
+                            try {
+                                const id = e[0]['id']
+                                alert('已經存在 [' + e[0]['first_named'] + ']' + email + ' 用戶了！！！')
+                                _clearMsgDom()
+                            } catch(e) {
+                                _update(data, id)
+                            }
+                        }
+                    })
+                }
+            } else {
+                _update(data, id)
+            }
+        }
+    }
+
+</script>
+<!-- Star -->
+<script>
+    isStar = function (id) {
+        $.ajax({
+            url: _url + _api_name + '/' + id + '/',
+            type: 'GET',
+            success: function(e) {
+                let f = e['star']
+                $.ajax({
+                    url: _url + _api_name + '/' + id + '/',
+                    type: 'PUT',
+                    data: { 'star': !f, 'status': true },
+                    beforeSend:function(xhr, settings){
+                        xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                    },
+                    success: function(e) {
+                        const locationDom = $('#tr_' + id)
+                        locationDom.find('.star').html(_ser_star(e['star']))
+                        /*
+                    beforeSend:function(xhr, settings){
+                        xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                    },
+                    */
+                    }, 
+                    error: function(e) {
+                        alert('星標添加失敗！！！')
+                    }
+                })
+            }
+        })
+    }
+</script>
+<style>
+    
+</style>

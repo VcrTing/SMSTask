@@ -1,0 +1,237 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block center %}
+<link rel="stylesheet" href="{% static '/css/index.css' %}"/>
+{% include 'base/top.html' %}
+{% include 'base/title.html' %}
+<input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
+<script>
+    isLogin = $('#isLogin').val()
+    if (isLogin == 0) {
+        location.href = '/login/'
+    }
+    const _root = head + '{{ request.get_host }}'
+</script>
+<div class="">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="home-space"></div>
+                <!-- 任務相關 -->
+                <div class="menu def-border bg-white left-shadow">
+                    <div class="menu-title bg-main text-white">
+                        <h4 class="">任務相關</h4>
+                    </div>
+                    <div class="menu-wrapper">
+
+                        <div class="item bg-white clearfix {% if page_flag == 'task' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/task/"><h4>短信</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                                <a class="add-wrapper" href="/task/?option=add">
+                                    <div class="fl">
+                                        <h4>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="item bg-white clearfix {% if page_flag == 'email' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/email/"><h4>電郵</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                                <a class="add-wrapper" href="/email/?option=add">
+                                    <div class="fl">
+                                        <h4>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'contact' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/contact/"><h4>聯絡人</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                                {% if page_flag == 'contact' and page_flag_sub == None %}
+                                <a class="add-wrapper hand" id="contact_plus">
+                                    <div class="fl">
+                                        <h4>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </h4>
+                                    </div>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- -->
+
+                        <div class="menu-title item-split bg-main text-white">
+                            <div class="item-title">
+                                <p class=""><h4>記錄相关</h4></p>
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'task_collect' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/task/?option=collect"><h4>短信申請記錄</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'email_collect' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/email_collect/"><h4>電郵發送記錄</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                            </div>
+                        </div>
+
+                        <!-- -->
+
+                        <div class="menu-title item-split bg-main text-white">
+                            <div class="item-title">
+                                <p class=""><h4>服務与模版</h4></p>
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'service' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/service/"><h4>服務項目</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'email_template' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/email_template/"><h4>电邮模版</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                                {% if page_flag == 'email_template' and page_flag_sub == None %}
+                                <a class="add-wrapper hand" href="/email_template/?option=add">
+                                    <div class="fl">
+                                        <h4>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </h4>
+                                    </div>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- -->
+
+                        <div class="menu-title item-split bg-main text-white">
+                            <div class="item-title">
+                                <p class=""><h4>其他</h4></p>
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'sms_num' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/img/?option=page"><h4>媒體庫</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                            </div>
+                        </div>
+                        <div class="item bg-white clearfix {% if page_flag == 'help' %}active{% endif %}">
+                            <div class="item-title fl">
+                                <a href="/help/"><h4>幫助</h4></a>
+                            </div>
+                            <div class="item-content fr">
+                            </div>
+                        </div>
+                    </div>
+                </div>                  
+            </div>
+            <div class="col-md-10">
+                <div class="home-space"></div>
+                {% block data %}
+                {% endblock data %}
+            </div>
+        </div>
+    </div>
+    <div class="msg-dom fs-def">
+        <div class="container">
+            <div id="msg_dom"></div>
+        </div>
+    </div>
+</div>
+
+{% include 'base/footer.html' %}
+<!-- Tool Bar -->
+{% block bar %}
+{% endblock bar %}
+
+{% endblock center %}
+
+<!-- Css -->
+{% block css %}
+<style>
+.msg-dom {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+#msg_dom {
+    float: right;
+    max-width: 40%;
+}
+@media screen and (max-width: 768px) {
+    #msg_dom {
+        width: 300px;
+    }
+}
+
+.left-shadow {
+    box-shadow: 0px 0px 5px -1 rgba(168, 168, 168, 0.5);
+}
+    .menu {
+        border: 1px solid #eeeeee;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .menu-title {
+        padding: 10px 15px;
+    }
+
+    .menu-wrapper {
+        background: white !important;
+    }
+    .item {
+        padding: 10px 15px;
+        border-top: 1px solid #eeeeee;
+    }
+    .item:hover {
+        background: rgb(252, 252, 252);
+    }
+    .item-split {
+        padding: 15px 15px 10px 15px;
+        border-top: 1px solid #eeeeee;
+    }
+    .item-title {
+        
+    }
+    .item-title a {
+        width: 100%;
+        color: #3e3e3e;
+    }
+
+    .active {
+        background: #f9f9f9;
+    }
+    .active a {
+        color: rgb(55, 123, 181) !important;
+    }
+    .active:hover {
+        background: #f9f9f9;
+    }
+</style>
+{% endblock css %}
+
+<!-- Js -->
+{% block js %}
+{% endblock js %}

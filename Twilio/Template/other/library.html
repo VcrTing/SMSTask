@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh">
+    {% load staticfiles %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>
+            短信管理系統 - {{ title }}
+        </title>
+        <link rel="icon" href="{% static 'Contact.png' %}" type="image/x-icon"/>
+
+        <link rel="stylesheet" href="{% static 'base.css' %}"/>
+        <link rel="stylesheet" href="{% static 'common.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/iconfont.css' %}"/>
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
+        <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <!-- link rel="shortcut icon" href="{{ MEDIA_URL }}" type="image/x-icon"/-->
+        <script  type="text/javascript" src="{% static 'common.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
+
+    </head>
+    <body>
+        <style>
+            .media-row {
+                width: 100%;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .media-col {
+                height: 200px;
+                box-sizing: border-box;
+                border-bottom: 1px solid #f5f5f5;
+            }
+            .media-active {
+                background: rgba(25, 182, 255, 0.14);
+            }
+            .media-delete {
+                transition: all 2s;
+                background: rgba(255, 25, 140, 0.6);
+            }
+            .media-item {
+                padding-left: 15px;
+                padding-right: 15px;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                box-sizing: border-box;
+                height: 100%;
+                width: 100%;
+            }
+            .media-content {
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .media-src {
+                vertical-align: middle;
+                text-align: center;
+            }
+            .w-full {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+            }
+            .h-full {
+                height: 100%;
+                max-height: 100%;
+                width: auto;
+            }
+            .media-col {
+                width: 20%;
+            }
+            @media screen and (min-width: 1119px) and (max-width: 1919px) {
+                .media-col {
+                    width: 25%;
+                }
+            }
+            @media screen and (min-width: 767px) and (max-width: 1119px) {
+                .media-col {
+
+                    width: 33.3%;
+                }
+            }
+            @media screen and (min-width: 540px) and (max-width: 767px) {
+                .media-col {
+                    width: 50%
+                }
+            }
+            @media screen and (max-width: 540px) {
+                .media-col {
+                    width: 100%
+                }
+            }
+        </style>
+        <style>
+            .media-trash-icon {
+                font-size: 48px;
+                margin-top: 22px;
+            }
+        </style>
+        <script>
+            const _root = head + '{{ request.get_host }}'
+        </script>
+        {% if option == 'page' %}
+            {% include 'base/top.html' %}
+            {% include 'base/title.html' %}
+
+        {% endif %}
+        <div id="app">
+            {% if option == 'page' %}
+            <div class="home-space"></div>
+            <div class="container">
+            {% endif %}
+                <div class="row">
+                    <div class="col-xs-9">
+                        <div class="form-group">
+                            <label for="img_upload">點擊上傳圖片</label>
+                            <input type="file" id="img_upload" @change="collectImg($event)" accept=".jpg,.png,.bmp,.gif,.jpeg">
+                            <p class="help-block">容量大於2mb的圖片會被壓縮，但gif不會被壓縮。</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 text-right">
+                        <span class="glyphicon glyphicon-trash media-trash-icon" @click="trashImg()"></span>
+                        <input type="hidden" id="now_pk" data-choise="false">
+                    </div>
+                </div>
+            {% if option == 'page' %}
+            </div>
+            {% endif %}
+            <div class="media-row text-center" id="img_dom">
+                <div class="media-col">
+                    <div class="media-item">
+                        <div class="media-content">
+                            <img src=""/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% csrf_token %}
+        <!-- 数据操作 -->
+        <script>
+            var def_ratio
+            const h = 170.0
+
+            getRatio = function() {
+                let w = parseFloat($('.media-content:first').width())
+                if (w == 0.0) {
+                    w = 280
+                }
+                return (w/h).toFixed(3)
+            }
+            def_ratio = getRatio()
+            
+            choiseMedia = function(new_pk) {
+                $('.media-item').removeClass('media-active')
+                $('#media_' + new_pk).addClass('media-active')
+                $('#now_pk').val(new_pk)
+                $('#now_pk').data('choise', true)
+            }
+
+            getOriginMedia = function(f) {
+                const choise = $('#now_pk').data('choise')
+                const pk = $('#now_pk').val()
+                let res = null
+
+                if (choise) {
+                    res = $('#media_' + pk).data('origin')
+                }
+                if (res) {
+                    if (res.substring(0, 4) != 'http') {
+                        res = head + '{{ request.get_host }}' + res
+                    }
+                } else {
+                    alert('丟失選擇信息，請重新選擇壹下！！！')
+                }
+                
+                return res
+            }
+
+            trashMedia = function(pk, f) {
+                let url = _root + '/'
+                if (f == 'img') {
+                    if (!confirm('確定要刪除該照片嗎？刪除後的照片無法恢復！！！')) {
+                        return
+                    } 
+                    url = url + f + '/?option=trash&id=' + pk
+                }
+                
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    dataType: 'json',
+                    beforeSend:function(xhr, settings){
+                        xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                    },
+                    success: function(e) {
+                        
+                        if (e['status']) {
+                            $('#media_' + pk).addClass('media-delete')
+                            setTimeout(function() {
+                                $('#col_' + pk).addClass('d-none')
+                            }, 1200)
+                        } else {
+                            alert(e['msg'])
+                        }
+                    },
+                    error: function(e) {
+                        alert('網絡錯誤！！！')
+                    }
+                })
+            }
+
+            _getFile = function(event) {
+
+                let file = event.target.files
+                const res = []
+
+                for (var i= 0; i< file.length; i++ ) {
+                    
+                    var imgName = file[i].name;
+                    var idx = imgName.lastIndexOf(".");  
+
+                    if (idx != -1) {
+                        var ext = imgName.substr(idx + 1).toUpperCase();   
+                        ext = ext.toLowerCase( ); 
+                        if (ext!='jpg' && ext!='png' && ext!='bmp' && ext!='gif' && ext!='jpeg'){
+                            
+                        } else {
+                            res.push( file[i] );
+                        }   
+                    } else {
+
+                    }
+                }
+
+                return res
+            }
+            _buildImg = function(item) {
+                const r = (item.w / item.h).toFixed(3)
+                const id = item.id
+                const img_tiny = item.img_tiny
+                const img = item.img
+
+                let html = '' +
+                        '<div class="media-col" id="col_' + id + '"> ' +
+                        '    <div id="media_' + id + '" data-origin="' + img + '" class="media-item" onclick="choiseMedia(' + id + ')"> ' +
+                        '        <div class="media-content"> '
+                if ((r - def_ratio).toFixed(3) >= 0.0) {
+                    html += '' +
+                        '<img class="media-src w-full"'
+                } else {
+                    html += '' +
+                        '<img class="media-src h-full"'
+                }
+                html += ' src="' + img_tiny + '"/> ' +
+                        '       </div> ' +
+                        '   </div> ' +
+                        '</div> '
+                return html
+            }
+        
+            _uploadMedia = function(rec, f) {
+                let _url = _root + '/' + f + '/'
+
+                const formData = new FormData()
+
+                let ext = false
+                let idx = rec.name.lastIndexOf(".");  
+                if (idx != -1) {
+                    ext = rec.name.substr(idx + 1).toUpperCase();   
+                    ext = ext.toLowerCase( );
+                }
+ 
+                formData.append('ext', ext)
+                formData.append('img', rec)
+                formData.append('size', rec.size)
+                formData.append('csrfmiddlewaretoken', '{{ csrf_token }}')
+                
+                if (rec.size > 25000000) {
+                    alert('檢測到文件大於25MB，請壓縮後再重新上傳！！！')
+                    return
+                }
+
+                $.ajax({
+                    url: _url,
+                    data: formData,
+                    type: 'POST',
+                    async: false,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    beforeSend:function(xhr, settings){
+                        xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                    },
+                    success: function(e) {
+                        if (e['status']) {
+                            const instance = e['instance']
+                            instance['img'] = {{ MEDIA_URL }} + instance['img']
+                            instance['img_tiny'] = {{ MEDIA_URL }} + instance['img_tiny']
+                            $('#img_dom').prepend(_buildImg(instance))
+                        } else {
+                            alert(e['msg'])
+                        }
+                    },
+                    error: function(e) {
+                        alert('未拉取到圖片壓縮權限信息，請刷新頁面重試壹下！！！')
+                    }
+                })
+            }
+            
+            var v = new Vue({
+                el: '#app',
+                data: {
+                    imgs: [
+
+                    ],
+                    ratio: 1.9,
+                    now: 0,
+                    img_upload: ''
+                },
+                created() {
+                    this.loadImg()
+                },
+                methods: {
+                    loadImg() {
+                        def_ratio = getRatio()
+
+                        setTimeout(function() {
+                            $('#img_dom').html(' ')
+
+                            $.ajax({
+                                url: _root + '/api/img/?format=json&ordering=-add_time',
+                                type: 'GET',
+                                dataType: 'json',
+                                success: function(e) {
+                                    this.imgs = e
+                                    for (var i= 0; i< this.imgs.length; i++ ) {
+                                        const item = this.imgs[i]
+                                        
+                                        $('#img_dom').append(_buildImg(item))
+                                    }
+                                },
+                                error: function(e) {
+                                    alert('网络原因！！！')
+                                }
+                            })
+                        }, 100)
+                    },
+
+                    trashImg() {
+                        const choise = $('#now_pk').data('choise')
+                        const pk = $('#now_pk').val()
+
+                        if (choise) {
+                            trashMedia(pk, 'img')
+                        } else {
+                            alert('请选择一张照片！！！')
+                        }
+                    },
+
+                    collectImg(event) {
+                        const res = _getFile(event)
+
+                        if (res != []) {
+                            for (var i= 0; i< res.length; i++ ) {
+                                _uploadMedia(res[i], 'img')
+                            }
+                        }
+                    }
+                },
+            })
+        </script>
+    
+    {% if option == 'page' %}
+        <div class="container">
+            <div class="form-group form-group-lg  col-sm-12 mr-t-main">
+                <div class="flex-action">
+                    <button type="button" class="btn btn-default btn-lg"  onclick="back()">返回</button>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</body>

@@ -1,0 +1,726 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<!-- 初始化 -->
+<script>
+    const _limit = 15
+    const _offset = 0
+    const _api_name = 'contact'
+    const _url = _root + '/api/'
+
+    let conditions = {
+        'page': {
+            'count': 0,
+            'limit': _limit,
+            'offset': _offset,
+
+            'next': '',
+            'previous': ''
+        },
+        'filter': {
+            'ordering': {
+                'res': '-add_time',
+                'val': 0
+            },
+            'filter_status': {
+                'res': '',
+                'val': 0
+            },
+            'area': {
+                'res': '',
+                'val': 0
+            },
+            'star': {
+                'res': '',
+                'val': 0
+            },
+            'bith': {
+                'start_bith': _age_num(0),
+                'end_bith': _age_num(150),
+                'val': 0,
+                'age_f': false
+            }
+        }
+    }
+
+    let contact = []
+
+    _build_url = function(offset) {
+        const filter = conditions['filter']
+        const page = conditions['page']
+
+        const res = _url + _api_name + '/?format=json&status=True' +
+            '&limit=' + page['limit'] + 
+            '&offset=' + offset +
+
+            '&area=' + filter['area']['res'] +
+            '&star=' + filter['star']['res'] +
+            '&filter_status=' + filter['filter_status']['res'] +
+            '&start_birth=' + filter['bith']['start_bith'] +
+            '&end_birth=' + filter['bith']['end_bith'] +
+            '&age_f=' + filter['bith']['age_f'] +
+            '&ordering=' + filter['ordering']['res']
+
+        return res
+    }
+
+    _build_html = function(res) {
+
+        let dataDom = $('#contact_content')
+        contact = []
+        dataDom.html('')
+        $.each(res, function(index, item) {
+            const id = item['id']
+            const area = item['area']
+            const star = item['star']
+            const bith = item['bith']
+            const email = item['email']
+            const gender = item['gender']
+            const phone = item['phoned']
+            const add_time = item['add_time']
+            const first_named = item['first_named']
+
+            let phoned = phone==''?'':'<div class="phoned hand" style="color: #333"><i style="color: #333">' + area['phoned_prefix'] + '</i> ' + phone + '</div>'
+
+            const html = '' +
+                '<tr id="tr_' + id + '">' +
+                    '<td><h4><input type="checkbox" class="box-item" data-id=' + id + ' id="box_'+ id +'" onclick="applyBarOne()"></h4></td>' +
+                    '<td><h4 class="first_named">' + first_named + '</h4></td>' +
+                    '<td><h4>' + phoned + '</h4></td>' +
+                    '<td align="center"><h4 class="gender">' + email + '</h4></td>' +
+                    '<td align="center"><h4 class="bith">' + _ser_bith(bith) + '</h4></td>' +
+                    '<td align="center"><div class="star" onclick="isStar(' + id + ')">' + _ser_star(star) + '</div></td>' +
+                    '<td align="center"><h4 class="hand see-task" onclick="seeTask(' + id + ')">查看</h4></td>' +
+                    '<td align="center" width="64px"><h4><span onclick="contactOneManager(' + id + ')" class="glyphicon glyphicon-pencil hand text-main"></span>&nbsp;&nbsp;<a onclick="sureTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a></h4></td>' +
+                '</tr>'
+
+            contact.push(item)
+            dataDom.append(html)
+        })
+    }
+
+    Array.prototype.remove = function(val) { 
+        var index = this.indexOf(val); 
+        if (index > -1) { 
+            this.splice(index, 1); 
+        } 
+    };
+</script>
+
+<!-- 過濾器 -->
+<div class="collapse" id="filterTool">
+    <div class="well">
+        <div class="row">
+            <div class="col-sm-3">
+                <select class="w-100 form-control filter-select" id="filter_status">
+                    <option value="0">-- 全部狀態 --</option>
+                    <option value="1">有號碼的用戶</option>
+                    <option value="2">無號碼的用戶</option>
+                    <option value="3">有電郵的用戶</option>
+                    <option value="4">無電郵的用戶</option>
+                </select>
+            </div>
+            
+            <div class="col-sm-2">
+                <select class="w-100 form-control filter-select" id="filter_area">
+                    <option value="0">-- 地區 --</option>
+                    {% for area in areas %}
+                    <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
+                        {{ area.named }}({{ area.phoned_prefix }})
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- div class="col-sm-2">
+                <select class="w-100 form-control filter-select" id="filter_gender">
+                    <option value="100">-- 性別 --</option>
+                    <option value="1">男</option>
+                    <option value="2">女</option>
+                    <option value="0">未知</option>
+                </select>
+            </div-->
+            <div class="col-sm-3">
+                <div class="two-input-group">
+                    <select class="from-control filter-select start-age" id="start_age">
+                        <option value="0">--</option>
+                    </select>
+                    <span class="">至</span>
+                    <select class="from-control filter-select end-age" id="end_age">
+                        <option value="150">150</option>
+                    </select>
+                    <div>歲</div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <select class="w-100 form-control filter-select" id="filter_star">
+                    <option value="0">-- 星標 --</option>
+                    <option value="1">星標</option>
+                    <option value="2">非星標</option>
+                </select>
+            </div>
+            <div class="col-sm-2 text-right">
+                <button class="btn btn-default " onclick="clearFilter()">恢復</button>
+                <button class="btn btn-primary " onclick="filterManager()">過濾</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 表單 -->
+<div class="data-wrapper def-border table-responsive">
+    <table class="table table-striped">
+        <thead class="">
+            <tr>
+                <td>
+                    <h4>
+                        <input type="checkbox" onclick="choiseAll()" class="box-all" id="box_all">
+                    </h4>
+                </td>
+                <td>
+                    <h4>姓名</h4>
+                </td>
+                <td>
+                    <h4>電話號碼</h4>
+                </td>
+                <td align="center">
+                    <h4>電郵地址</h4>
+                </td>
+                <td align="center">
+                    <h4>出生年月</h4>
+                </td>
+                <td align="center">
+                    <h4>星標</h4>
+                </td>
+                <td align="center">
+                    <h4>歷史任務</h4>
+                </td>
+                <td>
+                    <h4>操作</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="tab-content" id="contact_content">
+        </tbody>
+    </table>
+</div>
+<!-- 分頁 -->
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="next">
+            <a href="#" id="next" onclick="loadData(true)">
+                下壹頁 <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+        <li class="fr">
+            <h5 id="pageMsg"></h5>
+        </li>
+        <li class="previous fr">
+            <a href="#" class="disable" id="previous" onclick="loadData(false)">
+                <span aria-hidden="true">&larr;</span> 上壹頁
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- 加載數據 -->
+<script>
+    _loadData = function(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(e) {
+                
+                // 渲染數據
+                _build_html(e['results'])
+
+                // 更改 Page
+                var previous = e['previous']
+                var next = e['next']
+                var count = e['count']
+
+                // 增加 首頁 末頁 功能
+                if (previous == null) {
+                    previous = _build_url(Math.floor(count / _limit) * _limit)
+                    conditions['page']['offset'] = _offset
+                }
+                if (next == null) {
+                    next = _build_url(_offset)
+                    conditions['page']['offset'] = Math.floor(count / _limit) * _limit
+                }
+
+                // 賦值
+                conditions['page']['previous'] = previous
+                conditions['page']['next'] = next
+                conditions['page']['count'] = count
+
+                // 展示 頁數
+                let text = (Math.floor(conditions['page']['offset'] / _limit) + 1) + '/' + Math.abs(Math.ceil(count / _limit))
+                $('#pageMsg').html(text)
+
+            },
+            error: function(e) {
+                alert('暫無更新！！！')
+            }
+        })
+    }
+
+    loadData = function(n_or_p) {
+        if (n_or_p) {
+            conditions['page']['offset'] += _limit
+            _loadData(conditions['page']['next'])
+        } else {
+            conditions['page']['offset'] -= _limit
+            _loadData(conditions['page']['previous'])
+        }
+    }
+
+    _loadData(_build_url(conditions['page']['offset']))
+</script>
+<!-- 操作數據 -->
+<script>
+    _trash = function(id, isM = true) {
+        $.ajax({
+            url: _url + _api_name + '/' + id + '/',
+            type: 'PUT',
+            data: { 'status': false },
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+            },
+            success: function(e) {
+                $('#tr_' + id).addClass('d-none')
+                ids.remove(id)
+            },
+            error: function(e) { isM==true?alert('刪除失敗！！！'):null }
+        })
+    }
+    sureTrash = function(id) {
+        window.event? window.event.cancelBubble = true : e.stopPropagation()
+        if (confirm('確認要刪除嗎？')) {
+            _trash(id)
+        }
+    }
+</script>
+<!-- 選擇與過濾 -->
+<script>
+    let box_dom_name = 'contact_content'
+    // 選擇與判斷
+    choiseAll = function() {
+        const box_all = $('#box_all')
+        if (box_all.is(':checked')) {
+            $('.box-item').prop('checked', true)
+        } else {
+            $('.box-item').prop('checked', false)
+            caf = false
+        }
+
+        if (_nowBoxNum() == 0) {
+            applyBar(false)
+        } else {
+            applyBar(true)
+        }
+    }
+    _allBoxNum = function () {
+        let num = 0
+        $('#' + box_dom_name + ' :checkbox').each(function () { 
+            num += 1
+        })
+        return num
+    }
+    _nowBoxNum = function () {
+        let num = 0;
+        $('#' + box_dom_name + ' :checkbox').each(function () { 
+            if ($(this).is(':checked')) {
+                num += 1
+            }
+            /*
+            else {
+                num -= 1
+            }
+            */
+        })
+        return num
+    }
+
+    choiseRev = function () {
+        $('#' + box_dom_name + ' :checkbox').each(function () { 
+            $(this).prop("checked", !$(this).prop("checked")); 
+        });
+
+        if (_allBoxNum() == _nowBoxNum()) {
+            $('#box_all').prop('checked', true)
+        } else {
+            $('#box_all').prop('checked', false)
+        }
+
+        applyBar(true)
+        if (_nowBoxNum() <= 0) {
+            applyBar(false)
+        }
+
+    }
+
+    choiseNone = function () {
+        $('#' + box_dom_name + ' :checkbox').each(function () { 
+            $(this).prop("checked", false)
+        })
+        $('#box_all').prop('checked', false)
+
+        applyBar(false)
+    } 
+
+    applyBar = function (f = $('#apply_bar').data('f')) {
+        const apply = $('#apply_bar')
+
+        if (f) {
+            apply.removeClass('d-none')
+            apply.fadeIn(1200)
+            f = false
+        } else {
+            apply.fadeOut(1200, () => {
+                apply.addClass('d-none')
+            })
+            f = true
+        }
+
+        apply.data('f', f)
+    }
+    applyBar(false)
+    applyBarOne = function (f = $('#apply_bar').data('f')) {
+        if (_nowBoxNum() > 0) {
+            applyBar(true)
+        } 
+        else {
+            applyBar(false)
+        }
+    }
+
+    // 選中與應用
+    _clearApply = function() {
+        $('#apply_select').find('option').removeAttr('selected')
+        $('#apply_select').find('option[value="0"]').attr('selected', true)
+    }
+    _clearFilter = function() {
+        location.reload()
+        /*
+        $('#filter_area').find('option').removeAttr('selected')
+        $('#filter_gender').find('option').removeAttr('selected')
+        $('#filter_age').find('option').removeAttr('selected')
+        $('#filter_star').find('option').removeAttr('selected')
+
+        $('#filter_area').find('option[value="0"]').attr('selected', true)
+        $('#filter_gender').find('option[value="100"]').attr('selected', true)
+        $('#filter_age').find('option[value="0"]').attr('selected', true)
+        $('#filter_star').find('option[value="0"]').attr('selected', true)
+        */
+    }
+
+    _choiseId = function(tip='danger') {
+        const dieId = []
+        $('#' + box_dom_name + ' :checkbox').each(function () { 
+            if ($(this).is(':checked')) {
+                const id = $(this).data('id')
+                if ($('#tr_' + id).hasClass('d-none') == false) {
+                    dieId.push(id)
+                    $('#tr_' + id).addClass(tip)
+                }
+            }
+        })
+        return dieId
+    }
+    _getTasker = function() {
+        const taskId = _choiseId('info')
+        const tasker = []
+        
+        for (var i= 0; i< contact.length; i++ ) {
+            const item = contact[i]
+            for (var j= 0; j< taskId.length; j++ ) {
+                if (item['id'] == taskId[j]) {
+                    tasker.push(item)
+                }
+            }
+        }
+        return tasker
+    }
+    _delNoneUser = function(rec, way) {
+        for (var i= 0; i< rec.length; i++ ) {
+            item = rec[i]
+            console.log('item =', item)
+            if (way == 0) {
+                // sms
+                if (item['phoned'] == '') {
+                    rec.remove(item)
+                }
+            } 
+            else if (way == 1) {
+                // email
+                if (item['email'] == '') {
+                    console.log('del')
+                    rec.remove(item)
+                }
+            }
+        }
+        return rec
+    }
+    doTask = function() {
+        let tasker = _delNoneUser(_getTasker(), 0)
+        tasker = JSON.stringify(tasker)
+        localStorage.setItem('sms_tasker', tasker)
+        location.href = '/contact/?option=task'
+    }
+    doEmail = function() {
+        let tasker = _delNoneUser(_getTasker(), 1)
+        tasker = JSON.stringify(tasker)
+        localStorage.setItem('email_tasker', tasker)
+        location.href = '/contact/?option=email'
+    }
+    trashAll = function() {
+
+        if (confirm('確認要刪除嗎？')) {
+            applyBar(false)
+            const dieId = _choiseId()
+            _sleep(500).then(() => {
+
+                for (var i= 0; i< dieId.length; i++ ) {
+                    const id = dieId[i]
+
+                    _sleep(100 * i).then(() => {
+                        _trash(id)
+                    })
+
+                    if ((i + 1) == dieId.length) {
+                        
+                        _sleep(100 * (i + 2)).then(() => {
+                            $('#box_all').prop('checked', false)
+                            _loadData(_build_url(conditions['page']['offset']))
+                        })
+                    }
+                }
+            })
+        }
+    }
+
+    applyManager = function(apply=0) {
+        // const apply = $('#apply_select').find('option:selected').val()
+        const num = _nowBoxNum()
+        
+        if (((_allBoxNum() + num) == 0) && (apply != 11)) {
+            alert('請選擇壹個或多個項目！！！')
+            return
+        }
+
+        switch(parseInt(apply)) {
+            case 3: 
+                doTask()
+                break;
+            case 4: 
+                doEmail()
+                break;
+            case 11: 
+                choiseRev()
+                break;
+            case 12:
+                trashAll()
+                break;
+        }
+
+        if (apply != 11) {
+            _clearApply()
+        }
+    }
+    
+    // 過濾
+    let collF = false
+    collapseManager = function() {
+        if (collF) {
+            $('#filterTool').collapse('hide')
+            $('#collapser').html('<span class="glyphicon glyphicon-triangle-bottom"></span>&nbsp;展開過濾器')
+            collF = false
+        } else {
+            $('#filterTool').collapse('show')
+            $('#collapser').html('<span class="glyphicon glyphicon-triangle-top"></span>&nbsp;關閉過濾器')
+            collF = true
+        }
+    }
+    collapseManager()
+
+    clearFilter = function() {
+        _clearFilter()
+    }
+
+    optionFilter = function(f) {
+        if (f) {
+            $('#filterTool').collapse('hide')
+        } else {
+            $('#filterTool').collapse('show')
+        }
+    }
+  
+    filterManager = function() {
+        const area = $('#filter_area').find('option:selected').val()
+        const filter_status = $('#filter_status').find('option:selected').val()
+
+        /*
+        let start_age = $('#start_age').val()
+        let end_age = $('#end_age').val()
+        */
+        let start_age = $('#start_age').find('option:selected').val()
+        let end_age = $('#end_age').find('option:selected').val()
+        let ageF = true
+
+        try {
+            start_age = parseInt(start_age.replace(/\s*/g, ''))
+            end_age = parseInt(end_age.replace(/\s*/g, ''))
+            if (start_age > end_age) {
+                alert('請檢查過濾器中先後年齡的大小順序！！！')
+                return
+            }
+            if (_ser_filter_age(start_age) != true) {
+                start_age = 0
+            } 
+            else if (_ser_filter_age(end_age) != true) {
+                end_age = 150
+            }
+            ageF = true
+            $('#start_age').val(start_age)
+            $('#end_age').val(end_age)
+        } catch(e) {
+            alert('請檢查過濾器中年齡的輸入是否有誤！！！')
+        }
+
+        if ((start_age == 0) && (end_age == 150)) {
+            ageF = false
+        }
+        console.info(ageF)
+
+        const star = $('#filter_star').find('option:selected').val()
+        let star_bool = ''
+        if (star == 1) { star_bool = true } else if (star == 2) { star_bool = false }
+
+        conditions['filter']['area'] = {
+            'res': area==0?'':area,
+            'val': area
+        }
+        conditions['filter']['filter_status'] = {
+            'res': filter_status,
+            'val': filter_status
+        }
+        conditions['filter']['bith'] = {
+            'start_bith': _age_num(start_age),
+            'end_bith': _age_num(end_age),
+            'val': 0,
+            'age_f': ageF
+        }
+        conditions['filter']['star'] = {
+            'res': star_bool,
+            'val': star
+        }
+
+        _loadData(_build_url(_offset))
+    }
+
+    makeFilter = function() {
+        $('#start_age').html('')
+        $('#end_age').html('')
+        $('#start_age').append('<option value="0">--</option>')
+        for (var i= 1; i< 101; i++ ) {
+            $('#start_age').append('<option value="' + i + '">' + i + '</option>')
+        }
+
+        $('#end_age').append('<option value="150">--</option>')
+        for (var i= 100; i> 0; i-- ) {
+            $('#end_age').append('<option value="' + i + '">' + i + '</option>')
+        }
+    }
+    makeFilter()
+</script>
+<!-- 樣式 -->
+<style>
+    .apply-bar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 12px 0px;
+        background: rgb(48, 48, 48);
+    }
+    .apply-diliver {
+        color: #7e7e7e;
+    }
+    .tool-btn {
+        border: none; 
+        background: none;
+        color: #dddddd;
+    }
+    .tool-btn:hover,
+    .tool-btn:focus,
+    .tool-btn:active,
+    .tool-btn:active:hover {
+        background: none; 
+        color: #46b8da;
+        border: none;
+        box-shadow: none;
+    }
+    .trash-btn {
+        color: #dddddd;
+    }
+    .trash-btn:hover,
+    .trash-btn:focus,
+    .trash-btn:active,
+    .trash-btn:active:hover {
+        background: none; 
+        color: rgb(240, 0, 0);
+        border: none;
+        box-shadow: none;
+    }
+    .well {
+        margin-bottom: 0px !important;
+    }
+    .tab-content td {
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+    }
+    .star {
+        font-size: 24px;
+        color: #337ab7;
+        margin-top: 2px;
+    }
+    .star-active {
+        color: gold;
+    }
+    .fs-18 {
+        font-size: 18px;
+    }
+    .see-task {
+        color: #42b0d1;
+    }
+    .see-task:hover {
+        color: #22a1c7;
+    }
+    .apply-select {
+        
+    }
+</style>
+{% include './contact_in.html' %}
+{% include './contact_preview.html' %}
+{% endblock data %}
+
+
+{% block bar %}
+<!-- 應用欄 2 -->
+<div class="apply-bar d-none" id="apply_bar" data-f="false">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="btn btn-default tool-btn btn-lg" onclick="applyManager(3)">給所選項新建任務</div>
+                    &nbsp;&nbsp;<span class="apply-diliver">|</span>&nbsp;
+                <div class="btn btn-default tool-btn btn-lg" onclick="applyManager(4)">給所選項發送郵件</div>
+            </div>
+            <div class="col-sm-4 text-right">
+                <div class="btn btn-default tool-btn btn-lg" onclick="applyManager(11)">反向選擇</div>
+                    &nbsp;&nbsp;<span class="apply-diliver">|</span>&nbsp;
+                <div class="btn btn-default tool-btn btn-lg" onclick="choiseNone()">取消選擇</div>
+                    &nbsp;&nbsp;<span class="apply-diliver">|</span>&nbsp;
+                <div class="btn btn-default tool-btn trash-btn btn-lg" onclick="applyManager(12)">刪除所選</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock bar %}

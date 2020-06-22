@@ -1,0 +1,212 @@
+<!-- /.modal-content -->
+<div class="modal fade" tabindex="-1" id="preview_modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button -->
+                <h1 class="modal-title d-inline">短信服務審核單</h1>
+
+                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="submit">立即提交</button>
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">返回更改</button>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">
+                    任務信息
+                </h3>
+                <hr/>
+                <form class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">接收者姓名：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_named">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">接收者電話號碼：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_phoned">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">服務項目：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_service">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">時間規則：</label>
+                        <div class="col-sm-9">
+                            <a href="#"><h4 id="preview_time_rule" class="form-in-p"></h4></a>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">短信發送數量：</label>
+                        <div class="col-sm-9">
+                            <h4 id="preview_task_num" class="form-in-p"></h4>
+                        </div>
+                    </div>
+                </form>
+                <div style="height: 30px;" class="text-right">
+                    <!--a class="fs-14 mr-t-main hand"
+                        data-toggle="collapse" data-target="#collspse_preview" aria-expanded="false" aria-controls="collspse_preview"
+                        >
+                        <i>短信發送明細?</i>
+                    </a-->
+                </div>
+                <div class="" id="collspse_preview">
+                    <h3 class="text-center">
+                        短信發送明細
+                    </h3>
+                    <div id="preview_every_task"></div>
+                </div>
+            </div>
+            <!-- div class="modal-footer">
+                <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">返回更改</button>
+                <button type="button" class="btn btn-primary btn-lg" id="submit">立即提交</button>
+            </div -->
+        </div>
+    </div>
+</div>
+
+<script>
+    let oldId = 0
+    var form_submit = document.getElementById('form-submit');
+    var submit = document.getElementById('submit');
+    submit.addEventListener('click', function() {
+        
+        const check_used = document.getElementsByName('check_used');
+        const used = []
+        for (var i= 0; i< check_used.length; i++ ) {
+            if (check_used[i].checked) {
+                used.push(check_used[i].value)
+            }
+        }
+        $('#used').val(used)
+
+        const n = $('#preview_task_num').html()
+        if (parseInt(n) > 0) {
+            form_submit.submit()
+        } else {
+            alert('任務數量為0，無法提交！！！')
+        }
+    })
+    var preview = document.getElementById('preview');
+
+    usedManager = function () {
+        let n = 0
+        $('input[name="check_used"]:checkbox').each(function () { 
+            if ($(this).is(':checked')) {
+                n += 1
+            }
+        })
+        $('#preview_task_num').html(n)
+    }
+
+    // 監聽界面繁簡體變化
+    $("#lang").change(function(){
+        var option = $(this).children('option:selected').val()
+        location.href = '/task/?option=add&lang=' + option
+    })
+
+    _activeSms = function(id, old_id, cls_name = 'sms-active') {
+        $('#item_' + id).addClass(cls_name)
+        $('#item_' + old_id).removeClass(cls_name)
+    }
+    chooseSms = function(id) {
+        if (id != oldId) {
+            _activeSms(id, oldId)
+        }
+        oldId = id
+        $('#sms_template').val(id)
+    }
+
+    // 驗證 Form 表單
+    preview.addEventListener('click', function() {
+        let named = $('#named').val()
+        if (!named | named == undefined | named == '') {
+            alert('提示：接收者名字不能為空！！！')
+            return null
+        }
+
+        let phoned = $('#phoned').val()
+        phoned = _valide_phone(phoned)
+        if (phoned != true) {
+            alert('提示：' + phoned)
+            return null
+        }
+
+        let service = $('#service').val()
+
+        if(oldId == 0) {
+            alert('請選擇壹項服務！！！')
+        } else {
+            // previewTask()
+            contactPlus()
+        }
+    });
+
+    // 預覽短信明細
+    previewTask = function() {
+        $('#preview_named').val($('#named').val())
+        const area = $('#area').find('option:selected').data('prefix');
+        $('#preview_phoned').val(area + ' ' + $('#phoned').val())
+        const st_id = $('#sms_template').val()
+
+        getTimeRule(st_id, $('#named').val())
+        $('#preview_modal').modal('show')
+    }
+    // 獲取該列表時間規則
+    getTimeRule = function(sms_template_id, named) {
+        $('#preview_every_task').html('')
+        $.ajax({
+            url: '/task_preview/?id=' + sms_template_id + '&named=' + named,
+            type: 'GET',
+            success: function(e) {
+                const time_rule_text_list = []
+                data = e.res
+                for(var i= 0; i< data.length; i++ ) {
+                    const real_time_rule_belong = data[i].real_time_rule_belong
+                    let content = data[i].content
+                    if ((real_time_rule_belong > 0) || (real_time_rule_belong != '0')) {
+                        content = data[i].content_sub
+                    } 
+                    res = '' +
+                    '    <form class="form-horizontal">' +
+                    '        <div class="form-group form-group-lg preview-title-row">' +
+                    '           <label class="col-sm-3 control-label text-light">所屬時間規則：</label>' +
+                    '           <div class="col-sm-9">' +
+                    '               <h4 class="form-in-p fl">' + data[i].time_rule_belong + '</h4>' +
+                    '               <h4 class="fr text-main hand fs-14" style="padding-top: 10px; margin-left: 10px;" ' +
+                    '                   data-toggle="collapse" data-target="#preview_collapse_' + i + '" aria-expanded="false" aria-controls=""><i>[查看详细]</i></h4>' +
+                    '               <i class="form-in-p fr"><h4 class="text-light fw-400"><span class="fs-14">是否启用？</span><input type="checkbox" name="check_used" checked="true" onclick="usedManager()" value="' + real_time_rule_belong + '"></h4></i>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '<div class="collapse" id="preview_collapse_' + i + '">' +
+                    '       <div class="form-group form-group-lg">' +
+                    '           <label class="col-sm-3 control-label text-light">預計發送時間：</label>' +
+                    '           <div class="col-sm-9">' +
+                    '               <h4 class="form-in-p">' + data[i].send_origin_time + '</h4>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '       <div class="form-group form-group-lg">' +
+                    '           <label class="col-sm-3 control-label text-light">發送內容：</label>' +
+                    '           <div class="col-sm-9">' +
+                    '               <textarea class="form-control" disabled rows="6">' + content + '</textarea>' +
+                    '           </div>' +
+                    '       </div>' +
+                    '</div>' +
+                    '   </form>' +
+                    ''
+                    $('#preview_every_task').append(res)
+                    time_rule_text_list.push(data[i].time_rule_belong)
+                }
+                $('#preview_time_rule').html(time_rule_text_list.join('，'))
+                $('#preview_task_num').html(time_rule_text_list.length)
+
+                const service_name = e.service.named
+                $('#preview_service').val(service_name)
+
+            },
+        })
+    }
+</script>

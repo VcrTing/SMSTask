@@ -1,0 +1,72 @@
+<!-- 查看詳情 -->
+<div class="modal fade" tabindex="-1" id="see_more_modal" data-id="" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <th colspan="2" class="text-center">
+                            <h3>
+                                記錄詳情清單
+                                <div class="btn btn-default fr" data-dismiss="modal">關閉</div>
+                            </h3>
+                        </th>
+                    </thead>
+                    <tbody id="more-content">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    _seeMore = function(ec) {
+        const service = ec['email_template']['service']
+        const subject = ec['email_template']['subject']
+        const message = ec['email_template']['message']
+        const category = ec['email_template']['category']['named']
+
+        const index = ec['index']
+        const json_response = ec['json_response']
+        const send_time = ec['send_time']
+        const success_status = _ser_success_status(ec['success_status'])
+
+        const addr = ec['email_apply']['contact']['email']
+        const named = ec['email_apply']['contact']['first_named']
+        const visit_time = ec['email_apply']['visit_time']
+        const task_status = _ser_email_status(
+            ec['email_apply']['apply_status'], 
+            ec['email_apply']['send_status'], 
+            ec['email_apply']['over_status']
+        )
+        const time_rule = _ser_email_time_rule(ec['email_template']['time_rule'])
+
+        const html = '' +
+            '<tr><td align="center" class="ea-td">服務名稱</td><td>' + service + '</td></tr>' +
+            '<tr><td align="center">時間規則</td><td>' + time_rule + '</td></tr>' +
+            '<tr><td align="center">分類</td><td>' + category + '</td></tr>' +
+            '<tr><td align="center">接收者</td><td><div class="reciver">' + named + ' &lt;' + addr + '&gt;</div></td></tr>' +
+            '<tr><td align="center">拜訪時間</td><td>' + visit_time + '</td></tr>' +
+            '<tr><td align="center">任務狀態</td><td>' + task_status + '</td></tr>' +
+            '<tr><td align="center">接收成功？</td><td>' + success_status + '</td></tr>' +
+            '<tr><td align="center">後臺信息</td><td class="break-word">' + json_response + '</td></tr>' +
+            '<tr><td align="center">第幾期</td><td>' + index + '</td></tr>' +
+            '<tr><td align="center">郵件標題</td><td>' + subject + '</td></tr>' +
+            '<tr><td align="center">郵件內容</td><td>' + message + '</td></tr>'
+        return html
+    }
+
+    seeMore = function(id) {
+        for(var i= 0; i< contact.length; i++ ) {
+            const ea = contact[i]
+            if (ea['id'] == id) {
+                $('#more-content').html(_seeMore(ea))
+                $('#see_more_modal').modal('show')
+            }
+        }
+    }
+</script>

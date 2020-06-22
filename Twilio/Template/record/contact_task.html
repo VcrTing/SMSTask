@@ -1,0 +1,265 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<!-- 提示信息 -->
+<div id="sms_num_dom"></div>
+<!-- 聯系人列表 -->
+<div class="row">
+    <div class="col-sm-12">
+        <h4>所選聯系人：</h4>
+        <ul class="tasker" id="tasker_list">
+        </ul>
+    </div>
+</div>
+<!-- 選單列表 -->
+<div class="row mr-t-main">
+    <div class="col-sm-12 clearfix">
+        <h4 class="d-inline fl">請選擇服務：</h4>
+        <div class="fr mr-t-main">
+            <h4 class="d-inline">短信語言：</h4>
+            <div class="d-inline hand" id="lang_hk_txt" onclick="langManager(1)">
+                繁體
+            </div>
+            <div class="d-inline shu-diliver">
+                |
+            </div>
+            <div class="d-inline hand" id="lang_en_txt" onclick="langManager(2)">
+                英文
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row" id="category_gate">
+            {% for category in category_list %}
+            <div class="col-sm-4">
+                <h4 class="mr-t-main" style="font-weight: 400;">{{ category.named }}</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div id="sms_hk_outter" class="sms_outter">
+            <div class="row">
+                {% for sms_templates in sms_list_hk %}
+                <div class="col-sm-4">
+                    {% if sms_templates %}
+                        <div class="item-wrapper">
+                        {% for sms in sms_templates %}
+                            <div class="item hand" id="item_{{ sms.id }}" onclick="chooseSms({{ sms.id }})">{{ sms.service.named }}</div>
+                        {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>暫無選項</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="sms_en_outter" class="sms_outter">
+            <div class="row">
+                {% for sms_templates in sms_list_en %}
+                <div class="col-sm-4">
+                    {% if sms_templates %}
+                        <div class="item-wrapper">
+                        {% for sms in sms_templates %}
+                            <div class="item hand" id="item_{{ sms.id }}" onclick="chooseSms({{ sms.id }})">{{ sms.service.named }}</div>
+                        {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>暫無選項</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="flex-action">
+    <button type="button" class="btn btn-default btn-lg" onclick="taskerBack()">返回</button>
+    <h4 class="d-inline">or</h4>
+    <button type="button" class="btn btn-primary btn-lg" onclick="taskerSubmit()">立刻提交</button>
+</div>
+<script>
+    const tasker_list = $('#tasker_list')
+
+    taskerSubmit = function () {
+        const sms_id = oldId
+        if (sms_id == 0) {
+            alert('未選擇服務！！！')
+        } else {
+            let tasker = ''
+            const rec = eval(localStorage.getItem('tasker'))
+            for (var i= 0; i< rec.length; i++ ) {
+                tasker = tasker + rec[i]['id'] + ','
+            }
+
+            $.ajax({
+                url: _root + '/contact_tasker/?option=plus',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    'sms_id': sms_id,
+                    'tasker': tasker
+                },
+                headers: {
+                    Accept: "application/json; charset=utf-8",
+                },
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                },
+                success: function(e) {
+                    console.info(e)
+                    location.href = _root + '/contact_tasker/?option=success&task_num=' + e['task_num'] + '&contact_num=' + rec.length
+                },
+            })
+        }
+    }
+
+    loadContact = function () {
+        tasker_list.html()
+        const tasker = eval(localStorage.getItem('sms_tasker'))
+        for (var i= 0; i< tasker.length; i++ ) {
+            const id = tasker[i]['id']
+            const named = tasker[i]['first_named']
+            const phoned = tasker[i]['phoned']
+            const area = tasker[i]['area']['phoned_prefix']
+
+            const html = '' + 
+            '<li class="tasker-item hand" id="li_' + id + '" data-id="' + id + '">' +
+            '    <div class="tasker-one">' +
+            '        <div class="tasker-name">' +
+                        named + ':&nbsp;' +
+            '        </div>' +
+            '        <div class="tasker-phoned">' +
+                        area + '&nbsp;' + phoned
+            '        </div>' +
+            '    </div>' +
+            '</li>'
+            tasker_list.append(html)
+        }
+    }
+    loadContact()
+
+    taskerBack = function () {
+        if (confirm('確定要返回嗎？')) {
+            history.back()
+        }
+    }
+
+    let oldId = 0
+    _activeSms = function(id, old_id, cls_name = 'sms-active') {
+        $('#item_' + id).addClass(cls_name)
+        $('#item_' + old_id).removeClass(cls_name)
+    }
+    chooseSms = function(id) {
+        if (id != oldId) {
+            _activeSms(id, oldId)
+        }
+        oldId = id
+        // $('#sms_id').val(id)
+    }
+
+    langManager = function (lang = 1) {
+        if (lang == 1) {
+            $('#sms_hk_outter').attr('style', 'display: block;')
+            $('#lang_hk_txt').addClass('text-main')
+
+            $('#sms_en_outter').attr('style', 'display: none;')
+            $('#lang_en_txt').removeClass('text-main')
+            
+        }
+        else if (lang == 2) {
+            $('#sms_en_outter').attr('style', 'display: block;')
+            $('#lang_en_txt').addClass('text-main')
+
+            $('#sms_hk_outter').attr('style', 'display: none;')
+            $('#lang_hk_txt').removeClass('text-main')
+        }
+        $('#item_' + oldId).removeClass('sms-active')
+        oldId = 0
+    }
+    langManager()
+</script>
+<style>
+    .tasker-toolbar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding-bottom: 15px;
+        border: 1px solid pink;
+    }
+    .tasker {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .tasker-item {
+        margin-top: 16px;
+        margin-bottom: 11px;
+        margin-right: 5px;
+        display: inline;
+    }    
+    .tasker-one {
+        padding: 10px 25px;
+        border-radius: 30px;
+        line-height: 45px;
+        border: 1px solid #cccccc;
+        display: inline;
+        transition: all .3s;
+    }
+    .tasker-one:hover {
+        border-color: #337ab7 !important;
+        color: #337ab7 !important;
+    }
+    .tasker-one > div {
+        display: inline;
+    }
+    
+
+    /* */
+
+    .sms-active {
+        background: #337ab7;
+        color: white;
+        border-color: #2e6da4;
+    }
+    .sms-active:hover {
+        background: #2e6da4 !important;
+        color: white !important;
+    }
+    .item-wrapper {
+        height: auto !important;
+        border: 1px solid #ccc;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .07);
+        color: #555;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .item {
+        padding: 15px 15px;
+        border-top: 1px solid #eeeeee;
+    }
+    .item:hover {
+        background: rgb(252, 252, 252);
+    }
+    #category_gate h4 {
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 0px;
+    }
+    #category_gate > div:nth-child(1) > h4 {
+        background: lightgreen;
+    }
+    #category_gate > div:nth-child(2) > h4 {
+        background: lightblue;
+    }
+    #category_gate > div:nth-child(3) > h4 {
+        background: pink;
+    }
+    .sms_outter {
+        margin-top: -10px;
+    }
+</style>
+{% endblock data %}

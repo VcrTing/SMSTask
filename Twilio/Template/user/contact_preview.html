@@ -1,0 +1,171 @@
+<!-- 聯系人 Modal -->
+<div class="modal fade" tabindex="-1" id="contact_task_modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="task_header">
+                    <h2 class="text-info"><div id="contact_task_named"></div>歷史任務清單</h2>
+                </div>
+                <div class="mr-t-main">
+                    <table class="table table-responsive table-striped fs-def task_wrapper">
+                        <thead class="fw-bold">
+                            <td>發送時間</td>
+                            <td>服務名</td>
+                            <td>短信內容</td>
+                            <td align="center">時間規則</td>
+                            <td align="center">狀態</td>
+                            <td align="center" width="60">操作</td>
+                        </thead>
+                        <tbody class="" id="contact_task_tbody">
+                            <tr class="" id="contact_tr_19">
+                                <td class="task_item">2020年9月4日</td>
+                                <td class="task_item">Hepatitis A Vaccine Hepatitis A Vaccine</td>
+                                <td class="task_item task_item_content" data-close="true" id="task_content_19" 
+                                    data-show="歡迎{{named}}蒞臨123醫務中心......" data-content="歡迎{{named}}蒞臨123醫務中心。肝衰竭和肝癌。">
+                                    <div class="d-inline" id="task_content_dom_19">歡迎{{named}}蒞臨123醫務中心......</div>
+                                    <a class="text-main hand" id="task_content_a_19" onclick="taskContentManager(19)">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+                                </td>
+                                <td class="task_item" align="center">即時</td>
+                                <td class="task_item" align="center">成功</td>
+                                <td class="task_item fr" align="center" width="60">
+                                    <a onclick="sureTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="null_contact_task"></div>
+                </div>
+                <div class="mr-t-main clearfix">
+                    <button type="button" class="btn btn-info btn-lg fr" data-dismiss="modal" aria-label="Close">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    seeTask = function (id) {
+        const dataDom = $('#contact_task_tbody')
+        $.ajax({
+            url: _url + 'every_task?contact_id=' + id,
+            type: 'GET',
+            success: function(e) {
+                dataDom.html('')
+                
+                if (!e[0]) {
+                    $('#null_contact_task').html('<div class="text-center text-info mr-t-main null_contact_task" ><h3>暫無記錄</h3></div>')
+                } else {
+                    $('#null_contact_task').html('')
+                }
+
+                e.forEach((item, index) => {
+                    const id = item['id']
+                    const sms_task = item['sms_task']
+                    const sms_template = sms_task['sms_template']
+                    const service = sms_template['service']
+                    const params = {
+                        'named': sms_task['named'],
+                        'timed': sms_task['send_origin_time']==undefined?'':sms_task['send_origin_time'],
+                        'numed': _ser_numed(item['numed'], lang = sms_template['lang'])
+                    }
+
+                    const send_time = _ser_send_time(item['send_finish_time'], cn = true, short = true)
+                    const named = service['named']
+                    const time_belong = _ser_time_rule_belong(item['time_rule_belong'])
+                    const status = _ser_status(item['apply_status'], item['send_status'], sms_task['task_status'])
+
+                    let content = sms_template['content']
+                    if (parseInt(item['time_rule_belong']) == 0) {
+                        content = sms_template['content_sub']
+                    }
+                    content = _ser_content(content, short = false, params)
+                    const content_short = _ser_content(content, short = true, params)
+
+                    const html = '' +
+                        '<tr class="" id="contact_task_tr_' + id + '">' +
+                            '<td class="task_item">' + send_time + '</td>' +
+                            '<td class="task_item">' + named + '</td>' +
+                            '<td class="task_item task_item_content" data-close="true" id="task_content_' + id + '" ' +
+                                'data-show="' + content_short + '" data-content="' + content + '">' +
+                            '<div class="d-inline" id="task_content_dom_' + id + '">' + content_short + '</div>' +                                    
+                                '<a class="eye hand" id="task_content_a_' + id + '" onclick="taskContentManager(' + id + ')">' +
+                                    '<span class="fs-14">[展開]</span>' +
+                                '</a>' +
+                            '</td>' +
+                            '<td class="task_item" align="center">' + time_belong + '</td>' +
+                            '<td class="task_item" align="center">' + status + '</td>' +
+                            '<td class="task_item fr" align="center" width="60">' +
+                                '<a onclick="taskTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a>' +
+                            '</td>' +
+                        '</tr>'
+                    
+                    dataDom.append(html)
+                })
+
+                $('#contact_task_modal').modal('show')
+            }
+        })
+    }
+    taskContentManager = function(id) {
+        const task_content = $('#task_content_' + id)
+        const close = eval(task_content.data('close'))
+
+        if (close) {
+            $('#task_content_dom_' + id).html(
+                task_content.data('content') 
+            )
+            $('#task_content_a_' + id).html(
+                '<span class="fs-14">[關閉]</span>' 
+            )
+            task_content.data('close', 'false')
+        } else {
+            $('#task_content_dom_' + id).html(
+                task_content.data('show') 
+            )
+            $('#task_content_a_' + id).html(
+                '<span class="fs-14">[展開]</span>' 
+            )
+            task_content.data('close', 'true')
+        }
+    }
+    taskTrash = function (id) {
+        window.event? window.event.cancelBubble = true : e.stopPropagation();
+        if (confirm("確認要刪除嗎？")) {
+            $.ajax({
+                url: _url + 'every_task/' + id + '/',
+                type: 'PUT',
+                dataType: 'json',
+                data: JSON.stringify({ 'status': false }),
+                headers: {
+                    'Content-Type': 'application/json;charset=utf8'
+                },
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                },
+                success: function (e) {
+                    $('#contact_task_tr_' + id).addClass('danger')
+                    _sleep(300).then(() => {
+                        $('#contact_task_tr_' + id).addClass('d-none')
+                    })
+                }
+            })
+        }
+    }
+</script>
+<style>
+.task_wrapper {
+    min-height: 240px;
+}
+.task_item_content {
+    max-width: 250px;
+}
+.task_item_content a {
+    display: inline;
+}
+.null_contact_task {
+    padding: 60px;
+    background: #f5f5f5;
+    border-radius: 6px;
+}
+</style>

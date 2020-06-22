@@ -1,0 +1,15 @@
+Supervisor:
+  状态:
+    supervisorctl status
+  停止:
+    supervisorctl stop NAME
+  启动:
+    supervisorctl start NAME
+  重启:
+    supervisorctl restart NAME
+
+Nginx:
+  状态:
+    service nginx status
+  重启:
+    service nginx restart

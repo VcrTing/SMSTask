@@ -1,0 +1,21 @@
+Mysql:
+  删除某表数据:
+    delete from table;
+  备份数据库:
+    mysqldump -u root -p DB > DB.sql
+
+Mac:
+  获取 CentOs 内的 文件:
+    scp root@backend.svr.szmentor.ltd:/root/SMSTask/doc/tsms2.sql ./
+
+  别人想获取此工程:
+    ifconfig | grep "inet"
+    scp root@192.168.31.170:/Users/dan/VcrTing/Code/SMSTask.zip ./
+
+1.8.2:
+  1.下载好SMSTask 并且改好数据库连接:
+    
+  2.删除主数据库的里面的表:
+    SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = '数据库名字';
+  3.导入数据:
+    mysql -uroot -p NAME < /root/doc/tsms3.sql

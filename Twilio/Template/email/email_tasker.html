@@ -1,0 +1,291 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
+<script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+<div id="app" class="col-sm-12">
+    <form class="form-horizontal text-left">
+        <div class="form-group form-group-lg">
+            <label for="timeRule" class="control-label">
+                到訪時間
+                <span id="visit_time_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+            </label>
+            <input type="text" id="visit_time" class="form-control" placeholder="年-月-日">
+        </div>
+        <div class="form-group form-group-lg">
+            <label for="timeRule" class="control-label">接收者</label>
+            <div class="recivers" id="reciver_list">
+                
+            </div>
+        </div>
+        <div class="form-group form-group-lg">
+            <label for="timeRule" class="control-label">選擇服務</label>
+            <div class="row category-gate" id="email_template-shower">
+                
+            </div>
+            <input type="hidden" id="email_template">
+        </div>
+    </form>
+    <div class="flex-action">
+        <button type="button" class="btn btn-default btn-lg"  onClick="javascript:history.back(-1);">返回</button>
+        <h4 class="d-inline">or</h4>
+        <button type="button" class="btn btn-primary btn-lg" onclick="validate()">下壹步</button>
+    </div>
+    
+</div>
+<!-- 數據加載 -->
+<script>
+    let recivers = []
+    let contact = []
+
+    const reciver_list = $('#reciver_list')
+
+    loadRecivers = function(id, named, email) {
+        reciver_list.html('')
+        const tasker = eval(localStorage.getItem('email_tasker'))
+        for(var i= 0; i< tasker.length; i ++) {
+            const item = tasker[i]
+            const id = item['id']
+            const named = item['first_named']
+            const email = item['email']
+
+            const html = '' +
+                '    <div class="reciver" data-active="true" id="reciver_' + id + '">' +
+                '        ' + named + ' &lt;' + email + '&gt; &nbsp; ' +
+                '        <span class="glyphicon glyphicon-remove hand error" onclick="delRevicer(' + id + ')"></span>' +
+                '    </div>'
+
+            recivers.push(id)
+            contact.push({
+                'id': id,
+                'addr': email,
+                'named': named
+            })
+            reciver_list.append(html)
+        }
+    }
+    loadRecivers()
+    
+    laydate.render({
+        elem: '#visit_time',
+        lang: 'en',
+        theme: '#46b8da',
+        eventElem: '#visit_time_laydate',
+        trigger: 'click',
+        value: _now(),
+        showBottom: false,
+        done: function(value, date){
+            
+        }
+    });
+
+    const email_template_list = eval({{ email_template_list|safe }});
+    loadTemplate = function() {
+
+        $('#email_template-shower').html('')
+        for (var i= 0; i< email_template_list.length; i++ ) {
+            const category = email_template_list[i]['k']
+            const ets = email_template_list[i]['v']
+            
+            let serviceHtml = '' +
+                '<div class="col-sm-4">' +
+                '    <h4 class="mr-t-main" style="font-weight: 400; margin-bottom: 0px;">' + category + '</h4>' 
+
+            for(var j= 0; j< ets.length; j++ ) {
+                const id = ets[j]['id']
+                const named = ets[j]['service']
+                const time_rule = ets[j]['time_rule']
+
+                serviceHtml +=
+                    '<div class="item-outter">' +
+                    '    <div class="item-wrapper">' +
+                    '        <div class="item hand" data-timerule="' + time_rule + '" id="item_' + id + '" onclick="chooseSms(' + id + ')">' + named + '</div>' +
+                    '    </div>' +
+                    '</div>'
+            }
+            serviceHtml += '</div>'
+            $('#email_template-shower').append(serviceHtml)
+        }
+    }
+    loadTemplate()
+
+    Array.prototype.remove = function(val) { 
+        var index = this.indexOf(val); 
+        if (index > -1) { 
+            this.splice(index, 1); 
+        } 
+    };
+</script>
+<!-- 數據操作 -->
+<script>
+    let oldId = 0
+    _activeSms = function(id, old_id, cls_name = 'sms-active') {
+        $('#item_' + id).addClass(cls_name)
+        $('#item_' + old_id).removeClass(cls_name)
+    }
+    chooseSms = function(id) {
+        if (id != oldId) {
+            _activeSms(id, oldId)
+        }
+        oldId = id
+        $('#email_template').val(id)
+        $('#time_rule').val($('#item_' + id).data('timerule'))
+    }
+
+    delRevicer = function(id) {
+        const f = $('#reciver_' + id).data('active')
+        if (f) {
+            recivers.remove(id)
+            $('#reciver_' + id).addClass('reciver-hui')
+            $('#reciver_' + id +' span').removeClass('glyphicon-remove')
+            $('#reciver_' + id +' span').removeClass('error')
+            $('#reciver_' + id +' span').addClass('glyphicon-plus')
+        } else {
+            recivers.push(id)
+            $('#reciver_' + id).removeClass('reciver-hui')
+            $('#reciver_' + id +' span').addClass('glyphicon-remove')
+            $('#reciver_' + id +' span').addClass('error')
+            $('#reciver_' + id +' span').removeClass('glyphicon-plus')
+        }
+        $('#reciver_' + id).data('active', !f)
+    }
+    _success = function (res) {
+        let success = 0
+        for (var i= 0; i< res.length; i++ ) {
+            if (res[i]['status'] == true) {
+                success += 1
+            }
+        }
+        
+        const _url = _root + '/email_apply/?option=status&success=' + success + '&count=' + res.length
+
+        location.href = _url
+    }
+    _submit = function (e) {
+        let res = []
+        const rcs = e['recivers']
+        for (var i= 0; i< rcs.length; i++ ) {
+            const named = rcs[i]['named']
+            const addr = rcs[i]['addr']
+            
+            const data = {
+                'named': named,
+                'addr': addr,
+                'visit_time': e['visit_time'],
+                'newer': false,
+                'email_template': e['email_template'],
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }
+
+            let status = false
+
+            $.ajax({
+                url: _root + '/email_apply/?option=add',
+                data: data,
+                type: 'POST',
+                async: false,
+                headers: {
+                    Accept: "application/json; charset=utf-8",
+                },
+                success: function(e) {
+                    if (e['status']) {
+                        status = true
+                    } else {
+
+                    }
+                    res.push({
+                        'id': rcs[i]['id'],
+                        'status': status
+                    })
+                },
+                error: function(e) {
+                    res.push({
+                        'id': rcs[i]['id'],
+                        'status': status
+                    })
+                }
+            })
+        }
+
+        _success(res)
+    }
+    validate = function () {
+        const et_id = $('#email_template').val()
+        let rcs = []
+        for (var i= 0; i< contact.length; i++ ) {
+            const item = contact[i]
+            for (var j= 0; j< recivers.length; j++ ) {
+                if (recivers[j] == item['id']) {
+                    rcs.push(item)
+                }
+            }
+        }
+        const visit_time = $('#visit_time').val()
+
+        if ((et_id == null) || (et_id == '' ) || (et_id == undefined)) {
+            alert('請選擇壹個服務項目！！！')
+            return
+        }
+        if ((rcs == []) || (rcs == null) || (rcs == undefined)) {
+            alert('未有接收者，請點亮至少壹位接收者！！！')
+            return
+        }
+        if ((visit_time == null) || (visit_time == '' ) || (visit_time == undefined)) {
+            alert('請選擇壹個拜訪時間！！！')
+            return
+        }
+        const data = {
+            'email_template': et_id,
+            'visit_time': visit_time,
+            'recivers': rcs
+        }
+        _submit(data)
+    }
+</script>
+
+<style>
+    .radio {
+        display: inline;
+        margin-right: 12px;
+    }
+    .emailer .item a,
+    .emailer .item p {
+        margin-top: 6px;
+    }
+.item-wrapper {
+    height: auto !important;
+    border: 1px solid #ccc;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .07);
+    color: #555;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.item {
+    padding: 15px 15px;
+    border-top: 1px solid #eeeeee;
+}
+.item:hover {
+    background: rgb(252, 252, 252);
+}
+.category-gate h4 {
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 0px;
+}
+.category-gate > div:nth-child(1) > h4 {
+    background: lightgreen;
+}
+.category-gate > div:nth-child(2) > h4 {
+    background: lightblue;
+}
+.category-gate > div:nth-child(3) > h4 {
+    background: pink;
+}
+@media screen and (min-width: 768px) {
+    .item-outter {
+        
+    }
+}
+</style>
+{% endblock data %}

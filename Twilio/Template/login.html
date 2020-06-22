@@ -1,0 +1,133 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+<!-- Center -->
+{% block center %}
+<div class="login">
+    <div class="login-bg"></div>
+    <div class="login-content">
+        <div class="container-ﬂuid">
+            <div class="login-space"></div>
+            <div class="login-wrapper">
+                <h2 class="text-center">
+                    <img class="login-avatar" src="{% static 'Contact.png' %}" />
+                </h2>
+                <div class="login-trangle">
+                    <div class=""></div>
+                </div>
+                <div class="login-form login-touming">
+                    <form method="post" action="/login/" autocomplete="off">
+                        <div class="form-group">
+                            <input type="email" class="form-control input-lg" name="email" id="Email" placeholder="電郵">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control input-lg" name="pwd" id="Pwd" placeholder="密碼">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-lg mr-t-main login-btn">登錄</button>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+            <div class="login-wrapper msg-wrapper">
+                {% if msg is not None %}
+                <div class="alert alert-danger" role="alert">{{ msg }}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="login-footer">© 2020 Powered by <a>Manfulls</a> Technology</div>
+    </div>
+</div>
+{% endblock center %}
+
+<!-- Css -->
+{% block css %}
+<style>
+    body {
+        overflow: hidden;
+    }
+    .login ,
+    .login-content,
+    .login-bg {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        display: block;
+        height: 100vh;
+    }
+    .login {
+        position: relative;
+    }
+    .login-bg,
+    .login-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .login-bg {
+        background: url('{% static "originCity.jpg" %}');
+        background-clip: border-box;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .login-touming {
+        background: rgba(255, 255, 255, 0.4);
+    }
+    .login-space {
+        height: 10vh;
+    }
+    .login-wrapper {
+        width: 420px;
+        border-radius: 5px;
+        padding: 15px 15px 35px 15px;
+        margin: 0 auto;
+    }
+    .msg-wrapper {
+        padding: 15px 0;
+    }
+    .login-form {
+        padding: 15px;
+        border-radius: 2px;
+        margin: 0;
+    }
+    @media screen and (max-width: 768px) {
+        .login-wrapper {
+            width: 100%;
+        }
+        .msg-wrapper {
+            width: 100%;
+        }
+    }
+    .login-btn {
+        width: 100%;
+        border-radius: 2px !important;
+    }
+    .login-avatar {
+        width: 120px;
+        border-radius: 100%;
+        border: 3px solid rgba(255, 255, 255, 0.4);
+    }
+    .login-trangle {
+        position: relative;
+    }
+    .login-trangle > div {
+        margin: 0 auto;
+        display: block;
+        width: 0;
+        height: 0;
+        border: 15px solid;
+        border-color: transparent transparent rgba(255, 255, 255, 0.4);
+    }
+    .login-footer {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.66);
+    }
+</style>
+{% endblock css %}
+
+<!-- Js -->
+{% block js %}
+{% endblock js %}

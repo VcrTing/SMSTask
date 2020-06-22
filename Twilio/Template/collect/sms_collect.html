@@ -1,0 +1,180 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<!-- 初始化 -->
+<script>
+    const _limit = 15
+    const _offset = 0
+    const _api_name = 'task'
+    const _url = _root + '/api/'
+
+    let conditions = {
+        'page': {
+            'count': 0,
+            'limit': _limit,
+            'offset': _offset,
+
+            'next': '',
+            'previous': ''
+        },
+        'filter': {
+            'ordering': {
+                'res': '-add_time',
+                'val': 0
+            }
+            /*
+            'gender': {
+                'res': '',
+                'val': 0
+            }
+            */
+        }
+    }
+
+    let contact = []
+
+    _build_url = function(offset) {
+        const filter = conditions['filter']
+        const page = conditions['page']
+
+        const res = _url + _api_name + '/?format=json&status=True' +
+            '&limit=' + page['limit'] + 
+            '&offset=' + offset +
+            /* '&gender=' + filter['gender']['res'] + */
+            '&ordering=' + filter['ordering']['res']
+
+        return res
+    }
+
+    _build_html = function(res) {
+
+    let dataDom = $('#task_content')
+    contact = []
+    dataDom.html('')
+    $.each(res, function(index, item) {
+        const id = item['id']
+        const area = item['area']
+        const phoned = item['phoned']
+        const add_time = item['add_time']
+        const named = item['named']
+        const service = item['sms_template']['service']['named']
+
+        const html = '' +
+            '<tr id="tr_' + id + '">' +
+                '<td><h4 class="timed">' + _ser_send_time(add_time, cn=true) + '</h4></td>' +
+                '<td><h4 >' + named + '</h4></td>' +
+                '<td><h4><div class="phoned hand" style="color: #333">' + area['phoned_prefix'] + '&nbsp;' + phoned + '</div></h4></td>' +
+                '<td><h4 class="">' + service + '</h4></td>' +
+            '</tr>'
+
+        contact.push(item)
+        dataDom.append(html)
+    })
+    }
+
+    Array.prototype.remove = function(val) { 
+        var index = this.indexOf(val); 
+        if (index > -1) { 
+            this.splice(index, 1); 
+        } 
+    };
+</script>
+
+<!-- 表單 -->
+<div class="data-wrapper def-border table-responsive">
+    <table class="table table-striped">
+        <thead class="">
+            <tr>
+                <td>
+                    <h4>任務申請時間</h4>
+                </td>
+                <td>
+                    <h4>接收者姓名</h4>
+                </td>
+                <td>
+                    <h4>电话</h4>
+                </td>
+                <td>
+                    <h4>申請的服务项目</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="tab-content" id="task_content">
+        </tbody>
+    </table>
+</div>
+<!-- 分頁 -->
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="next">
+            <a href="#" id="next" onclick="loadData(true)">
+                下壹頁 <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+        <li class="fr">
+            <h5 id="pageMsg"></h5>
+        </li>
+        <li class="previous fr">
+            <a href="#" class="disable" id="previous" onclick="loadData(false)">
+                <span aria-hidden="true">&larr;</span> 上壹頁
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- 加載數據 -->
+<script>
+    _loadData = function(url) {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(e) {
+                
+                // 渲染數據
+                _build_html(e['results'])
+
+                // 更改 Page
+                var previous = e['previous']
+                var next = e['next']
+                var count = e['count']
+
+                // 增加 首頁 末頁 功能
+                if (previous == null) {
+                    previous = _build_url(Math.floor(count / _limit) * _limit)
+                    conditions['page']['offset'] = _offset
+                }
+                if (next == null) {
+                    next = _build_url(_offset)
+                    conditions['page']['offset'] = Math.floor(count / _limit) * _limit
+                }
+
+                // 賦值
+                conditions['page']['previous'] = previous
+                conditions['page']['next'] = next
+                conditions['page']['count'] = count
+
+                // 展示 頁數
+                let text = (Math.floor(conditions['page']['offset'] / _limit) + 1) + '/' + Math.abs(Math.ceil(count / _limit))
+                $('#pageMsg').html(text)
+
+            },
+            error: function(e) {
+                alert('暫無更新！！！')
+            }
+        })
+    }
+
+    loadData = function(n_or_p) {
+        if (n_or_p) {
+            conditions['page']['offset'] += _limit
+            _loadData(conditions['page']['next'])
+        } else {
+            conditions['page']['offset'] -= _limit
+            _loadData(conditions['page']['previous'])
+        }
+    }
+
+    _loadData(_build_url(conditions['page']['offset']))
+</script>
+
+{% endblock data %}

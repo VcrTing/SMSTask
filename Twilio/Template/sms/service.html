@@ -1,0 +1,32 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<div class="data-wrapper def-border">
+    <table class="table table-responsive">
+        <thead class="">
+            <tr>
+                <td>
+                    <h4>服務名稱</h4>
+                </td>
+                <td>
+                    <h4>時間規則</h4>
+                </td>
+                <td>
+                    <h4>創建時間</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            {% for service in service_list %}
+            <tr>
+                <td><h4><a href="#">{{ service.named }}</a></h4></td>
+                <td><h4>{{ service.time_rule }}</h4></td>
+                <td><h4>{{ service.add_time }}</h4></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+</style>
+{% endblock data %}

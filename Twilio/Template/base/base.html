@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load staticfiles %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>
+            短信管理系統 - {{ title }}
+        </title>
+        <link rel="icon" href="{% static 'Contact.png' %}" type="image/x-icon"/>
+
+        <link rel="stylesheet" href="{% static 'base.css' %}"/>
+        <link rel="stylesheet" href="{% static 'common.css' %}"/>
+        <link rel="stylesheet" href="{% static 'css/iconfont.css' %}"/>
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
+        <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+        <!-- link rel="shortcut icon" href="{{ MEDIA_URL }}" type="image/x-icon"/-->
+        <script  type="text/javascript" src="{% static 'val.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'common.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'ser.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'tool.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'plugin/laydate/laydate.js' %}"></script>
+
+    </head>
+    <body>
+        <!-- 主內容 -->
+        {% block center %}
+        {% endblock center %}
+        <!-- Css -->
+        {% block css %}
+        {% endblock css %}
+        <!-- Js -->
+        {% block js %}
+        {% endblock js %}
+        {% csrf_token %}
+
+        {% if page_flag == 'email_template' %}
+            <script  type="text/javascript">
+
+                $('div').bind('click', function() {
+                    
+                    $('div.note-group-select-from-files').html('' +
+                        '<div class="btn btn-lg btn-info" onclick="openLibrary()">從媒體庫中選取</div>'
+                    )
+                })
+            </script>
+        {% endif %}
+    </body>
+</html>
