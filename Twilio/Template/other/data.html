@@ -23,7 +23,7 @@
                         <div>
                             <select v-model="named" id="named" class="conf-select">
                                 <option value="eye">眼镜中心 Eye</option>
-                                <option value="123Medhk">医务中心 123Medhk</option>
+                                <option value="123medhk">医务中心 123Medhk</option>
                             </select>
                         </div>
                     </div>
@@ -70,6 +70,10 @@
                                 if (e['status']) {
                                     if((e['area']) && (e['category'])) {
                                         alert('初始化数据成功！！！ ')
+                                        location.reload()
+                                    }
+                                    else if((e['service']) && (e['template'])) {
+                                        alert('服务项目添加数据成功！！！ ')
                                         location.reload()
                                     } else {
                                         alert('初始化失败！！！')

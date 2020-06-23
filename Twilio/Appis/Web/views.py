@@ -22,6 +22,7 @@ from Appis.Tool.send import mailgun_now
 from Appis.Tool.func import img as voez
 
 from Media.data.insert import insert as data_insert
+from Media.data.insert import insert_service as data_insert_service
 # Create your views here.
 
 class SMSConfViewSet(viewsets.ModelViewSet):
@@ -109,9 +110,17 @@ class DataView(View):
                         res['status'] = True
                         res['area'] = rec['area']
                         res['category'] = rec['cate']
+
                 elif working == 21:
-                    pass
+
+                    rec = data_insert_service(named)
+
+                    if rec:
+                        res['status'] = True
+                        res['service'] = rec['service']
+                        res['template'] = rec['template']
                     # 添加短信服务
+
                 elif working == 22:
                     pass
                     # 删除短信服务
