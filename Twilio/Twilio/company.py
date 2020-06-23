@@ -19,10 +19,10 @@ SETTING = {
             'USER': 'root',
             'PASSWORD': 'VcrTing.ZT123zlt',
             'CONN_MAX_AGE': 9
-        }
+        },
 
         'qiong': 8, # 加密数值，每更换一次数值，网站配置必须更新，谨慎修改
-        'wait_minute': 2 # 等待时间，任务申请几分钟后生效
+        'wait_minute': 2, # 等待时间，任务申请几分钟后生效
         'work_hour': [11, 20] # 定时任务的准点工作时间
     }
 }

@@ -114,7 +114,7 @@
                     $('#newer').val(false)
                 } catch(e) {
                     
-                    $('#fx_contact').html('<span class="text-info fs-14">新用戶</span>'  )
+                    $('#fx_contact').html('<span class="fs-14" style="color: red">新用戶</span>'  )
 
                     $('#newer').val(true)
                 }
@@ -162,6 +162,7 @@
         const email_template = $('#email_template').val()
         if (email_template == '') {
             alert('請選擇壹項服務！！！')
+            return
         }
 
         preview()

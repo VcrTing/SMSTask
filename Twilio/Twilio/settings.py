@@ -120,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = SETTING[Now]['time_zome']
+TIME_ZONE = SETTING[Now]['time_zone']
 
 USE_I18N = True
 
