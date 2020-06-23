@@ -81,5 +81,5 @@ def insert_service(company):
     
     return {
         'service': _insert_service(company),
-        'template': _insert_service(template)
+        'template': _insert_service(company)
     }
