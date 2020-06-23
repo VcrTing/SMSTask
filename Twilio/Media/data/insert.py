@@ -65,13 +65,13 @@ def insert(company):
     c = sms_models.Category.objects.filter(status = True)
     if c == []:
         pass
-    else
+    else:
         return False
 
     a = sms_models.Area.objects.filter(status = True)
     if a == []:
         pass
-    else
+    else:
         return False
 
     return {
@@ -83,13 +83,13 @@ def insert_service(company):
     s = sms_models.Service.objects.filter(status = True)
     if s == []:
         pass
-    else
+    else:
         return False
-        
+
     t = sms_models.SmsTemplate.objects.filter(status = True)
     if t == []:
         pass
-    else
+    else:
         return False
     
     return {
