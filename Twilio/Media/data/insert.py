@@ -62,9 +62,16 @@ def _insert_area(company):
     return True
     
 def insert(company):
-    if sms_models.Category.objects.filter(status = True):
+    c = sms_models.Category.objects.filter(status = True)
+    if c == []:
+        pass
+    else
         return False
-    if sms_models.Area.objects.filter(status = True):
+
+    a = sms_models.Area.objects.filter(status = True)
+    if a == []:
+        pass
+    else
         return False
 
     return {
@@ -73,13 +80,19 @@ def insert(company):
     }
 
 def insert_service(company):
-    
-    if sms_models.Service.objects.filter(status = True):
+    s = sms_models.Service.objects.filter(status = True)
+    if s == []:
+        pass
+    else
         return False
-    if sms_models.SmsTemplate.objects.filter(status = True):
+        
+    t = sms_models.SmsTemplate.objects.filter(status = True)
+    if t == []:
+        pass
+    else
         return False
     
     return {
         'service': _insert_service(company),
-        'template': _insert_service(company)
+        'template': _insert_template(company)
     }

@@ -23,6 +23,7 @@ from Appis.Tool.func import img as voez
 
 from Media.data.insert import insert as data_insert
 from Media.data.insert import insert_service as data_insert_service
+from Twilio.company import Now as company
 # Create your views here.
 
 class SMSConfViewSet(viewsets.ModelViewSet):
@@ -99,12 +100,11 @@ class DataView(View):
         option = request.GET.get('option', None)
         if option:
             if option == 'doing':
-                named = request.POST.get('named', None)
                 working = int(request.POST.get('working', 0))
 
                 if working == 1:
 
-                    rec = data_insert(named)
+                    rec = data_insert(company)
 
                     if rec:
                         res['status'] = True
@@ -113,7 +113,7 @@ class DataView(View):
 
                 elif working == 21:
 
-                    rec = data_insert_service(named)
+                    rec = data_insert_service(company)
 
                     if rec:
                         res['status'] = True
