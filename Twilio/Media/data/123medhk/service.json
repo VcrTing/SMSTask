@@ -1,0 +1,15 @@
+[
+    {"name": "Hepatitis B Vaccine", "time_rule": "0,1,6"}, 
+    {"name": "Hepatitis A Vaccine", "time_rule": "0,6"}, 
+    {"name": "Twinrix Vaccine", "time_rule": "0,1,6"}, 
+    {"name": "Gardasil Vaccine", "time_rule": "0,2,6"}, 
+    {"name": "ATT Vaccine", "time_rule": "0,2,8"}, 
+    {"name": "influenza vaccine (<8y.o. 1st time)", "time_rule": "0,1"}, 
+    {"name": "Rotateq Vaccine Po", "time_rule": "0,2,4"}, 
+    {"name": "Plan A Vaccine", "time_rule": "0,2,4,6"}, 
+    {"name": "Plan D Vaccine", "time_rule": "0,2,4,6"}, 
+    {"name": "\u5c0f\u624b\u8853", "time_rule": "0"}, 
+    {"name": "1064 \u6fc0\u5149\u7f8e\u767d\uff0c\u53bb\u6591\uff0c\u5ae9\u819a", "time_rule": "0,2,8"}, 
+    {"name": "\u53bb\u6bdb\u6fc0\u5149", "time_rule": "0"}, 
+    {"name": "HiB Vaccine", "time_rule": "0,2,4"}
+]
