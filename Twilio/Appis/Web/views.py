@@ -106,8 +106,7 @@ class DataView(View):
                 if working == 1:
 
                     rec = data_insert(company)
-                    print('rec =', rec)
-                    
+
                     if rec:
                         res['status'] = True
                         res['area'] = rec['area']
@@ -116,13 +115,12 @@ class DataView(View):
                 elif working == 21:
 
                     rec = data_insert_service(company)
-                    print('rec =', rec)
+                    print('service rec =', rec)
 
                     if rec:
                         res['status'] = True
                         res['service'] = rec['service']
                         res['template'] = rec['template']
-                    # 添加短信服务
 
                 elif working == 22:
                     pass

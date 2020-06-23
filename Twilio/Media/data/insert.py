@@ -7,7 +7,8 @@ def _insert_template(company):
     template = load('template', company)
     if template == None:
         return False
-
+    print('Template =', template)
+    
     for t in template:
         tem = sms_models.SmsTemplate()
         tem.sms_id = t['sms_id']
@@ -63,13 +64,11 @@ def _insert_area(company):
     
 def insert(company):
     c = sms_models.Category.objects.filter(status = True)
-    print('Cate =', c)
-    if c[0]:
+    if c.exists():
         return False
 
     a = sms_models.Area.objects.filter(status = True)
-    print('Area =', a)
-    if a[0]:
+    if a.exists():
         return False
 
     return {
@@ -80,12 +79,12 @@ def insert(company):
 def insert_service(company):
     s = sms_models.Service.objects.filter(status = True)
     print('Service =', s)
-    if s[0]:
+    if s.exists():
         return False
 
     t = sms_models.SmsTemplate.objects.filter(status = True)
     print('Template =', t)
-    if t[0]:
+    if t.exists():
         return False
     
     return {
