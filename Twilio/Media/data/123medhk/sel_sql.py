@@ -29,7 +29,7 @@ def _sel_template(item):
 def _sel(line, flag):
     line = line[0:-1]
     line = tuple(line)
-
+    print('Line =', line)
     if flag == 'service':
         return _sel_service(line)
     elif flag == 'template':
@@ -44,6 +44,11 @@ for line in file.readlines():
     service.append(_sel(line, 'service'))
 file.close()
 
+service_file = 'service.json'
+with open(service_file, 'w') as f:
+    f.write(json.dumps(service))
+
+"""
 file = open("sms_template.sql")
 for line in file.readlines():
     template.append(_sel(line, 'template'))
@@ -59,3 +64,5 @@ with open(service_file, 'w') as f:
 template_file = 'template.json'
 with open(template_file, 'w') as i:
     i.write(json.dumps(service))
+
+"""
