@@ -15,7 +15,7 @@ def _insert_template(company):
         tem.content = t['content']
         tem.content_sub = t['content_sub']
         tem.lang = t['lang']
-        tem.service = t['service']
+        tem.service = sms_models.Service.get(id = t['service'])
         tem.category = t['catregory']
         
         tem.save()
@@ -65,15 +65,11 @@ def insert(company):
     c = sms_models.Category.objects.filter(status = True)
     print('Cate =', c)
     if c:
-        pass
-    else:
         return False
 
     a = sms_models.Area.objects.filter(status = True)
     print('Area =', a)
     if a:
-        pass
-    else:
         return False
 
     return {
@@ -85,15 +81,11 @@ def insert_service(company):
     s = sms_models.Service.objects.filter(status = True)
     print('Service =', s)
     if s:
-        pass
-    else:
         return False
 
     t = sms_models.SmsTemplate.objects.filter(status = True)
     print('Template =', t)
     if t:
-        pass
-    else:
         return False
     
     return {
