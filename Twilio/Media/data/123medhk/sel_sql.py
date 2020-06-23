@@ -1,7 +1,7 @@
 import os, json
 
 def _sel_service(item):
-    name = itme[1]
+    name = item[1]
     time_rule = item[2]
     return {
         'name': name,
@@ -9,7 +9,7 @@ def _sel_service(item):
     }
 
 def _sel_template(item):
-    sms_id = itme[1]
+    sms_id = item[1]
     sms_id_sub = item[9]
     content = item[3]
     content_sub = item[4]
@@ -29,6 +29,7 @@ def _sel_template(item):
 def _sel(line, flag):
     line = line[0:-1]
     line = tuple(line)
+
     if flag == 'service':
         return _sel_service(line)
     elif flag == 'template':
@@ -48,6 +49,8 @@ for line in file.readlines():
     template.append(_sel(line, 'template'))
 file.close()
 
+print(service)
+print(template)
 
 service_file = 'service.json'
 with open(service_file, 'w') as f:
@@ -56,6 +59,3 @@ with open(service_file, 'w') as f:
 template_file = 'template.json'
 with open(template_file, 'w') as i:
     i.write(json.dumps(service))
-
-service_file.close()
-template_file.close()
