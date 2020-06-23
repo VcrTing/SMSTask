@@ -16,8 +16,8 @@ def _insert_template(company):
         tem.content = t['content']
         tem.content_sub = t['content_sub']
         tem.lang = t['lang']
-        tem.service = sms_models.Service.get(id = t['service'])
-        tem.category = t['catregory']
+        tem.service = sms_models.Service.objects.get(id = t['service'])
+        tem.category = t['category']
         
         tem.save()
     return True
