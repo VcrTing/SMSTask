@@ -101,6 +101,7 @@ class DataView(View):
         if option:
             if option == 'doing':
                 working = int(request.POST.get('working', 0))
+                print('working =', working)
 
                 if working == 1:
 
@@ -125,7 +126,8 @@ class DataView(View):
                 elif working == 22:
                     pass
                     # 删除短信服务
-                    
+              
+        print('Res =', res)      
         return JsonResponse(res)
 
 class HelpView(View):
