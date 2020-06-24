@@ -42,7 +42,7 @@ class SmsTemplateAdmin(admin.ModelAdmin):
     fieldsets = (
         ("信息", {
             "fields": (
-                'sms_id', 'content', 'sms_id_sub', 'content_sub', 'is_para'
+                'sms_id', 'content', 'sms_id_sub', 'content_sub'
             ),
         }),
         ("所属服务", {

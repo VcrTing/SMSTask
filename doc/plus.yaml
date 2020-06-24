@@ -9,7 +9,6 @@
     https://www.iteye.com/blog/cnjarchen-2221676
   创建数据库:
     drop database NAME;
-    Create database NAME;
     CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
   导入数据:
     cd /root/SMSTask/doc
@@ -63,24 +62,26 @@ Supervisor:
 
 Settings:
   进入:
-    vim /root/SMSTask/Twilio/Twilio/settings.py
+    vim /root/SMSTask/Twilio/Twilio/company.py
   数据库连接:
-    第 82 行，需要更改 mysql 连接信息
+    database需要改成合适的连接
   改HOST:
-    第 220 行，需要更改 Host 信息 不需要Port
+    host参数需要改成网站的domain
 
 完善工作:
+  数据生成:
+    cd ~/SMSTask/Twilio
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+  添加超级用户:
+    python3 manage.py createsuperuser
   启动定时:
-    cd /root/SMSTask/Twilio 
     python manage.py crontab add
 
 问题解决:
   关于mysql用户无权访问IP:
     https://blog.csdn.net/keplerpig/article/details/78517837
 
-改用mariadb:
-  导入数据:
-    mysql -uroot -p NAME < /root/doc/tsms3.sql
 
 安装iptable:
   安装:
