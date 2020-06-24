@@ -1,5 +1,6 @@
 import time, datetime
 from .. import doing as doing
+from .. import send as send
 from ..func import validate as validate
 from .. import config as conf
 from ..func.param import _temp_para
@@ -49,14 +50,15 @@ def _build_task_para(every_task, time_rule_belong, real_time_rule_belong):
 
 # 执行发送
 def _do_send(data):
+    print('发送 Data =', data)
     res = None
     is_success = False
     if data['phoned_prefix'] == '+86':
-        res = doing.jsms_now(data['phoned'], data['temp_id'], data['temp_para'])
+        res = send.jsms_now(data['phoned'], data['temp_id'], data['temp_para'])
         res, is_success = doing.seial_response(res, 'jsms')
         print('Jsms is_success =', is_success)
     else:
-        res = doing.twilio_now(data['phoned_prefix'] + data['phoned'], data['content'], data['temp_para'])
+        res = send.twilio_now(data['phoned_prefix'] + data['phoned'], data['content'], data['temp_para'])
         res, is_success = doing.seial_response(res, 'twilio')
         print('Twilio is_success =', is_success)
     return res, is_success
@@ -95,6 +97,7 @@ def _do_task(every_task, time_rule_belong):
 
         # 即时 发送短信
         if time_rule_belong == 0:
+            print('开始 Do Send')
             res, is_send = _do_send(data)
         
         # 序列化 Every Task 状态
@@ -111,12 +114,16 @@ def _do_task(every_task, time_rule_belong):
 def _serial_task(ids):
     
     for every_task_id in ids:
+        print('当前Serial ID =', every_task_id)
         every_task = doing.get_every_task(every_task_id)
+        print('当前every_task =', every_task)
 
         if every_task == None:
             break
 
         time_rule_belong = int(every_task['time_rule_belong'])
+        print('当前time_rule_belong =', time_rule_belong)
+        print('开始执行')
 
         res = _do_task(every_task, time_rule_belong)
 
