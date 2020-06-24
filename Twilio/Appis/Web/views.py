@@ -20,6 +20,7 @@ from Appis.Tool.working import num
 from Appis.Tool.scret import scret
 from Appis.Tool.send import mailgun_now
 from Appis.Tool.func import img as voez
+from Appis.Tool.func.slice import save_key
 
 from Media.data.insert import insert as data_insert
 from Media.data.insert import insert_service as data_insert_service
@@ -143,6 +144,7 @@ class NumView(View):
         option = request.GET.get('option', None)
 
         if option == 'jt':
+            """
             jsms = num.jsms_num()
             try:
                 if 'dev_industry' in jsms:
@@ -151,6 +153,7 @@ class NumView(View):
                     res['status'] = False
             except:
                 res['status'] = False
+            """
 
             twilio = num.twilio_num()
             if twilio is None:
@@ -200,7 +203,7 @@ class SMSConfView(View):
             conf.sender = sender
             conf.flag = flag
 
-            saving = self.save_key(conf.sid, conf.token, conf.flag, conf.sender)
+            saving = save_key(conf.sid, conf.token, conf.flag, conf.sender)
             res['status'] = saving
 
         return JsonResponse(res, safe=False)

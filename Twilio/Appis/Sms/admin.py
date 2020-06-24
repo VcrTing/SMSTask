@@ -34,7 +34,7 @@ class AreaAdmin(admin.ModelAdmin):
 
 @admin.register(models.SmsTemplate)
 class SmsTemplateAdmin(admin.ModelAdmin):
-    list_display = ['service', 'category', 'lang', 'content', 'add_time']
+    list_display = ['service', 'content', 'content_sub', 'add_time']
     search_fields = ['content', 'lang']
     list_filter = ['lang', 'category']
     readonly_fields = ['add_time']

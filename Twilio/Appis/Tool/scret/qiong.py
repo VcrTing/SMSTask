@@ -11,7 +11,7 @@ def _hate(rec):
     return rec[0: el] + rec[el: -1][1: len(rec)]
 
 def love(res):
-    return QIONG.join(_love(res)) + "'" 
+    return str(QIONG).join(_love(res)) + "'" 
 
 def hate(res):
     return _hate(res) + "'"
