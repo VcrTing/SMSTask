@@ -37,7 +37,7 @@ class EveryTask(models.Model):
     send_finish_time = models.DateTimeField(verbose_name='实际發送時間', null=True, blank=True)
     schedule_id = models.CharField(max_length=90, default='0', verbose_name='极光短信任务ID 字段')
     
-    apply_status = models.NullBooleanField(default=None, verbose_name='对接是否成功')
+    apply_status = models.NullBooleanField(default=None, verbose_name='应用标识')
     send_status = models.BooleanField(default=False, verbose_name='短信是否已发送')
 
     temp_para = models.TextField(max_length=600, default=common.NULL, null=True, blank=True, verbose_name='模版参数')

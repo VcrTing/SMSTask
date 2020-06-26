@@ -232,7 +232,7 @@ _ser_time_rule_belong = function(e) {
 // 序列化 发送状态
 _ser_status = function(apply_status, send_status, task_status) {
     console.log(apply_status)
-    color = 'orange'
+    color = 'sienna'
     text = '待生成'
     if (apply_status == true) {
         if (send_status == true) {
