@@ -226,7 +226,7 @@
                     const sms_task = item['sms_task']
                     const area = sms_task['area']
                     const sms_template = sms_task['sms_template']
-
+                    
                     const id = item['id']
                     const reciver = sms_task['named'] + "(<a href='#'>" + area['phoned_prefix'] + '&nbsp;' + sms_task['phoned'] + "</a>)&nbsp;&nbsp;"
                     const status = _ser_status(item['apply_status'], item['send_status'], sms_task['task_status'])

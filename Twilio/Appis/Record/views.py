@@ -186,7 +186,7 @@ class TaskView(View):
                     if time_rule_belong in used:
                         every_task = models.EveryTask()
                         every_task.sms_task = task
-                        every_task.numed = index
+                        every_task.numed = (index + 1)
                         every_task.contact_id = contact_id
                         every_task.time_rule_belong = time_rule_belong
                         every_task.save()
@@ -208,7 +208,7 @@ class EveryTaskView(View):
                 pk = request.GET.get('id', 0)
                 e = models.EveryTask.objects.get(id = pk)
                 return JsonResponse({
-                    '': 
+                    'a': ''
                 })
 
         return HttpResponse(None)

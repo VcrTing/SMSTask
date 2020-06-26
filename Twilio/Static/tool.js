@@ -95,7 +95,7 @@ locationSmsNum = function (jsms_num, twilio_num, twilio_currency) {
             '</div>'
         )
     }
-    if (twilio_num < 5) {
+    if (twilio_num < 5.0) {
         $('#sms_num_dom').append(
             '<div class="alert alert-danger" role="alert">警告：港澳地區的短信服務金額只剩下 【' + 
                 twilio_num + '】' + twilio_currency + '，金額過少將無法發送短信，請您及時充值！！！' +

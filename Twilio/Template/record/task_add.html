@@ -22,8 +22,7 @@
                 let twilio_currency = e['twilio']['currency']
                 let twilio_num = e['twilio']['balance']
                 
-                console.log(twilio_currency, twilio_num)
-                // locationSmsNum(jsms_num, twilio_num, twilio_currency)
+                locationSmsNum(1000, twilio_num, twilio_currency)
             } else {
                 alert('短信通訊狀況不佳，可能導致短信發送失敗，可聯系開發人員詢問詳情！！！')
             }

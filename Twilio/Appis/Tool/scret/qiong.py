@@ -7,7 +7,7 @@ def _love(rec):
     return ''.join(rec[0: l]), ''.join(rec[l : -1])
 
 def _hate(rec):
-    el = (len(rec) - len(QIONG)) // 2
+    el = (len(rec) - len(str(QIONG))) // 2
     return rec[0: el] + rec[el: -1][1: len(rec)]
 
 def love(res):

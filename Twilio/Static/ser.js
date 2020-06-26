@@ -231,20 +231,18 @@ _ser_time_rule_belong = function(e) {
 }
 // 序列化 发送状态
 _ser_status = function(apply_status, send_status, task_status) {
-    color = 'deeppink'
+    console.log(apply_status)
+    color = 'orange'
     text = '待生成'
     if (apply_status == true) {
         if (send_status == true) {
             color = 'green'
             text = '已發送'
         } else {
-            color = 'orange'
-            text = '作廢'
+            color = 'red'
+            text = '失敗！'
         }
     } else if (apply_status == false) {
-        color = 'red'
-        text = '失敗！'
-    } else {
         if (send_status == false) {
             color = 'rebeccapurple'
             text = '等待中'

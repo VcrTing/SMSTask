@@ -1,5 +1,5 @@
 import os
-from .company import Now, SETTING
+from .company import Now, SETTING, TEST
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -81,17 +81,17 @@ WSGI_APPLICATION = 'Twilio.wsgi.application'
 
 
 # Database
-DATABASES = {
-    'default': SETTING[Now]['database']
-}
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+if TEST:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
     }
-}
-"""
+else:
+    DATABASES = {
+        'default': SETTING[Now]['database']
+    }
 
 # Session
 
@@ -218,7 +218,11 @@ WORK_HOUR = SETTING[Now]['work_hour']
 
 SIGN_ID = 12646
 
-HOST = SETTING[Now]['host']
+if TEST:
+    HOST = 'http://127.0.0.1:8000'
+else:
+    HOST = SETTING[Now]['host']
+
 HOST_API = HOST + '/api'
 
 KEY_DIR = os.path.join(BASE_DIR, 'Media', 'key')

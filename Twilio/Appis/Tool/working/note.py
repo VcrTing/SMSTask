@@ -14,7 +14,7 @@ def _build_para(content, named, numed):
     res = val_sms_content(content, para)
     return res, para
 
-def _do_send(reciver, area, jsms_id, temp_para, content)
+def _do_send(reciver, area, jsms_id, temp_para, content):
     res = None
     is_success = False
 
@@ -45,13 +45,14 @@ def _do_task(et):
 
     if et.send_status == False:
 
-        if et.time_rule_belong == 0:
+        if int(et.time_rule_belong) == 0:
             jsms_id = sms_template.sms_id
             content = sms_template.content
-
+            et.apply_status = True
+        
         # 建立参数，序列文本
         content, temp_para = _build_para(content, sms_task.named, et.numed)
-
+        print('TEMP PARA =', temp_para)
         # 执行发送
         res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
 
@@ -76,22 +77,25 @@ def _do_runtask(et):
         res = _do_task(et)
         return res
     return False
-    
+
 # 开始 序列化
 def _serial_task(ids):
 
     for et_id in ids:
-        et = record_model.Every_Task.objects.get(id = et_id)
+        et = record_model.EveryTask.objects.get(id = et_id)
         print('ET =', et)
 
         if et.apply_status == None:
             if et.send_status == False:
 
-                et.send_finish_time = validate.val_send_time(time_rule_belong, EACH_DAY, 0)
-                et.apply_status = True
-
+                et.send_finish_time = validate.val_send_time(
+                    et.time_rule_belong, 
+                    EACH_DAY, 0
+                )
+                et.apply_status = False
                 et.save()
                 
-                if et.time_rule_belong == 0:
+                if int(et.time_rule_belong) == 0:
                     res = _do_task(et)
                     print('当前任务序列化结果 =', res)
+                print('======================= 一期结束 =======================')

@@ -1,4 +1,6 @@
 
+TEST = True
+
 Now = '123medhk' # 该值是指当前 公司的 key_name
 
 SETTING = {
