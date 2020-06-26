@@ -11,11 +11,9 @@ from .func.slice import get_conf
 from .func.param import val_sms_content
 
 # Twilio SEND
-def twilio_now(reciver, content, para = None):
+def twilio_now(reciver, content):
     ACCOUNT_SID, AUTH_TOKEN, SENDER = get_conf('twilio')
     if ACCOUNT_SID:
-        if para:
-            content = validate.val_sms_content(content, para)
         return sms.send_msg(content, reciver, ACCOUNT_SID, AUTH_TOKEN, SENDER)
     else:
         return None

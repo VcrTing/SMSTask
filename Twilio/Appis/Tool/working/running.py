@@ -1,7 +1,7 @@
 
 from .. import doing as doing
 from ..func import connect as conn
-from .note import _do_task
+from .note import _do_runtask
 from .email import _do_runemail
 
 def _running_sms():

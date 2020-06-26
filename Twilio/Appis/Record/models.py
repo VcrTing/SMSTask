@@ -30,17 +30,17 @@ class SmsTask(models.Model):
 
 class EveryTask(models.Model):
     sms_task = models.ForeignKey(SmsTask, on_delete=models.CASCADE, verbose_name='所属任务申请表', null=True)
-    schedule_id = models.CharField(max_length=90, default='0', verbose_name='极光短信任务ID 字段')
-    send_finish_time = models.DateTimeField(verbose_name='实际發送時間', null=True, blank=True)
-
-    temp_para = models.TextField(max_length=600, default=common.NULL, null=True, blank=True, verbose_name='模版参数')
+    contact_id = models.IntegerField(verbose_name='联系人id', default=0)
     time_rule_belong = models.SmallIntegerField(choices=common.TIME_RULE, default=0, verbose_name='所属时间规则')
-
     numed = models.SmallIntegerField(default=1, null=True, blank=True, verbose_name='所属索引值')
+    
+    send_finish_time = models.DateTimeField(verbose_name='实际發送時間', null=True, blank=True)
+    schedule_id = models.CharField(max_length=90, default='0', verbose_name='极光短信任务ID 字段')
+    
     apply_status = models.NullBooleanField(default=None, verbose_name='对接是否成功')
     send_status = models.BooleanField(default=False, verbose_name='短信是否已发送')
 
-    contact_id = models.IntegerField(verbose_name='联系人id', default=0)
+    temp_para = models.TextField(max_length=600, default=common.NULL, null=True, blank=True, verbose_name='模版参数')
     jsms_response = models.TextField(max_length=1000, null=True, blank=True, verbose_name='极光 Response 返回解析结果储存')
 
     status = models.BooleanField(default=True, verbose_name='数据状态')

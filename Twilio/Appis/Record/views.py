@@ -180,7 +180,7 @@ class TaskView(View):
                 used = request.POST.get('used', None)
                 used = used.split(',')
                 print('定时任务开始序列号=========')
-                # task.save()
+                task.save()
                 for index, time_rule_belong in enumerate(sms_template.service.time_rule):
                 
                     if time_rule_belong in used:
@@ -201,6 +201,16 @@ class TaskView(View):
 class EveryTaskView(View):
     page_flag = 'every_task'
     def get(self, request):
+        option = request.GET.get('option', None)
+
+        if option:
+            if option == 'every_task':
+                pk = request.GET.get('id', 0)
+                e = models.EveryTask.objects.get(id = pk)
+                return JsonResponse({
+                    '': 
+                })
+
         return HttpResponse(None)
     
 

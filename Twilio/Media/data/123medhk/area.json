@@ -1,14 +1,14 @@
 [
     {
-        "phoned_prefix": "+ 86",
+        "phoned_prefix": "+86",
         "named": "大陆"
     },
     {
-        "phoned_prefix": "+ 853",
+        "phoned_prefix": "+853",
         "named": "澳門"
     },
     {
-        "phoned_prefix": "+ 852",
+        "phoned_prefix": "+852",
         "named": "香港"
     }
 ]

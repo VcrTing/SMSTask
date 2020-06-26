@@ -20,7 +20,8 @@ EACH_DAY = conf.EACH_DAY
 
 # 获取 Every Task
 def get_every_task(id):
-    url = HOST_API + '/every_task/' + str(id) + '/'
+    url = HOST + '/every_task/?option=every_task&id=' + str(id)
+    print('Every Task =', url)
     res = connect.req_Get(url)
     return res
 
