@@ -63,10 +63,7 @@ def _do_task(et):
         et.temp_para = temp_para
         et.jsms_response = res['response']
 
-        et.send_finish_time = validate.val_send_time(
-            et.time_rule_belong, 
-            EACH_DAY, 0
-        )
+        et.send_finish_time = datetime.datetime.now()
         et.send_status = is_success
         et.save()
         

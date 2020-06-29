@@ -179,7 +179,11 @@ class TaskView(View):
                 contact_id = request.POST.get('contact_id', None)
                 used = request.POST.get('used', None)
                 used = used.split(',')
+                print('')
                 print('定时任务开始序列号=========')
+                print('used =', used)
+                print('')
+                print('')
                 task.save()
                 for index, time_rule_belong in enumerate(sms_template.service.time_rule):
                 
