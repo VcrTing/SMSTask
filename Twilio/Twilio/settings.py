@@ -191,7 +191,7 @@ CORS_ALLOW_HEADERS = (
 
 # Cron 定时任务
 CRONJOBS = [
-    ('* */10 * * *', 'Appis.Web.cron.check_and_run')
+    ('* */1 * * *', 'Appis.Web.cron.check_and_run')
 ]
 
 # MEDIA
