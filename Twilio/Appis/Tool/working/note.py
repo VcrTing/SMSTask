@@ -21,13 +21,11 @@ def _do_send(reciver, area, jsms_id, temp_para, content):
     if ((area == '+86') or (area == '+ 86')):
         res = send.jsms_now(reciver, jsms_id, temp_para)
 
-        print('JSMS 发送的 RES =', res)
         res, is_success = doing.seial_response(res, 'twilio')
     else:
         reciver = area + ' ' + reciver
         res = send.twilio_now(reciver, content)
 
-        print('TWILIO 发送的 RES =', res)
         res, is_success = doing.seial_response(res, 'twilio')
     
     return res, is_success
@@ -35,9 +33,7 @@ def _do_send(reciver, area, jsms_id, temp_para, content):
 def _do_task(et):
 
     sms_task = et.sms_task
-    print('SMS TASK =', sms_task)
     sms_template = sms_task.sms_template
-    print('SMS TEMPLATE =', sms_template)
 
     jsms_id = sms_template.sms_id_sub
     content = sms_template.content_sub
@@ -52,11 +48,10 @@ def _do_task(et):
         
         # 建立参数，序列文本
         content, temp_para = _build_para(content, sms_task.named, et.numed)
-        print('TEMP PARA =', temp_para)
+
         # 执行发送
         res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
 
-        print('是否成功 is_success =', is_success)
         print('最终RES =', res)
 
         et.schedule_id = res['schedule_id']
@@ -71,7 +66,6 @@ def _do_task(et):
 
 def _do_runtask(rec):
     if rec['apply_status'] == False:
-        print('====================== 开始Running ======================')
         et = record_model.EveryTask.objects.get(id = rec['id'])
         res = _do_task(et)
         return res
@@ -82,7 +76,6 @@ def _serial_task(ids):
 
     for et_id in ids:
         et = record_model.EveryTask.objects.get(id = et_id)
-        print('ET =', et)
 
         if et.apply_status == None:
             if et.send_status == False:
@@ -96,5 +89,4 @@ def _serial_task(ids):
                 
                 if int(et.time_rule_belong) == 0:
                     res = _do_task(et)
-                    print('当前任务序列化结果 =', res)
                 print('======================= 一期结束 =======================')

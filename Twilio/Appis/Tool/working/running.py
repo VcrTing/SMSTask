@@ -9,7 +9,6 @@ def _running_sms():
     every_task_list = doing.get_running_task()
     if every_task_list:
         for every_task in every_task_list:
-            print('Running ============================')
             res = _do_runtask(every_task)
             res_list.append(res)
         return True
