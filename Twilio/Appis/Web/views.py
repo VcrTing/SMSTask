@@ -62,7 +62,8 @@ class ImgViewSet(viewsets.ModelViewSet):
 # ===================================================================
 class WebView(View):
     def get(self, request):
-        
+        if company == '123medhk':
+            return redirect('/task/?option=add')
         return redirect('/email/')
 
 class DataView(View):

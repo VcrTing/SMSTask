@@ -13,6 +13,8 @@ WAIT_MINUTES = settings.WAIT_MINUTES
 def tick(id, way):
 
     connection.close()
+    worker.running_task()
+    
     if way == common.WAY[0][0]:
         worker.serial_task(id)
     if way == common.WAY[1][0]:
@@ -28,6 +30,5 @@ class TaskProcess(Process):
         self.way = way
 
     def run(self):
-        worker.running_task()
         time.sleep(60*WAIT_MINUTES)
         tick(self.task_id, self.way)
