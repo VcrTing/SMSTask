@@ -11,14 +11,13 @@ from Appis.Tool import index as worker
 WAIT_MINUTES = settings.WAIT_MINUTES
 
 def tick(id, way):
+
     connection.close()
     if way == common.WAY[0][0]:
         worker.serial_task(id)
     if way == common.WAY[1][0]:
         worker.serial_email(id)
         
-    time.sleep(10)
-    worker.running_task()
 
 class TaskProcess(Process):
     task_id = 0
@@ -29,5 +28,6 @@ class TaskProcess(Process):
         self.way = way
 
     def run(self):
+        worker.running_task()
         time.sleep(60*WAIT_MINUTES)
         tick(self.task_id, self.way)

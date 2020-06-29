@@ -7,7 +7,6 @@ from .email import _do_runemail
 def _running_sms():
     res_list = []
     every_task_list = doing.get_running_task()
-
     if every_task_list:
         for every_task in every_task_list:
             res = _do_runtask(every_task)

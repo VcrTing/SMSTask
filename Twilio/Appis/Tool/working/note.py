@@ -48,7 +48,7 @@ def _do_task(et):
         if int(et.time_rule_belong) == 0:
             jsms_id = sms_template.sms_id
             content = sms_template.content
-            et.apply_status = True
+        et.apply_status = True
         
         # 建立参数，序列文本
         content, temp_para = _build_para(content, sms_task.named, et.numed)
@@ -75,7 +75,7 @@ def _do_task(et):
 def _do_runtask(rec):
     if rec['apply_status'] == False:
         print('====================== 开始Running ======================')
-        et = record_model.EveryTask.objects.get(id == rec['id'])
+        et = record_model.EveryTask.objects.get(id = rec['id'])
         res = _do_task(et)
         return res
     return False

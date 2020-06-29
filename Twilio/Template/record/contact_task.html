@@ -88,7 +88,7 @@
             alert('未選擇服務！！！')
         } else {
             let tasker = ''
-            const rec = eval(localStorage.getItem('tasker'))
+            const rec = eval(localStorage.getItem('sms_tasker'))
             for (var i= 0; i< rec.length; i++ ) {
                 tasker = tasker + rec[i]['id'] + ','
             }
