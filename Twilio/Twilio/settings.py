@@ -1,9 +1,8 @@
 import os
+import django
 from .company import Now, SETTING, TEST
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Twilio.settings.dev')
 
 SECRET_KEY = 'g(q4o8mh+ov2ovk4ua1-b(fl1lke+ppl!5vdqqkp_2$@_o*izi'
 
@@ -13,6 +12,8 @@ ALLOWED_HOSTS = ['*']
 
 APPEND_SLASH = True
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Twilio.settings.dev')
+# django.setup()
 
 # Application definition
 

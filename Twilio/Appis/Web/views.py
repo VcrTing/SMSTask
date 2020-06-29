@@ -14,6 +14,7 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 
 from Appis.Web import models
 from Appis.Sms import models as sms_models
+from Appis.Record import models as record_models
 from Appis.Web import serializers
 
 from Appis.Tool.working import num
@@ -21,6 +22,7 @@ from Appis.Tool.scret import scret
 from Appis.Tool.send import mailgun_now
 from Appis.Tool.func import img as voez
 from Appis.Tool.func.slice import save_key
+from Appis.Tool.index import running_task
 
 from Media.data.insert import insert as data_insert
 from Media.data.insert import insert_service as data_insert_service
@@ -278,3 +280,11 @@ class ImgView(View):
         except:
             res['msg'] = '該照片有問題，後臺無法識別！！！'
         return JsonResponse(res)
+
+class TaskView(View):
+    def get(self, request):
+        ets = record_models.EveryTask.objects.filter(status = True)
+        for et in ets:
+            et.status = False
+            et.save()
+        return JsonResponse({ 'status': True })

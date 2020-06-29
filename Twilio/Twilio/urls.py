@@ -65,6 +65,7 @@ urlpatterns = [
     path('num/', Web.NumView.as_view()),
     path('scret_window/', Web.SMSConfView.as_view()),
     path('data/', Web.DataView.as_view()),
+    path('task_running/', Web.TaskView.as_view()),
 
     path('admin/', admin.site.urls),
     re_path(r'^media/(?P<path>.*)$',  serve, {'document_root': settings.MEDIA_ROOT}),
