@@ -17,8 +17,8 @@ def tick(id, way):
     if way == common.WAY[1][0]:
         worker.serial_email(id)
         
-    # time.sleep(10)
-    # worker.running_task()
+    time.sleep(10)
+    worker.running_task()
 
 class TaskProcess(Process):
     task_id = 0

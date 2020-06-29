@@ -10,7 +10,7 @@ def _running_sms():
 
     if every_task_list:
         for every_task in every_task_list:
-            res = _do_task(every_task, 0)
+            res = _do_runtask(every_task)
             res_list.append(res)
         return True
     else:

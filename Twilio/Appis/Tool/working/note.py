@@ -72,8 +72,10 @@ def _do_task(et):
         
         return is_success
 
-def _do_runtask(et):
-    if et.apply_status == True:
+def _do_runtask(rec):
+    if rec['apply_status'] == False:
+        print('====================== 开始Running ======================')
+        et = record_model.EveryTask.objects.get(id == rec['id'])
         res = _do_task(et)
         return res
     return False
