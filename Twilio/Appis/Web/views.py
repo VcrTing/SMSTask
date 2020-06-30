@@ -283,65 +283,53 @@ class ImgView(View):
 
 class TaskView(View):
     def get(self, request):
-        import apscheduler
-
-        option = request.GET.get('option', None)
-        if option:
-            if option == 'restart':
-                apscheduler.job.Job.resume()
-                apscheduler.schedulers.base.BaseScheduler.resume_job()
-
+        typed = 111
+        for i in SYSTEMMSGTYPED:
+            if i[0] == typed:
+                sys.mail(
+                    '[ERROR] ' + i[1],
+                    '网站：' + company + '\n请登录后台查看，或联系开发人员解决问题，请务必两日内解决该问题！！！',
+                    typed,
+                    SYS_MAIL
+                )
         return JsonResponse({ 'status': True })
 
 """
     定时任务
 """
-from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXECUTED
-import logging
+import time, logging
+import apscheduler
 
+from Appis.Tool.index import running_task as rt
+from Appis.Web.task.aps import init_scheduler_options
+
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXECUTED
 
 logger = logging.getLogger('job')
 
+def fun():
+    rt()
+
 def job_listener(Event):
-    typed = 111
-    job = scheduler.get_job(Event.job_id)
+    job = sch.get_job(Event.job_id)
 
     if not Event.exception:
         logger.info("jobname=%s|jobtrigger=%s|jobtime=%s|retval=%s", job.name, job.trigger,
                     Event.scheduled_run_time, Event.retval)
     else:
-        for i in SYSTEMMSGTYPED:
-            if i[0] == typed:
-                sys.mail(
-                    '[ERROR] ' + i[1],
-                    '网站：' + company + '\n请登录后台查看，或联系开发人员解决问题。',
-                    typed,
-                    SYS_MAIL
-                )
         logger.error("jobname=%s|jobtrigger=%s|errcode=%s|exception=[%s]|traceback=[%s]|scheduled_time=%s", job.name,
                      job.trigger, Event.code,
                      Event.exception, Event.traceback, Event.scheduled_run_time)
-         
-import time
-import schedule
-from apscheduler.schedulers.background import BackgroundScheduler
-from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 
-from Appis.Tool.index import running_task as rt
+sch = BackgroundScheduler(**init_scheduler_options)
 
-schedule.every(1).minutes.do(rt)
-
-scheduler = BackgroundScheduler()
-scheduler.add_jobstore(DjangoJobStore(), 'default')
-@register_job(scheduler, 'interval', minutes = 1, id = company, misfire_grace_time = 360)
-def job():
-    schedule.run_pending()
-
-scheduler.add_listener(
+sch.add_listener(
     job_listener, 
     EVENT_JOB_ERROR | \
     EVENT_JOB_MISSED | \
     EVENT_JOB_EXECUTED
 )
-register_events(scheduler)
-scheduler.start()
+
+sch.add_job(fun, 'interval', seconds = 60*10, id = company)
+sch.start()
