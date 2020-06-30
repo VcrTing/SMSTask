@@ -1,5 +1,5 @@
 
-TEST = True
+TEST = False
 
 SYS_MAIL = 'support@manfulls.com'
 
@@ -31,7 +31,7 @@ SETTING = {
     },
     '123medhk': {
         'key_name': '123medhk', # 不用改
-        'host': 'http://crm99.svr.up5d.com:8000',
+        'host': 'http://crm99.svr.up5d.com',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字
