@@ -52,8 +52,6 @@ def _do_task(et):
         # 执行发送
         res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
 
-        print('最终RES =', res)
-
         et.schedule_id = res['schedule_id']
         et.temp_para = temp_para
         et.jsms_response = res['response']
@@ -89,4 +87,3 @@ def _serial_task(ids):
                 
                 if int(et.time_rule_belong) == 0:
                     res = _do_task(et)
-                print('======================= 一期结束 =======================')

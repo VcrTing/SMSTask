@@ -30,7 +30,7 @@ class SmsTask(models.Model):
 
 class EveryTask(models.Model):
     sms_task = models.ForeignKey(SmsTask, on_delete=models.CASCADE, verbose_name='所属任务申请表', null=True)
-    contact_id = models.IntegerField(verbose_name='联系人id', default=0)
+    contact_key = models.IntegerField(verbose_name='联系人id', default=0)
     time_rule_belong = models.SmallIntegerField(choices=common.TIME_RULE, default=0, verbose_name='所属时间规则')
     numed = models.SmallIntegerField(default=1, null=True, blank=True, verbose_name='所属索引值')
     

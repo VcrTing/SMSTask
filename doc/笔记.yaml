@@ -19,3 +19,6 @@ Mac:
     SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = '数据库名字';
   3.导入数据:
     mysql -uroot -p NAME < /root/doc/tsms3.sql
+  
+python:
+  pip freeze > setup.txt

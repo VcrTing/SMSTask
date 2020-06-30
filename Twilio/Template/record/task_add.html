@@ -124,7 +124,7 @@
                 </div>
                 {% csrf_token %}
                 <input type="hidden" name="sms_template" id="sms_template" />
-                <input type="hidden" name="contact_id" id="contact_id">
+                <input type="hidden" name="contact_key" id="contact_key">
                 <input type="hidden" name="used" id="used" />
             </form>
         </div>
@@ -218,7 +218,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
-                $('#contact_id').val(e['id'])
+                $('#contact_key').val(e['id'])
             }
         })
     }
@@ -233,7 +233,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
-                $('#contact_id').val(e['id'])
+                $('#contact_key').val(e['id'])
             }
         })
     }

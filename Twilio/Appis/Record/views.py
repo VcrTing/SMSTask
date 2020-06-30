@@ -52,7 +52,7 @@ class EveryTaskViewSet(viewsets.ModelViewSet):
     queryset = models.EveryTask.objects.all()
     serializer_class = serializers.EveryTaskSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filter_fields = ('status', 'send_finish_time', 'send_status', 'apply_status', 'contact_id')
+    filter_fields = ('status', 'send_finish_time', 'send_status', 'apply_status', 'contact_key')
     ordering_fields = ('add_time', )
     pagination_class = pagination.LimitOffsetPagination
 
@@ -176,14 +176,9 @@ class TaskView(View):
                 task.save()
 
                 ids = []
-                contact_id = request.POST.get('contact_id', None)
+                contact_key = request.POST.get('contact_key', None)
                 used = request.POST.get('used', None)
                 used = used.split(',')
-                print('')
-                print('定时任务开始序列号=========')
-                print('used =', used)
-                print('')
-                print('')
                 task.save()
                 for index, time_rule_belong in enumerate(sms_template.service.time_rule):
                 
@@ -191,7 +186,7 @@ class TaskView(View):
                         every_task = models.EveryTask()
                         every_task.sms_task = task
                         every_task.numed = (index + 1)
-                        every_task.contact_id = contact_id
+                        every_task.contact_key = contact_key
                         every_task.time_rule_belong = time_rule_belong
                         every_task.save()
                         ids.append(every_task.id)

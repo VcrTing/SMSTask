@@ -48,7 +48,7 @@
     seeTask = function (id) {
         const dataDom = $('#contact_task_tbody')
         $.ajax({
-            url: _url + 'every_task?contact_id=' + id,
+            url: _url + 'every_task?contact_key=' + id,
             type: 'GET',
             success: function(e) {
                 dataDom.html('')
