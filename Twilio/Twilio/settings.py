@@ -27,7 +27,8 @@ INSTALLED_APPS = [
 ]
 MINE_APPS = [
     'gunicorn',
-    'django_crontab', # django-crontab
+    # 'django_crontab', # django-crontab
+    'django_apscheduler',
     'django_filters', # django-filter
     'rest_framework', # djangorestframework
     'corsheaders', # django-cors-headers
@@ -191,9 +192,11 @@ CORS_ALLOW_HEADERS = (
 )
 
 # Cron 定时任务
+"""
 CRONJOBS = [
-    ('* */1 * * *', 'Appis.Web.cron.check_and_run')
+    ('* */1 * * *', 'Appis.Web.task.cron.check_and_run')
 ]
+"""
 
 # MEDIA
 COMP = 2*1024 # 2 mb

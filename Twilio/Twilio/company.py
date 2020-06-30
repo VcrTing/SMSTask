@@ -1,5 +1,7 @@
 
-TEST = False
+TEST = True
+
+SYS_MAIL = 'support@manfulls.com'
 
 Now = '123medhk' # 该值是指当前 公司的 key_name
 
@@ -29,7 +31,7 @@ SETTING = {
     },
     '123medhk': {
         'key_name': '123medhk', # 不用改
-        'host': 'http://crm99.svr.up5d.com',
+        'host': 'http://crm99.svr.up5d.com:8000',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字
@@ -48,6 +50,6 @@ SETTING = {
 
         'qiong': 8, # 加密数值，每更换一次数值，网站配置必须更新，谨慎修改
         'wait_minute': 2, # 等待时间，任务申请几分钟后生效
-        'work_hour': [11, 18, 21, 22] # 定时任务的准点工作时间
+        'work_hour': [11, 18, 19, 20] # 定时任务的准点工作时间
     }
 }

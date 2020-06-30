@@ -17,6 +17,9 @@ def serial_email(task_ids):
 
 # 执行 运行中 的任务
 def running_task():
+
     i = datetime.datetime.now()
+    
     if int(i.hour) in conf.WORK_HOUR:
         _running_task()
+        

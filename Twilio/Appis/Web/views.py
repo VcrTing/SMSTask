@@ -17,7 +17,7 @@ from Appis.Sms import models as sms_models
 from Appis.Record import models as record_models
 from Appis.Web import serializers
 
-from Appis.Tool.working import num
+from Appis.Tool.working import num, sys
 from Appis.Tool.scret import scret
 from Appis.Tool.send import mailgun_now
 from Appis.Tool.func import img as voez
@@ -27,6 +27,8 @@ from Appis.Tool.index import running_task
 from Media.data.insert import insert as data_insert
 from Media.data.insert import insert_service as data_insert_service
 from Twilio.company import Now as company
+from Twilio.company import SYS_MAIL
+from Appis.common  import SYSTEMMSGTYPED
 # Create your views here.
 
 class SMSConfViewSet(viewsets.ModelViewSet):
@@ -281,10 +283,68 @@ class ImgView(View):
             res['msg'] = '該照片有問題，後臺無法識別！！！'
         return JsonResponse(res)
 
+
 class TaskView(View):
     def get(self, request):
-        ets = record_models.EveryTask.objects.filter(status = True)
-        for et in ets:
-            et.status = False
-            et.save()
+        import apscheduler
+
+        option = request.GET.get('option', None)
+        if option:
+            if option == 'restart':
+                apscheduler.job.Job.resume()
+                apscheduler.schedulers.base.BaseScheduler.resume_job()
+
         return JsonResponse({ 'status': True })
+
+"""
+    定时任务
+"""
+from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXECUTED
+import logging
+
+
+logger = logging.getLogger('job')
+
+def job_listener(Event):
+    typed = 111
+    job = scheduler.get_job(Event.job_id)
+
+    if not Event.exception:
+        logger.info("jobname=%s|jobtrigger=%s|jobtime=%s|retval=%s", job.name, job.trigger,
+                    Event.scheduled_run_time, Event.retval)
+    else:
+        for i in SYSTEMMSGTYPED:
+            if i[0] == typed:
+                sys.mail(
+                    '[ERROR] ' + i[1],
+                    '网站：' + company + '\n请登录后台查看，或联系开发人员解决问题。',
+                    typed,
+                    SYS_MAIL
+                )
+        logger.error("jobname=%s|jobtrigger=%s|errcode=%s|exception=[%s]|traceback=[%s]|scheduled_time=%s", job.name,
+                     job.trigger, Event.code,
+                     Event.exception, Event.traceback, Event.scheduled_run_time)
+         
+import time
+import schedule
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+
+from Appis.Tool.index import running_task as rt
+
+schedule.every(1).minutes.do(rt)
+
+scheduler = BackgroundScheduler()
+scheduler.add_jobstore(DjangoJobStore(), 'default')
+@register_job(scheduler, 'interval', minutes = 1, id = company, misfire_grace_time = 360)
+def job():
+    schedule.run_pending()
+
+scheduler.add_listener(
+    job_listener, 
+    EVENT_JOB_ERROR | \
+    EVENT_JOB_MISSED | \
+    EVENT_JOB_EXECUTED
+)
+register_events(scheduler)
+scheduler.start()
