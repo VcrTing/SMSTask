@@ -309,7 +309,6 @@ from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXEC
 logger = logging.getLogger('job')
 
 def fun():
-    print('===========  A =========')
     rt()
 
 def job_listener(Event):

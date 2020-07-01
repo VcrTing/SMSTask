@@ -24,7 +24,6 @@ class ContactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Contact
-        # exclude = ('is_active')
         depth = 1
         fields = ['id', 'first_named', 'phoned', 'bith', 'area_id', 'area', 'gender', 'email', 'status', 'add_time', 'star']
 

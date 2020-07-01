@@ -9,8 +9,9 @@
 
 创建数据库:
   CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-  
-删除数据库:
+  CREATE DATABASE tsms DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+  删除数据库:
   drop database NAME;
 
 删除主数据库的里面的表:
