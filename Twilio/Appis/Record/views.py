@@ -74,7 +74,7 @@ class RuningTaskViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     serializer_class = serializers.EveryTaskSerializer
             
     def get_queryset(self):
-        yesterday = val_future_datetime(-1, 0)
+        yesterday = val_future_datetime(-2, 0)
         tomorrow = val_future_datetime(1, 0)
         now = datetime.datetime.now()
         
