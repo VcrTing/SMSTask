@@ -104,7 +104,7 @@ CREATE TABLE `Additional_emailtemplate` (
   PRIMARY KEY (`id`),
   KEY `Additional_emailtemplate_category_id_61f973ee_fk_Sms_category_id` (`category_id`),
   CONSTRAINT `Additional_emailtemplate_category_id_61f973ee_fk_Sms_category_id` FOREIGN KEY (`category_id`) REFERENCES `Sms_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +113,6 @@ CREATE TABLE `Additional_emailtemplate` (
 
 LOCK TABLES `Additional_emailtemplate` WRITE;
 /*!40000 ALTER TABLE `Additional_emailtemplate` DISABLE KEYS */;
-INSERT INTO `Additional_emailtemplate` VALUES (1,'测试标题','<p>这是测试的邮件的内容～～～</p>',1,'Crm99 - Test（每月）',1,'2020-07-01 07:28:18.542753',4);
 /*!40000 ALTER TABLE `Additional_emailtemplate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,14 +125,14 @@ DROP TABLE IF EXISTS `Record_everytask`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Record_everytask` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `contact_key` int NOT NULL,
+  `schedule_id` varchar(90) NOT NULL,
+  `send_finish_time` datetime(6) DEFAULT NULL,
+  `temp_para` longtext,
   `time_rule_belong` smallint NOT NULL,
   `numed` smallint DEFAULT NULL,
-  `send_finish_time` datetime(6) DEFAULT NULL,
-  `schedule_id` varchar(90) NOT NULL,
   `apply_status` tinyint(1) DEFAULT NULL,
   `send_status` tinyint(1) NOT NULL,
-  `temp_para` longtext,
+  `contact_id` int NOT NULL,
   `jsms_response` longtext,
   `status` tinyint(1) NOT NULL,
   `add_time` datetime(6) NOT NULL,
@@ -141,7 +140,7 @@ CREATE TABLE `Record_everytask` (
   PRIMARY KEY (`id`),
   KEY `Record_everytask_sms_task_id_7a04a1a5_fk_Record_smstask_id` (`sms_task_id`),
   CONSTRAINT `Record_everytask_sms_task_id_7a04a1a5_fk_Record_smstask_id` FOREIGN KEY (`sms_task_id`) REFERENCES `Record_smstask` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +149,6 @@ CREATE TABLE `Record_everytask` (
 
 LOCK TABLES `Record_everytask` WRITE;
 /*!40000 ALTER TABLE `Record_everytask` DISABLE KEYS */;
-INSERT INTO `Record_everytask` VALUES (1,2,1,2,'2020-06-29 07:38:00.000000','0',0,0,'無','',1,'2020-07-01 07:36:00.000000',1);
 /*!40000 ALTER TABLE `Record_everytask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +174,7 @@ CREATE TABLE `Record_smstask` (
   KEY `Record_smstask_sms_template_id_79dfd8c8_fk_Sms_smstemplate_id` (`sms_template_id`),
   CONSTRAINT `Record_smstask_area_id_eeb6779c_fk_Sms_area_id` FOREIGN KEY (`area_id`) REFERENCES `Sms_area` (`id`),
   CONSTRAINT `Record_smstask_sms_template_id_79dfd8c8_fk_Sms_smstemplate_id` FOREIGN KEY (`sms_template_id`) REFERENCES `Sms_smstemplate` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +183,6 @@ CREATE TABLE `Record_smstask` (
 
 LOCK TABLES `Record_smstask` WRITE;
 /*!40000 ALTER TABLE `Record_smstask` DISABLE KEYS */;
-INSERT INTO `Record_smstask` VALUES (1,'92779625','Eric',0,NULL,1,'2020-07-01 07:36:21.826838',3,1);
 /*!40000 ALTER TABLE `Record_smstask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +240,7 @@ CREATE TABLE `Sms_area` (
 
 LOCK TABLES `Sms_area` WRITE;
 /*!40000 ALTER TABLE `Sms_area` DISABLE KEYS */;
-INSERT INTO `Sms_area` VALUES (1,'+86','大陆',1,'2020-07-01 07:20:22.666729'),(2,'+853','澳門',1,'2020-07-01 07:20:22.671777'),(3,'+852','香港',1,'2020-07-01 07:20:22.674903');
+INSERT INTO `Sms_area` VALUES (1,'+86','大陆',1,'2020-06-24 08:22:44.833837'),(2,'+853','澳門',1,'2020-06-24 08:22:44.838359'),(3,'+852','香港',1,'2020-06-24 08:22:44.840587');
 /*!40000 ALTER TABLE `Sms_area` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,7 +268,7 @@ CREATE TABLE `Sms_category` (
 
 LOCK TABLES `Sms_category` WRITE;
 /*!40000 ALTER TABLE `Sms_category` DISABLE KEYS */;
-INSERT INTO `Sms_category` VALUES (1,'疫苗',1,1,1,'2020-07-01 07:20:22.677458'),(2,'手術',2,1,1,'2020-07-01 07:20:22.679793'),(3,'美容',3,1,1,'2020-07-01 07:20:22.682141'),(4,'產品',21,2,1,'2020-07-01 07:20:22.683496'),(5,'服務',22,2,1,'2020-07-01 07:20:22.684983'),(6,'檢查',23,2,1,'2020-07-01 07:20:22.686680');
+INSERT INTO `Sms_category` VALUES (1,'疫苗',1,1,1,'2020-06-24 08:22:44.842787'),(2,'手術',2,1,1,'2020-06-24 08:22:44.844622'),(3,'美容',3,1,1,'2020-06-24 08:22:44.846615'),(4,'產品',21,2,1,'2020-06-24 08:22:44.848080'),(5,'服務',22,2,1,'2020-06-24 08:22:44.849560'),(6,'檢查',23,2,1,'2020-06-24 08:22:44.850928');
 /*!40000 ALTER TABLE `Sms_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +286,7 @@ CREATE TABLE `Sms_service` (
   `status` tinyint(1) NOT NULL,
   `add_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +322,7 @@ CREATE TABLE `Sms_smstemplate` (
   KEY `Sms_smstemplate_service_id_7f01ee03_fk_Sms_service_id` (`service_id`),
   CONSTRAINT `Sms_smstemplate_category_id_22ea5c27_fk_Sms_category_id` FOREIGN KEY (`category_id`) REFERENCES `Sms_category` (`id`),
   CONSTRAINT `Sms_smstemplate_service_id_7f01ee03_fk_Sms_service_id` FOREIGN KEY (`service_id`) REFERENCES `Sms_service` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +357,7 @@ CREATE TABLE `User_contact` (
   PRIMARY KEY (`id`),
   KEY `User_contact_area_id_68110367_fk_Sms_area_id` (`area_id`),
   CONSTRAINT `User_contact_area_id_68110367_fk_Sms_area_id` FOREIGN KEY (`area_id`) REFERENCES `Sms_area` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +366,7 @@ CREATE TABLE `User_contact` (
 
 LOCK TABLES `User_contact` WRITE;
 /*!40000 ALTER TABLE `User_contact` DISABLE KEYS */;
-INSERT INTO `User_contact` VALUES (1,'Eric',NULL,NULL,0,'92779625','',0,1,'2020-07-01 07:36:13.223659',3),(2,'Eric',NULL,NULL,0,'92779625','',0,1,'2020-07-01 07:36:13.225845',3);
+INSERT INTO `User_contact` VALUES (1,'Eric',NULL,NULL,0,'92779625','',0,1,'2020-06-24 09:41:33.576680',3),(2,'Eric',NULL,NULL,0,'92779625','',0,1,'2020-06-24 09:41:33.579159',3),(3,'沙荔枝',NULL,NULL,0,'13576639986','',0,1,'2020-06-26 13:11:01.256754',1),(4,'傻傻',NULL,NULL,0,'13576639986','',0,1,'2020-06-26 13:11:01.338367',3);
 /*!40000 ALTER TABLE `User_contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -409,7 +406,7 @@ CREATE TABLE `User_userprofile` (
 
 LOCK TABLES `User_userprofile` WRITE;
 /*!40000 ALTER TABLE `User_userprofile` DISABLE KEYS */;
-INSERT INTO `User_userprofile` VALUES (1,'2020-07-01 07:28:40.009831','VcrTing','','',1,'2020-07-01 07:21:00.000000','沙','2020-07-01','13576639986','vcrting@163.com','male',1,1,'pbkdf2_sha256$150000$hGJlFVngLu7g$3UCZQzjtJFNeZYmJ5OehZk81Eq1koWgtG+n/Z+DETUw=',1,'2020-07-01 07:21:39.504260');
+INSERT INTO `User_userprofile` VALUES (1,'2020-06-24 08:18:25.640437','VcrTing','','',1,'2020-06-24 08:15:00.000000','沙','2020-06-26','13576639986','vcrting@163.com','male',1,1,'pbkdf2_sha256$150000$gGHZmtBQWF89$X8f+SsKL/QCT/3EUvKkIHXDPLSKtjTMFPJlFD23lYvI=',1,'2020-06-24 08:15:11.518503');
 /*!40000 ALTER TABLE `User_userprofile` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -564,7 +561,7 @@ CREATE TABLE `auth_group` (
   `name` varchar(150) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -573,7 +570,6 @@ CREATE TABLE `auth_group` (
 
 LOCK TABLES `auth_group` WRITE;
 /*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
-INSERT INTO `auth_group` VALUES (1,'Admin');
 /*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -593,7 +589,7 @@ CREATE TABLE `auth_group_permissions` (
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -602,7 +598,6 @@ CREATE TABLE `auth_group_permissions` (
 
 LOCK TABLES `auth_group_permissions` WRITE;
 /*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
-INSERT INTO `auth_group_permissions` VALUES (1,1,1),(2,1,2),(3,1,3),(4,1,4),(5,1,5),(6,1,6),(7,1,7),(8,1,8),(9,1,9),(10,1,10),(11,1,11),(12,1,12),(13,1,13),(14,1,14),(15,1,15),(16,1,16),(17,1,17),(18,1,18),(19,1,19),(20,1,20),(21,1,21),(22,1,22),(23,1,23),(24,1,24),(25,1,25),(26,1,26),(27,1,27),(28,1,28),(29,1,29),(30,1,30),(31,1,31),(32,1,32),(33,1,33),(34,1,34),(35,1,35),(36,1,36),(37,1,37),(38,1,38),(39,1,39),(40,1,40),(41,1,41),(42,1,42),(43,1,43),(44,1,44),(45,1,46),(46,1,48),(47,1,49),(48,1,50),(49,1,51),(50,1,52),(51,1,56),(52,1,57),(53,1,58),(54,1,59),(55,1,60),(56,1,61),(57,1,62),(58,1,63),(59,1,64),(60,1,65),(61,1,66),(62,1,67),(63,1,68),(64,1,69),(65,1,70),(66,1,71),(67,1,72),(68,1,73),(69,1,74),(70,1,75),(71,1,76),(72,1,77),(73,1,78),(74,1,79),(75,1,80),(76,1,81),(77,1,82),(78,1,83),(79,1,84),(80,1,85),(81,1,86),(82,1,87),(83,1,88);
 /*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -621,7 +616,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -630,7 +625,7 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add content type',4,'add_contenttype'),(14,'Can change content type',4,'change_contenttype'),(15,'Can delete content type',4,'delete_contenttype'),(16,'Can view content type',4,'view_contenttype'),(17,'Can add session',5,'add_session'),(18,'Can change session',5,'change_session'),(19,'Can delete session',5,'delete_session'),(20,'Can view session',5,'view_session'),(21,'Can add django job',6,'add_djangojob'),(22,'Can change django job',6,'change_djangojob'),(23,'Can delete django job',6,'delete_djangojob'),(24,'Can view django job',6,'view_djangojob'),(25,'Can add django job execution',7,'add_djangojobexecution'),(26,'Can change django job execution',7,'change_djangojobexecution'),(27,'Can delete django job execution',7,'delete_djangojobexecution'),(28,'Can view django job execution',7,'view_djangojobexecution'),(29,'Can add 地域与电话号码前缀',8,'add_area'),(30,'Can change 地域与电话号码前缀',8,'change_area'),(31,'Can delete 地域与电话号码前缀',8,'delete_area'),(32,'Can view 地域与电话号码前缀',8,'view_area'),(33,'Can add 服务分类',9,'add_category'),(34,'Can change 服务分类',9,'change_category'),(35,'Can delete 服务分类',9,'delete_category'),(36,'Can view 服务分类',9,'view_category'),(37,'Can add 服务项目',10,'add_service'),(38,'Can change 服务项目',10,'change_service'),(39,'Can delete 服务项目',10,'delete_service'),(40,'Can view 服务项目',10,'view_service'),(41,'Can add 短信模版',11,'add_smstemplate'),(42,'Can change 短信模版',11,'change_smstemplate'),(43,'Can delete 短信模版',11,'delete_smstemplate'),(44,'Can view 短信模版',11,'view_smstemplate'),(45,'Can add 图片',12,'add_img'),(46,'Can change 图片',12,'change_img'),(47,'Can delete 图片',12,'delete_img'),(48,'Can view 图片',12,'view_img'),(49,'Can add SMS配置',13,'add_smsconf'),(50,'Can change SMS配置',13,'change_smsconf'),(51,'Can delete SMS配置',13,'delete_smsconf'),(52,'Can view SMS配置',13,'view_smsconf'),(53,'Can add 系统消息',14,'add_systemmsg'),(54,'Can change 系统消息',14,'change_systemmsg'),(55,'Can delete 系统消息',14,'delete_systemmsg'),(56,'Can view 系统消息',14,'view_systemmsg'),(57,'Can add 员工',15,'add_userprofile'),(58,'Can change 员工',15,'change_userprofile'),(59,'Can delete 员工',15,'delete_userprofile'),(60,'Can view 员工',15,'view_userprofile'),(61,'Can add 联系人',16,'add_contact'),(62,'Can change 联系人',16,'change_contact'),(63,'Can delete 联系人',16,'delete_contact'),(64,'Can view 联系人',16,'view_contact'),(65,'Can add 极光任務队列',17,'add_everytask'),(66,'Can change 极光任務队列',17,'change_everytask'),(67,'Can delete 极光任務队列',17,'delete_everytask'),(68,'Can view 极光任務队列',17,'view_everytask'),(69,'Can add 短信发送完成记录',18,'add_smstaskrecord'),(70,'Can change 短信发送完成记录',18,'change_smstaskrecord'),(71,'Can delete 短信发送完成记录',18,'delete_smstaskrecord'),(72,'Can view 短信发送完成记录',18,'view_smstaskrecord'),(73,'Can add 任務申请',19,'add_smstask'),(74,'Can change 任務申请',19,'change_smstask'),(75,'Can delete 任務申请',19,'delete_smstask'),(76,'Can view 任務申请',19,'view_smstask'),(77,'Can add 邮件任务申请列表',20,'add_emailapply'),(78,'Can change 邮件任务申请列表',20,'change_emailapply'),(79,'Can delete 邮件任务申请列表',20,'delete_emailapply'),(80,'Can view 邮件任务申请列表',20,'view_emailapply'),(81,'Can add 邮件模版',21,'add_emailtemplate'),(82,'Can change 邮件模版',21,'change_emailtemplate'),(83,'Can delete 邮件模版',21,'delete_emailtemplate'),(84,'Can view 邮件模版',21,'view_emailtemplate'),(85,'Can add 单期邮件记录',22,'add_emailcollect'),(86,'Can change 单期邮件记录',22,'change_emailcollect'),(87,'Can delete 单期邮件记录',22,'delete_emailcollect'),(88,'Can view 单期邮件记录',22,'view_emailcollect');
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',2,'add_permission'),(6,'Can change permission',2,'change_permission'),(7,'Can delete permission',2,'delete_permission'),(8,'Can view permission',2,'view_permission'),(9,'Can add group',3,'add_group'),(10,'Can change group',3,'change_group'),(11,'Can delete group',3,'delete_group'),(12,'Can view group',3,'view_group'),(13,'Can add content type',4,'add_contenttype'),(14,'Can change content type',4,'change_contenttype'),(15,'Can delete content type',4,'delete_contenttype'),(16,'Can view content type',4,'view_contenttype'),(17,'Can add session',5,'add_session'),(18,'Can change session',5,'change_session'),(19,'Can delete session',5,'delete_session'),(20,'Can view session',5,'view_session'),(21,'Can add 地域与电话号码前缀',6,'add_area'),(22,'Can change 地域与电话号码前缀',6,'change_area'),(23,'Can delete 地域与电话号码前缀',6,'delete_area'),(24,'Can view 地域与电话号码前缀',6,'view_area'),(25,'Can add 服务分类',7,'add_category'),(26,'Can change 服务分类',7,'change_category'),(27,'Can delete 服务分类',7,'delete_category'),(28,'Can view 服务分类',7,'view_category'),(29,'Can add 服务项目',8,'add_service'),(30,'Can change 服务项目',8,'change_service'),(31,'Can delete 服务项目',8,'delete_service'),(32,'Can view 服务项目',8,'view_service'),(33,'Can add 短信模版',9,'add_smstemplate'),(34,'Can change 短信模版',9,'change_smstemplate'),(35,'Can delete 短信模版',9,'delete_smstemplate'),(36,'Can view 短信模版',9,'view_smstemplate'),(37,'Can add 图片',10,'add_img'),(38,'Can change 图片',10,'change_img'),(39,'Can delete 图片',10,'delete_img'),(40,'Can view 图片',10,'view_img'),(41,'Can add SMS配置',11,'add_smsconf'),(42,'Can change SMS配置',11,'change_smsconf'),(43,'Can delete SMS配置',11,'delete_smsconf'),(44,'Can view SMS配置',11,'view_smsconf'),(45,'Can add 系统消息',12,'add_systemmsg'),(46,'Can change 系统消息',12,'change_systemmsg'),(47,'Can delete 系统消息',12,'delete_systemmsg'),(48,'Can view 系统消息',12,'view_systemmsg'),(49,'Can add 员工',13,'add_userprofile'),(50,'Can change 员工',13,'change_userprofile'),(51,'Can delete 员工',13,'delete_userprofile'),(52,'Can view 员工',13,'view_userprofile'),(53,'Can add 联系人',14,'add_contact'),(54,'Can change 联系人',14,'change_contact'),(55,'Can delete 联系人',14,'delete_contact'),(56,'Can view 联系人',14,'view_contact'),(57,'Can add 极光任務队列',15,'add_everytask'),(58,'Can change 极光任務队列',15,'change_everytask'),(59,'Can delete 极光任務队列',15,'delete_everytask'),(60,'Can view 极光任務队列',15,'view_everytask'),(61,'Can add 短信发送完成记录',16,'add_smstaskrecord'),(62,'Can change 短信发送完成记录',16,'change_smstaskrecord'),(63,'Can delete 短信发送完成记录',16,'delete_smstaskrecord'),(64,'Can view 短信发送完成记录',16,'view_smstaskrecord'),(65,'Can add 任務申请',17,'add_smstask'),(66,'Can change 任務申请',17,'change_smstask'),(67,'Can delete 任務申请',17,'delete_smstask'),(68,'Can view 任務申请',17,'view_smstask'),(69,'Can add 邮件任务申请列表',18,'add_emailapply'),(70,'Can change 邮件任务申请列表',18,'change_emailapply'),(71,'Can delete 邮件任务申请列表',18,'delete_emailapply'),(72,'Can view 邮件任务申请列表',18,'view_emailapply'),(73,'Can add 邮件模版',19,'add_emailtemplate'),(74,'Can change 邮件模版',19,'change_emailtemplate'),(75,'Can delete 邮件模版',19,'delete_emailtemplate'),(76,'Can view 邮件模版',19,'view_emailtemplate'),(77,'Can add 单期邮件记录',20,'add_emailcollect'),(78,'Can change 单期邮件记录',20,'change_emailcollect'),(79,'Can delete 单期邮件记录',20,'delete_emailcollect'),(80,'Can view 单期邮件记录',20,'view_emailcollect');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -655,7 +650,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_user_id_c564eba6_fk_User_userprofile_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_User_userprofile_id` FOREIGN KEY (`user_id`) REFERENCES `User_userprofile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -664,69 +659,8 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (1,'2020-07-01 07:29:45.858246','1','vcrting@163.com',2,'[{\"changed\": {\"fields\": [\"nickName\", \"bith\", \"phone\"]}}]',15,1),(2,'2020-07-01 07:32:59.342908','1','Admin',1,'[{\"added\": {}}]',3,1),(3,'2020-07-01 07:35:06.020531','1','测试（0，1，3）',1,'[{\"added\": {}}]',10,1),(4,'2020-07-01 07:35:16.573973','1','ID: 181407, 模版: 先手模版，客人名为 {{named}}。...',1,'[{\"added\": {}}]',11,1),(5,'2020-07-01 07:39:02.083120','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\"]}}]',17,1);
+INSERT INTO `django_admin_log` VALUES (1,'2020-06-24 08:23:57.503632','1','ID: 176714, 模版: 親愛的客戶{{named}}，歡迎你蒞臨...',3,'',9,1),(2,'2020-06-24 08:23:57.506024','2','ID: 176717, 模版: 親愛的客戶{{named}}，歡迎你蒞臨...',3,'',9,1),(3,'2020-06-24 08:23:57.509005','3','ID: 176397, 模版: 親愛的客戶{{named}}，歡迎蒞臨1...',3,'',9,1),(4,'2020-06-24 08:23:57.510776','4','ID: 176397, 模版: 親愛的客戶{{named}}，歡迎蒞臨1...',3,'',9,1),(5,'2020-06-24 08:23:57.512462','5','ID: 176397, 模版: 親愛的客戶{{named}}，歡迎蒞臨1...',3,'',9,1),(6,'2020-06-24 08:23:57.514102','6','ID: 176397, 模版: 親愛的客戶{{named}}，歡迎蒞臨1...',3,'',9,1),(7,'2020-06-24 08:23:57.515961','7','ID: 176397, 模版: 親愛的客戶{{named}}，歡迎蒞臨1...',3,'',9,1),(8,'2020-06-24 08:23:57.518082','8','ID: 176397, 模版: 親愛的客戶{{named}}，歡迎蒞臨1...',3,'',9,1),(9,'2020-06-24 08:23:57.519744','9','ID: 176397, 模版: 多謝你今天蒞臨123醫務中心， 針對你今...',3,'',9,1),(10,'2020-06-24 08:26:44.530760','10','ID: 111, 模版: 歡迎你蒞臨123醫務中心。剛才已為你接種...',1,'[{\"added\": {}}]',9,1),(11,'2020-06-24 08:27:38.511131','11','ID: 222, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(12,'2020-06-24 08:27:54.831244','10','ID: 111, 模版: 歡迎你蒞臨123醫務中心。剛才已為你接種...',2,'[{\"changed\": {\"fields\": [\"service\"]}}]',9,1),(13,'2020-06-24 09:35:24.286466','10','ID: 181407, 模版: 歡迎你蒞臨123醫務中心。剛才已為你接種...',2,'[{\"changed\": {\"fields\": [\"sms_id\", \"sms_id_sub\"]}}]',9,1),(14,'2020-06-24 09:35:37.837818','11','ID: 181407, 模版: Welcome to 123 Medic...',2,'[{\"changed\": {\"fields\": [\"sms_id\", \"sms_id_sub\"]}}]',9,1),(15,'2020-06-24 11:14:55.109307','3','地域名称：香港前缀：+852',2,'[{\"changed\": {\"fields\": [\"phoned_prefix\"]}}]',6,1),(16,'2020-06-24 11:15:04.246825','2','地域名称：澳門前缀：+853',2,'[{\"changed\": {\"fields\": [\"phoned_prefix\"]}}]',6,1),(17,'2020-06-24 11:15:13.605983','1','地域名称：大陆前缀：+86',2,'[{\"changed\": {\"fields\": [\"phoned_prefix\"]}}]',6,1),(18,'2020-06-26 10:00:53.772222','15','所属时间规则：6 schedule_id：0',3,'',15,1),(19,'2020-06-26 10:00:53.776665','14','所属时间规则：1 schedule_id：0',3,'',15,1),(20,'2020-06-26 10:00:53.778877','13','所属时间规则：0 schedule_id：0',3,'',15,1),(21,'2020-06-26 10:00:53.782840','12','所属时间规则：6 schedule_id：0',3,'',15,1),(22,'2020-06-26 10:00:53.785195','11','所属时间规则：1 schedule_id：0',3,'',15,1),(23,'2020-06-26 10:00:53.787460','10','所属时间规则：0 schedule_id：0',3,'',15,1),(24,'2020-06-26 10:00:53.789721','9','所属时间规则：6 schedule_id：0',3,'',15,1),(25,'2020-06-26 10:00:53.792172','8','所属时间规则：1 schedule_id：0',3,'',15,1),(26,'2020-06-26 10:00:53.794707','7','所属时间规则：0 schedule_id：0',3,'',15,1),(27,'2020-06-26 10:00:53.797269','6','所属时间规则：6 schedule_id：0',3,'',15,1),(28,'2020-06-26 10:00:53.799565','5','所属时间规则：1 schedule_id：0',3,'',15,1),(29,'2020-06-26 10:00:53.801613','4','所属时间规则：0 schedule_id：0',3,'',15,1),(30,'2020-06-26 10:00:53.803867','3','所属时间规则：6 schedule_id：0',3,'',15,1),(31,'2020-06-26 10:00:53.805908','2','所属时间规则：1 schedule_id：0',3,'',15,1),(32,'2020-06-26 10:00:53.808280','1','所属时间规则：0 schedule_id：0',3,'',15,1),(33,'2020-06-26 10:01:06.409356','5','接收者：Eric，电话：92779625',3,'',17,1),(34,'2020-06-26 10:01:06.411088','4','接收者：Eric，电话：92779625',3,'',17,1),(35,'2020-06-26 10:01:06.412414','3','接收者：Eric，电话：92779625',3,'',17,1),(36,'2020-06-26 10:01:06.413681','2','接收者：Eric，电话：92779625',3,'',17,1),(37,'2020-06-26 10:01:06.415252','1','接收者：Eric，电话：92779625',3,'',17,1),(38,'2020-06-26 10:15:23.543613','7','接收者：Eric，电话：92779625',2,'[{\"changed\": {\"fields\": [\"task_status\"]}}]',17,1),(39,'2020-06-26 10:15:48.037039','6','接收者：Eric，电话：92779625',2,'[{\"changed\": {\"fields\": [\"task_status\"]}}]',17,1),(40,'2020-06-26 13:27:39.231029','27','所属时间规则：6 schedule_id：0',3,'',15,1),(41,'2020-06-26 13:27:39.233010','26','所属时间规则：1 schedule_id：0',3,'',15,1),(42,'2020-06-26 13:27:39.234473','25','所属时间规则：0 schedule_id：0',3,'',15,1),(43,'2020-06-26 13:27:39.235758','21','所属时间规则：6 schedule_id：0',3,'',15,1),(44,'2020-06-26 13:27:39.237994','20','所属时间规则：1 schedule_id：0',3,'',15,1),(45,'2020-06-26 13:27:39.239430','19','所属时间规则：0 schedule_id：0',3,'',15,1),(46,'2020-06-26 13:27:39.241040','18','所属时间规则：6 schedule_id：0',3,'',15,1),(47,'2020-06-26 13:27:39.242477','17','所属时间规则：1 schedule_id：0',3,'',15,1),(48,'2020-06-26 13:27:39.243686','16','所属时间规则：0 schedule_id：0',3,'',15,1),(49,'2020-06-26 13:29:34.454406','23','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\"]}}]',15,1),(50,'2020-06-26 13:45:14.188916','29','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\", \"apply_status\"]}}]',15,1),(51,'2020-06-26 13:57:30.373695','12','ID: 181429, 模版: 歡迎你蒞臨123醫務中心。剛才已為你接種...',1,'[{\"added\": {}}]',9,1),(52,'2020-06-26 13:58:28.952467','13','ID: 181429, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(53,'2020-06-26 14:01:24.700491','14','ID: 181431, 模版: 歡迎你蒞臨123醫務中心。剛才已為你接種...',1,'[{\"added\": {}}]',9,1),(54,'2020-06-26 14:02:36.695258','15','ID: 181431, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(55,'2020-06-26 14:07:27.723747','16','ID: 181434, 模版: 歡迎蒞臨123醫務中心。你剛剛接種了第一...',1,'[{\"added\": {}}]',9,1),(56,'2020-06-26 14:08:33.459757','17','ID: 181434, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(57,'2020-06-26 14:11:10.934175','18','ID: 181436, 模版: 歡迎蒞臨123醫務中心。你剛剛接種了第一...',1,'[{\"added\": {}}]',9,1),(58,'2020-06-26 14:11:56.959745','19','ID: 181436, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(59,'2020-06-26 14:13:36.656150','20','ID: 181438, 模版: 歡迎蒞臨123醫務中心。你的小朋友剛剛接...',1,'[{\"added\": {}}]',9,1),(60,'2020-06-26 14:14:39.944552','21','ID: 181438, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(61,'2020-06-26 14:20:13.860592','22','ID: 181440, 模版: 歡迎蒞臨123醫務中心。你的小朋友剛剛接...',1,'[{\"added\": {}}]',9,1),(62,'2020-06-26 14:20:55.975793','23','ID: 181440, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(63,'2020-06-26 14:23:54.232489','24','ID: 181442, 模版: 歡迎蒞臨123醫務中心。你的小朋友剛剛接...',1,'[{\"added\": {}}]',9,1),(64,'2020-06-26 14:24:25.639775','25','ID: 181442, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(65,'2020-06-26 14:26:33.712996','26','ID: 181444, 模版: 歡迎蒞臨123醫務中心。你的小朋友剛剛接...',1,'[{\"added\": {}}]',9,1),(66,'2020-06-26 14:27:06.616067','27','ID: 181444, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(67,'2020-06-26 14:29:37.083806','28','ID: 181448, 模版: 歡迎蒞臨123醫務中心。你的小朋友剛剛接...',1,'[{\"added\": {}}]',9,1),(68,'2020-06-26 14:30:11.656162','29','ID: 181448, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(69,'2020-06-26 14:31:26.341795','30','ID: 181450, 模版: 多謝你今天蒞臨123醫務中心，針對你今天...',1,'[{\"added\": {}}]',9,1),(70,'2020-06-26 14:32:16.437453','31','ID: 181450, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(71,'2020-06-26 14:43:15.243365','32','ID: 181451, 模版: 多謝你今天蒞臨123醫務中心， 1064...',1,'[{\"added\": {}}]',9,1),(72,'2020-06-26 14:43:56.917480','33','ID: 181451, 模版: Welcome to visit 123...',1,'[{\"added\": {}}]',9,1),(73,'2020-06-26 14:45:03.685377','34','ID: 181451, 模版: Welcome to visit 123...',1,'[{\"added\": {}}]',9,1),(74,'2020-06-26 14:45:51.565575','35','ID: 181453, 模版: 多謝你今天蒞臨123醫務中心，今天用了8...',1,'[{\"added\": {}}]',9,1),(75,'2020-06-26 14:46:18.339351','36','ID: 181453, 模版: Welcome to 123 Medic...',1,'[{\"added\": {}}]',9,1),(76,'2020-06-26 14:51:06.966740','10','接收者：沙荔枝，电话：13576639986',3,'',17,1),(77,'2020-06-26 14:51:06.968424','9','接收者：傻傻，电话：13576639986',3,'',17,1),(78,'2020-06-26 14:51:06.969742','8','接收者：Eric，电话：92779625',3,'',17,1),(79,'2020-06-26 14:51:06.970930','7','接收者：Eric，电话：92779625',3,'',17,1),(80,'2020-06-26 14:51:06.972028','6','接收者：Eric，电话：92779625',3,'',17,1),(81,'2020-06-26 14:52:01.690660','1','vcrting@163.com',2,'[{\"changed\": {\"fields\": [\"nickName\", \"bith\", \"phone\"]}}]',13,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `django_apscheduler_djangojob`
---
-
-DROP TABLE IF EXISTS `django_apscheduler_djangojob`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `django_apscheduler_djangojob` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `next_run_time` datetime(6) DEFAULT NULL,
-  `job_state` longblob NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  KEY `django_apscheduler_djangojob_next_run_time_2f022619` (`next_run_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `django_apscheduler_djangojob`
---
-
-LOCK TABLES `django_apscheduler_djangojob` WRITE;
-/*!40000 ALTER TABLE `django_apscheduler_djangojob` DISABLE KEYS */;
-INSERT INTO `django_apscheduler_djangojob` VALUES (1,'123medhk','2020-07-01 08:01:19.382737',_binary '��\�\0\0\0\0\0\0}�(�version�K�id��123medhk��func��Appis.Web.views:fun��trigger��apscheduler.triggers.interval��IntervalTrigger���)��}�(hK�timezone��pytz��_p���(�\rAsia/Shanghai�M\�qK\0�LMT�t�R��\nstart_date��datetime��datetime���C\n\�\��h(hM�pK\0�CST�t�R���R��end_date�N�interval�h�	timedelta���K\0MXK\0��R��jitter�Nub�executor��default��args�)�kwargs�}��name��fun��misfire_grace_time�K�coalesce���\rmax_instances�K�\rnext_run_time�hC\n\�\��h��R�u.');
-/*!40000 ALTER TABLE `django_apscheduler_djangojob` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `django_apscheduler_djangojobexecution`
---
-
-DROP TABLE IF EXISTS `django_apscheduler_djangojobexecution`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `django_apscheduler_djangojobexecution` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `status` varchar(50) NOT NULL,
-  `run_time` datetime(6) NOT NULL,
-  `duration` decimal(15,2) DEFAULT NULL,
-  `started` decimal(15,2) DEFAULT NULL,
-  `finished` decimal(15,2) DEFAULT NULL,
-  `exception` varchar(1000) DEFAULT NULL,
-  `traceback` longtext,
-  `job_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `django_apscheduler_d_job_id_daf5090a_fk_django_ap` (`job_id`),
-  KEY `django_apscheduler_djangojobexecution_run_time_16edd96b` (`run_time`),
-  CONSTRAINT `django_apscheduler_d_job_id_daf5090a_fk_django_ap` FOREIGN KEY (`job_id`) REFERENCES `django_apscheduler_djangojob` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `django_apscheduler_djangojobexecution`
---
-
-LOCK TABLES `django_apscheduler_djangojobexecution` WRITE;
-/*!40000 ALTER TABLE `django_apscheduler_djangojobexecution` DISABLE KEYS */;
-/*!40000 ALTER TABLE `django_apscheduler_djangojobexecution` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -742,7 +676,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -751,7 +685,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (20,'Additional','emailapply'),(22,'Additional','emailcollect'),(21,'Additional','emailtemplate'),(1,'admin','logentry'),(3,'auth','group'),(2,'auth','permission'),(4,'contenttypes','contenttype'),(6,'django_apscheduler','djangojob'),(7,'django_apscheduler','djangojobexecution'),(17,'Record','everytask'),(19,'Record','smstask'),(18,'Record','smstaskrecord'),(5,'sessions','session'),(8,'Sms','area'),(9,'Sms','category'),(10,'Sms','service'),(11,'Sms','smstemplate'),(16,'User','contact'),(15,'User','userprofile'),(12,'Web','img'),(13,'Web','smsconf'),(14,'Web','systemmsg');
+INSERT INTO `django_content_type` VALUES (18,'Additional','emailapply'),(20,'Additional','emailcollect'),(19,'Additional','emailtemplate'),(1,'admin','logentry'),(3,'auth','group'),(2,'auth','permission'),(4,'contenttypes','contenttype'),(15,'Record','everytask'),(17,'Record','smstask'),(16,'Record','smstaskrecord'),(5,'sessions','session'),(6,'Sms','area'),(7,'Sms','category'),(8,'Sms','service'),(9,'Sms','smstemplate'),(14,'User','contact'),(13,'User','userprofile'),(10,'Web','img'),(11,'Web','smsconf'),(12,'Web','systemmsg');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -768,7 +702,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -777,7 +711,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2020-07-01 07:14:29.665356'),(2,'contenttypes','0002_remove_content_type_name','2020-07-01 07:14:29.712429'),(3,'auth','0001_initial','2020-07-01 07:14:29.796194'),(4,'auth','0002_alter_permission_name_max_length','2020-07-01 07:14:29.919059'),(5,'auth','0003_alter_user_email_max_length','2020-07-01 07:14:29.926414'),(6,'auth','0004_alter_user_username_opts','2020-07-01 07:14:29.934065'),(7,'auth','0005_alter_user_last_login_null','2020-07-01 07:14:29.941075'),(8,'auth','0006_require_contenttypes_0002','2020-07-01 07:14:29.944054'),(9,'auth','0007_alter_validators_add_error_messages','2020-07-01 07:14:29.951810'),(10,'auth','0008_alter_user_username_max_length','2020-07-01 07:14:29.959908'),(11,'auth','0009_alter_user_last_name_max_length','2020-07-01 07:14:29.967600'),(12,'auth','0010_alter_group_name_max_length','2020-07-01 07:14:29.991937'),(13,'auth','0011_update_proxy_permissions','2020-07-01 07:14:29.999793'),(14,'Sms','0001_initial','2020-07-01 07:14:30.070152'),(15,'User','0001_initial','2020-07-01 07:14:30.206804'),(16,'Additional','0001_initial','2020-07-01 07:14:30.405335'),(17,'Additional','0002_auto_20200630_1844','2020-07-01 07:14:30.510338'),(18,'Record','0001_initial','2020-07-01 07:14:30.645380'),(19,'Web','0001_initial','2020-07-01 07:14:30.784222'),(20,'admin','0001_initial','2020-07-01 07:14:30.810146'),(21,'admin','0002_logentry_remove_auto_add','2020-07-01 07:14:30.879386'),(22,'admin','0003_logentry_add_action_flag_choices','2020-07-01 07:14:30.894541'),(23,'django_apscheduler','0001_initial','2020-07-01 07:14:30.945078'),(24,'django_apscheduler','0002_auto_20180412_0758','2020-07-01 07:14:31.018721'),(25,'sessions','0001_initial','2020-07-01 07:14:31.034037');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2020-06-24 08:14:28.267060'),(2,'contenttypes','0002_remove_content_type_name','2020-06-24 08:14:28.305710'),(3,'auth','0001_initial','2020-06-24 08:14:28.352438'),(4,'auth','0002_alter_permission_name_max_length','2020-06-24 08:14:28.455339'),(5,'auth','0003_alter_user_email_max_length','2020-06-24 08:14:28.462914'),(6,'auth','0004_alter_user_username_opts','2020-06-24 08:14:28.469933'),(7,'auth','0005_alter_user_last_login_null','2020-06-24 08:14:28.477102'),(8,'auth','0006_require_contenttypes_0002','2020-06-24 08:14:28.479753'),(9,'auth','0007_alter_validators_add_error_messages','2020-06-24 08:14:28.487117'),(10,'auth','0008_alter_user_username_max_length','2020-06-24 08:14:28.493857'),(11,'auth','0009_alter_user_last_name_max_length','2020-06-24 08:14:28.502341'),(12,'auth','0010_alter_group_name_max_length','2020-06-24 08:14:28.528562'),(13,'auth','0011_update_proxy_permissions','2020-06-24 08:14:28.537600'),(14,'Sms','0001_initial','2020-06-24 08:14:28.599943'),(15,'User','0001_initial','2020-06-24 08:14:28.721656'),(16,'Additional','0001_initial','2020-06-24 08:14:28.919547'),(17,'Additional','0002_auto_20200624_1609','2020-06-24 08:14:29.036648'),(18,'Record','0001_initial','2020-06-24 08:14:29.170263'),(19,'Web','0001_initial','2020-06-24 08:14:29.306735'),(20,'admin','0001_initial','2020-06-24 08:14:29.333448'),(21,'admin','0002_logentry_remove_auto_add','2020-06-24 08:14:29.387351'),(22,'admin','0003_logentry_add_action_flag_choices','2020-06-24 08:14:29.398171'),(23,'sessions','0001_initial','2020-06-24 08:14:29.415839');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -803,7 +737,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('en6uwo5efrssv5y0pr1ayl512b8153g6','OTQ0YWJlYjQ0ODg1YmU1NWMyMjc3Y2E0NDQ0MTVhZTJkODYxODg2ZTp7InVzZXIiOiJ2Y3J0aW5nQDE2My5jb20iLCJpc0xvZ2luIjp0cnVlLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZmIyYzU5YTEwNDQ0MjAyMDQwYzg5NGUzMDI1MmRlN2JhOTE4YmRjOCJ9','2020-07-15 07:28:40.012766');
+INSERT INTO `django_session` VALUES ('i113ocatniln984lhrdni7liofjuqecm','Y2FkODg4YWUzMjg0MmQ3NGU5MjdhYzRhNjc3ZmE2NDczNzNlZWUxMzp7Il9hdXRoX3VzZXJfaWQiOiIxIiwiX2F1dGhfdXNlcl9iYWNrZW5kIjoiZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiJiNDg4OTkwYzEwNjBjNzMxMTJmNWIwYWI3MzkzYWYxMjM1MTFjMWFjIiwidXNlciI6InZjcnRpbmdAMTYzLmNvbSIsImlzTG9naW4iOnRydWV9','2020-07-08 09:37:40.075344');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -816,4 +750,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-01  7:53:44
+-- Dump completed on 2020-06-26 14:52:58

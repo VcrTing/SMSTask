@@ -9,7 +9,7 @@
 
 创建数据库:
   CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-
+  
 删除数据库:
   drop database NAME;
 
