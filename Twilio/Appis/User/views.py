@@ -239,7 +239,7 @@ class ContactTaskerView(View):
                 every_task = record_models.EveryTask()
                 every_task.sms_task = task
                 every_task.numed = index
-                every_task.contact_id = contact.id
+                every_task.contact_key = contact.id
                 every_task.time_rule_belong = time_rule_belong
                 every_task.save()
                 ids.append(every_task.id)

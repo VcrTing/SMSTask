@@ -157,7 +157,6 @@ _ser_bith = function(res, group=false, cn=true) {
 
 // 年龄段
 _ser_age = function(res) {
-    console.info(res)
     return 0
 }
 
