@@ -3,14 +3,8 @@
 <div class="top-bar">
     <div class="container">
         <div class="fl hand" onclick="goIndex()">
-            <!-- h4>短信任務管理系統</!-- h4 -->
-            <img class="logo" src="{% static 'Logo.png' %}" />
+            <img class="logo" src="{% static '/Common/Logo/' %}{{ request.session.company }}.png" />
         </div>
-        <!--
-        <div class="logo def-border circle fl">
-            <img class="" src="./logo.png"/>
-        </div>
-        -->
         <div class="login-out fr">
             <h4 class="fw-400">需要&nbsp;&nbsp;<a href="/login-out/">登出</a>？</h4>
         </div>

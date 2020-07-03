@@ -1,9 +1,117 @@
 {% extends '../index.html' %}
 {% load staticfiles %}
 {% block data %}
-<div>
-    <h4>若出現未知問題，請及時聯系 <a>support@manfulls.com</a></h4>
+<script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
+<script>
+    const icons = eval({{ icons|safe }});
+    const bgimgs = eval({{ bgimgs|safe }});
+    const now_icon = {{ now_icon }};
+    const now_bgimg = {{ now_bgimg }};
+
+</script>
+<div id="app">
+    <div class="jumbotron">
+        <h2>幫助</h2>
+        <p>若出現未知問題，請及時聯系 <a>support@manfulls.com</a></p>
+    </div>
+
+    <div class="jumbotron">
+        <h2>自定义</h2>
+        <form class="form row">
+            <div class="col-sm-5 form-group form-group-lg">
+                <h4 for="icons">图标</h4>
+                <select id="icons" class="form-control">
+                    
+                </select>
+            </div>
+            <div class="col-sm-7 form-group form-group-lg">
+                <h4 for="bgimgs">背景</h4>
+                <select id="bgimgs" class="form-control">
+                    
+                </select>
+            </div>
+        </form>
+        <div class="btn btn-primary btn-lg" href="#" role="button" onclick="validate()">
+            提交
+        </div>
+    </div>
 </div>
+
+<script>
+    
+    
+    let html_icon = $('#icons');
+    for (var i= 0; i< icons.length; i++ ) {
+        const ic = icons[i]
+        
+        html_icon.append(
+            '<option value="' + (i) + '">' +
+                ic['name'] +
+            '</option>'
+        )
+    };
+
+    let html_bgimg = $('#bgimgs');
+    for (var j= 0; j< bgimgs.length; j++ ) {
+        const bg = bgimgs[j]
+        
+        html_bgimg.append(
+            '<option value="' + (j) + '">' +
+                bg['name'] +
+            '</option>'
+        )
+        
+    };
+    html_icon.find('option[value=' + now_icon + ']').attr('selected', true)
+    html_bgimg.find('option[value=' + now_bgimg + ']').attr('selected', true)
+    
+    _submit = function(data) {
+        console.log(data)
+        console.log(_root + '/style/')
+        
+        $.ajax({
+            url: _root + '/style/',
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+            async: false,
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+            },
+            success: function(e) {
+                console.log(e)
+            }
+        })
+        
+    }
+    validate = function() {
+        const ni = html_icon.find('option:selected').val()
+        const nb = html_bgimg.find('option:selected').val()
+
+        let icon = true
+        if (ni == now_icon) {
+            icon = false
+        }
+        let bgimg = true
+        if (nb == now_bgimg) {
+            bgimg = false
+        }
+
+        if ((icon == false) & (bgimg == false)) {
+
+        } else {
+            const data = {
+                'old_icon': now_icon,
+                'old_bgimg': now_bgimg,
+                'new_icon': ni,
+                'new_bgimg': nb
+            }
+            _submit(data)
+        }
+    }
+</script>
+
 <style>
+    
 </style>
 {% endblock data %}

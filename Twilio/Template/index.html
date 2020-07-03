@@ -1,7 +1,6 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block center %}
-<link rel="stylesheet" href="{% static '/css/index.css' %}"/>
 {% include 'base/top.html' %}
 {% include 'base/title.html' %}
 <input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
@@ -139,7 +138,7 @@
                         </div>
                         <div class="item bg-white clearfix {% if page_flag == 'help' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/help/"><h4>幫助</h4></a>
+                                <a href="/help/"><h4>其他</h4></a>
                             </div>
                             <div class="item-content fr">
                             </div>

@@ -46,3 +46,4 @@ class ImgAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         return ['-add_time', ]
     
+    

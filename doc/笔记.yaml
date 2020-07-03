@@ -22,3 +22,6 @@ Mac:
   
 python:
   pip freeze > setup.txt
+
+一些功能只能在 Linux系统 上有用:
+  copy 媒体库功能

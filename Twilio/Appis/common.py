@@ -92,3 +92,20 @@ SYSTEMMSGTYPED = (
     (4, '杂项与其他提醒'),
     (111, '系统 APScheduler 进程已停止'),
 )
+
+ICON = [
+    {
+        'name': '紫蝴蝶（系统默认）',
+        'def': 'icon_0.png'
+    }
+]
+BGIMG = [
+    {
+        'name': '摄影风景 - 香港城市（系统默认）',
+        'def': 'bgimg_0.jpg'
+    },
+    {
+        'name': '摄影风景 - 紫色山景',
+        'def': 'bgimg_1.jpg'
+    }
+]

@@ -23,6 +23,8 @@ from Appis import common as common
 from Twilio import settings as settings
 from Appis.Record import APSTask as APSTask
 
+from Twilio.company import Now as company
+
 # FOR USERFROFILE
 class LoginView(View):
     def get(self, request):
@@ -40,6 +42,7 @@ class LoginView(View):
                     
                     request.session['user'] = user.email
                     request.session['isLogin'] = True
+                    request.session['company'] = company
                     return redirect('/task/?option=add')
                 msg = '密码错误，若忘记密码，可联系工作人员获得密码，谢谢合作！！！'
         return render(request, 'login.html', { 'title': '登录', 'msg': msg })

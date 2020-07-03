@@ -65,6 +65,7 @@ urlpatterns = [
     path('num/', Web.NumView.as_view()),
     path('scret_window/', Web.SMSConfView.as_view()),
     path('data/', Web.DataView.as_view()),
+    path('style/', Web.StyleView.as_view()),
     path('task_running/', Web.TaskView.as_view()),
 
     path('admin/', admin.site.urls),

@@ -79,8 +79,6 @@ _valide_date = function(dates, is_split = true) {
     if (is_split) {
         dates = dates.split('-')
     }
-    
-    console.log('date =', dates)
 
     if (dates.length == 3) {
         if (dates[0].length != 4) {

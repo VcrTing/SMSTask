@@ -26,9 +26,12 @@ from Appis.Tool.index import running_task
 
 from Media.data.insert import insert as data_insert
 from Media.data.insert import insert_service as data_insert_service
+from Media.data.tool import change_conf, load, scopy
+
 from Twilio.company import Now as company
 from Twilio.company import SYS_MAIL
-from Appis.common  import SYSTEMMSGTYPED
+from Twilio.settings import BASE_DIR
+from Appis.common  import SYSTEMMSGTYPED, ICON, BGIMG
 # Create your views here.
 
 class SMSConfViewSet(viewsets.ModelViewSet):
@@ -69,6 +72,72 @@ class WebView(View):
         if company == '123medhk':
             return redirect('/task/?option=add')
         return redirect('/email/')
+
+class StyleView(View):
+    _icon = 'Icon'
+    _banner = 'Banner'
+    _bgimg = 'Background'
+    bridge = 'bridge_'
+    i_def = 'default.png'
+    b_def = 'default.jpg'
+    common_path = os.path.join(BASE_DIR, 'Static', 'Common')
+
+    def _change(self, the_dir, old, new):
+        old = os.path.join(self.common_path, the_dir, old)
+        new = os.path.join(self.common_path, the_dir, new)
+        
+        return scopy(old, new)
+    
+    def _del(self, the_dir, name):
+        _name = os.path.join(self.common_path, the_dir, name)
+        
+        os.remove(_name)
+        return True
+    
+    def do_change(self, the_dir, the_def, origin):
+        res = self._del(the_dir, the_def)
+        if res:
+            res = self._change(the_dir, origin, the_def)
+            if res:
+                return 2
+            return 1
+        return 0
+
+    def get(self, request):
+        return JsonResponse({ 'status': True })
+
+    def post(self, request):
+        res = {
+            'icon': 0,
+            'bgimg': 0,
+            'banner': 0
+        }
+
+        oi = int(request.POST.get('old_icon', '0'))
+        ob = int(request.POST.get('old_bgimg', '0'))
+        ni = int(request.POST.get('new_icon', '0'))
+        nb = int(request.POST.get('new_bgimg', '0'))
+
+        if oi == ni:
+            i = 0
+        else:
+            _origin = ICON[ni]['def']
+
+            res['icon'] = self.do_change(self._icon, self.i_def, _origin)
+
+            change_conf(company, ni, False)
+
+        if ob == nb:
+            i = 0
+        else:
+            _origin = BGIMG[nb]['def']
+            
+            res['bgimg'] = self.do_change(self._bgimg, self.b_def, _origin)
+            res['banner'] = self.do_change(self._banner, self.b_def, _origin)
+
+            change_conf(company, False, nb)
+            
+        return JsonResponse(res)
 
 class DataView(View):
     def get(self, request):
@@ -134,8 +203,20 @@ class DataView(View):
 
 class HelpView(View):
     def get(self, request):
+        now = load('_conf', company)
+        if now:
+            pass
+        else:
+            now = { 'now_icon': 0, 'now_bgimg': 0 }
 
-        return render(request, 'other/help.html', { 'title': '首页', 'page_flag': 'help' })
+        return render(request, 'other/help.html', { 
+            'title': '首页', 
+            'page_flag': 'help',
+            'icons': ICON,
+            'bgimgs': BGIMG,
+            'now_icon': now['now_icon'],
+            'now_bgimg': now['now_bgimg']
+        })
 
 class NumView(View):
     page_flag = 'sms_num'
@@ -296,7 +377,6 @@ class TaskView(View):
 
 """
     定时任务
-"""
 import time, logging
 import apscheduler
 
@@ -331,5 +411,7 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 
-sch.add_job(fun, 'interval', seconds = 60*1, id = company)
+sch.add_job(fun, 'interval', seconds = 60*10, id = company)
 sch.start()
+
+"""

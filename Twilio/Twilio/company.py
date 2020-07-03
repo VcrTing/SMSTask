@@ -8,6 +8,7 @@ Now = '123medhk' # 该值是指当前 公司的 key_name
 SETTING = {
     'eye': {
         'key_name': 'eye', # 不用改
+        'media': 'Eye', # 媒体库文件夹，不用改
         'host': 'http://crm99.svr.up5d.com',
         'time_zone': 'Asia/Shanghai', # 时区
 
@@ -31,6 +32,7 @@ SETTING = {
     },
     '123medhk': {
         'key_name': '123medhk', # 不用改
+        'media': '123Medhk', # 媒体库文件夹，不用改
         'host': 'http://crm99.svr.up5d.com',
         'time_zone': 'Asia/Shanghai', # 时区
 

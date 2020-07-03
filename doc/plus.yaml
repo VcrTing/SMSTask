@@ -91,3 +91,6 @@ Settings:
     改 SELINUX=disabled
   开放端口:
     https://support.rackspace.com/how-to/use-iptables-with-centos-7/
+
+安装解压:
+  yum install -y unzip zip
