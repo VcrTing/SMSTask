@@ -443,7 +443,6 @@
     _delNoneUser = function(rec, way) {
         for (var i= 0; i< rec.length; i++ ) {
             item = rec[i]
-            console.log('item =', item)
             if (way == 0) {
                 // sms
                 if (item['phoned'] == '') {
@@ -453,7 +452,6 @@
             else if (way == 1) {
                 // email
                 if (item['email'] == '') {
-                    console.log('del')
                     rec.remove(item)
                 }
             }
@@ -589,7 +587,6 @@
         if ((start_age == 0) && (end_age == 150)) {
             ageF = false
         }
-        console.info(ageF)
 
         const star = $('#filter_star').find('option:selected').val()
         let star_bool = ''

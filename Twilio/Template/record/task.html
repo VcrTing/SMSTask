@@ -17,10 +17,7 @@
         </select>
     </div>
     <div class="form-group form-group-lg col-sm-3">
-        <!--
-        <select class="form-control" name="filterTime" id="filterTime">
-            
-        </select>-->
+
     </div>
     <div class="form-group form-group-lg col-sm-3">
         <div class="btn btn-primary btn-lg fr" onclick="filterSubmit()">确认过滤</div>
@@ -209,7 +206,6 @@
 
     getData = function(url) {
         url += filter_url
-        console.info('获取数据的 Url = ' + url)
 
         $.ajax({
             url: url,

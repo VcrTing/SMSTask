@@ -252,7 +252,6 @@
         }
     }
     _plus = function (data) {
-        console.log('data =', data)
         
         $.ajax({
             url: _root + '/contact/',
@@ -411,7 +410,6 @@
         locationDom.find('.email').html(res['email'])
     }
     _update = function (data, id) {
-        console.log(data)
         $.ajax({
             url: _url + _api_name + '/' + id + '/',
             type: 'PUT',
@@ -467,7 +465,6 @@
             'email': email,
             'status': true
         }
-        console.log(data)
         
         if ((phoned == '') & (email == '')) {
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')
@@ -482,7 +479,6 @@
                         url: _url + 'contact/?phoned=' + phoned,
                         type: 'GET',
                         success: function (e) {
-                            console.log('Into the Phone')
                             try {
                                 const id = e[0]['id']
                                 alert('已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！')
@@ -503,7 +499,6 @@
                         url: _url + 'contact/?email=' + email,
                         type: 'GET',
                         success: function (e) {
-                            console.log('Into the Email')
                             try {
                                 const id = e[0]['id']
                                 alert('已經存在 [' + e[0]['first_named'] + ']' + email + ' 用戶了！！！')

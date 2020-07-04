@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load staticfiles %}
 {% block center %}
-<link rel="stylesheet" href="{% static '/css/index.css' %}"/>
+
 {% include 'base/top.html' %}
 {% include 'base/title.html' %}
 <input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="form-group form-group-lg col-sm-12">
-                    <!-- label for="sms_template" class="control-label"></label -->
+                    
                     <div id="sms_item_outter">
                         <div class="row">
                             {% if sms_template_list is not None %}
@@ -142,7 +142,6 @@
             success: function(e) {
                 try {
                     const the_id = e[0].id 
-                    console.info(e[0])
                     
                     // 老客戶
                     _contactOlder(false, e[0].first_named)

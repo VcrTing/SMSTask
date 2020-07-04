@@ -108,7 +108,6 @@
                     xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
                 },
                 success: function(e) {
-                    console.info(e)
                     location.href = _root + '/contact_tasker/?option=success&task_num=' + e['task_num'] + '&contact_num=' + rec.length
                 },
             })

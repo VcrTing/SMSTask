@@ -97,7 +97,27 @@ ICON = [
     {
         'name': '紫蝴蝶（系统默认）',
         'def': 'icon_0.png'
-    }
+    },
+    {
+        'name': '可爱猫咪',
+        'def': 'icon_1.png'
+    },
+    {
+        'name': '洛丽塔女生',
+        'def': 'icon_2.png'
+    },
+    {
+        'name': '动漫风格 - 简约，拉姆',
+        'def': 'icon_3.png'
+    },
+    {
+        'name': '动漫风格 - 清新少女，古利特',
+        'def': 'icon_4.png'
+    },
+    {
+        'name': '动漫风格 - 爱自拍，初音未来',
+        'def': 'icon_5.png'
+    },
 ]
 BGIMG = [
     {
@@ -107,5 +127,13 @@ BGIMG = [
     {
         'name': '摄影风景 - 紫色山景',
         'def': 'bgimg_1.jpg'
+    },
+    {
+        'name': '摄影风景 - 碧蓝海滩',
+        'def': 'bgimg_2.jpg'
+    },
+    {
+        'name': '动漫风格 - 清凉一夏',
+        'def': 'bgimg_3.jpg'
     }
 ]
