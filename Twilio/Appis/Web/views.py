@@ -377,10 +377,13 @@ class TaskView(View):
 
 """
     定时任务
+
+"""
 import time, logging
 import apscheduler
 
 from Appis.Tool.index import running_task as rt
+
 from Appis.Web.task.aps import init_scheduler_options
 
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -413,5 +416,3 @@ sch.add_listener(
 
 sch.add_job(fun, 'interval', seconds = 60*10, id = company)
 sch.start()
-
-"""
