@@ -25,7 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 MINE_APPS = [
-    'gunicorn',
     # 'django_crontab', # django-crontab
     'django_apscheduler',
     'django_filters', # django-filter
@@ -34,6 +33,7 @@ MINE_APPS = [
     # 'ckeditor',
     # 'ckeditor_uploader'
     'multiselectfield', # django-multiselectfield
+    'gunicorn',
 
     'Appis.Sms',
     'Appis.Web',
