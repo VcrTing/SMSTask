@@ -2,7 +2,8 @@ import os, shutil
 from Twilio.company import Now
 from Twilio.settings import BASE_DIR, MEDIA_ROOT
 
-rec = os.path.join('~', 'Media')
+outter = os.path.dirname(os.path.dirname(BASE_DIR))
+rec = os.path.join(outter, 'Media')
 
 def _down():
     if os.path.exists(rec):
