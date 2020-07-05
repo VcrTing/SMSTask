@@ -1,6 +1,13 @@
 /*
     邮件任务状态
 */
+_ser_email_can = function(apply, send, over) {
+    let can = false
+    if (apply) {
+        can = true
+    }
+    return can
+}
 _ser_email_status = function(apply, send, over) {
     let res = '<span class="apply">生效中</span>'
     if (apply) {

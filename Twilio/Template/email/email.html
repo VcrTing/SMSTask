@@ -84,6 +84,8 @@
         // const add_time = item['add_time']
         const service = item['email_template']['service']
 
+        const can = _ser_email_can(apply_status, send_status, over_status)
+
         const html = '' +
             '<tr id="tr_' + id + '">' +
             '    <td><h4>' + _ser_send_time(visit_time, cn=true, short=true) + '</h4></td>' +
@@ -95,7 +97,7 @@
             '    <td align="center"><h4>' + _ser_email_status(apply_status, send_status, over_status) + '</h4></td>' +
             '    <td align="center"><a class="hand" onclick="seeMore(' + id + ')"><h4>查看</h4></a></td>' +
             '    <td align="center"><h4>' +
-            '        <span onclick="update(' + id + ')" class="glyphicon glyphicon-pencil hand text-main"></span>' +
+            '        <span onclick="update(' + id + ', ' + can + ')" class="glyphicon glyphicon-pencil hand text-main"></span>' +
             '        <span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span>' +
             '    </h4></td>' +
             '</tr>'
@@ -295,32 +297,36 @@
         }
     }
 
-    update = function(id) {
-        $('#email_task_modal').data('id', id)
-        for (var i= 0; i< contact.length; i++ ) {
-            const e = contact[i]
-            if (e['id'] == id) {
-                $('#option_visit_time').val(e['visit_time'])
-                if (e['send_status']) {
-                    $('#work_status_label').html(
-                        '<span class="success">（任務運行中）</span>'
-                    )
-                    $('#work_status option[value=0]').attr('selected', true)
-                } else {
-                    $('#work_status_label').html(
-                        '<span class="red">（任務已停止）</span>'
-                    )
-                    $('#work_status option[value=1]').attr('selected', true)
-                }
+    update = function(id, can) {
+        if (can) {
+            $('#email_task_modal').data('id', id)
+            for (var i= 0; i< contact.length; i++ ) {
+                const e = contact[i]
+                if (e['id'] == id) {
+                    $('#option_visit_time').val(e['visit_time'])
+                    if (e['send_status']) {
+                        $('#work_status_label').html(
+                            '<span class="success">（任務運行中）</span>'
+                        )
+                        $('#work_status option[value=0]').attr('selected', true)
+                    } else {
+                        $('#work_status_label').html(
+                            '<span class="red">（任務已停止）</span>'
+                        )
+                        $('#work_status option[value=1]').attr('selected', true)
+                    }
 
-                if (e['over_status']) {
-                    $('#work_status_label').html(
-                        '<span class="apply">（任務已完結，無需操作）</span>'
-                    )
+                    if (e['over_status']) {
+                        $('#work_status_label').html(
+                            '<span class="apply">（任務已完結，無需操作）</span>'
+                        )
+                    }
                 }
             }
+            $('#email_task_modal').modal('show')
+        } else {
+            alert('為了不影響任務隊列的正常運行，序列化完畢後才可編輯。')
         }
-        $('#email_task_modal').modal('show')
     }
 
 </script>
