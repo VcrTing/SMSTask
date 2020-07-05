@@ -5,7 +5,7 @@
 {% include 'base/title.html' %}
 <input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
 <script>
-    isLogin = $('#isLogin').val()
+    const isLogin = $('#isLogin').val()
     if (isLogin == 0) {
         location.href = '/login/'
     }
@@ -100,7 +100,7 @@
                         </div>
                         <div class="item bg-white clearfix {% if page_flag == 'service' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/service/"><h4>服務項目</h4></a>
+                                <a href="/service/"><h4>SMS服務項目</h4></a>
                             </div>
                             <div class="item-content fr">
                             </div>
@@ -136,9 +136,9 @@
                             <div class="item-content fr">
                             </div>
                         </div>
-                        <div class="item bg-white clearfix {% if page_flag == 'help' %}active{% endif %}">
+                        <div class="item bg-white clearfix {% if page_flag == 'other' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/help/"><h4>其他</h4></a>
+                                <a href="/other/"><h4>其他</h4></a>
                             </div>
                             <div class="item-content fr">
                             </div>

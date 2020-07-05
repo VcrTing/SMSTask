@@ -25,10 +25,10 @@ def mail(subject, message, typed, reciver):
     suc = False
     recivers = [reciver, ]
     res = mailgun_now(recivers, subject, message)
-
+    
     if res is not None:
         if 'id' in res:
             suc = True
     res = _record(subject, message, 2, typed, suc)
 
-    return res
+    return suc

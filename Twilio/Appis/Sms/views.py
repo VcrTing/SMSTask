@@ -66,6 +66,7 @@ class ServiceView(View):
                 service.save()
 
         service_list = models.Service.objects.filter(status = True)
+        
         return render(request, 'sms/service.html', 
             { 
                 'title': '首页', 

@@ -13,7 +13,6 @@ ALLOWED_HOSTS = ['*']
 APPEND_SLASH = True
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Twilio.settings.dev')
-# django.setup()
 
 # Application definition
 
@@ -41,7 +40,6 @@ MINE_APPS = [
     'Appis.User',
     'Appis.Record',
     'Appis.Additional',
-    # 'Twilio'
 ]
 INSTALLED_APPS += MINE_APPS
 
@@ -54,7 +52,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
 ]
-#  'django.middleware.csrf.CsrfViewMiddleware',
 
 ROOT_URLCONF = 'Twilio.urls'
 
@@ -157,6 +154,7 @@ REST_FRAMEWORK = {
 }
 
 # Admin
+
 ADMIN_CONF = {
     'admin_title': SETTING[Now]['admin_name'],
     'admin_header': SETTING[Now]['admin_name'],
@@ -230,3 +228,10 @@ else:
 HOST_API = HOST + '/api'
 
 KEY_DIR = os.path.join(BASE_DIR, 'Media', 'key')
+
+# 作者
+AUTHOR = [
+    'vcrting@163.com',
+    '2782721850@qq.com',
+    'support@manfulls.com'
+]

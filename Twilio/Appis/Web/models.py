@@ -26,7 +26,7 @@ class SystemMsg(models.Model):
     message = models.TextField(max_length=600, default=common.NULL, null=True, blank=True, verbose_name='邮件内容')
 
     typed = models.SmallIntegerField(choices=common.SYSTEMMSGTYPED, default=1, verbose_name='消息类型', null=True)
-    way = models.SmallIntegerField(choices=common.WAY, default=1, verbose_name='发送消息的方式', null=True)
+    way = models.SmallIntegerField(choices=common.WAY, default=2, verbose_name='发送消息的方式', null=True)
 
     success_status = models.BooleanField(verbose_name='是否发送成功', default = True)
     

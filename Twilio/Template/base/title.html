@@ -8,18 +8,18 @@
             <div class="title-wrapper">
                 <h1>首頁</h1>
                 <h4 class="text-white-half">
-                    任務管理系統 > 首頁 > 
-                    {% if page_flag == 'task' %}短信任務
+                    <span onclick="goIndex()" class="hand text-white-hr">任務管理系統</span> > <span onclick="goIndex()" class="hand text-white-hr">首頁</span> > 
+                    {% if page_flag == 'task' %}<a class="d-inline text-white-half text-white-hr a" href="/task/">短信任務</a>
                     {% elif page_flag == 'sms_template' %}短信模版表 
                     {% elif page_flag == 'every_task' %}預定執行的任務隊列表
                     {% elif page_flag == 'every_task_done' %}已完成的任務隊列表
                     {% elif page_flag == 'sms_task_record' %}短信發送完成記錄表 
                     {% elif page_flag == 'service' %}瀏覽服務項 
-                    {% elif page_flag == 'contact' %}聯絡人 
-                    {% elif page_flag == 'help' %}其他
+                    {% elif page_flag == 'contact' %}<a class="d-inline text-white-half text-white-hr a" href="/contact/">聯絡人</a>
+                    {% elif page_flag == 'other' %}<a class="d-inline text-white-half text-white-hr a" href="/other/">其他</a>
                     {% elif page_flag == 'task_collect' %}短信申請記錄
-                    {% elif page_flag == 'email' %}電郵任務
-                    {% elif page_flag == 'email_template' %}電郵模版
+                    {% elif page_flag == 'email' %}<a class="d-inline text-white-half text-white-hr a" href="/email/">電郵任務</a>
+                    {% elif page_flag == 'email_template' %}<a class="d-inline text-white-half text-white-hr a" href="/email_template/">電郵模版</a>
                     {% elif page_flag == 'email_collect' %}電郵發送記錄
                     {% elif page_flag == 'library' %}媒體庫
                     {% endif %}

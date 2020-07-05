@@ -63,7 +63,7 @@ class EveryTaskAdmin(admin.ModelAdmin):
         }),
         ("其他", {
             "fields": (
-                'contact_key', 
+                'contact', 
                 'status',
                 'add_time'
             ),

@@ -209,9 +209,9 @@ class HelpView(View):
         else:
             now = { 'now_icon': 0, 'now_bgimg': 0 }
 
-        return render(request, 'other/help.html', { 
+        return render(request, 'other/other.html', { 
             'title': '首页', 
-            'page_flag': 'help',
+            'page_flag': 'other',
             'icons': ICON,
             'bgimgs': BGIMG,
             'now_icon': now['now_icon'],

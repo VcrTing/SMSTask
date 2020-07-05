@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
+from django.forms.models import model_to_dict
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponsePermanentRedirect,HttpResponse,JsonResponse
@@ -22,8 +23,10 @@ from Appis.Sms.serializers import AreaSerializer
 from Appis import common as common
 from Twilio import settings as settings
 from Appis.Record import APSTask as APSTask
+from Appis.Web.models import SystemMsg
 
 from Twilio.company import Now as company
+from Appis.Tool.working.sys import mail
 
 # FOR USERFROFILE
 class LoginView(View):
@@ -164,6 +167,12 @@ class ContactView(View):
         )
 
     def post(self, request):
+        option = request.GET.get('option', None)
+        if option == 'delete':
+            pk = request.GET.get('id', None)
+            contact = user_models.Contact.objects.get(id = pk)
+            contact.delete()
+            return JsonResponse({ 'status': True })
         
         first_named = request.POST.get('first_named', None)
         area = request.POST.get('area', None)
@@ -171,8 +180,6 @@ class ContactView(View):
         email = request.POST.get('email', None)
         # gender = request.POST.get('gender', None)
         bith = request.POST.get('bith', None)
-
-        option = request.GET.get('option', None)
 
         if option == 'update':
             pk = request.GET.get('id', None)
@@ -194,7 +201,7 @@ class ContactView(View):
 
         return JsonResponse({
             'res': True,
-            'instance': ''
+            'instance': model_to_dict(contact)
         })
 
 class ContactTaskerView(View):
@@ -242,7 +249,7 @@ class ContactTaskerView(View):
                 every_task = record_models.EveryTask()
                 every_task.sms_task = task
                 every_task.numed = index
-                every_task.contact_key = contact.id
+                every_task.contact_key = contact
                 every_task.time_rule_belong = time_rule_belong
                 every_task.save()
                 ids.append(every_task.id)
@@ -256,3 +263,36 @@ class ContactTaskerView(View):
             'res': tasker,
             'task_num': task_num
         })
+
+class FeedBackView(View):
+    page_flag = 'feedback'
+
+    def get(self, request):
+        author = settings.AUTHOR
+        return render(request, 'other/feedback.html', 
+            { 
+                'title': '意见反馈', 
+                'page_flag': self.page_flag
+            }
+        )
+
+    def post(self, request):
+        msg = request.POST.get('message', None)
+        code = 112
+        sub = ''
+        res = {
+            'suc': 0,
+            'msg': '發送失敗！原因可能是賬戶余額不足，若非余額不足請致電 Manfulls公司。'
+        }
+
+        for i in common.SYSTEMMSGTYPED:
+            if i[0] == code:
+                sub = i[1]
+                
+        for au in settings.AUTHOR:
+            
+            suc = mail(sub, msg, code, au)
+            if suc:
+                res['suc'] = res['suc'] + 1
+
+        return JsonResponse(res)

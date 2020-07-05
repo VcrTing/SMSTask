@@ -9,7 +9,7 @@ admin.site.site_header = ADMIN_CONF['admin_header']
 
 @admin.register(models.SystemMsg)
 class SystemMsgAdmin(admin.ModelAdmin):
-    list_display = ['subject', 'message', 'typed', 'way', 'status', 'add_time']
+    list_display = ['subject', 'message', 'way', 'status', 'add_time']
     readonly_fields = ['add_time']
     exclude = ['id']
     fieldsets = (
@@ -25,7 +25,7 @@ class SystemMsgAdmin(admin.ModelAdmin):
         }),
         ("其他", {
             "fields": (
-                'flag', 'add_time',
+                'add_time',
             ),
         }),
     )

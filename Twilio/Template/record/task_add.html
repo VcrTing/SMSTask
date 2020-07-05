@@ -189,10 +189,12 @@
         _contactSame(url, phoned, data)
     }
     _contactSame = function (url, phoned, data) {
+        console.log('GET URL =', url + '?phoned=' + phoned + '&status=True')
         $.ajax({
             url: url + '?phoned=' + phoned + '&status=True',
             type: 'GET',
             success: function(e) {
+                console.log('联系人 =', e)
                 try {
                     const the_id = e[0].id 
                     _contactUpdate(url, the_id, data)
@@ -207,8 +209,9 @@
         })
     }
     _contactPlus = function (url, data) {
+        console.log('Contact Plus !!!', url)
         $.ajax({
-            url: url,
+            url: _root + '/contact/?option=add',
             data: data,
             type: 'POST',
             dataType: 'json',
@@ -217,11 +220,13 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
-                $('#contact_key').val(e['id'])
+                console.log('新增成功！！！ =', e)
+                $('#contact_key').val(e['instance']['id'])
             }
         })
     }
     _contactUpdate = function (url, the_id, data) {
+        console.log('Contact Update !!!', url + the_id + '/')
         $.ajax({
             url: url + the_id + '/',
             data: data,
@@ -232,6 +237,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
+                console.log('修改成功！！！ =', e)
                 $('#contact_key').val(e['id'])
             }
         })

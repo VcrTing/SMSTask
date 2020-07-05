@@ -43,6 +43,12 @@
     loadRecivers = function(id, named, email) {
         reciver_list.html('')
         const tasker = eval(localStorage.getItem('email_tasker'))
+
+        if (tasker.length <= 0) {
+            alert('已選擇的聯系人數量為“0”。')
+            history.back()
+        }
+
         for(var i= 0; i< tasker.length; i ++) {
             const item = tasker[i]
             const id = item['id']
@@ -239,7 +245,9 @@
             'visit_time': visit_time,
             'recivers': rcs
         }
-        _submit(data)
+        if (confirm('妳確定要提交嗎？')) {
+            _submit(data)
+        }
     }
 </script>
 

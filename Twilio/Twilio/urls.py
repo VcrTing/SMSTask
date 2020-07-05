@@ -45,7 +45,7 @@ router.register('running_email', Additional.RuningEmailViewSet)
 urlpatterns = [    
     path('', Web.WebView.as_view()),
     path('img/', Web.ImgView.as_view()),
-    path('help/', Web.HelpView.as_view()),
+    path('other/', Web.HelpView.as_view()),
     path('login/', User.LoginView.as_view()),
     path('login-out/', User.LoginOutView.as_view()),
     path('service/', Sms.ServiceView.as_view()),
@@ -67,6 +67,7 @@ urlpatterns = [
     path('data/', Web.DataView.as_view()),
     path('style/', Web.StyleView.as_view()),
     path('task_running/', Web.TaskView.as_view()),
+    path('feedback/',User.FeedBackView.as_view()),
 
     path('admin/', admin.site.urls),
     re_path(r'^media/(?P<path>.*)$',  serve, {'document_root': settings.MEDIA_ROOT}),

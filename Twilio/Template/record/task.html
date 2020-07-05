@@ -219,6 +219,7 @@
                 let res = e['results']
                 
                 $.each(res, function(index, item) {
+                    console.log('SMS item =', item)
                     const sms_task = item['sms_task']
                     const area = sms_task['area']
                     const sms_template = sms_task['sms_template']

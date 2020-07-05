@@ -15,6 +15,7 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 
 from Appis.Record import models
 from Appis.Sms import models as sms_modles
+from Appis.User.models import Contact
 from Appis.Record import serializers
 
 from . import APSTask as APSTask
@@ -52,7 +53,7 @@ class EveryTaskViewSet(viewsets.ModelViewSet):
     queryset = models.EveryTask.objects.all()
     serializer_class = serializers.EveryTaskSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filter_fields = ('status', 'send_finish_time', 'send_status', 'apply_status', 'contact_key')
+    filter_fields = ('status', 'send_finish_time', 'send_status', 'apply_status')
     ordering_fields = ('add_time', )
     pagination_class = pagination.LimitOffsetPagination
 
@@ -186,7 +187,7 @@ class TaskView(View):
                         every_task = models.EveryTask()
                         every_task.sms_task = task
                         every_task.numed = (index + 1)
-                        every_task.contact_key = contact_key
+                        every_task.contact = Contact.objects.get(id = contact_key)
                         every_task.time_rule_belong = time_rule_belong
                         every_task.save()
                         ids.append(every_task.id)

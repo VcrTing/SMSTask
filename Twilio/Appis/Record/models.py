@@ -5,6 +5,7 @@ from multiselectfield import MultiSelectField
 from .. import common
 
 from Appis.Sms.models import Service, SmsTemplate, Area
+from Appis.User.models import Contact
 
 # Create your models here.
 
@@ -29,8 +30,8 @@ class SmsTask(models.Model):
         return '接收者：' + str(self.named) + '，电话：' + str(self.phoned)
 
 class EveryTask(models.Model):
+    contact = models.ForeignKey(Contact, verbose_name='所属用户', on_delete=models.CASCADE, null=True)
     sms_task = models.ForeignKey(SmsTask, on_delete=models.CASCADE, verbose_name='所属任务申请表', null=True)
-    contact_key = models.IntegerField(verbose_name='联系人id', default=0)
     time_rule_belong = models.SmallIntegerField(choices=common.TIME_RULE, default=0, verbose_name='所属时间规则')
     numed = models.SmallIntegerField(default=1, null=True, blank=True, verbose_name='所属索引值')
     

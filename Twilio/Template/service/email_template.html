@@ -60,8 +60,8 @@
 
             const html = '' +
                 '<tr>' +
-                '    <td><h4>' + service + '</h4></td>' +
-                '    <td><h4>' + subject + '</h4></td>' +
+                '    <td><h4 class="text-main">' + service + '</h4></td>' +
+                '    <td><h4 class="max-subject">' + subject + '</h4></td>' +
                 '    <td><h4>' + category +'</h4></td>' +
                 '    <td align="center"><h4>' + time_rule + '</h4></td>' +
                 '    <td align="center"><h4><a class="text-info hand" onclick="seeMore(' + id + ')">預覽</a></h4></td>' +
@@ -249,6 +249,12 @@
 </script>
 
 <style>
+
+    @media screen and (min-width: 768px) {
+        .max-subject {
+            max-width: calc(270px + 2vw);
+        }
+    }
     .subject {
         height: 60px !important;
         padding-top: 30px;

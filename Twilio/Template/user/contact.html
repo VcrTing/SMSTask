@@ -74,12 +74,13 @@
             const area = item['area']
             const star = item['star']
             const bith = item['bith']
-            const email = item['email']
+            let email = item['email']
             const gender = item['gender']
             const phone = item['phoned']
             const add_time = item['add_time']
             const first_named = item['first_named']
-
+            
+            if (email == null) { email = '' }
             let phoned = phone==''?'':'<div class="phoned hand" style="color: #333"><i style="color: #333">' + area['phoned_prefix'] + '</i> ' + phone + '</div>'
 
             const html = '' +
@@ -278,23 +279,40 @@
 <!-- 操作數據 -->
 <script>
     _trash = function(id, isM = true) {
+        
         $.ajax({
-            url: _url + _api_name + '/' + id + '/',
-            type: 'PUT',
-            data: { 'status': false },
+            url: _root + '/' + _api_name + '/?option=delete&id=' + id,
+            type: 'POST',
+            data: { 'id': id },
             beforeSend:function(xhr, settings){
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
+                console.log(e)
                 $('#tr_' + id).addClass('d-none')
-                ids.remove(id)
+
+                for (var i= 0; i< contact.length; i++ ) {
+                    const item = contact[i]
+                    if (item['id'] == id) {
+                        contact.remove(item)
+                    }
+                }
             },
             error: function(e) { isM==true?alert('刪除失敗！！！'):null }
         })
+        
     }
     sureTrash = function(id) {
         window.event? window.event.cancelBubble = true : e.stopPropagation()
-        if (confirm('確認要刪除嗎？')) {
+        if (confirm('刪除聯系人將導致於該聯系人相關的短信、電郵等任務均失效，請謹慎做決定。確認要刪除嗎？')) {
+
+            if (addr.trim() == '{{ request.session.user }}') {
+                alert('成功！！')
+            } else {
+                alert('輸入不匹配！撤銷刪除')
+                return
+            }
+            
             _trash(id)
         }
     }
@@ -472,7 +490,17 @@
     }
     trashAll = function() {
 
-        if (confirm('確認要刪除嗎？')) {
+        if (confirm('刪除聯系人將導致於該聯系人相關的短信、電郵等任務均失效，請謹慎做決定。確認要刪除嗎？')) {
+
+            const addr = prompt('請輸入妳的電郵地址用於確認刪除。', '')
+
+            if (addr.trim() == '{{ request.session.user }}') {
+                alert('成功！！')
+            } else {
+                alert('輸入不匹配！撤銷刪除')
+                return
+            }
+
             applyBar(false)
             const dieId = _choiseId()
             _sleep(500).then(() => {

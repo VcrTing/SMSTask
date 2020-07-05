@@ -50,6 +50,10 @@ a:hover {
     list-style: none;
     text-decoration: none;
 }
+.a {
+    list-style: none !important;
+    text-decoration: none !important;
+}
 
 .img-fullwith {
     width: 100%;
@@ -137,6 +141,9 @@ a:hover {
 }
 .text-white-half {
     color: rgba(255, 255, 255, 0.5);
+}
+.text-white-hr:hover {
+    color: rgba(255, 255, 255, 1);
 }
 .text-main {
     color: #337ab7;
