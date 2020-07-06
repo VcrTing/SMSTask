@@ -47,19 +47,6 @@ Python:
       第 146 行
       将 query.decode 改为 query.encode
 
-Supervisor:
-  下载安装:
-    yum install supervisor
-  自启动:
-    systemctl enable supervisord
-  修改Conf:
-    vim /etc/supervisord.conf
-    拉到最后一行 *.ini 改成 *.conf
-  复制Conf:
-    cp /root/SMSTask/doc/supervisor.smstask.conf /etc/supervisord.d/xxx.conf
-  修改command:
-    vim /etc/supervisord.d/xxx.conf
-
 Settings:
   进入:
     vim /root/SMSTask/Twilio/Twilio/company.py
@@ -82,6 +69,18 @@ Settings:
   关于mysql用户无权访问IP:
     https://blog.csdn.net/keplerpig/article/details/78517837
 
+Supervisor:
+  下载安装:
+    yum install supervisor
+  自启动:
+    systemctl enable supervisord
+  修改Conf:
+    vim /etc/supervisord.conf
+    拉到最后一行 *.ini 改成 *.conf
+  复制Conf:
+    cp /root/SMSTask/doc/supervisor.smstask.conf /etc/supervisord.d/xxx.conf
+  修改command:
+    vim /etc/supervisord.d/xxx.conf
 
 安装iptable:
   安装:

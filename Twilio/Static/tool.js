@@ -24,9 +24,6 @@ sendFile = function(file, editor, $editable) {
     // data.append("token", $("#summernote").attr('token'));
     data.append('csrfmiddlewaretoken', '{{ csrf_token }}')
 
-    console.log(data)
-    console.info(file)
-
     $.ajax({
         data: data,
         type: "POST",
@@ -34,8 +31,8 @@ sendFile = function(file, editor, $editable) {
         contentType: false,
         cache: false,
         processData: false,
-        success: function (data) {  
-            console.log(data)
+        success: function (data) { 
+            
             /*
             var path = data.data;
             $('#summernote').summernote('insertImage', path, filename);

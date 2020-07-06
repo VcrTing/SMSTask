@@ -288,7 +288,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
-                console.log(e)
+                
                 $('#tr_' + id).addClass('d-none')
 
                 for (var i= 0; i< contact.length; i++ ) {
