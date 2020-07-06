@@ -26,9 +26,12 @@ Nginx:
     systemctl enable nginx.service
   配置Conf:
     cp /root/SMSTask/doc/nginx.http.conf /etc/nginx/conf.d/smstask.conf
+    改 smstask.conf 里面的 Server Name
   更改User为 Root:
     yum install vim
     vim /etc/nginx/nginx.conf
+  移除 Nginx 默认的配置:
+    删除 nginx.conf 里面默认的一个 80 端口的配置
 
 Python:
   下载安装:
