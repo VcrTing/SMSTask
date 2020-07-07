@@ -1,0 +1,46 @@
+准备:
+  yum update
+  sudo apt update && sudo apt upgrade -y
+
+使用 Cloudflare:
+  a
+
+下载安装:
+  下载:
+    git clone https://github.com/acmesh-official/acme.sh.git
+    cd acme.sh
+  
+  安装:
+    ./acme.sh --install
+    cd ~
+
+  查看版本:
+    acme.sh --version
+
+获取 CF_Token、CF_Account_ID、CF_Zone_ID:
+  cloudflare:
+    注册并登录 cloudflare
+  申请:
+    使用最小权限申请 Token
+    获得 token、account、zone
+
+Acme:
+  写入参数:
+    vim ~/.acme.sh/account.conf
+  格式:
+    export CF_Token=""
+    export CF_Account_ID=""
+    export CF_Zone_ID=""
+  Cert:
+    acme.sh --issue --dns dns_cf -d example.com -d www.example.com
+    
+    acme.sh --issue --dns dns_cf -d crm99.svr.up5d.com
+
+    acme.sh --issue --dns dns_cf -d example.com -d *.example.com -k 4096
+    
+    acme.sh --issue --dns dns_cf -d crm99.svr.up5d.com -k 4096
+  找到命令行里的 Adding text 内容，添加参数到 txt:
+    xxxxxxxx for domain:  _acme-challenge.crm99.svr.up5d.com
+  
+博客:
+  https://www.kjnotes.com/devtools/103

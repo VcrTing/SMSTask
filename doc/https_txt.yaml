@@ -1,0 +1,40 @@
+Scot:
+  准备:
+    yum -y update
+
+  下载:
+    yum install socat
+
+  安装:
+    wget -qO- get.acme.sh | bash
+
+Acme:
+  下载:
+    git clone https://github.com/acmesh-official/acme.sh.git
+    cd acme.sh
+  
+  安装:
+    ./acme.sh --install
+    cd ~
+
+  查看版本:
+    acme.sh --version
+
+  建立链接:
+    alias acme.sh=~/.acme.sh/acme.sh
+  
+  完成:
+    source ~/.bashrc
+
+获取到 Crt 与 Key:
+  在网上获取:
+    cloudflare
+  获取到的放入:
+    /etc/ssl/domain.pem
+    /etc/ssl/domain.key
+
+  配置好 nginx:
+    pass
+  
+  开放 443 端口:
+    pass
