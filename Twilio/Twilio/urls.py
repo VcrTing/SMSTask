@@ -64,7 +64,7 @@ urlpatterns = [
 
     path('scret_window/', Web.SMSConfView.as_view()),
     path('init/', Web.DataView.as_view()),
-    path('data/', Web.DataView.as_view()),
+    path('backup/', Web.BackUpView.as_view()),
     path('feedback/',User.FeedBackView.as_view()),
 
     path('num/', Web.NumView.as_view()),

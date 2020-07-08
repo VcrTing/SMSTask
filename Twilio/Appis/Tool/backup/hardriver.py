@@ -1,5 +1,5 @@
 
-from Twilio.setting import BACKUP
+from Twilio.settings import BACKUP
 
 # COPY MEDIA AND ZIP IT TO THE BACKUP DIR
 def _media(cmd, f, timed):

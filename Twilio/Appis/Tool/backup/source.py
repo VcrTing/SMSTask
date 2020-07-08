@@ -1,6 +1,6 @@
 import os, json, datetime
 
-from Twilio.setting import BACKUP, SQL_CONN
+from Twilio.settings import BACKUP, SQL_CONN
 from Appis.Tool.func import osed
 
 # DUMP SQL TO THE MEDIA DIR
