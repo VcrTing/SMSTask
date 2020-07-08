@@ -19,6 +19,7 @@ def _save(name, data):
 
 def insert(rec, f, timed, typed):
     j = []
+    data = {}
     
     if typed == 'mysql':
         data = {
@@ -31,7 +32,7 @@ def insert(rec, f, timed, typed):
             ]
         }
         j = _load('Data.json')
-
+        
     if typed == 'media':
         data = {
             'timed': timed,
@@ -43,8 +44,14 @@ def insert(rec, f, timed, typed):
         j = []
     j.append(data)
 
-    res = _save(j)
+
+    if typed == 'mysql':
+        res = _save('Data.json', j)
+
+    elif typed == 'media':
+        res = _save('Media.json', j)
 
     if res:
         return True
+
     return False
