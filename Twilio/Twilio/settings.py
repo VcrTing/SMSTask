@@ -227,11 +227,11 @@ SQL_CONN = {
 
 BACKUP = {
     'MYSQL_SRC': os.path.join(BASE_DIR, 'Media', 'backup', 'mysql'),
-    'MYSQL_HARDRIVER': os.path.join('~', 'Backup', 'Mysql'),
+    'MYSQL_HARDRIVER': os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup', 'Mysql'),
     'MYSQL_ONEDRIVER': os.path.join('Backup', 'SMSTask', SETTING[Now]['media'], 'Mysql'),
 
     'MEDIA_SRC': os.path.join(BASE_DIR, 'Media'),
-    'MEDIA_HARDRIVER': os.path.join('~', 'Backup'),
+    'MEDIA_HARDRIVER': os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup'),
     'MEDIA_ONEDRIVER': os.path.join('Backup', 'SMSTask', SETTING[Now]['media'])
 }
 
