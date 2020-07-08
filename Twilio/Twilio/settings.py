@@ -206,6 +206,35 @@ KEY_NAME = SETTING[Now]['key_name']
 
 QIONG = SETTING[Now]['qiong']
 
+# 平台
+
+SIGN_ID = 12646
+
+if TEST:
+    HOST = 'http://127.0.0.1:8000'
+else:
+    HOST = SETTING[Now]['host']
+
+HOST_API = HOST + '/api'
+
+KEY_DIR = os.path.join(BASE_DIR, 'Media', 'key')
+
+SQL_CONN = {
+    'name': SETTING[Now]['database']['NAME'],
+    'user': SETTING[Now]['database']['USER'],
+    'pass': SETTING[Now]['database']['PASSWORD']
+}
+
+BACKUP = {
+    'MYSQL_SRC': os.path.join(BASE_DIR, 'Media', 'backup', 'mysql'),
+    'MYSQL_HARDRIVER': os.path.join('~', 'Backup', 'Mysql'),
+    'MYSQL_ONEDRIVER': os.path.join('Backup', 'SMSTask', SETTING[Now]['media'], 'Mysql'),
+
+    'MEDIA_SRC': os.path.join(BASE_DIR, 'Media'),
+    'MEDIA_HARDRIVER': os.path.join('~', 'Backup'),
+    'MEDIA_ONEDRIVER': os.path.join('Backup', 'SMSTask', SETTING[Now]['media'])
+}
+
 # 平台定义
 
 EACH_DAY = 30 # 医学每隔30天就算一个月
@@ -218,16 +247,6 @@ WAIT_HOURS = 12 # Runing 任务每隔多久 执行一次 (单位：小时)
 
 WORK_HOUR = SETTING[Now]['work_hour']
 
-SIGN_ID = 12646
-
-if TEST:
-    HOST = 'http://127.0.0.1:8000'
-else:
-    HOST = SETTING[Now]['host']
-
-HOST_API = HOST + '/api'
-
-KEY_DIR = os.path.join(BASE_DIR, 'Media', 'key')
 
 # 作者
 AUTHOR = [

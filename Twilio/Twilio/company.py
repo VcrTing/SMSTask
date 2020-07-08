@@ -1,15 +1,15 @@
 
-TEST = False
+TEST = True
 
 SYS_MAIL = 'support@manfulls.com'
 
-Now = 'eye' # 该值是指当前 公司的 key_name
+Now = '123medhk' # 该值是指当前 公司的 key_name
 
 SETTING = {
     'eye': {
         'key_name': 'eye', # 不用改
         'media': 'Eye', # 媒体库文件夹，不用改
-        'host': 'http://crm99.svr.up5d.com',
+        'host': 'https://crm99.svr.up5d.com',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字

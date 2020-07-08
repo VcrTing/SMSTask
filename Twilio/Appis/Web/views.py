@@ -24,8 +24,8 @@ from Appis.Tool.func import img as voez
 from Appis.Tool.func.slice import save_key
 from Appis.Tool.index import running_task
 
-from Media.data.insert import insert as data_insert
-from Media.data.insert import insert_service as data_insert_service
+from Media.data.insert import init as data_insert
+
 from Media.data.tool import change_conf, load, scopy
 
 from Twilio.company import Now as company
@@ -361,6 +361,12 @@ class ImgView(View):
             res['msg'] = '該照片有問題，後臺無法識別！！！'
         return JsonResponse(res)
 
+
+class BackUpView(View):
+    def get(self, request):
+        from Appis.Tool.backup.index import backup
+        backup()
+        return JsonResponse( { 'status': True } )
 
 class TaskView(View):
     def get(self, request):
