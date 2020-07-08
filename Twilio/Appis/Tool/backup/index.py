@@ -16,7 +16,7 @@ _zip_cmd = 'zip -r'
 
 def _timed():
     n = datetime.datetime.now()
-    name =  str(n.year()) + '-' + str(n.month()) + '-' + str(n.day())
+    name =  str(n.year) + '-' + str(n.month) + '-' + str(n.day)
     return name
 
 def mysql(timed):

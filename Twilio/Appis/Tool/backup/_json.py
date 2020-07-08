@@ -26,7 +26,7 @@ def insert(rec, f, timed, typed):
         }
         j = _load('Data.json')
 
-    else if typed == 'media':
+    if typed == 'media':
         data = {
             'timed': timed,
             'source': rec

@@ -1,7 +1,7 @@
 import os, json
 
 def path(res):
-    return os.path.exists(rec):
+    return os.path.exists(rec)
 
 def load(rec):
     try:
