@@ -34,11 +34,10 @@ def insert(rec, f, timed, typed):
         j = _load('Media.json')
 
 
-    if j:
-        j.append(data)
+    j.append(data)
 
-        res = _save(j)
+    res = _save(j)
 
-        if res:
-            return True
+    if res:
+        return True
     return False
