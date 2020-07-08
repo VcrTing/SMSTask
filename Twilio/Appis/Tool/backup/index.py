@@ -40,7 +40,7 @@ def mysql(timed):
 def media(timed):
     res = False
 
-    f = '[MEDIA]'
+    f = 'MEDIA'
     # INSERT MEDIA TO BACKUP
     rec = _media(_zip_cmd, f, timed)
 

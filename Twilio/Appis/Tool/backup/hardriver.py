@@ -4,7 +4,7 @@ from Twilio.setting import BACKUP
 # COPY MEDIA AND ZIP IT TO THE BACKUP DIR
 def _media(cmd, f, timed):
     rec = BACKUP['MEDIA_HARDRIVER']
-    _file = f + ' ' + timed + '.zip'
+    _file = f + '_' + timed + '.zip'
 
     if osed.path(rec):
         pass
