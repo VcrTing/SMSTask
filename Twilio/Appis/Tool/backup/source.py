@@ -15,7 +15,6 @@ def _mysql(cmd, f, timed):
 
     rec = os.path.join(rec, _file)
 
-    print('SOURCE _MYSQL REC =', rec)
     cmd = str(cmd + ' > ' + rec)
 
     print('SOURCE _MYSQL CMD =', cmd)

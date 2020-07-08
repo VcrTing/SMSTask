@@ -1,5 +1,7 @@
 
+import os
 from Twilio.settings import BACKUP
+from Appis.Tool.func import osed
 
 # COPY MEDIA AND ZIP IT TO THE BACKUP DIR
 def _media(cmd, f, timed):
@@ -12,7 +14,6 @@ def _media(cmd, f, timed):
         os.makedirs(rec)
 
     rec = os.path.join(rec, _file)
-    print('HARDRIVER _MEDIA REC =', rec)
 
     cmd = cmd + ' ' + rec + ' ' + BACKUP['MEDIA_SRC']
     print('HARDRIVER _MEDIA CMD =', cmd)

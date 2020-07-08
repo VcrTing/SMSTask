@@ -1,4 +1,4 @@
-import os, json, datetime
+import os, json, datetime, time
 
 from Twilio.settings import BACKUP, SQL_CONN
 from Appis.Tool.func import osed
@@ -29,9 +29,12 @@ def mysql(timed):
             # INSERT MYSQL TO MEDIA DIR
             rec = _mysql(_sql_cmd, f, timed)
 
+            time.sleep(5)
+            print('EXISTS _MYSQL REC =', rec)
             if os.path.exists(rec):
                 
                 # INSERT DATA TO DATA JSON
+                print('准备 插入 数据 MYSQL')
                 res.append( insert(rec, f, timed, 'mysql') )
             else:
                 res.append( False )
@@ -44,8 +47,11 @@ def media(timed):
     # INSERT MEDIA TO BACKUP
     rec = _media(_zip_cmd, f, timed)
 
+    time.sleep(5)
+    print('EXISTS _MEDIA REC =', rec)
     if os.path.exists(rec):
         # INSERT DATA TO MEDIA JSON
+        print('准备 插入 数据 MEDIA')
         insert(rec, f, timed, 'media')
         res = True
 
