@@ -4,7 +4,7 @@ from . import config as conf
 from .working.email import _serial_email
 from .working.note import _serial_task
 
-from Appis.Tool.func.backup import media
+from Appis.Tool.backup.index import backup, unlock
 from .working.running import _running_task
     
 
@@ -21,9 +21,16 @@ def running_task():
     
     i = datetime.datetime.now()
     
+    # 运行 邮件任务
     if int(i.hour) in conf.WORK_HOUR:
         _running_task()
     
-    if int(i.day) in [1, 15]:
-        media('download')
+    # 备份
+    if int(i.day) in [1, 8, 15, 22]:
+
+        backup()
+        
+    if int(i.day) in [2, 9, 16, 23]:
+        
+        unlock()
         

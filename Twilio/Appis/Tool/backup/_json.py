@@ -44,9 +44,9 @@ def insert(rec, f, timed, typed):
         j = []
     j.append(data)
 
-
     if typed == 'mysql':
         res = _save('Data.json', j)
+        print('MYSQL res =', res)
 
     elif typed == 'media':
         res = _save('Media.json', j)
