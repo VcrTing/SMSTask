@@ -31,6 +31,8 @@ def _trash(timed):
 
     fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
     print('MEDIA FILES =', fs)
+    fs = [if f.endswith('.zip') for f in fs]
+
     if fs:
         for f in fs:
             s = _f(f)
