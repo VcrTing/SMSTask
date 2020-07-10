@@ -5,7 +5,7 @@ from Appis.Tool.func import osed
 
 # DUMP SQL TO THE MEDIA DIR
 def _mysql(cmd, f, timed):
-    rec = os.path.join(BACKUP['MYSQL_SRC'], timed)
+    rec = BACKUP['MYSQL_SRC']
     _file = f + '_' + timed + '_.sql'
 
     if osed.path(rec):
@@ -16,8 +16,6 @@ def _mysql(cmd, f, timed):
     rec = os.path.join(rec, _file)
 
     cmd = str(cmd + ' > ' + rec)
-
-    print('SOURCE _MYSQL CMD =', cmd)
     os.system(cmd)
 
     return rec
@@ -28,21 +26,19 @@ def _f(f):
     
 def _trash(timed):
     res = [ ]
-
     fs = osed.files(BACKUP['MYSQL_SRC'])
 
-    print('MYSQL FILES =', fs)
-
     if len(fs) > 0:
-        fs = [f[0] for f in fs if f[0].endswith('.sql')]
-        for f in fs:
-            s = _f(f)
-            print('s =', s, ' , timed =', timed, '。 s< timed')
-            if s < int(timed):
-                src = os.path.join(BACKUP['MYSQL_SRC'], f)
-                print('FILES SRC =', src)
-                os.remove(src)
-                res.append(True)
+        try:
+            fs = [f[0] for f in fs if f[0].endswith('.sql')]
+            for f in fs:
+                s = _f(f)
+                if s < int(timed):
+                    src = os.path.join(BACKUP['MYSQL_SRC'], f)
+                    os.remove(src)
+                    res.append(True)
+        except:
+            pass
     return res
 
         

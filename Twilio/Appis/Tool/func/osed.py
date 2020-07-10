@@ -19,7 +19,7 @@ def size(rec):
     res = _size(rec)
     return int(res / 1024 / 1024)
 
-def size_full(rec):
+def size_full():
     info = os.statvfs('/')
     
     free = info.f_bsize * info.f_bavail / 1024 / 1024

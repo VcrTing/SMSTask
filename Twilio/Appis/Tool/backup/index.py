@@ -37,8 +37,6 @@ def _mail(message):
         if code == typed[0]:
             sub += typed[1]
     
-    print('开始发送系统邮件：')
-    print(message)
     return mail(sub , message, 2, SYS_MAIL)
 
 def _timed():
@@ -51,7 +49,6 @@ def mysql(timed, msg):
     
     for f in FIELD:
         if f == 'all':
-            print('INDEX mysql sql =', _sql_cmd)
     
             # INSERT MYSQL TO MEDIA DIR
             rec = _mysql(_sql_cmd, f, timed)
@@ -59,7 +56,6 @@ def mysql(timed, msg):
             time.sleep(16)
             # 系统邮件
 
-            print('EXISTS _MYSQL REC =', rec)
             if os.path.exists(rec):
                 
                 msg += 'Mysql 备份状态： True, '  + '\n'
@@ -77,7 +73,6 @@ def media(timed, msg):
     rec = _media(_zip_cmd, f, timed)
 
     time.sleep(40)
-    print('EXISTS _MEDIA REC =', rec)
     if os.path.exists(rec):
         
         msg += '媒体库 备份状态： True, ' + '<br/>'
@@ -94,32 +89,23 @@ def _backup():
     s = osed.size_full()
     m = osed.size(BACKUP['MEDIA_SRC'])
 
-    if s <= ((m * 2) - 10):
+    if s <= ((m * 3) - 10):
         # 容量不足
         msg = '磁盘剩余容量为：' + str(s) + ' MB，不足以支持媒体库进行备份，请解决。'
     
     else:
 
         timed = _timed()
-        print('============= BACK UP =============')
-        print('timed =', timed)
 
         res_mysql, msg = mysql(timed, msg)
         res_media, msg = media(timed, msg)
 
-        print('MYSQL RES =', res_mysql)
-        print('MEDIA RES =', res_media)
-
     msg += '<br/>磁盘剩余容量：' + str(s) + ' MB，媒体库容量：' + str(m) + ' MB。'
-    # res_mail = _mail(msg)
-    print('MAIL MESSAGE =', msg)
 
 def trash():
     timed = _timed()
     res_mysql = _del_mysql(timed)
     res_media = _del_media(timed)
-    print('MYSQL DEL RES =', res_mysql)
-    print('MEDIA DEL RES =', res_media)
     
 def backup():
 

@@ -16,7 +16,7 @@ def _media(cmd, f, timed):
     rec = os.path.join(rec, _file)
 
     cmd = cmd + ' ' + rec + ' ' + BACKUP['MEDIA_SRC']
-    print('HARDRIVER _MEDIA CMD =', cmd)
+    
     os.system(cmd)
 
     return rec
@@ -30,19 +30,16 @@ def _trash(timed):
     res = [ ]
 
     fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
-    print('MEDIA FILES =', fs)
-    print('len(fs) =', len(fs))
-    print('fs == [] =', (fs == []))
 
     if len(fs) > 0:
         try:
             fs = [f[0] for f in fs if f[0].endswith('.zip')]
             for f in fs:
                 s = _f(f)
-                print('s =', s, ' , timed =', timed, '。 s< timed')
+                
                 if s < int(timed):
                     src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
-                    print('FILES SRC =', src)
+                    
                     os.remove(src)
                     res.appen(True)
         except:
