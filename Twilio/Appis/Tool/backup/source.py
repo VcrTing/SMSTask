@@ -24,7 +24,7 @@ def _f(f):
     s = str(f).split('_')
     return int(s[1])
     
-def _trash(timed):
+def _trash_mysql(timed):
     res = [ ]
     fs = osed.files(BACKUP['MYSQL_SRC'])
 

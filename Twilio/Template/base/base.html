@@ -27,9 +27,6 @@
 
     </head>
     <body>
-        {% if request.session.layout == None %}
-            <script> location.href = '/login/' </script>
-        {% endif%}
         
         <!-- 主內容 -->
         {% block center %}

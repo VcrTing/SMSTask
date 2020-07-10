@@ -26,7 +26,7 @@ def _f(f):
     return int(s[1])
 
 # TRASH OLD MEDIA DIR
-def _trash(timed):
+def _trash_media(timed):
     res = [ ]
 
     fs = osed.files(BACKUP['MEDIA_HARDRIVER'])

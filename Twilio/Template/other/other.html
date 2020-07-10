@@ -83,13 +83,10 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
+                
                 const icon = e['icon']
                 const bgimg = e['bgimg']
                 const banner = e['banner']
-
-                if ((bgimg != 2) | (banner != 2)) {
-                    alert('更改背景失敗！請聯系開發人員處理結果！！！')
-                }
 
                 if ((icon == 2) | (bgimg == 2) | (banner == 2)) {
                     alert('更改成功，按鍵盤 Com + Shift + R 可刷新並查看結果！！！')

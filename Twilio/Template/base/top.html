@@ -3,7 +3,7 @@
 <div class="top-bar">
     <div class="container">
         <div class="fl hand" onclick="goIndex()">
-            <img class="logo" src="{% static '/Common/Logo/' %}{{ request.session.company }}.jpg" />
+            <img class="logo" src="{% static '/Common/Logo/' %}{{ request.session.company }}.png" />
         </div>
         <div class="login-out fr">
             <h4 class="fw-400">需要&nbsp;&nbsp;<a href="/login-out/">登出</a>？</h4>
@@ -13,9 +13,16 @@
         </div>
     </div>
 </div>
+{% if request.session.layout == None %}
+    <script> location.href = '/login/' </script>
+{% endif%}
 <script>
     goIndex = function() {
+        {% if request.session.company == '123medhk' %}
+        location.href = '/task/'
+        {% else %}
         location.href = '/'
+        {% endif %}
     }
     goBack = function() {
         history.back()

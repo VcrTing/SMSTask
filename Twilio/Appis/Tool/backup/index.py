@@ -4,10 +4,10 @@ from Twilio.settings import BACKUP, SQL_CONN, BASE_DIR
 from Appis.Tool.func import osed
 
 from Appis.Tool.backup.source import _mysql
-from Appis.Tool.backup.source import _trash as _del_mysql
+from Appis.Tool.backup.source import _trash_mysql as _del_mysql
 
 from Appis.Tool.backup.hardriver import _media
-from Appis.Tool.backup.hardriver import _trash as _del_media
+from Appis.Tool.backup.hardriver import _trash_media as _del_media
 
 from Appis.Tool.working.sys import mail
 from Appis.common import SYSTEMMSGTYPED
