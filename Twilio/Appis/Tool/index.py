@@ -4,9 +4,8 @@ from . import config as conf
 from .working.email import _serial_email
 from .working.note import _serial_task
 
-from Appis.Tool.backup.index import backup, unlock
+from Appis.Tool.backup.index import backup, lockit
 from .working.running import _running_task
-    
 
 # 短信任务
 def serial_task(every_task_ids):
@@ -27,10 +26,8 @@ def running_task():
     
     # 备份
     if int(i.day) in [1, 8, 15, 22]:
-
         backup()
-        
     if int(i.day) in [2, 9, 16, 23]:
-        
-        unlock()
+        lockit('backuping', False)
+
         

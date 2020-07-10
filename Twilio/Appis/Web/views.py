@@ -364,15 +364,12 @@ class ImgView(View):
 
 class BackUpView(View):
     def get(self, request):
-        from Appis.Tool.backup.index import backup
-        backup()
-        from Appis.Tool.func import osed
-        med = osed.load( os.path.join(BASE_DIR, 'Media', 'backup', 'Media.json') )
-        sql = osed.load( os.path.join(BASE_DIR, 'Media', 'backup', 'Data.json') )
+        from Appis.Tool.backup.index import backup, trash
+        # backup()
+        trash()
 
         return JsonResponse( { 
-            'Media': med,
-            'Mysql': sql   
+            "status": True  
         } )
 
 class TaskView(View):

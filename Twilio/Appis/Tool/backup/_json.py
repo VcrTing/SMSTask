@@ -55,3 +55,25 @@ def insert(rec, f, timed, typed):
         return True
 
     return False
+
+def delete(timed, typed):
+
+    j = []
+
+    if typed == 'mysql':
+        j = _load('Data.json')
+    elif typed == 'media':
+        j = _load('Media.json')
+
+    for i, data in enumerate(j):
+        if data['timed'] == timed:
+            j.pop(i)
+        
+    if typed == 'mysql':
+        res = _save('Data.json', j)
+    elif typed == 'media':
+        res = _save('Media.json', j)
+    
+    if res:
+        return True
+    return False
