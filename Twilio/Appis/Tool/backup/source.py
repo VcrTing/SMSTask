@@ -33,7 +33,7 @@ def _trash(timed):
 
     print('MYSQL FILES =', fs)
 
-    if fs:
+    if len(fs) > 0:
         fs = [f[0] for f in fs if f[0].endswith('.sql')]
         for f in fs:
             s = _f(f)
@@ -41,7 +41,7 @@ def _trash(timed):
                 src = os.path.join(BACKUP['MYSQL_SRC'], f)
                 print('FILES SRC =', src)
                 os.remove(src)
-                res.appen(True)
+                res.append(True)
     return res
 
         

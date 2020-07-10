@@ -1,5 +1,5 @@
 
-TEST = False
+TEST = True
 
 SYS_MAIL = 'support@manfulls.com'
 
