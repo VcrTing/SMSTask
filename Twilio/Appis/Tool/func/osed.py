@@ -6,6 +6,7 @@ def path(rec):
 def size(rec):
     if os.path.exists(rec):
         info = os.statvfs(rec)
+        print('info.f_bsize =', info.f_bsize, ', info.f_bavail =', info.f_bavail)
         free = info.f_bsize * info.f_bavail / 1024 / 1024
         return int(free)
     return None

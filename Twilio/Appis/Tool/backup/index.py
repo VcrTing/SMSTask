@@ -92,7 +92,7 @@ def _backup():
     msg = '[' + Now + ']'
 
     s = osed.size('/')
-    m = osed.size(BACKUP['MEDIA_SRC'])
+    m = os.path.getsize(BACKUP['MEDIA_SRC'])
 
     if s <= ((m * 2) - 10):
         # 容量不足
@@ -107,14 +107,12 @@ def _backup():
         res_mysql, msg = mysql(timed, msg)
         res_media, msg = media(timed, msg)
 
-        s = osed.size('/')
-        m = osed.size(BACKUP['MEDIA_SRC'])
         print('MYSQL RES =', res_mysql)
         print('MEDIA RES =', res_media)
 
     msg += '<br/>磁盘剩余容量：' + str(s) + ' MB，媒体库容量：' + str(m) + ' MB。'
-    res_mail = _mail(msg)
-    print('MAIL RES =', res_mail)
+    # res_mail = _mail(msg)
+    print('MAIL MESSAGE =', msg)
 
 def trash():
     timed = _timed()
