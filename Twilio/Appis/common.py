@@ -98,28 +98,32 @@ SYSTEMMSGTYPED = (
 ICON = [
     {
         'name': '紫蝴蝶（系统默认）',
-        'def': 'icon_0.png'
+        'def': 'icon_0.jpg'
     },
     {
         'name': '可爱猫咪',
-        'def': 'icon_1.png'
+        'def': 'icon_1.jpg'
     },
     {
         'name': '洛丽塔女生',
-        'def': 'icon_2.png'
+        'def': 'icon_2.jpg'
     },
     {
         'name': '动漫风格 - 简约，拉姆',
-        'def': 'icon_3.png'
+        'def': 'icon_3.jpg'
     },
     {
-        'name': '动漫风格 - 清新少女，古利特',
-        'def': 'icon_4.png'
+        'name': '动漫风格 - 爱自拍，初音未来（近）',
+        'def': 'icon_4.jpg'
     },
     {
-        'name': '动漫风格 - 爱自拍，初音未来',
-        'def': 'icon_5.png'
+        'name': '动漫风格 - 爱自拍，初音未来（远）',
+        'def': 'icon_5.jpg'
     },
+    {
+        'name': '动漫风格 - 清新靓丽，碧蓝航线 可畏',
+        'def': 'icon_6.jpg'
+    }
 ]
 BGIMG = [
     {

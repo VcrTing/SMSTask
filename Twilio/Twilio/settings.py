@@ -247,6 +247,7 @@ WAIT_HOURS = 12 # Runing 任务每隔多久 执行一次 (单位：小时)
 
 WORK_HOUR = SETTING[Now]['work_hour']
 
+FUNC_LAYOUT = SETTING[Now]['layout']
 
 # 作者
 AUTHOR = [

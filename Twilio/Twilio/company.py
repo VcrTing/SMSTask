@@ -25,6 +25,10 @@ SETTING = {
             'PASSWORD': 'VcrTing.ZT123zlt',
             'CONN_MAX_AGE': 9
         },
+        'layout': {
+            'sms': 0,
+            'email': 1
+        }, # 功能设定，0 为关闭，1 为打开
 
         'qiong': 8, # 加密数值，每更换一次数值，网站配置必须更新，谨慎修改
         'wait_minute': 2, # 等待时间，任务申请几分钟后生效
@@ -49,6 +53,10 @@ SETTING = {
             'PASSWORD': 'VcrTing.ZT123zlt',
             'CONN_MAX_AGE': 9
         },
+        'layout': {
+            'sms': 1,
+            'email': 0
+        }, # 功能设定，0 为关闭，1 为打开
 
         'qiong': 8, # 加密数值，每更换一次数值，网站配置必须更新，谨慎修改
         'wait_minute': 2, # 等待时间，任务申请几分钟后生效

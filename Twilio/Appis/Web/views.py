@@ -78,7 +78,7 @@ class StyleView(View):
     _banner = 'Banner'
     _bgimg = 'Background'
     bridge = 'bridge_'
-    i_def = 'default.png'
+    i_def = 'default.jpg'
     b_def = 'default.jpg'
     common_path = os.path.join(BASE_DIR, 'Static', 'Common')
 

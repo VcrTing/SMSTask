@@ -23,6 +23,7 @@
                     </div>
                     <div class="menu-wrapper">
 
+                        {% if request.session.layout["sms"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'task' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/task/"><h4>短信</h4></a>
@@ -37,7 +38,9 @@
                                 </a>
                             </div>
                         </div>
+                        {% endif %}
 
+                        {% if request.session.layout["email"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'email' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/email/"><h4>電郵</h4></a>
@@ -52,6 +55,8 @@
                                 </a>
                             </div>
                         </div>
+                        {% endif %}
+                        
                         <div class="item bg-white clearfix {% if page_flag == 'contact' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/contact/"><h4>聯絡人</h4></a>
@@ -76,6 +81,7 @@
                                 <p class=""><h4>記錄相关</h4></p>
                             </div>
                         </div>
+                        {% if request.session.layout["sms"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'task_collect' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/task/?option=collect"><h4>短信申請記錄</h4></a>
@@ -83,6 +89,8 @@
                             <div class="item-content fr">
                             </div>
                         </div>
+                        {% endif %}
+                        {% if request.session.layout["email"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'email_collect' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/email_collect/"><h4>電郵發送記錄</h4></a>
@@ -90,6 +98,7 @@
                             <div class="item-content fr">
                             </div>
                         </div>
+                        {% endif %}
 
                         <!-- -->
 
@@ -98,6 +107,7 @@
                                 <p class=""><h4>服務与模版</h4></p>
                             </div>
                         </div>
+                        {% if request.session.layout["sms"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'service' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/service/"><h4>SMS服務項目</h4></a>
@@ -105,6 +115,8 @@
                             <div class="item-content fr">
                             </div>
                         </div>
+                        {% endif %}
+                        {% if request.session.layout["email"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'email_template' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/email_template/"><h4>电邮模版</h4></a>
@@ -121,6 +133,7 @@
                                 {% endif %}
                             </div>
                         </div>
+                        {% endif %}
 
                         <!-- -->
 
@@ -129,6 +142,7 @@
                                 <p class=""><h4>其他</h4></p>
                             </div>
                         </div>
+                        {% if request.session.layout["email"] == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'sms_num' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/img/?option=page"><h4>媒體庫</h4></a>
@@ -136,6 +150,7 @@
                             <div class="item-content fr">
                             </div>
                         </div>
+                        {% endif %}
                         <div class="item bg-white clearfix {% if page_flag == 'other' %}active{% endif %}">
                             <div class="item-title fl">
                                 <a href="/other/"><h4>其他</h4></a>
