@@ -112,7 +112,7 @@ def _backup():
         print('MYSQL RES =', res_mysql)
         print('MEDIA RES =', res_media)
 
-    msg += '<br/>磁盘剩余容量：' + s + ' MB，媒体库容量：' + m + ' MB。'
+    msg += '<br/>磁盘剩余容量：' + str(s) + ' MB，媒体库容量：' + str(m) + ' MB。'
     res_mail = _mail(msg)
     print('MAIL RES =', res_mail)
 

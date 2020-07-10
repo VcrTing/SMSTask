@@ -39,6 +39,7 @@ def _trash(timed):
             fs = [f[0] for f in fs if f[0].endswith('.zip')]
             for f in fs:
                 s = _f(f)
+                print('s =', s, ' , timed =', timed, '。 s< timed')
                 if s < int(timed):
                     src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
                     print('FILES SRC =', src)
