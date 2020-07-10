@@ -31,18 +31,20 @@ def _trash(timed):
 
     fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
     print('MEDIA FILES =', fs)
+    print('len(fs) =', len(fs))
+    print('fs == [] =', (fs == []))
 
     if len(fs) > 0:
-        if fs == []:
-            pass
-        else:
+        try:
             fs = [f[0] for f in fs if f[0].endswith('.zip')]
-            
-        for f in fs:
-            s = _f(f)
-            if s < int(timed):
-                src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
-                print('FILES SRC =', src)
-                os.remove(src)
-                res.appen(True)
+            for f in fs:
+                s = _f(f)
+                if s < int(timed):
+                    src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
+                    print('FILES SRC =', src)
+                    os.remove(src)
+                    res.appen(True)
+        except:
+            pass
+        
     return res
