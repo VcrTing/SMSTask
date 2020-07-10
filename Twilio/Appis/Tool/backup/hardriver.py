@@ -33,7 +33,11 @@ def _trash(timed):
     print('MEDIA FILES =', fs)
 
     if len(fs) > 0:
-        fs = [f[0] for f in fs if f[0].endswith('.zip')]
+        if fs == []:
+            pass
+        else:
+            fs = [f[0] for f in fs if f[0].endswith('.zip')]
+            
         for f in fs:
             s = _f(f)
             if s < int(timed):
