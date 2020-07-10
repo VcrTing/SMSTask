@@ -32,10 +32,9 @@ def _trash(timed):
     fs = osed.files(BACKUP['MYSQL_SRC'])
 
     print('MYSQL FILES =', fs)
-    fs = [f[0] for f in fs if f[0].endswith('.sql')]
 
     if fs:
-
+        fs = [f[0] for f in fs if f[0].endswith('.sql')]
         for f in fs:
             s = _f(f)
             if s < int(timed):
