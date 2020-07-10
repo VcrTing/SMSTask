@@ -3,13 +3,28 @@ import os, json
 def path(rec):
     return os.path.exists(rec)
 
+def _size(rec):
+    size = 0
+    for root, dirs, files in os.walk(rec):
+        size += sum(
+            [
+                os.path.getsize(
+                    os.path.join(root, name)
+                ) for name in files
+            ]
+        )
+    return size
+
 def size(rec):
-    if os.path.exists(rec):
-        info = os.statvfs(rec)
-        print('info.f_bsize =', info.f_bsize, ', info.f_bavail =', info.f_bavail)
-        free = info.f_bsize * info.f_bavail / 1024 / 1024
-        return int(free)
-    return None
+    res = _size(rec)
+    return int(res / 1024 / 1024)
+
+def size_full(rec):
+    info = os.statvfs('/')
+    
+    free = info.f_bsize * info.f_bavail / 1024 / 1024
+    return int(free)
+
 
 def files(rec):
     f = []

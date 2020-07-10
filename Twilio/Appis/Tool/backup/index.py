@@ -91,8 +91,8 @@ def _backup():
     
     msg = '[' + Now + ']'
 
-    s = osed.size('/')
-    m = os.path.getsize(BACKUP['MEDIA_SRC'])
+    s = osed.size_full()
+    m = osed.size(BACKUP['MEDIA_SRC'])
 
     if s <= ((m * 2) - 10):
         # 容量不足
