@@ -8,6 +8,7 @@ from rest_framework.documentation import include_docs_urls
 
 from . import settings
 from .company import TEST
+from .catch import handler
 
 from Appis.Web import views as Web
 from Appis.Sms import views as Sms
@@ -85,3 +86,7 @@ if TEST:
         path('docs/', include_docs_urls(title='SMS任务管理系统')),
         path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     ]
+
+handler404 = handler.unfound
+handler500 = handler.unright
+handler400 = handler.unrequest
