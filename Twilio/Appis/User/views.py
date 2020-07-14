@@ -27,6 +27,7 @@ from Appis.Web.models import SystemMsg
 
 from Twilio.company import Now as company
 from Appis.Tool.working.sys import mail
+from Appis.Tool.func import danger
 
 # FOR USERFROFILE
 class LoginView(View):
@@ -183,6 +184,9 @@ class ContactView(View):
         # gender = request.POST.get('gender', None)
         bith = request.POST.get('bith', None)
 
+        if danger.xss(first_named):
+            return JsonResponse({ 'status': False, 'msg': 'xss' })
+
         if option == 'update':
             pk = request.GET.get('id', None)
             if pk is None:
@@ -286,6 +290,9 @@ class FeedBackView(View):
             'suc': 0,
             'msg': '發送失敗！原因可能是賬戶余額不足，若非余額不足請致電 Manfulls公司。'
         }
+        
+        if danger.xss(msg):
+            return JsonResponse({ 'status': False, 'msg': 'xss' })
 
         for i in common.SYSTEMMSGTYPED:
             if i[0] == code:

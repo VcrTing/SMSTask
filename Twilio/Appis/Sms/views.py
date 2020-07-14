@@ -19,7 +19,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filter_fields = ('status', 'typed')
+    filter_fields = ('status', )
     ordering_fields = ('add_time', )
     pagination_class = pagination.LimitOffsetPagination
 

@@ -20,6 +20,7 @@ from Appis.Record import serializers
 
 from . import APSTask as APSTask
 from Appis.Tool.func.validate import val_send_time, val_future_datetime
+from Appis.Tool.func import danger
 from Appis import common as common
 from Twilio import settings as settings
 
@@ -164,6 +165,9 @@ class TaskView(View):
             named = request.POST.get('named', None)
             phoned = request.POST.get('phoned', None)
             sms_template = request.POST.get('sms_template', None)
+
+            if danger.xss(named):
+                return redirect('/danger/?option=xss')
 
             if option == 'add':
                 task = models.SmsTask()

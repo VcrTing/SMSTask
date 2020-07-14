@@ -27,6 +27,7 @@ from Twilio import settings as settings
 from Appis.Record import APSTask as APSTask
 
 from Appis.Tool.func.slice import get_conf
+from Appis.Tool.func import danger
 
 # REST
 class EmailTemplateViewSet(viewsets.ModelViewSet, generics.ListAPIView):
@@ -231,6 +232,11 @@ class EmailTemplateView(View):
             subject = request.POST.get('subject', None)
             message = request.POST.get('message', None)
 
+            if danger.xss(service) or danger.xss(subject):
+                return JsonResponse({ 'status': False, 'msg': 'xss' })
+            if danger.xss(message):
+                return JsonResponse({ 'status': False, 'msg': 'xss' })
+
             if option == 'add':
                 et = models.EmailTemplate()
 
@@ -292,6 +298,9 @@ class EmailApplyView(View):
                 addr = request.POST.get('addr', None)
                 named = request.POST.get('named', None)
                 newer = request.POST.get('newer', None)
+
+                if danger.xss(named):
+                    return JsonResponse({ 'status': False, 'msg': 'xss' })
                 
                 if (newer == 'true') or (newer == True):
                     contact = user_modles.Contact()

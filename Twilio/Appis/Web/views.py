@@ -201,6 +201,21 @@ class DataView(View):
                 
         return JsonResponse(res)
 
+class DangerView(View):
+    def get(self, request):
+        res = {
+            'msg': '危險，您的該項操作或輸入，會對網站造成困擾！！！'
+        }
+        option = request.GET.get('option', None)
+        if option:
+            if option == 'xss':
+                res['msg'] = '警告！檢測到XSS腳本攻擊輸入，我們已撤銷您剛才的申請。'
+            if option == 'blocking':
+                res['msg'] = '警告！該網站已限速，請勿惡意點擊。'
+
+        return render(request, 'catch/danger.html', res)
+
+
 class HelpView(View):
     def get(self, request):
         now = load('_conf', company)

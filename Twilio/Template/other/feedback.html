@@ -73,6 +73,8 @@
                     alert('字數過少。')
                     return
                 }
+                const xss_msg = xss(msg)
+                if (xss_msg != true) { alert(xss_msg); return }
                 
                 if (confirm('確定要提交嗎？您的意見將通過郵件的形式直接發送給開發者。')) {
                     $.ajax({
@@ -121,7 +123,7 @@
                 left: 0;
             }
             .feed-bg {
-                background: url('{% static "Star.jpg" %}');
+                background: url('{% static "star.jpg" %}');
                 background-clip: border-box;
                 background-position: center;
                 background-repeat: no-repeat;

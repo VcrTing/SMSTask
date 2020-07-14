@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load staticfiles %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>
+            {{ title }}
+        </title>
+        <link rel="icon" href="{% static 'Common/Icon/default.jpg' %}" type="image/x-icon"/>
+    </head>
+    <body>
+        <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'common.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
+
+        <input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
+        <script>
+            if ($('#isLogin').val() == 0) {
+                location.href = '/login/'
+            }
+        </script>
+
+        <div class="feed">
+            <div class="feed-bg"></div>
+            <div class="feed-content">
+                <div class="feed-space"></div>
+                <center>
+                    <div class="feed-wrapper" id="app">
+                        <h2 class="pd-main">{{ msg }}</h2>
+                    </div>
+                    <h3 class="feed-wrapper btn btn-back" onclick="dangerBack()">
+                        立即回退
+                    </h3>
+                </center>
+            </div>
+            {% csrf_token %}
+        </div>
+        <script>
+            $('#message').val('')
+            const _root = head + '{{ request.get_host }}'
+
+            dangerBack = function() {
+                {% if request.session.company == '123medhk' %}
+                location.href = '/task/'
+                {% else %}
+                location.href = '/'
+                {% endif %}
+            }
+        </script>
+
+        <style>
+            body {
+                overflow: hidden;
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-size: 18px;
+            }
+            .pd-main {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            
+            .feed ,
+            .feed-content,
+            .feed-bg {
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                display: block;
+                height: 100vh;
+            }
+            .feed {
+                position: relative;
+            }
+            .feed-bg,
+            .feed-content {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            .feed-bg {
+                background: url('{% static "danger.jpg" %}');
+                background-clip: border-box;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+            .feed-space {
+                height: 40vh;
+            }
+            .feed-wrapper {
+                width: calc(360px + 7vw);
+                padding: 0;
+                margin: 0 auto;
+                border: 1px solid rgba(255, 255, 255, 0.5);
+
+                box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2) ;
+                border-radius: 1px;
+                transition: all .3s;
+            }
+            .feed-wrapper:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            @media screen and (max-width: 768px) {
+                .feed-wrapper {
+                    width: 100%;
+                }
+                
+                .feed-space {
+                    height: 24vh;
+                }
+            }
+        </style>
+        <style>
+            
+            .submit {
+                background-color: rgba(255, 255, 255, 0.8);
+                color: #337ab7;
+                border-color: white;
+                transition:  all .3s;
+            }
+            .submit:hover {
+                background-color: rgba(255, 255, 255, 0.9);
+                text-decoration: underline;
+            }
+            .btn {
+                background: none;
+                border: none;
+                margin: 0;
+                padding: 8px 0px;
+                display: block;
+                transition: all .3s;
+                margin-top: 30px;
+                cursor: pointer;
+            }
+            .btn-back {
+                border: 1px solid rgba(255, 255, 255, 0.5);
+            }
+            .btn-back:hover {
+                margin-top: 35px;
+            }
+        </style>
+    </body>
+</html>

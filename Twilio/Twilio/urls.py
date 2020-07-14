@@ -7,6 +7,7 @@ from rest_framework import routers
 from rest_framework.documentation import include_docs_urls
 
 from . import settings
+from .company import TEST
 
 from Appis.Web import views as Web
 from Appis.Sms import views as Sms
@@ -65,6 +66,7 @@ urlpatterns = [
     path('scret_window/', Web.SMSConfView.as_view()),
     path('init/', Web.DataView.as_view()),
     path('backup/', Web.BackUpView.as_view()),
+    path('danger/', Web.DangerView.as_view()),
     path('feedback/',User.FeedBackView.as_view()),
 
     path('num/', Web.NumView.as_view()),
@@ -75,7 +77,11 @@ urlpatterns = [
     re_path(r'^media/(?P<path>.*)$',  serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_URL}),
 
-    path('api/', include(router.urls)),
-    path('docs/', include_docs_urls(title='SMS任务管理系统')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
+
+if TEST:
+    urlpatterns += [
+        path('api/', include(router.urls)),
+        path('docs/', include_docs_urls(title='SMS任务管理系统')),
+        path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    ]

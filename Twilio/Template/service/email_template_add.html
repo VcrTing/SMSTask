@@ -149,6 +149,13 @@
                 const val_message = _valide_message(this.message)
                 if (val_message != true) { alert(val_message); return }
 
+                const xss_service = xss(this.service)
+                if (xss_service != true) { alert(xss_service); return }
+                const xss_subject = xss(this.subject)
+                if (xss_subject != true) { alert(xss_subject); return }
+                const xss_message = xss(this.message)
+                if (xss_message != true) { alert(xss_message); return }
+
                 this.category_flag = this.category
                 this.submit()
             },
@@ -161,6 +168,12 @@
                         Accept: "application/json; charset=utf-8",
                     },
                     success: function(e) {
+                        if (e['status'] == false) {
+                            if (e['msg'] == 'xss') {
+                                location.href = '/danger/?option=xss'
+                            }
+                        }
+                        
                         location.href = '/email_template/'
                     },
                     error: function(e) {

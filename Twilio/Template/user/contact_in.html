@@ -263,7 +263,14 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             }, 
             success: function (e) {
+                if (e['status'] == false) {
+                    if (e['msg'] == 'xss') {
+                        location.href = '/danger/?option=xss'
+                    }
+                }
+
                 if (e['res'] == false) {
+                    
                     alert('' + e['msg'] + ' 修改輸入後可再次提交。')
                 } else {
                     _loadData(_build_url(_offset))
@@ -303,6 +310,10 @@
                 return
             }
         }
+        const xss_first_named = xss(first_named)
+        if (xss_first_named != true) { alert(xss_first_named); return }
+        const xss_bith = xss(bith)
+        if (xss_bith != true) { alert(xss_bith); return }
 
         const data = {
             'first_named': first_named,
@@ -423,6 +434,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
+                
                 _loadData(_build_url(_offset))
                 $('#contact_one_modal').modal('hide')
             },
@@ -456,6 +468,12 @@
         } else {
             bith = ''
         }
+
+        const xss_first_named = xss(first_named)
+        if (xss_first_named != true) { alert(xss_first_named); return }
+        const xss_bith = xss(bith)
+        if (xss_bith != true) { alert(xss_bith); return }
+        
         // 裝載數據
         const data = {
             'first_named': first_named,
