@@ -57,7 +57,7 @@
                 methods: {
                     _submit(itemF) {
                         $.ajax({
-                            url: _root + '/data/?option=doing',
+                            url: _root + '/init/?option=doing',
                             data: itemF,
                             type: 'POST',
                             headers: {
@@ -115,7 +115,7 @@
                     loadFirst() {
                         let self = this
                         $.ajax({
-                            url: _root + '/data/?option=first',
+                            url: _root + '/init/?option=first',
                             method: 'GET',
                             dateType:'json',
                             headers: {
