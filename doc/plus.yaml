@@ -26,7 +26,10 @@ Nginx:
     systemctl enable nginx.service
   配置Conf:
     cp /root/SMSTask/doc/nginx.http.conf /etc/nginx/conf.d/smstask.conf
+    cp /root/SMSTask/doc/nginx.https.conf /etc/nginx/conf.d/smstask.conf
+
     改 smstask.conf 里面的 Server Name
+    vim /etc/nginx/conf.d/smstask.conf
   更改User为 Root:
     yum install vim
     vim /etc/nginx/nginx.conf
@@ -93,6 +96,8 @@ Supervisor:
     改 SELINUX=disabled
   开放端口:
     https://support.rackspace.com/how-to/use-iptables-with-centos-7/
+  查看配置结果:
+    
 
 安装解压:
   yum install -y unzip zip

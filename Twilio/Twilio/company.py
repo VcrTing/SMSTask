@@ -9,7 +9,7 @@ SETTING = {
     'eye': {
         'key_name': 'eye', # 不用改
         'media': 'Eye', # 媒体库文件夹，不用改
-        'host': 'https://crm99.svr.up5d.com',
+        'host': 'https://crm.up5d.com',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字
@@ -37,7 +37,7 @@ SETTING = {
     '123medhk': {
         'key_name': '123medhk', # 不用改
         'media': '123Medhk', # 媒体库文件夹，不用改
-        'host': 'http://crm99.svr.up5d.com',
+        'host': 'https://crm.up5d.com',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字
