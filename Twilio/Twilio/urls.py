@@ -8,7 +8,7 @@ from rest_framework.documentation import include_docs_urls
 
 from . import settings
 from .company import TEST
-from .catch import handler
+# from .catch import handler
 
 from Appis.Web import views as Web
 from Appis.Sms import views as Sms
@@ -75,6 +75,7 @@ urlpatterns = [
     path('task_running/', Web.TaskView.as_view()),
 
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     re_path(r'^media/(?P<path>.*)$',  serve, {'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_URL}),
 
@@ -82,11 +83,10 @@ urlpatterns = [
 
 if TEST:
     urlpatterns += [
-        path('api/', include(router.urls)),
         path('docs/', include_docs_urls(title='SMS任务管理系统')),
         path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     ]
 
-handler404 = handler.unfound
-handler500 = handler.unright
-handler400 = handler.unrequest
+# handler404 = handler.unfound
+# handler500 = handler.unright
+# handler400 = handler.unrequest

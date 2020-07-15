@@ -477,12 +477,24 @@
         return rec
     }
     doTask = function() {
+
+        {% if request.session.layout.sms == 0 %}
+            alert('該網站未開放短信發送功能，如需使用，請向開發人員申請。')
+            return
+        {% endif %}
+
         let tasker = _delNoneUser(_getTasker(), 0)
         tasker = JSON.stringify(tasker)
         localStorage.setItem('sms_tasker', tasker)
         location.href = '/contact/?option=task'
     }
     doEmail = function() {
+
+        {% if request.session.layout.email == 0 %}
+            alert('該網站未開放電郵任務功能，如需使用，請向開發人員申請。')
+            return
+        {% endif %}
+
         let tasker = _delNoneUser(_getTasker(), 1)
         tasker = JSON.stringify(tasker)
         localStorage.setItem('email_tasker', tasker)
