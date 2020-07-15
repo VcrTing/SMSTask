@@ -25,9 +25,9 @@ def running_task():
         _running_task()
     
     # 备份
-    if int(i.day) in [1, 8, 15, 22]:
+    if int(i.day) in [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]:
         backup()
-    if int(i.day) in [2, 9, 16, 23]:
+    if int(i.day) in [2, 5, 8, 11, 14, 17, 20, 23, 26, 29]:
         lockit('backuping', False)
         trash()
 

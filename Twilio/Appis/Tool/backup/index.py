@@ -112,7 +112,7 @@ def trash():
 def backup():
 
     backuping = osed.load(_lock)
-    if backuping:
+    if backuping['backuping'] == False:
 
         backuping['backuping'] = True
         osed.save(_lock, backuping)
