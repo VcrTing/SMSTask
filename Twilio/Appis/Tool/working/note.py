@@ -39,6 +39,7 @@ def _do_task(et):
     content = sms_template.content_sub
     phoned_prefix = sms_task.area.phoned_prefix
 
+    print('et.status =', et.status, '\net.apply_status', et.apply_status, '\net.send_status', et.send_status)
     if et.send_status == False:
 
         if int(et.time_rule_belong) == 0:
