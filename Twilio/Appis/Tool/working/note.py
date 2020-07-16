@@ -50,17 +50,25 @@ def _do_task(et):
         content, temp_para = _build_para(content, sms_task.named, et.numed)
 
         # 执行发送
-        res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
+        if et.status == True:
+            res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
 
-        et.schedule_id = res['schedule_id']
-        et.temp_para = temp_para
-        et.jsms_response = res['response']
+            et.schedule_id = res['schedule_id']
+            et.temp_para = temp_para
+            et.jsms_response = res['response']
 
-        et.send_finish_time = datetime.datetime.now()
-        et.send_status = is_success
-        et.save()
-        
-        return is_success
+            et.send_finish_time = datetime.datetime.now()
+            et.send_status = is_success
+            et.save()
+            return is_success
+        else:
+            et.temp_para = temp_para
+
+            et.send_finish_time = datetime.datetime.now()
+            et.send_status = False
+            et.save()
+
+    return False
 
 def _do_runtask(rec):
     if rec['apply_status'] == False:
