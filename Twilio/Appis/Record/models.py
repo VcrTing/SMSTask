@@ -35,7 +35,7 @@ class EveryTask(models.Model):
     time_rule_belong = models.SmallIntegerField(choices=common.TIME_RULE, default=0, verbose_name='所属时间规则')
     numed = models.SmallIntegerField(default=1, null=True, blank=True, verbose_name='所属索引值')
     
-    send_finish_time = models.DateTimeField(verbose_name='实际發送時間', null=True, blank=True)
+    send_finish_time = models.DateTimeField(verbose_name='預計發送時間', null=True, blank=True)
     schedule_id = models.CharField(max_length=90, default='0', verbose_name='极光短信任务ID 字段')
     
     apply_status = models.NullBooleanField(default=None, verbose_name='应用标识')
