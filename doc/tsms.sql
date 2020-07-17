@@ -39,7 +39,7 @@ CREATE TABLE `Additional_emailapply` (
   KEY `Additional_emailappl_email_template_id_0c33814b_fk_Additiona` (`email_template_id`),
   CONSTRAINT `Additional_emailappl_email_template_id_0c33814b_fk_Additiona` FOREIGN KEY (`email_template_id`) REFERENCES `Additional_emailtemplate` (`id`),
   CONSTRAINT `Additional_emailapply_contact_id_48d6d922_fk_User_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `User_contact` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +48,7 @@ CREATE TABLE `Additional_emailapply` (
 
 LOCK TABLES `Additional_emailapply` WRITE;
 /*!40000 ALTER TABLE `Additional_emailapply` DISABLE KEYS */;
+INSERT INTO `Additional_emailapply` VALUES (3,'2020-07-05',4,1,1,0,'2020-09-03 16:00:00.000000',1,'2020-07-05 14:58:37.310690',3,2);
 /*!40000 ALTER TABLE `Additional_emailapply` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,7 +74,7 @@ CREATE TABLE `Additional_emailcollect` (
   KEY `Additional_emailcoll_email_template_id_8dfb2275_fk_Additiona` (`email_template_id`),
   CONSTRAINT `Additional_emailcoll_email_apply_id_05afc83a_fk_Additiona` FOREIGN KEY (`email_apply_id`) REFERENCES `Additional_emailapply` (`id`),
   CONSTRAINT `Additional_emailcoll_email_template_id_8dfb2275_fk_Additiona` FOREIGN KEY (`email_template_id`) REFERENCES `Additional_emailtemplate` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,6 +83,7 @@ CREATE TABLE `Additional_emailcollect` (
 
 LOCK TABLES `Additional_emailcollect` WRITE;
 /*!40000 ALTER TABLE `Additional_emailcollect` DISABLE KEYS */;
+INSERT INTO `Additional_emailcollect` VALUES (38,1,'{\'id\': \'<20200705150038.1.DA5610C398B34EDF@mg.visocare.com.hk>\', \'message\': \'Queued. Thank you.\'}','2020-07-05 15:00:38.884691',1,1,'2020-07-05 15:00:38.884599',3,2),(39,1,'{\'id\': \'<20200705153146.1.D8BD688B15F84F0A@mg.visocare.com.hk>\', \'message\': \'Queued. Thank you.\'}','2020-07-05 15:31:46.399614',2,1,'2020-07-05 15:31:46.399542',3,2),(40,1,'{\'id\': \'<20200705162852.1.912AF136BCB82FF8@mg.visocare.com.hk>\', \'message\': \'Queued. Thank you.\'}','2020-07-05 16:28:52.654835',3,1,'2020-07-05 16:28:52.654797',3,2),(41,1,'{\'id\': \'<20200705172701.1.681813211981C3DF@mg.visocare.com.hk>\', \'message\': \'Queued. Thank you.\'}','2020-07-05 17:27:01.788327',4,1,'2020-07-05 17:27:01.788242',3,2);
 /*!40000 ALTER TABLE `Additional_emailcollect` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,7 +106,7 @@ CREATE TABLE `Additional_emailtemplate` (
   PRIMARY KEY (`id`),
   KEY `Additional_emailtemplate_category_id_61f973ee_fk_Sms_category_id` (`category_id`),
   CONSTRAINT `Additional_emailtemplate_category_id_61f973ee_fk_Sms_category_id` FOREIGN KEY (`category_id`) REFERENCES `Sms_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -113,7 +115,7 @@ CREATE TABLE `Additional_emailtemplate` (
 
 LOCK TABLES `Additional_emailtemplate` WRITE;
 /*!40000 ALTER TABLE `Additional_emailtemplate` DISABLE KEYS */;
-INSERT INTO `Additional_emailtemplate` VALUES (1,'测试标题','<p>这是测试的邮件的内容～～～</p>',1,'Crm99 - Test（每月）',1,'2020-07-01 07:28:18.542753',4);
+INSERT INTO `Additional_emailtemplate` VALUES (1,'测试标题','<p>这是测试的邮件的内容～～～<img src=\"http://crm99.svr.up5d.com/media/img/HSIZE_69db16a69fa9479f89a0b2abc3170b00.jpg\" style=\"width: 825.5px;\"></p>',1,'Crm99 - Test（每月）',1,'2020-07-01 07:28:18.542753',4),(2,'她把风衣的扣子扣上，一手拉着小拖箱，一手提着一只米白色布袋，一路小跑到高架桥下。','<p><span style=\"color: rgb(17, 17, 17); font-family: &quot;Microsoft YaHei&quot;, &quot;Microsoft JhengHei&quot;, SimSun; font-size: 25px; font-weight: 600; background-color: rgb(238, 250, 255);\">看见他嘴唇动了几下，倪简松了口气，赶紧打开后车门，把小拖箱提进去，然后把手里的布袋放到后座上，人跟着坐进去。</span><br></p>',2,'倪简昏头涨脑',1,'2020-07-04 09:40:20.119672',5),(3,'你认识路吗？','<p><img src=\"http://crm99.svr.up5d.com/media/img/HSIZE_fe5505ee1e4144c0a66ac36135a2b472.jpg\" style=\"width: 100%;\"><span style=\"color: rgb(17, 17, 17); font-family: &quot;Microsoft YaHei&quot;, &quot;Microsoft JhengHei&quot;, SimSun; font-size: 25px; font-weight: 600; background-color: rgb(238, 250, 255);\">&nbsp; &nbsp; 他刚才转过脸时，后面的车灯恰好打过来，倪简不仅看清了他说的话，也看清了他整张脸。</span><br></p>',0,'经纬公寓',1,'2020-07-04 10:10:49.846943',6);
 /*!40000 ALTER TABLE `Additional_emailtemplate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +128,6 @@ DROP TABLE IF EXISTS `Record_everytask`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Record_everytask` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `contact_key` int NOT NULL,
   `time_rule_belong` smallint NOT NULL,
   `numed` smallint DEFAULT NULL,
   `send_finish_time` datetime(6) DEFAULT NULL,
@@ -138,10 +139,13 @@ CREATE TABLE `Record_everytask` (
   `status` tinyint(1) NOT NULL,
   `add_time` datetime(6) NOT NULL,
   `sms_task_id` int DEFAULT NULL,
+  `contact_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `Record_everytask_sms_task_id_7a04a1a5_fk_Record_smstask_id` (`sms_task_id`),
+  KEY `Record_everytask_contact_id_96df4c9f_fk_User_contact_id` (`contact_id`),
+  CONSTRAINT `Record_everytask_contact_id_96df4c9f_fk_User_contact_id` FOREIGN KEY (`contact_id`) REFERENCES `User_contact` (`id`),
   CONSTRAINT `Record_everytask_sms_task_id_7a04a1a5_fk_Record_smstask_id` FOREIGN KEY (`sms_task_id`) REFERENCES `Record_smstask` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +154,7 @@ CREATE TABLE `Record_everytask` (
 
 LOCK TABLES `Record_everytask` WRITE;
 /*!40000 ALTER TABLE `Record_everytask` DISABLE KEYS */;
-INSERT INTO `Record_everytask` VALUES (1,2,1,2,'2020-06-29 07:38:00.000000','0',0,0,'無','',1,'2020-07-01 07:36:00.000000',1);
+INSERT INTO `Record_everytask` VALUES (9,0,1,'2020-07-05 13:44:10.697768','SM53a66c998963446197224a149bddcb31',1,1,'{\'named\': \'Eric\', \'numed\': 1}','SM53a66c998963446197224a149bddcb31',0,'2020-07-05 13:42:07.406394',6,4),(10,1,2,'2020-07-05 17:37:00.000000','SM46b5c5963fb4457090a987bcb59c9ea4',1,0,'{\'named\': \'Eric\', \'numed\': 2}','SM46b5c5963fb4457090a987bcb59c9ea4',0,'2020-07-05 13:42:00.000000',6,4),(11,0,1,'2020-07-05 15:31:47.692906','{\'error\': {\'code\': 50021, \'message\': \'template not pass\'}}',1,1,'{\'named\': \'莎莎\', \'numed\': 1}','{\'error\': {\'code\': 50021, \'message\': \'template not pass\'}}',0,'2020-07-05 15:29:45.188255',7,5),(12,0,1,'2020-07-05 17:40:31.378172','SMee24ce38f2ee49478cc18dd310a97f5f',1,1,'{\'named\': \'Eric\', \'numed\': 1}','SMee24ce38f2ee49478cc18dd310a97f5f',0,'2020-07-05 17:38:30.100182',8,4),(13,1,2,'2020-08-04 17:40:31.000000','0',0,0,'無',NULL,1,'2020-07-05 17:38:30.103927',8,4),(14,6,3,'2021-01-01 17:40:31.000000','0',0,0,'無',NULL,1,'2020-07-05 17:38:30.109457',8,4),(15,0,0,NULL,'0',NULL,0,'無',NULL,1,'2020-07-15 11:23:51.439950',9,NULL);
 /*!40000 ALTER TABLE `Record_everytask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +180,7 @@ CREATE TABLE `Record_smstask` (
   KEY `Record_smstask_sms_template_id_79dfd8c8_fk_Sms_smstemplate_id` (`sms_template_id`),
   CONSTRAINT `Record_smstask_area_id_eeb6779c_fk_Sms_area_id` FOREIGN KEY (`area_id`) REFERENCES `Sms_area` (`id`),
   CONSTRAINT `Record_smstask_sms_template_id_79dfd8c8_fk_Sms_smstemplate_id` FOREIGN KEY (`sms_template_id`) REFERENCES `Sms_smstemplate` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +189,7 @@ CREATE TABLE `Record_smstask` (
 
 LOCK TABLES `Record_smstask` WRITE;
 /*!40000 ALTER TABLE `Record_smstask` DISABLE KEYS */;
-INSERT INTO `Record_smstask` VALUES (1,'92779625','Eric',0,NULL,1,'2020-07-01 07:36:21.826838',3,1);
+INSERT INTO `Record_smstask` VALUES (1,'92779625','Eric',0,NULL,1,'2020-07-01 07:36:21.826838',3,1),(6,'92779625','Eric',0,NULL,1,'2020-07-05 13:42:07.399118',3,20),(7,'13576639986','莎莎',0,NULL,1,'2020-07-05 15:29:45.176697',1,35),(8,'92779625','Eric',0,NULL,1,'2020-07-05 17:38:30.090165',3,10),(9,'92779621','EEEE',0,NULL,1,'2020-07-15 11:23:51.433090',3,30);
 /*!40000 ALTER TABLE `Record_smstask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -289,7 +293,7 @@ CREATE TABLE `Sms_service` (
   `status` tinyint(1) NOT NULL,
   `add_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +329,7 @@ CREATE TABLE `Sms_smstemplate` (
   KEY `Sms_smstemplate_service_id_7f01ee03_fk_Sms_service_id` (`service_id`),
   CONSTRAINT `Sms_smstemplate_category_id_22ea5c27_fk_Sms_category_id` FOREIGN KEY (`category_id`) REFERENCES `Sms_category` (`id`),
   CONSTRAINT `Sms_smstemplate_service_id_7f01ee03_fk_Sms_service_id` FOREIGN KEY (`service_id`) REFERENCES `Sms_service` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +364,7 @@ CREATE TABLE `User_contact` (
   PRIMARY KEY (`id`),
   KEY `User_contact_area_id_68110367_fk_Sms_area_id` (`area_id`),
   CONSTRAINT `User_contact_area_id_68110367_fk_Sms_area_id` FOREIGN KEY (`area_id`) REFERENCES `Sms_area` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +373,7 @@ CREATE TABLE `User_contact` (
 
 LOCK TABLES `User_contact` WRITE;
 /*!40000 ALTER TABLE `User_contact` DISABLE KEYS */;
-INSERT INTO `User_contact` VALUES (1,'Eric',NULL,NULL,0,'92779625','',0,1,'2020-07-01 07:36:13.223659',3),(2,'Eric',NULL,NULL,0,'92779625','',0,1,'2020-07-01 07:36:13.225845',3);
+INSERT INTO `User_contact` VALUES (2,'Eric',NULL,NULL,0,'92779625','',0,0,'2020-07-01 07:36:13.225845',3),(3,'陆繁',NULL,NULL,1,'','vcrting@163.com',0,1,'2020-07-04 09:10:11.188410',NULL),(4,'Eric',NULL,NULL,0,'92779625',NULL,0,1,'2020-07-05 13:42:03.015834',3),(5,'莎莎',NULL,NULL,0,'13576639986',NULL,0,1,'2020-07-05 15:29:41.749148',1),(6,'EEEE',NULL,'1995-12-19',0,'92779621','',0,1,'2020-07-15 11:18:15.632497',3);
 /*!40000 ALTER TABLE `User_contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -484,7 +488,7 @@ CREATE TABLE `Web_img` (
   `h` varchar(60) DEFAULT NULL,
   `add_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -540,7 +544,7 @@ CREATE TABLE `Web_systemmsg` (
   `status` tinyint(1) NOT NULL,
   `add_time` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -549,6 +553,7 @@ CREATE TABLE `Web_systemmsg` (
 
 LOCK TABLES `Web_systemmsg` WRITE;
 /*!40000 ALTER TABLE `Web_systemmsg` DISABLE KEYS */;
+INSERT INTO `Web_systemmsg` VALUES (1,'123medhk 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, \n',2,2,1,1,'2020-07-09 10:56:31.394834'),(2,' 平台数据备份状态反馈。','磁盘剩余容量为：24827 MB，不足以支持媒体库进行备份，请解决。<br/>磁盘剩余容量：24827 MB，媒体库容量：24827 MB。',2,2,1,1,'2020-07-10 08:03:54.953730'),(3,' 平台数据备份状态反馈。','磁盘剩余容量为：24826 MB，不足以支持媒体库进行备份，请解决。<br/>磁盘剩余容量：24826 MB，媒体库容量：24826 MB。',2,2,1,1,'2020-07-10 08:19:30.429178'),(4,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24765 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 02:58:36.485598'),(5,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:06:40.160074'),(6,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:08:35.337901'),(7,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:16:40.278358'),(8,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:18:35.395020'),(9,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:26:40.463142'),(10,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:28:36.035003'),(11,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:36:40.358433'),(12,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:38:35.491235'),(13,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:46:40.539385'),(14,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 03:48:35.594478'),(15,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:06:40.794804'),(16,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:10:16.748758'),(17,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:16:40.242740'),(18,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24754 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:20:17.022905'),(19,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:26:40.280452'),(20,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:30:16.735204'),(21,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:36:40.352680'),(22,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:40:16.726681'),(23,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:46:40.548099'),(24,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:50:16.982815'),(25,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 04:56:40.175305'),(26,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:00:16.705858'),(27,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:06:40.361906'),(28,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24753 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:10:16.845545'),(29,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:16:40.249824'),(30,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:20:16.652715'),(31,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:26:40.401265'),(32,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:30:17.107157'),(33,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:36:40.451019'),(34,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:40:17.074574'),(35,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:46:40.516753'),(36,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:50:17.038364'),(37,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 05:56:40.516022'),(38,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24752 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 06:00:16.972370'),(39,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24751 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 07:20:16.953258'),(40,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24751 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 07:26:40.108187'),(41,' 平台数据备份状态反馈。','[eye]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24751 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 07:30:16.702214'),(42,' 平台数据备份状态反馈。','[123medhk]Mysql 备份状态： True, \n媒体库 备份状态： True, <br/><br/>磁盘剩余容量：24745 MB，媒体库容量：11 MB。',2,2,1,1,'2020-07-15 17:07:59.258804');
 /*!40000 ALTER TABLE `Web_systemmsg` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -655,7 +660,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_user_id_c564eba6_fk_User_userprofile_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_User_userprofile_id` FOREIGN KEY (`user_id`) REFERENCES `User_userprofile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -664,7 +669,7 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (1,'2020-07-01 07:29:45.858246','1','vcrting@163.com',2,'[{\"changed\": {\"fields\": [\"nickName\", \"bith\", \"phone\"]}}]',15,1),(2,'2020-07-01 07:32:59.342908','1','Admin',1,'[{\"added\": {}}]',3,1),(3,'2020-07-01 07:35:06.020531','1','测试（0，1，3）',1,'[{\"added\": {}}]',10,1),(4,'2020-07-01 07:35:16.573973','1','ID: 181407, 模版: 先手模版，客人名为 {{named}}。...',1,'[{\"added\": {}}]',11,1),(5,'2020-07-01 07:39:02.083120','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\"]}}]',17,1);
+INSERT INTO `django_admin_log` VALUES (1,'2020-07-01 07:29:45.858246','1','vcrting@163.com',2,'[{\"changed\": {\"fields\": [\"nickName\", \"bith\", \"phone\"]}}]',15,1),(2,'2020-07-01 07:32:59.342908','1','Admin',1,'[{\"added\": {}}]',3,1),(3,'2020-07-01 07:35:06.020531','1','测试（0，1，3）',1,'[{\"added\": {}}]',10,1),(4,'2020-07-01 07:35:16.573973','1','ID: 181407, 模版: 先手模版，客人名为 {{named}}。...',1,'[{\"added\": {}}]',11,1),(5,'2020-07-01 07:39:02.083120','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\"]}}]',17,1),(6,'2020-07-02 14:16:07.182341','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\"]}}]',17,1),(7,'2020-07-04 09:04:17.972999','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"contact_key\"]}}]',17,1),(8,'2020-07-04 09:04:47.631556','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"contact_key\"]}}]',17,1),(9,'2020-07-04 09:05:13.178891','1','Eric',3,'',16,1),(10,'2020-07-05 13:38:36.270553','8','所属时间规则：1 schedule_id：0',3,'',17,1),(11,'2020-07-05 13:38:36.273004','7','所属时间规则：0 schedule_id：0',3,'',17,1),(12,'2020-07-05 13:38:36.275088','6','所属时间规则：1 schedule_id：0',3,'',17,1),(13,'2020-07-05 13:38:36.278340','5','所属时间规则：0 schedule_id：0',3,'',17,1),(14,'2020-07-05 13:38:36.280429','4','所属时间规则：1 schedule_id：0',3,'',17,1),(15,'2020-07-05 13:38:36.282507','3','所属时间规则：0 schedule_id：0',3,'',17,1),(16,'2020-07-05 13:38:36.284701','2','所属时间规则：0 schedule_id：0',3,'',17,1),(17,'2020-07-05 13:39:25.369956','1','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"contact\"]}}]',17,1),(18,'2020-07-05 13:39:40.271486','5','接收者：Eric，电话：92779625',3,'',19,1),(19,'2020-07-05 13:39:40.273680','4','接收者：Eric，电话：92779625',3,'',19,1),(20,'2020-07-05 13:39:40.277539','3','接收者：Eric，电话：92779625',3,'',19,1),(21,'2020-07-05 13:39:40.279801','2','接收者：Eric，电话：92779625',3,'',19,1),(22,'2020-07-05 13:39:54.901580','1','所属时间规则：1 schedule_id：0',3,'',17,1),(23,'2020-07-05 13:41:17.191354','3','图片: img/HSIZE_fe5505ee1e4144c0a66ac36135a2b472.jpg',3,'',12,1),(24,'2020-07-05 13:41:17.194170','2','图片: img/HSIZE_69db16a69fa9479f89a0b2abc3170b00.jpg',3,'',12,1),(25,'2020-07-05 13:47:24.253847','10','所属时间规则：1 schedule_id：0',2,'[{\"changed\": {\"fields\": [\"send_finish_time\"]}}]',17,1),(26,'2020-07-05 14:31:09.145070','2','邮件任务申请列表: 2020-07-04...',3,'',20,1),(27,'2020-07-05 14:31:09.147193','1','邮件任务申请列表: 2020-07-04...',3,'',20,1),(28,'2020-07-05 15:03:30.495341','3','邮件任务申请列表: 2020-07-05...',2,'[{\"changed\": {\"fields\": [\"next_time\"]}}]',20,1),(29,'2020-07-05 16:27:15.791725','10','所属时间规则：1 schedule_id：SM8a788635fb4b4170a3c50e4e3693e86d',2,'[{\"changed\": {\"fields\": [\"send_finish_time\", \"send_status\", \"apply_status\"]}}]',17,1),(30,'2020-07-05 16:27:41.078670','3','邮件任务申请列表: 2020-07-05...',2,'[{\"changed\": {\"fields\": [\"next_time\"]}}]',20,1),(31,'2020-07-05 17:22:42.670502','3','邮件任务申请列表: 2020-07-05...',2,'[{\"changed\": {\"fields\": [\"next_time\"]}}]',20,1),(32,'2020-07-05 17:34:10.960886','10','所属时间规则：1 schedule_id：SM31e76c73d9324519974e97618a9323d8',2,'[{\"changed\": {\"fields\": [\"send_finish_time\", \"send_status\", \"apply_status\"]}}]',17,1),(33,'2020-07-06 08:24:01.777655','10','所属时间规则：1 schedule_id：SM46b5c5963fb4457090a987bcb59c9ea4',2,'[{\"changed\": {\"fields\": [\"send_finish_time\", \"send_status\", \"status\"]}}]',17,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -683,7 +688,7 @@ CREATE TABLE `django_apscheduler_djangojob` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `django_apscheduler_djangojob_next_run_time_2f022619` (`next_run_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -692,7 +697,7 @@ CREATE TABLE `django_apscheduler_djangojob` (
 
 LOCK TABLES `django_apscheduler_djangojob` WRITE;
 /*!40000 ALTER TABLE `django_apscheduler_djangojob` DISABLE KEYS */;
-INSERT INTO `django_apscheduler_djangojob` VALUES (1,'123medhk','2020-07-01 08:01:19.382737',_binary '��\�\0\0\0\0\0\0}�(�version�K�id��123medhk��func��Appis.Web.views:fun��trigger��apscheduler.triggers.interval��IntervalTrigger���)��}�(hK�timezone��pytz��_p���(�\rAsia/Shanghai�M\�qK\0�LMT�t�R��\nstart_date��datetime��datetime���C\n\�\��h(hM�pK\0�CST�t�R���R��end_date�N�interval�h�	timedelta���K\0MXK\0��R��jitter�Nub�executor��default��args�)�kwargs�}��name��fun��misfire_grace_time�K�coalesce���\rmax_instances�K�\rnext_run_time�hC\n\�\��h��R�u.');
+INSERT INTO `django_apscheduler_djangojob` VALUES (1,'123medhk','2020-07-16 02:37:01.333691',_binary '��\�\0\0\0\0\0\0}�(�version�K�id��123medhk��func��Appis.Web.views:fun��trigger��apscheduler.triggers.interval��IntervalTrigger���)��}�(hK�timezone��pytz��_p���(�\rAsia/Shanghai�M\�qK\0�LMT�t�R��\nstart_date��datetime��datetime���C\n\�{�h(hM�pK\0�CST�t�R���R��end_date�N�interval�h�	timedelta���K\0MXK\0��R��jitter�Nub�executor��default��args�)�kwargs�}��name��fun��misfire_grace_time�K�coalesce���\rmax_instances�K�\rnext_run_time�hC\n\�\n%{�h��R�u.'),(2,'eye','2020-07-16 02:39:18.948245',_binary '��\�\0\0\0\0\0\0}�(�version�K�id��eye��func��Appis.Web.views:fun��trigger��apscheduler.triggers.interval��IntervalTrigger���)��}�(hK�timezone��pytz��_p���(�\rAsia/Shanghai�M\�qK\0�LMT�t�R��\nstart_date��datetime��datetime���C\n\�	x�h(hM�pK\0�CST�t�R���R��end_date�N�interval�h�	timedelta���K\0MXK\0��R��jitter�Nub�executor��default��args�)�kwargs�}��name��fun��misfire_grace_time�K�coalesce���\rmax_instances�K�\rnext_run_time�hC\n\�\n\'x�h��R�u.');
 /*!40000 ALTER TABLE `django_apscheduler_djangojob` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -768,7 +773,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -777,7 +782,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2020-07-01 07:14:29.665356'),(2,'contenttypes','0002_remove_content_type_name','2020-07-01 07:14:29.712429'),(3,'auth','0001_initial','2020-07-01 07:14:29.796194'),(4,'auth','0002_alter_permission_name_max_length','2020-07-01 07:14:29.919059'),(5,'auth','0003_alter_user_email_max_length','2020-07-01 07:14:29.926414'),(6,'auth','0004_alter_user_username_opts','2020-07-01 07:14:29.934065'),(7,'auth','0005_alter_user_last_login_null','2020-07-01 07:14:29.941075'),(8,'auth','0006_require_contenttypes_0002','2020-07-01 07:14:29.944054'),(9,'auth','0007_alter_validators_add_error_messages','2020-07-01 07:14:29.951810'),(10,'auth','0008_alter_user_username_max_length','2020-07-01 07:14:29.959908'),(11,'auth','0009_alter_user_last_name_max_length','2020-07-01 07:14:29.967600'),(12,'auth','0010_alter_group_name_max_length','2020-07-01 07:14:29.991937'),(13,'auth','0011_update_proxy_permissions','2020-07-01 07:14:29.999793'),(14,'Sms','0001_initial','2020-07-01 07:14:30.070152'),(15,'User','0001_initial','2020-07-01 07:14:30.206804'),(16,'Additional','0001_initial','2020-07-01 07:14:30.405335'),(17,'Additional','0002_auto_20200630_1844','2020-07-01 07:14:30.510338'),(18,'Record','0001_initial','2020-07-01 07:14:30.645380'),(19,'Web','0001_initial','2020-07-01 07:14:30.784222'),(20,'admin','0001_initial','2020-07-01 07:14:30.810146'),(21,'admin','0002_logentry_remove_auto_add','2020-07-01 07:14:30.879386'),(22,'admin','0003_logentry_add_action_flag_choices','2020-07-01 07:14:30.894541'),(23,'django_apscheduler','0001_initial','2020-07-01 07:14:30.945078'),(24,'django_apscheduler','0002_auto_20180412_0758','2020-07-01 07:14:31.018721'),(25,'sessions','0001_initial','2020-07-01 07:14:31.034037');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2020-07-01 07:14:29.665356'),(2,'contenttypes','0002_remove_content_type_name','2020-07-01 07:14:29.712429'),(3,'auth','0001_initial','2020-07-01 07:14:29.796194'),(4,'auth','0002_alter_permission_name_max_length','2020-07-01 07:14:29.919059'),(5,'auth','0003_alter_user_email_max_length','2020-07-01 07:14:29.926414'),(6,'auth','0004_alter_user_username_opts','2020-07-01 07:14:29.934065'),(7,'auth','0005_alter_user_last_login_null','2020-07-01 07:14:29.941075'),(8,'auth','0006_require_contenttypes_0002','2020-07-01 07:14:29.944054'),(9,'auth','0007_alter_validators_add_error_messages','2020-07-01 07:14:29.951810'),(10,'auth','0008_alter_user_username_max_length','2020-07-01 07:14:29.959908'),(11,'auth','0009_alter_user_last_name_max_length','2020-07-01 07:14:29.967600'),(12,'auth','0010_alter_group_name_max_length','2020-07-01 07:14:29.991937'),(13,'auth','0011_update_proxy_permissions','2020-07-01 07:14:29.999793'),(14,'Sms','0001_initial','2020-07-01 07:14:30.070152'),(15,'User','0001_initial','2020-07-01 07:14:30.206804'),(16,'Additional','0001_initial','2020-07-01 07:14:30.405335'),(17,'Additional','0002_auto_20200630_1844','2020-07-01 07:14:30.510338'),(18,'Record','0001_initial','2020-07-01 07:14:30.645380'),(19,'Web','0001_initial','2020-07-01 07:14:30.784222'),(20,'admin','0001_initial','2020-07-01 07:14:30.810146'),(21,'admin','0002_logentry_remove_auto_add','2020-07-01 07:14:30.879386'),(22,'admin','0003_logentry_add_action_flag_choices','2020-07-01 07:14:30.894541'),(23,'django_apscheduler','0001_initial','2020-07-01 07:14:30.945078'),(24,'django_apscheduler','0002_auto_20180412_0758','2020-07-01 07:14:31.018721'),(25,'sessions','0001_initial','2020-07-01 07:14:31.034037'),(26,'Record','0002_auto_20200705_1722','2020-07-05 13:37:33.833155'),(27,'Web','0002_auto_20200705_1722','2020-07-05 13:37:33.885560');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -803,7 +808,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('en6uwo5efrssv5y0pr1ayl512b8153g6','OTQ0YWJlYjQ0ODg1YmU1NWMyMjc3Y2E0NDQ0MTVhZTJkODYxODg2ZTp7InVzZXIiOiJ2Y3J0aW5nQDE2My5jb20iLCJpc0xvZ2luIjp0cnVlLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZmIyYzU5YTEwNDQ0MjAyMDQwYzg5NGUzMDI1MmRlN2JhOTE4YmRjOCJ9','2020-07-15 07:28:40.012766');
+INSERT INTO `django_session` VALUES ('80ex9e62hbgwehezxbinx2igvo5s2ncb','MWRlMWIyYThmODY1OWYxN2U3M2NlY2QyYzI5MWQzZDU5NzU4ZGFkNDp7InVzZXIiOiJ2Y3J0aW5nQDE2My5jb20iLCJpc0xvZ2luIjp0cnVlLCJjb21wYW55IjoiMTIzbWVkaGsifQ==','2020-07-19 17:38:04.121506'),('avpa8s8m5e3971ujdpbikok93s924517','OGJlNTIyZGRkOThmNjIwYTFlMzU0ZDMzMTZhNjliZGM5MzA4M2Q0ZDp7ImlzTG9naW4iOmZhbHNlLCJ1c2VyIjpudWxsfQ==','2020-07-18 15:55:28.569165'),('en6uwo5efrssv5y0pr1ayl512b8153g6','MGVlYTkyOTlhZmFhYTgyZTA1N2U2YWRlNDdkZWM5NThjMmMzMDZiNzp7InVzZXIiOiJ2Y3J0aW5nQDE2My5jb20iLCJpc0xvZ2luIjp0cnVlLCJfYXV0aF91c2VyX2lkIjoiMSIsIl9hdXRoX3VzZXJfYmFja2VuZCI6ImRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kIiwiX2F1dGhfdXNlcl9oYXNoIjoiZmIyYzU5YTEwNDQ0MjAyMDQwYzg5NGUzMDI1MmRlN2JhOTE4YmRjOCIsImNvbXBhbnkiOiIxMjNtZWRoayIsImxheW91dCI6eyJzbXMiOjEsImVtYWlsIjowfX0=','2020-07-29 11:07:54.733773'),('ih2zqv9konoem3vgr8zg2j4x5dv9i115','ZTY3OGQ2OWE1MmM2NDMxNDQ5NzQxMGNiZmQ2MzJkNzE2MDE5MmExZjp7InVzZXIiOiJ2Y3J0aW5nQDE2My5jb20iLCJpc0xvZ2luIjp0cnVlLCJjb21wYW55IjoiMTIzbWVkaGsiLCJsYXlvdXQiOnsic21zIjoxLCJlbWFpbCI6MH19','2020-07-30 02:30:24.165402'),('qianrtx6y3ukb1crbz12383o8ae5jkzn','MWRlMWIyYThmODY1OWYxN2U3M2NlY2QyYzI5MWQzZDU5NzU4ZGFkNDp7InVzZXIiOiJ2Y3J0aW5nQDE2My5jb20iLCJpc0xvZ2luIjp0cnVlLCJjb21wYW55IjoiMTIzbWVkaGsifQ==','2020-07-19 10:44:58.941118');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -816,4 +821,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-07-01  7:53:44
+-- Dump completed on 2020-07-16  2:32:59
