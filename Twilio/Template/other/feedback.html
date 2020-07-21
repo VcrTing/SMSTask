@@ -13,6 +13,7 @@
     </head>
     <body>
         <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'common.js' %}"></script>
         <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
 
         <input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>

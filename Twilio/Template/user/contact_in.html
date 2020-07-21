@@ -12,7 +12,7 @@
                     {% if request.session.layout.sms == 1 %}
                     <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
-                            <label for="area" class="control-label">區域</label>
+                            <label for="area" class="control-label">地區</label>
                             <select class="form-control def-select area" name="area" disabled id="area">
                                 {% for area in areas %}
                                 <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
@@ -111,7 +111,7 @@
                     <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
                             <label for="plus_area" class="control-label">
-                                區域
+                                地區
                             </label>
                             <select class="form-control def-select area" name="plus_area" id="plus_area">
                                 {% for area in areas %}
