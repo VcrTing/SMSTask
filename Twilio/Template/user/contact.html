@@ -34,6 +34,10 @@
                 'res': '',
                 'val': 0
             },
+            'gender': {
+                'res': '',
+                'val': ''
+            },
             'bith': {
                 'start_bith': _age_num(0),
                 'end_bith': _age_num(150),
@@ -55,6 +59,7 @@
 
             '&area=' + filter['area']['res'] +
             '&star=' + filter['star']['res'] +
+            '&gender=' + filter['gender']['res'] +
             '&filter_status=' + filter['filter_status']['res'] +
             '&start_birth=' + filter['bith']['start_bith'] +
             '&end_birth=' + filter['bith']['end_bith'] +
@@ -87,11 +92,30 @@
                 '<tr id="tr_' + id + '">' +
                     '<td><h4><input type="checkbox" class="box-item" data-id=' + id + ' id="box_'+ id +'" onclick="applyBarOne()"></h4></td>' +
                     '<td><h4 class="first_named">' + first_named + '</h4></td>' +
-                    '<td><h4>' + phoned + '</h4></td>' +
-                    '<td align="center"><h4 class="gender">' + email + '</h4></td>' +
+
+                    {% if request.session.layout.email == 1 %}
+
+                        {% if request.session.layout.sms == 1 %}
+                            '<td><h4>' + phoned + '</h4></td>' +
+                            '<td align="center"><h4>' + email + '</h4></td>' +
+                            '<td align="center"><h4 class="gender">' + _ser_gender(gender) + '</h4></td>' +
+
+                        {% else %}
+                            '<td><h4>' + email + '</h4></td>' +
+                            '<td align="center"><h4 class="gender">' + _ser_gender(gender) + '</h4></td>' +
+                            // '<td align="center"><h4 class="hand see-task" onclick="seeTask(' + id + ')">查看</h4></td>' +
+
+                        {% endif %}
+
+                    {% else %}
+                        '<td><h4>' + phoned + '</h4></td>' +
+                        '<td align="center"><h4 class="gender">' + _ser_gender(gender) + '</h4></td>' +
+                        // '<td align="center"><h4 class="hand see-task" onclick="seeTask(' + id + ')">查看</h4></td>' +
+
+                    {% endif %}
+
                     '<td align="center"><h4 class="bith">' + _ser_bith(bith) + '</h4></td>' +
                     '<td align="center"><div class="star" onclick="isStar(' + id + ')">' + _ser_star(star) + '</div></td>' +
-                    '<td align="center"><h4 class="hand see-task" onclick="seeTask(' + id + ')">查看</h4></td>' +
                     '<td align="center" width="64px"><h4><span onclick="contactOneManager(' + id + ')" class="glyphicon glyphicon-pencil hand text-main"></span></h4></td>' +
                 '</tr>'
                 
@@ -113,34 +137,44 @@
 <div class="collapse" id="filterTool">
     <div class="well">
         <div class="row">
-            <div class="col-sm-3">
-                <select class="w-100 form-control filter-select" id="filter_status">
-                    <option value="0">-- 全部狀態 --</option>
-                    <option value="1">有號碼的用戶</option>
-                    <option value="2">無號碼的用戶</option>
-                    <option value="3">有電郵的用戶</option>
-                    <option value="4">無電郵的用戶</option>
-                </select>
-            </div>
+            {% if request.session.layout.email == 1 %}
+                {% if request.session.layout.sms == 1 %}
+                <div class="col-sm-3">
+                    <select class="w-100 form-control filter-select" id="filter_status">
+                        <option value="0">-- 全部狀態 --</option>
+                        
+                        <option value="1">有號碼的用戶</option>
+                        <option value="2">無號碼的用戶</option>
+
+                        <option value="3">有電郵的用戶</option>
+                        <option value="4">無電郵的用戶</option>
+                    </select>
+                </div>
+
+                {% endif %}
+                
+                {% else %}
+                <div class="col-sm-3">
+                    <select class="w-100 form-control filter-select" id="filter_area">
+                        <option value="0">-- 地區 --</option>
+                        {% for area in areas %}
+                        <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
+                            {{ area.named }}({{ area.phoned_prefix }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
             
             <div class="col-sm-2">
-                <select class="w-100 form-control filter-select" id="filter_area">
-                    <option value="0">-- 地區 --</option>
-                    {% for area in areas %}
-                    <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
-                        {{ area.named }}({{ area.phoned_prefix }})
-                    </option>
-                    {% endfor %}
-                </select>
-            </div>
-            <!-- div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_gender">
-                    <option value="100">-- 性別 --</option>
+                    <option value="">-- 性別 --</option>
+                    <option value="0">未知</option>
                     <option value="1">男</option>
                     <option value="2">女</option>
-                    <option value="0">未知</option>
                 </select>
-            </div-->
+            </div>
+
             <div class="col-sm-3">
                 <div class="two-input-group">
                     <select class="from-control filter-select start-age" id="start_age">
@@ -160,6 +194,13 @@
                     <option value="2">非星標</option>
                 </select>
             </div>
+            
+            {% if request.session.layout.email == 1 %}
+                {% if request.session.layout.sms == 1 %}
+                {% else %}
+                <div class="col-sm-3"></div>
+                {% endif %}
+            {% endif %}
             <div class="col-sm-2 text-right">
                 <button class="btn btn-default " onclick="clearFilter()">恢復</button>
                 <button class="btn btn-primary " onclick="filterManager()">過濾</button>
@@ -180,20 +221,38 @@
                 <td>
                     <h4>姓名</h4>
                 </td>
-                <td>
-                    <h4>電話號碼</h4>
-                </td>
-                <td align="center">
-                    <h4>電郵地址</h4>
-                </td>
+                {% if request.session.layout.email == 1 %}
+                    {% if request.session.layout.sms == 1 %}
+                    <td>
+                        <h4>電話號碼</h4>
+                    </td>
+                    <td align="center">
+                        <h4>電郵地址</h4>
+                    </td>
+                    <td align="center">
+                        <h4>性別</h4>
+                    </td>
+                    {% else %}
+                    <td>
+                        <h4>電郵地址</h4>
+                    </td>
+                    <td align="center">
+                        <h4>性別</h4>
+                    </td>
+                    {% endif %}
+                {% else %}
+                    <td>
+                        <h4>電話號碼</h4>
+                    </td>
+                    <td align="center">
+                        <h4>性別</h4>
+                    </td>
+                {% endif %}
                 <td align="center">
                     <h4>出生年月</h4>
                 </td>
                 <td align="center">
                     <h4>星標</h4>
-                </td>
-                <td align="center">
-                    <h4>歷史任務</h4>
                 </td>
                 <td>
                     <h4>操作</h4>
@@ -595,6 +654,7 @@
   
     filterManager = function() {
         const area = $('#filter_area').find('option:selected').val()
+        const gender = $('#filter_gender').find('option:selected').val()
         const filter_status = $('#filter_status').find('option:selected').val()
 
         /*
@@ -650,6 +710,10 @@
         conditions['filter']['star'] = {
             'res': star_bool,
             'val': star
+        }
+        conditions['filter']['gender'] = {
+            'res': gender,
+            'val': gender
         }
 
         _loadData(_build_url(_offset))

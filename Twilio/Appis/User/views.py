@@ -57,6 +57,8 @@ class LoginOutView(View):
     def get(self, request):
         request.session['isLogin'] = False
         request.session['user'] = None
+        request.session['company'] = None
+        request.session['layout'] = None
         return render(request, 'login.html', { 'title': '登录' })
 
 # REST
@@ -84,6 +86,10 @@ class ContactViewSet(viewsets.ModelViewSet):
         if age_f == 'true':
             res = res.filter(
                 Q(bith__range = (end_birth, start_birth)) )
+        
+        if filter_status == 'undefined':
+            return res
+
         if filter_status != '':
             filter_status = int(filter_status)
             if filter_status == 1:
@@ -181,7 +187,7 @@ class ContactView(View):
         area = request.POST.get('area', None)
         phoned = request.POST.get('phoned', None)
         email = request.POST.get('email', None)
-        # gender = request.POST.get('gender', None)
+        gender = request.POST.get('gender', None)
         bith = request.POST.get('bith', None)
 
         if danger.xss(first_named):
@@ -197,10 +203,13 @@ class ContactView(View):
             contact = user_models.Contact()
             
         contact.first_named = first_named 
-        contact.area = sms_models.Area.objects.get(id = area) 
+        if area:
+            contact.area = sms_models.Area.objects.get(id = area) 
+        else:
+            contact.area = sms_models.Area.objects.all()[0]
         contact.phoned = phoned 
         contact.email = email
-        # contact.gender = gender 
+        contact.gender = gender 
         if bith:
             contact.bith = bith
         contact.save()

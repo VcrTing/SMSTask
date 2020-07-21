@@ -292,6 +292,13 @@ a:hover {
     border-color: rgb(168, 168, 168) !important;
 }
 
+.del {
+    color: #df8382;
+}
+.del:hover {
+    color: #df6662;
+}
+
 .error {
     color: #c25f5d;
 }

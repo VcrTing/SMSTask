@@ -8,6 +8,8 @@
                         <label for="first_named" class="control-label">名字</label>
                         <input type="text" class="form-control first_named" id="first_named" placeholder="名字">
                     </div>
+                    
+                    {% if request.session.layout.sms == 1 %}
                     <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
                             <label for="area" class="control-label">區域</label>
@@ -30,6 +32,9 @@
                             <input type="text" data-origin="" class="form-control phoned" id="phoned" disabled placeholder="手機號碼">
                         </div>
                     </div>
+                    {% endif %}
+
+                    {% if request.session.layout.email == 1 %}
                     <div class="form-group form-group-lg">
                         <label for="email" class="control-label">
                             電郵&nbsp;
@@ -40,6 +45,25 @@
                         </label>
                         <input type="text" data-origin="" class="form-control email" id="email" disabled placeholder="郵箱地址">
                     </div>
+                    {% endif %}
+
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-12">
+                            <label for="area" class="control-label">性別</label>
+                            <select class="form-control def-select gender" name="gender" id="gender">
+                                <option value="0">
+                                    未知
+                                </option>
+                                <option value="1">
+                                    男
+                                </option>
+                                <option value="2">
+                                    女
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
                             <label for="bith" class="control-label">
@@ -82,6 +106,8 @@
                         </label>
                         <input type="text" class="form-control first_named" name="plus_first_named" id="plus_first_named" placeholder="名字">
                     </div>
+
+                    {% if request.session.layout.sms == 1 %}
                     <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
                             <label for="plus_area" class="control-label">
@@ -102,12 +128,34 @@
                             <input type="text" onchange="contactPhoneSame()" class="form-control phoned" id="plus_phoned" placeholder="手機號碼">
                         </div>
                     </div>
+                    {% endif %}
+
+                    {% if request.session.layout.email == 1 %}
                     <div class="form-group form-group-lg">
                         <label for="plus_email" class="control-label">
                             電郵<span class="form-tip text-info">*</span>
                         </label>
                         <input type="email" onchange="contactEmailSame()" class="form-control " id="plus_email" placeholder="郵箱地址">
                     </div>
+                    {% endif %}
+
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-12">
+                            <label for="area" class="control-label">性別</label>
+                            <select class="form-control def-select gender" name="plus_gender" id="plus_gender">
+                                <option value="0">
+                                    未知
+                                </option>
+                                <option value="1">
+                                    男
+                                </option>
+                                <option value="2">
+                                    女
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
                             <label for="plus_bith" class="control-label">
@@ -206,6 +254,8 @@
         $('#plus_bith_year').val('')
         $('#plus_bith_month').val('')
         $('#plus_bith_day').val('')
+
+        $('#plus_gender').find('option[value="0"]').attr('selected', true)
     }
     contactPhoneSame = function () {
         const phoned = $('#plus_phoned').val()
@@ -288,9 +338,19 @@
     }
     contactOnePlus = function () {
         const first_named = $('#plus_first_named').val()
-        const phoned = $('#plus_phoned').val()
         const area = $('#plus_area').find('option:selected').val()
-        const email = $('#plus_email').val()
+        const gender = $('#plus_gender').find('option:selected').val()
+
+        let phoned = $('#plus_phoned').val()
+        let email = $('#plus_email').val()
+
+        try {
+            phoned = phoned.trim()
+        } catch(e) { }
+
+        try {
+            email = email.trim()
+        } catch(e) { }
 
         const year = $('#plus_bith_year').val()
         const month = $('#plus_bith_month').val()
@@ -320,14 +380,16 @@
             'area': area,
             'phoned': phoned,
             'email': email,
+            'gender': gender,
             'bith': bith
         }
 
-        if ((phoned.trim() == '') & (email.trim() == '')) {
+        if ((phoned == '') & (email == '')) {
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')
             return
         } else {
-            if (phoned.trim() != '') {
+            
+            if ((phoned != '') & (phoned != undefined))  {
                 if (_valide_phone(phoned) != true) {
                     alert(_valide_phone(phoned))
                     return
@@ -394,7 +456,7 @@
         locationDom.find('.email').val(res['email'])
 
         locationDom.find('.area').find('option[value="' + res['area']['id'] + '"]').attr('selected', true)
-        // locationDom.find('.gender').find('option[value="' + res['gender'] + '"]').attr('selected', true)
+        locationDom.find('.gender').find('option[value="' + res['gender'] + '"]').attr('selected', true)
     }
     contactOne = function(id) {
         $.ajax({
@@ -416,7 +478,7 @@
     }
     locationCOUpdate = function(res, locationDom) {
         locationDom.find('.phoned').html( res['area']['phoned_prefix'] + ' ' + res['phoned'])
-        // locationDom.find('.gender').html(_ser_gender(res['gender']))
+        locationDom.find('.gender').html(_ser_gender(res['gender']))
         locationDom.find('.bith').html(_ser_bith(res['bith']))
         locationDom.find('.first_named').html(res['first_named'])
         locationDom.find('.email').html(res['email'])
@@ -448,10 +510,17 @@
         const id = $('#contact_one_id').val()
         const first_named = $('#first_named').val()
         const area = $('#area').find('option:selected').val();
-        // const gender = $('#gender').find('option:selected').val();
+        const gender = $('#gender').find('option:selected').val();
 
-        const email = $('#email').val().trim()
-        const phoned = $('#phoned').val().trim()
+        let email = $('#email').val()
+        try {
+            email = email.trim()
+        } catch(e) { }
+
+        let phoned = $('#phoned').val()
+        try {
+            phoned = phoned.trim()
+        } catch(e) { }
 
         const bith_year = $('#bith_year').val()
         const bith_month = $('#bith_month').val()
@@ -482,6 +551,7 @@
             'phoned': phoned,
             'bith': bith,
             'email': email,
+            'gender': gender,
             'status': true
         }
         
@@ -489,7 +559,7 @@
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')
             return
         } else {
-            if (phoned != $('#phoned').data('origin').trim()) {
+            if (phoned != $('#phoned').data('origin')) {
                 if (_valide_phone(phoned) != true) {
                     alert(_valide_phone(phoned))
                     return

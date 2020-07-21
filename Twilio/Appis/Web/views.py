@@ -188,12 +188,7 @@ class DataView(View):
 
                 elif working == 21:
 
-                    rec = data_insert_service(company)
-
-                    if rec:
-                        res['status'] = True
-                        res['service'] = rec['service']
-                        res['template'] = rec['template']
+                    pass
 
                 elif working == 22:
                     pass
