@@ -54,7 +54,7 @@ class EveryTaskViewSet(viewsets.ModelViewSet):
     queryset = models.EveryTask.objects.all()
     serializer_class = serializers.EveryTaskSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filter_fields = ('status', 'send_finish_time', 'send_status', 'apply_status')
+    filter_fields = ('status', 'send_finish_time', 'contact', 'send_status', 'apply_status')
     ordering_fields = ('add_time', )
     pagination_class = pagination.LimitOffsetPagination
 
