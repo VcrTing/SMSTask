@@ -71,6 +71,8 @@ class WebView(View):
     def get(self, request):
         if company == '123medhk':
             return redirect('/task/?option=add')
+        elif company == 'eye':
+            return redirect('/email/?option=add')
         return redirect('/email/')
 
 class StyleView(View):

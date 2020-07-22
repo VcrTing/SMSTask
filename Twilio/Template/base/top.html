@@ -20,6 +20,8 @@
     goIndex = function() {
         {% if request.session.company == '123medhk' %}
         location.href = '/task/'
+        {% elif request.session.company == 'eye' %}
+        location.href = '/email/'
         {% else %}
         location.href = '/'
         {% endif %}

@@ -95,51 +95,70 @@ SYSTEMMSGTYPED = (
     (113, '平台数据备份状态反馈。'),
 )
 
-ICON = [
+ICON_COMPANY = [
     {
-        'name': '紫蝴蝶（系统默认）',
-        'def': 'icon_0.jpg'
+        'key': '123medhk',
+        'name': '123醫務中心 的Logo',
+        'def': '123medhk.jpg'
     },
     {
-        'name': '可爱猫咪',
+        'key': 'eye',
+        'name': 'Visocare 的Logo',
+        'def': 'visocare.jpg'
+    },
+]
+
+ICON = [
+    {
+        'name': '紫蝴蝶（系統默認）',
+        'def': 'icon_0.jpg'
+    }
+]
+from Twilio.company import Now
+ICON += [i for i in ICON_COMPANY if i['key'] == Now]
+ICON += [
+    {
+        'name': '可愛貓咪',
         'def': 'icon_1.jpg'
     },
     {
-        'name': '洛丽塔女生',
+        'name': '洛麗塔女生',
         'def': 'icon_2.jpg'
     },
     {
-        'name': '动漫风格 - 简约，拉姆',
+        'name': '動漫風格 - 簡約線條，拉姆',
         'def': 'icon_3.jpg'
     },
     {
-        'name': '动漫风格 - 爱自拍，初音未来（近）',
+        'name': '動漫風格 - 成熟靚麗，和泉紗霧',
+        'def': 'icon_6.jpg'
+    },
+    {
+        'name': '動漫風格 - 愛自拍，初音未來（近）',
         'def': 'icon_4.jpg'
     },
     {
-        'name': '动漫风格 - 爱自拍，初音未来（远）',
+        'name': '動漫風格 - 愛自拍，初音未來（遠）',
         'def': 'icon_5.jpg'
-    },
-    {
-        'name': '动漫风格 - 成熟靓丽，和泉纱雾',
-        'def': 'icon_6.jpg'
     }
 ]
+
+
 BGIMG = [
     {
-        'name': '摄影风景 - 香港城市（系统默认）',
+        'name': '攝影風景 - 香港城市（系統默認）',
         'def': 'bgimg_0.jpg'
     },
     {
-        'name': '摄影风景 - 紫色山景',
+        'name': '攝影風景 - 紫色山景',
         'def': 'bgimg_1.jpg'
     },
     {
-        'name': '摄影风景 - 碧蓝海滩',
+        'name': '攝影風景 - 碧藍海灘',
         'def': 'bgimg_2.jpg'
     },
     {
-        'name': '动漫风格 - 清凉一夏',
+        'name': '動漫風格 - 清涼壹夏',
         'def': 'bgimg_3.jpg'
     }
 ]
