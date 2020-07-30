@@ -65,6 +65,15 @@
                     </div>
 
                     <div class="form-group form-group-lg row">
+                        <div class="col-sm-12">
+                            <label for="area" class="control-label">標簽</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row" id="tag_update_dom"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-lg row">
                         <div class="col-sm-4">
                             <label for="bith" class="control-label">
                                 出生年
@@ -153,6 +162,15 @@
                                     女
                                 </option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-group-lg row">
+                        <div class="col-sm-12">
+                            <label for="area" class="control-label">標簽</label>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="row" id="tag_plus_dom"></div>
                         </div>
                     </div>
 
@@ -330,6 +348,7 @@
                     _sleep(300).then(() => {
                         $('#contact_plus_modal').modal('hide')
                         _clearPlusInput()
+                        managerTag('clear', 0)
                     })
                 }
                 _clearMsgDom()
@@ -381,7 +400,8 @@
             'phoned': phoned,
             'email': email,
             'gender': gender,
-            'bith': bith
+            'bith': bith,
+            'tags': nowTag == [] ? '' : (nowTag + '')
         }
 
         if ((phoned == '') & (email == '')) {
@@ -473,6 +493,7 @@
    
     contactOneManager = function(id) {
         contactOne(id)
+        tagUserUpdate(id)
         lockManager(must_lock = true)
         $('#contact_one_modal').modal('show')
     }
@@ -497,6 +518,8 @@
             },
             success: function(e) {
                 
+                _tagUserUpdate(id)
+
                 _loadData(_build_url(_offset))
                 $('#contact_one_modal').modal('hide')
             },
@@ -552,9 +575,9 @@
             'bith': bith,
             'email': email,
             'gender': gender,
-            'status': true
+            'status': true,
         }
-        
+
         if ((phoned == '') & (email == '')) {
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')
             return

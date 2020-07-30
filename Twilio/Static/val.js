@@ -134,3 +134,16 @@ _val_email = function(date, isEmpty = false) {
 
     return true
 }
+
+// 验证 标签
+_val_tag = function(named) {
+    if ((named == '') || (named == null) || (named == undefined)) {
+        return '標簽名稱不為空'
+    } else {
+        const len = named.length
+        if (len < 12) {
+            return '名稱長度應小於或等於12字符'
+        }
+    }
+    return true
+}

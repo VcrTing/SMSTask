@@ -161,6 +161,7 @@ _ser_bith = function(res, group=false, cn=true) {
         return res[0] + '-' + parseInt(res[1]) + '-' + parseInt(res[2])
     }
 }
+// 标签
 
 // 年龄段
 _ser_age = function(res) {
@@ -282,4 +283,41 @@ _ser_numed = function(res, lang) {
     } 
     
     return numed_txt[res]
+}
+
+// 序列化 Tag
+
+_sel_tag = function(rec) {
+    let res = []
+    let len = rec.length
+    
+    if (len > 0) {
+        for (let i= 0; i< len; i++ ) {
+            const c = randomColor()
+            
+            res.push('<div class="hand simple-tag d-inline" data-id="' + rec[i]['id'] + '" style="color: ' + c + '; "><span>' + rec[i]['named'] + '</span></div>')
+        }
+    }
+    return res
+}
+tagsUser = function(contact_id, targDom) {
+    $.ajax({
+        url: _root + '/tag/?option=user&contact_id=' + contact_id,
+        type: 'GET',
+        success: function(e) {
+            
+            const len = e['tags'].length
+
+            if (len > 0) {
+                const res = _sel_tag(e['tags'])
+
+                for (let i= 0; i< res.length; i++ ) {
+                    if (i > 0) {
+                        targDom.append(', ')
+                    }
+                    targDom.append(res[i])
+                }
+            }
+        }
+    })
 }

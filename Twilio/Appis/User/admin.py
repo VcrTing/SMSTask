@@ -56,7 +56,7 @@ class ContactAdmin(admin.ModelAdmin):
         }),
         ("联络信息", {
             "fields": (
-                'email', 'phoned', 'area', 'star'
+                'email', 'phoned', 'area', 'star', 'tag'
             ),
         }),
         ("其他", {
@@ -71,10 +71,9 @@ class ContactAdmin(admin.ModelAdmin):
     def get_ordering(self, request):
         return ['-add_time', ]
 
-"""
 @admin.register(models.Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ['named', 'status', 'add_time']
+    list_display = ['named', 'add_time']
     search_fields = ['named']
     readonly_fields = ['add_time']
     exclude = ['id']
@@ -86,7 +85,7 @@ class TagAdmin(admin.ModelAdmin):
         }),
         ("其他", {
             "fields": (
-                'status', 'add_time'
+                'add_time', 
             ),
         }),
     )
@@ -95,4 +94,3 @@ class TagAdmin(admin.ModelAdmin):
 
     def get_ordering(self, request):
         return ['-add_time', ]
-"""

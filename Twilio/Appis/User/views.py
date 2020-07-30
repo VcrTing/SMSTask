@@ -62,6 +62,16 @@ class LoginOutView(View):
         return render(request, 'login.html', { 'title': '登录' })
 
 # REST
+class TagViewSet(viewsets.ModelViewSet):
+    """
+        标签
+    """
+    queryset = user_models.Tag.objects.all()
+    serializer_class = serializers.TagSerializer
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filter_fields = ('named', )
+    ordering_fields = ('add_time', )
+    pagination_class = pagination.LimitOffsetPagination
 
 class ContactViewSet(viewsets.ModelViewSet):
     """
@@ -78,6 +88,7 @@ class ContactViewSet(viewsets.ModelViewSet):
         start_birth = self.request.query_params.get('start_birth', None)
         end_birth = self.request.query_params.get('end_birth', None)
         filter_status = self.request.query_params.get('filter_status', 0)
+        filter_tag = self.request.query_params.get('filter_tag', '')
 
         age_f = self.request.query_params.get('age_f', False)
         
@@ -86,6 +97,22 @@ class ContactViewSet(viewsets.ModelViewSet):
         if age_f == 'true':
             res = res.filter(
                 Q(bith__range = (end_birth, start_birth)) )
+
+        """
+        if filter_tag != '':
+            print('Filter Tag =', filter_tag)
+            print('res =', res[0])
+            print('res =', type(res))
+            result = []
+            for contact in res:
+                tag_in = contact.tag.values('id')
+                if filter_tag in tag_in:
+                    print('tag_in =', tag_in)
+                    result.append(contact)
+                print('contact =', type(contact))
+            res = result
+            print('res =', type(res))
+        """
         
         if filter_status == 'undefined':
             return res
@@ -107,6 +134,47 @@ class ContactViewSet(viewsets.ModelViewSet):
         return res
 
 # FUNCTION
+class TagView(View):
+    def get(self, request):
+        option = request.GET.get('option', None)
+        if option:
+            if option == 'user':
+                contact_id = request.GET.get('contact_id', None)
+                contact = user_models.Contact.objects.get(id = contact_id)
+                
+                return JsonResponse({
+                    'tags': [tag for tag in contact.tag.values('id', 'named')]
+                })
+                
+        return render(request, 'other/test.html', 
+            { 
+                'title': '首页 - 邮件增加', 
+                'user': contact
+            }
+        )
+    
+    def post(self, request):
+        option = request.GET.get('option', None)
+        if option:
+            if option == 'user':
+                contact_id = request.GET.get('contact_id', None)
+                tags = request.GET.get('tags', None)
+
+                print('contact id =', contact_id)
+                print('tags =', tags)
+                contact = user_models.Contact.objects.get(id = contact_id)
+
+                contact.tag.clear()
+                if tags:
+                    tags = [int(i) for i in tags.split(',')]
+                    for tag in tags:
+                        contact.tag.add(tag)
+                contact.save()
+
+        return JsonResponse({
+            'status': True
+        })
+
 class ContactView(View):
     page_flag = 'contact'
     def get(self, request):
@@ -189,6 +257,7 @@ class ContactView(View):
         email = request.POST.get('email', None)
         gender = request.POST.get('gender', None)
         bith = request.POST.get('bith', None)
+        tags = request.POST.get('tags', None)
 
         if danger.xss(first_named):
             return JsonResponse({ 'status': False, 'msg': 'xss' })
@@ -210,13 +279,19 @@ class ContactView(View):
         contact.phoned = phoned 
         contact.email = email
         contact.gender = gender 
+
         if bith:
             contact.bith = bith
+        
+        if tags:
+            tags = [int(i) for i in tags.split(',')]
+            for tag in tags:
+                contact.tag.add(tag)
+            
         contact.save()
 
         return JsonResponse({
             'res': True,
-            'instance': model_to_dict(contact)
         })
 
 class ContactTaskerView(View):

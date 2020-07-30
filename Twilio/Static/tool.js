@@ -1,3 +1,58 @@
+
+const lightColor = [
+    'YellowGreen',
+    'Darkgreen',
+    'Thistle',
+    'Teal',
+    'Tan',
+    'SlateGray',
+    'SkyBlue',
+    'Sienna',
+    'SandyBrown',
+    'RosyBrown',
+    'Plum',
+    'Pink',
+    'PaleVioletRed',
+    'Orchid',
+    'Orange',
+    'OliveDrab',
+    'Olive',
+    'Navy',
+    'MidnightBlue',
+    'MediumVioletRed',
+    'MediumPurple',
+    'LightSlateGray',
+    'LightSkyBlue',
+    'LightSeaGreen',
+    'LightSalmon',
+    'Darkgrey',
+    'IndianRed',
+    'GoldenRod',
+    'Green',
+    'FireBrick',
+    'DarkSlateBlue',
+    'DarkSalmon',
+    'DarkRed',
+    'DarkGray',
+    'DarkCyan',
+    'Chocolate',
+    'CadetBlue',
+    'BurlyWood',
+    'Brown'
+]
+// 随机选取颜色
+randomColor = function(dark = true) {
+
+    const randomI = Math.floor(Math.random() * lightColor.length + 1)-1
+
+    if (dark) {
+        return lightColor[randomI]
+    }
+    return 'Skyblue'
+}
+
+// 获取颜色 const catch_color_i = Math.floor(Math.random() * lightColor.length + 1)-1
+
 // 模版图片回现
 sendFile = function(file, editor, $editable) {
     var filename = false;
@@ -110,6 +165,27 @@ vSet = function(k , v) {
 }
 vRemove = function(k) {
     localStorage.removeItem(k)
+}
+
+// 数组去重复 
+delListSame = function(rec) {
+    let res = []
+    for (let m= 0; m< rec.length; m++ ) {
+        if($.inArray(rec[m], res) == -1) {
+            res.push(rec[m])
+        }       
+    }
+    return res
+}
+
+// 判断一个数是否在数组中
+hasYou = function(v, rec) {
+    for (var i= 0; i< rec.length; i++ ) {
+        if (v == rec[i]) {
+            return true
+        }
+    }
+    return false
 }
 
 // 年龄计算

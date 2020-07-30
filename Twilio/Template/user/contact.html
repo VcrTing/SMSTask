@@ -38,6 +38,10 @@
                 'res': '',
                 'val': ''
             },
+            'tag': {
+                'res': '',
+                'val': 0
+            },
             'bith': {
                 'start_bith': _age_num(0),
                 'end_bith': _age_num(150),
@@ -61,6 +65,7 @@
             '&star=' + filter['star']['res'] +
             '&gender=' + filter['gender']['res'] +
             '&filter_status=' + filter['filter_status']['res'] +
+            '&filter_tag=' + filter['tag']['res'] +
             '&start_birth=' + filter['bith']['start_bith'] +
             '&end_birth=' + filter['bith']['end_bith'] +
             '&age_f=' + filter['bith']['age_f'] +
@@ -75,6 +80,7 @@
         contact = []
         dataDom.html('')
         $.each(res, function(index, item) {
+
             const id = item['id']
             const area = item['area']
             const star = item['star']
@@ -115,6 +121,8 @@
                     {% endif %}
 
                     '<td align="center"><h4 class="bith">' + _ser_bith(bith) + '</h4></td>' +
+                    // '<td align="center"><h4 class="tag-td" id="tag_user_' + id + '">' + '' + '</h4></td>' +
+
                     '<td align="center"><div class="star" onclick="isStar(' + id + ')">' + _ser_star(star) + '</div></td>' +
 
                     {% if request.session.layout.sms == 1 %}
@@ -127,6 +135,7 @@
             // &nbsp;&nbsp;<a onclick="sureTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a>
             contact.push(item)
             dataDom.append(html)
+            tagsUser(id, $('#tag_user_' + id))
         })
     }
 
@@ -170,7 +179,6 @@
                     </select>
                 </div>
             {% endif %}
-            
             <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_gender">
                     <option value="">-- 性別 --</option>
@@ -200,15 +208,24 @@
                 </select>
             </div>
             
+
+            <!-- div class="col-sm-2">
+                <select class="w-100 form-control filter-select" id="filter_tag">
+                    <option value="0">-- 标签 --</option>
+                    <option value="1">湿疹</option>
+                    <option value="2">孢子</option>
+                </select>
+            </div -->
             {% if request.session.layout.email == 1 %}
                 {% if request.session.layout.sms == 1 %}
                 {% else %}
-                <div class="col-sm-3"></div>
+                <div class="col-sm-1"></div>
                 {% endif %}
             {% endif %}
+
             <div class="col-sm-2 text-right">
-                <button class="btn btn-default " onclick="clearFilter()">恢復</button>
-                <button class="btn btn-primary " onclick="filterManager()">過濾</button>
+                <button class="btn btn-default fl" onclick="clearFilter()">恢復</button>
+                <button class="btn btn-primary fr" onclick="filterManager()">過濾</button>
             </div>
         </div>
     </div>
@@ -256,6 +273,9 @@
                 <td align="center">
                     <h4>出生年月</h4>
                 </td>
+                <!-- td align="center">
+                    <h4>標簽</h4>
+                </td -->
                 <td align="center">
                     <h4>星標</h4>
                 </td>
@@ -296,6 +316,7 @@
 <!-- 加載數據 -->
 <script>
     _loadData = function(url) {
+        
         $.ajax({
             url: url,
             type: 'GET',
@@ -576,14 +597,16 @@
 
         if (confirm('刪除聯系人將導致於該聯系人相關的短信、電郵等任務均失效，請謹慎做決定。確認要刪除嗎？')) {
 
-            const addr = prompt('請輸入妳的電郵地址用於確認刪除。', '')
+            try {
+                const addr = prompt('請輸入妳的電郵地址用於確認刪除。', '')
 
-            if (addr.trim() == '{{ request.session.user }}') {
-                alert('成功！！')
-            } else {
-                alert('輸入不匹配！撤銷刪除')
-                return
-            }
+                if (addr.trim() == '{{ request.session.user }}') {
+                    alert('成功！！')
+                } else {
+                    alert('輸入不匹配！撤銷刪除')
+                    return
+                }
+            } catch(e) { return }
 
             applyBar(false)
             const dieId = _choiseId()
@@ -670,9 +693,14 @@
         const filter_status = $('#filter_status').find('option:selected').val()
 
         /*
-        let start_age = $('#start_age').val()
-        let end_age = $('#end_age').val()
+            let start_age = $('#start_age').val()
+            let end_age = $('#end_age').val()
         */
+        let tag = parseInt($('#filter_tag').find('option:selected').val())
+        if (tag > 0) {
+            if ( !hasYou(tag, allTag) ) { tag = 0 }
+        }
+
         let start_age = $('#start_age').find('option:selected').val()
         let end_age = $('#end_age').find('option:selected').val()
         let ageF = true
@@ -726,6 +754,10 @@
         conditions['filter']['gender'] = {
             'res': gender,
             'val': gender
+        }
+        conditions['filter']['tag'] = {
+            'res': tag==0?'':tag,
+            'val': tag
         }
 
         _loadData(_build_url(_offset))
@@ -811,8 +843,12 @@
     .apply-select {
         
     }
+    .tag-td {
+        max-width: 170px;
+    }
 </style>
 {% include './contact_in.html' %}
+{% include './contact_tag.html' %}
 {% include './contact_preview.html' %}
 {% endblock data %}
 

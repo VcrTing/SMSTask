@@ -5,16 +5,15 @@ from Appis.Sms.serializers import AreaSerializer
 
 # Serializer
 
-"""
 class TagSerializer(serializers.ModelSerializer):
-    ""
+    """
         标签
-    ""
+    """
     class Meta:
         model = models.Tag
         depth = 1
         fields = '__all__'
-"""
+        
 
 class ContactSerializer(serializers.ModelSerializer):
     """

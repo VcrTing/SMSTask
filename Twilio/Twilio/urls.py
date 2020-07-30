@@ -24,7 +24,7 @@ router.register('sms_conf', Web.SMSConfViewSet)
 router.register('system_msg', Web.SystemMsgViewSet)
 
 router.register('contact', User.ContactViewSet)
-# router.register('tag', User.TagViewSet)
+router.register('tag', User.TagViewSet)
 
 # router.register('service', Sms.ServiceViewSet)
 router.register('area', Sms.AreaViewSet)
@@ -52,6 +52,7 @@ urlpatterns = [
     path('login-out/', User.LoginOutView.as_view()),
     path('service/', Sms.ServiceView.as_view()),
     path('contact/', User.ContactView.as_view()),
+    path('tag/', User.TagView.as_view()),
     path('task/', Record.TaskView.as_view()),
     path('email/', Additional.EmailView.as_view()),
     path('email_template/', Additional.EmailTemplateView.as_view()),

@@ -33,6 +33,21 @@ class UserProfile(AbstractUser):
         else:
             return '-空白-'
 
+class Tag(models.Model):
+    named = models.CharField(max_length=20, null=True, blank=True, unique=True, verbose_name='标签名称')
+
+    add_time = models.DateTimeField(verbose_name='创建时间', default=timezone.now)
+
+    class Meta:
+        verbose_name = "标签"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        if self.named:
+            return self.named
+        else:
+            return '-空白-'
+
 class Contact(models.Model):
     # 电话薄
     first_named = models.CharField(max_length=20, null=True, blank=True, verbose_name='姓氏')
@@ -41,6 +56,7 @@ class Contact(models.Model):
 
     star = models.BooleanField(default=False, verbose_name='是否为星标联系人')
     area = models.ForeignKey(Area, on_delete=models.CASCADE, null=True, verbose_name='手机号码前缀')
+    tag = models.ManyToManyField(to = Tag, related_name='tag', blank=True, verbose_name='标签')
 
     phoned = models.CharField(max_length=11, null=True, blank=True, default='', verbose_name='电话')
     email = models.EmailField(max_length=100, null=True, blank=True, default='', verbose_name='邮箱')
