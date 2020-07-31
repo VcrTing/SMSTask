@@ -293,7 +293,7 @@ _sel_tag = function(rec) {
     
     if (len > 0) {
         for (let i= 0; i< len; i++ ) {
-            const c = randomColor()
+            const c = catchColor(i)
             
             res.push('<div class="hand simple-tag d-inline" data-id="' + rec[i]['id'] + '" style="color: ' + c + '; "><span>' + rec[i]['named'] + '</span></div>')
         }

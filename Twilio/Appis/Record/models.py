@@ -36,13 +36,13 @@ class EveryTask(models.Model):
     numed = models.SmallIntegerField(default=1, null=True, blank=True, verbose_name='所属索引值')
     
     send_finish_time = models.DateTimeField(verbose_name='預計發送時間', null=True, blank=True)
-    schedule_id = models.CharField(max_length=90, default='0', verbose_name='极光短信任务ID 字段')
+    schedule_id = models.CharField(max_length=90, default='0', verbose_name='短信任务ID 字段')
     
     apply_status = models.NullBooleanField(default=None, verbose_name='应用标识')
     send_status = models.BooleanField(default=False, verbose_name='短信是否已发送')
 
     temp_para = models.TextField(max_length=600, default=common.NULL, null=True, blank=True, verbose_name='模版参数')
-    jsms_response = models.TextField(max_length=1000, null=True, blank=True, verbose_name='极光 Response 返回解析结果储存')
+    jsms_response = models.TextField(max_length=1000, null=True, blank=True, verbose_name='短信平台 Response 返回解析结果储存')
 
     status = models.BooleanField(default=True, verbose_name='数据状态')
     add_time = models.DateTimeField(verbose_name='創建時間', default=timezone.now)
@@ -62,7 +62,7 @@ class SmsTaskRecord(models.Model):
     send_time = models.DateTimeField(verbose_name='發送時間')
 
     # 暗藏字段
-    every_task = models.ForeignKey(EveryTask, on_delete=models.CASCADE, verbose_name='极光任务队列表', null=True)
+    every_task = models.ForeignKey(EveryTask, on_delete=models.CASCADE, verbose_name='短信任务队列表', null=True)
 
     status = models.BooleanField(default=True, verbose_name='数据状态')
     add_time = models.DateTimeField(verbose_name='創建時間', default=timezone.now)

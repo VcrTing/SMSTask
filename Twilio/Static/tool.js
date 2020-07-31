@@ -1,18 +1,22 @@
 
 const lightColor = [
     'YellowGreen',
-    'Darkgreen',
-    'Thistle',
     'Teal',
-    'Tan',
-    'SlateGray',
     'SkyBlue',
-    'Sienna',
+    'PaleVioletRed',
     'SandyBrown',
+    'Sienna',
+    'Tan',
+    'Darkgreen',
+    'SlateGray',
+    'Thistle',
+    'LightSeaGreen',
+    'LightSalmon',
+    'Darkgrey',
+    'IndianRed',
     'RosyBrown',
     'Plum',
     'Pink',
-    'PaleVioletRed',
     'Orchid',
     'Orange',
     'OliveDrab',
@@ -23,10 +27,6 @@ const lightColor = [
     'MediumPurple',
     'LightSlateGray',
     'LightSkyBlue',
-    'LightSeaGreen',
-    'LightSalmon',
-    'Darkgrey',
-    'IndianRed',
     'GoldenRod',
     'Green',
     'FireBrick',
@@ -49,6 +49,19 @@ randomColor = function(dark = true) {
         return lightColor[randomI]
     }
     return 'Skyblue'
+}
+// 依次获取颜色
+catchColor = function(code) {
+    let res = code
+    if (res > lightColor.length) {
+        res = res - (lightColor.length)
+        if (res > lightColor.length) {
+            return randomColor()
+        }
+    }
+    if (code < 0) { res = 0 }
+
+    return lightColor[res]
 }
 
 // 获取颜色 const catch_color_i = Math.floor(Math.random() * lightColor.length + 1)-1
@@ -186,6 +199,16 @@ hasYou = function(v, rec) {
         }
     }
     return false
+}
+
+// 判断一个数在数组中什么位置
+whereYou = function(v, rec) {
+    for (var i= 0; i< rec.length; i++ ) {
+        if (v == rec[i]) {
+            return i
+        }
+    }
+    return -1
 }
 
 // 年龄计算

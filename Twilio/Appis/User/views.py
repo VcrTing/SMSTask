@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
 from django.forms.models import model_to_dict
+from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponsePermanentRedirect,HttpResponse,JsonResponse
@@ -98,24 +99,16 @@ class ContactViewSet(viewsets.ModelViewSet):
             res = res.filter(
                 Q(bith__range = (end_birth, start_birth)) )
 
-        """
-        if filter_tag != '':
-            print('Filter Tag =', filter_tag)
-            print('res =', res[0])
-            print('res =', type(res))
-            result = []
-            for contact in res:
-                tag_in = contact.tag.values('id')
-                if filter_tag in tag_in:
-                    print('tag_in =', tag_in)
-                    result.append(contact)
-                print('contact =', type(contact))
-            res = result
-            print('res =', type(res))
-        """
         
-        if filter_status == 'undefined':
-            return res
+        if filter_tag != '':
+            ids = []
+            for contact in res:
+                tag_in = contact.tag.values('id').filter(id = filter_tag) # Tag QuerySet Only Id
+
+                if tag_in:
+                    ids.append(contact.id)
+                
+            res = user_models.Contact.objects.filter(pk__in = ids)
 
         if filter_status != '':
             filter_status = int(filter_status)
@@ -282,10 +275,14 @@ class ContactView(View):
 
         if bith:
             contact.bith = bith
+        contact.save()
         
         if tags:
             tags = [int(i) for i in tags.split(',')]
+            
+            contact.tag.clear()
             for tag in tags:
+                # tag = user_models.Tag.objects.get(id = tag)
                 contact.tag.add(tag)
             
         contact.save()

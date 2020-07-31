@@ -186,13 +186,7 @@
         '#tag_plus_dom',
         '#tag_update_dom'
     ]
-
-    const defTagPlus = '' +
-        '<div class="col-sm-4" onclick="managerTagPlus(true)">' +
-        '   <div class="text-center tag-item tag-plus hand">' +
-        '       <span class="glyphicon glyphicon-plus"></span>' +
-        '   </div>' +
-        '</div>'
+    let tagNowModal = null
             
     _buildTag = function(tags, domIndex) {
         let res = []
@@ -201,7 +195,7 @@
             const tag = tags[i]
             const id = tag['id']
             const named = tag['named']
-            const color = randomColor()
+            const color = catchColor(i)
 
             const html = '' +
             '<div class="col-sm-4">' +
@@ -215,10 +209,34 @@
             '</div>'
             res.push(html)
         }
-        if (domIndex == 0) {
-            res.push(defTagPlus)
-        }
+
+        const defTagPlus = '' +
+            '<div class="col-sm-4" id="tag_plus_event_' + domIndex + '" data-dom="a">' +
+            '   <div class="text-center tag-item tag-plus hand">' +
+            '       <span class="glyphicon glyphicon-plus"></span>' +
+            '   </div>' +
+            '</div>'
+        const endTagScript = '<script>' +
+            '   $("#tag_plus_event_' + domIndex + '").click(function() { managerTagPlus(true, "#" + $(this).parent().attr("id")) })' + 
+            '<\/script>'
+
+        res.push(defTagPlus)
+        res.push(endTagScript)
+            
         return res
+    }
+    loadTagFilter = function(tags) {
+        const optionDom = $('#filter_tag')
+
+        optionDom.html('')
+        const defOption = '<option value="0">-- 標簽 --</option>'
+        optionDom.append(defOption)
+
+        for (let i= 0; i< tags.length; i++ ) {
+            const tag = tags[i]
+            const option = '<option value="' + tag['id'] + '">' + tag['named'] + '</option>'
+            optionDom.append(option)
+        }
     }
     refreashTag = function(tDL = tagDomList) {
         for (var d= 0; d< tagDomList.length; d++ ) {
@@ -230,6 +248,7 @@
             type: 'GET',
             async: false,
             success: function(e) {
+                loadTagFilter(e)
                 allTag = []
                 for (var t= 0; t< e.length; t++ ) {
                     allTag.push(e[t]['id'])
@@ -249,17 +268,40 @@
             }
         })
     }
-    managerTagPlus = function(f, showDom = '#contact_plus_modal') {
+    managerTagPlus = function(f, showDom) {
+        const nowIndex = whereYou(showDom, tagDomList)
+
+        if (nowIndex > -1) {
+            if (nowIndex == 0) {
+                tagNowModal = '#contact_plus_modal'
+            } else if (nowIndex == 1) {
+                tagNowModal = '#contact_one_modal'
+            }
+        }
+
         if (f) {
+            $('.modal').modal('hide')
             $('#tag_plus_modal').modal('show')
-            $('#contact_plus_modal').modal('hide')
-            $('#contact_one_modal').modal('hide')
+
         } else {
-            $(showDom).modal('show')
+            try {
+
+            } catch(e) {
+
+            }
+            console.log('tagNowModal =', tagNowModal)
+
+            $(tagNowModal).modal('show')
+
+            if (tagNowModal == '#contact_plus_modal') {
+                locationTag(nowTag, 0, true)
+            } else if (tagNowModal == '#contact_one_modal') {
+                locationTag(addrTag, 1, true)
+            }
+            tagNowModal = null
         }
     }
     $('#tag_plus_modal').on('hidden.bs.modal', function () {
-        
         managerTagPlus(false, '#contact_plus_modal')
     })
 

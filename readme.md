@@ -1,6 +1,6 @@
 <center><img width = '270' src ="https://github.com/VcrTing/SMSTask/blob/master/0.jpg?raw=true"/></center>
   
 ## 定时SMS任务管理后台
-version = 2.17.0  
+version = 2.18.0  
 author = vcrting@163.com  
-lastedit = 2020年7月21日
+lastedit = 2020年7月31日

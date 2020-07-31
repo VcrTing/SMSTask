@@ -168,7 +168,7 @@
                 {% endif %}
                 
                 {% else %}
-                <div class="col-sm-3">
+                <div class="col-sm-2">
                     <select class="w-100 form-control filter-select" id="filter_area">
                         <option value="0">-- 地區 --</option>
                         {% for area in areas %}
@@ -179,7 +179,11 @@
                     </select>
                 </div>
             {% endif %}
-            <div class="col-sm-2">
+            {% if request.session.layout.email == 1 %}
+                <div class="col-sm-3">
+                {% else %}
+                <div class="col-sm-2">
+            {% endif %}
                 <select class="w-100 form-control filter-select" id="filter_gender">
                     <option value="">-- 性別 --</option>
                     <option value="0">未知</option>
@@ -200,7 +204,11 @@
                     <div>歲</div>
                 </div>
             </div>
-            <div class="col-sm-2">
+            {% if request.session.layout.email == 1 %}
+                <div class="col-sm-2">
+                {% else %}
+                <div class="col-sm-1">
+            {% endif %}
                 <select class="w-100 form-control filter-select" id="filter_star">
                     <option value="0">-- 星標 --</option>
                     <option value="1">星標</option>
@@ -208,14 +216,11 @@
                 </select>
             </div>
             
-
-            <!-- div class="col-sm-2">
+            <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_tag">
-                    <option value="0">-- 标签 --</option>
-                    <option value="1">湿疹</option>
-                    <option value="2">孢子</option>
+                    <option value="0">-- 標簽 --</option>
                 </select>
-            </div -->
+            </div>
             {% if request.session.layout.email == 1 %}
                 {% if request.session.layout.sms == 1 %}
                 {% else %}
@@ -688,7 +693,8 @@
     }
   
     filterManager = function() {
-        const area = $('#filter_area').find('option:selected').val()
+        let area = $('#filter_area').find('option:selected').val()
+        area = area==undefined?'':area
         const gender = $('#filter_gender').find('option:selected').val()
         const filter_status = $('#filter_status').find('option:selected').val()
 
@@ -738,7 +744,7 @@
             'val': area
         }
         conditions['filter']['filter_status'] = {
-            'res': filter_status,
+            'res': filter_status==undefined?'':filter_status,
             'val': filter_status
         }
         conditions['filter']['bith'] = {
