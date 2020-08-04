@@ -54,7 +54,7 @@ _valide_named = function(named) {
 // 驗證手機號碼的方法
 _valide_phone = function(phone) {
     if (!phone | phone == undefined | phone == '') {
-        return '號碼不為空'
+        return '電話號碼不為空'
     } else {
         const len = phone.length
         let char = /[`~!@#$%^&*(“”‘’'、～·！—_+|=;？，。\\)<>?:"{},.\/;'[\]]/;

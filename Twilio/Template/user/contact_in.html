@@ -24,7 +24,7 @@
                         <div class="col-sm-8">
                             <label for="phoned" class="control-label">
                                 手機號碼&nbsp;
-                                <div data-lock="true" id="lock_update" style="padding-top: 2px;"
+                                <div style="padding-top: 2px;"
                                     class="hand fr d-inline text-info fw-400 fs-14 lock_update" onclick="lockManager()">
                                     <span class="iconfont icon-lock hand lock"></span>
                                 </div>
@@ -33,7 +33,9 @@
                         </div>
                     </div>
                     {% endif %}
-
+                    
+                    <input type="hidden" data-lock="true" id="lock_update">
+                    
                     {% if request.session.layout.email == 1 %}
                     <div class="form-group form-group-lg">
                         <label for="email" class="control-label">
@@ -429,6 +431,12 @@
                     })
                 }
             } else {
+                {% if request.session.layout.sms == 1 %}
+                    if (_valide_phone(phoned) != true) {
+                        alert(_valide_phone(phoned))
+                        return
+                    }
+                {% endif %}
                 if (_val_email(email) != true) {
                     alert(_val_email(email))
                     return
@@ -524,6 +532,7 @@
                 $('#contact_one_modal').modal('hide')
             },
             error: function(e) {
+                console.log(e)
                 alert('修改失敗！！！')
             }
         })  
@@ -567,16 +576,23 @@
         if (xss_bith != true) { alert(xss_bith); return }
         
         // 裝載數據
-        const data = {
+        let data = {
             'first_named': first_named,
-            'area': area,
-            'area_id': area,
-            'phoned': phoned,
-            'bith': bith,
-            'email': email,
+            'area': area==undefined?'':area,
             'gender': gender,
             'status': true,
+            'phoned': phoned==undefined?'':phoned,
         }
+
+        if(area != undefined) {
+            data['area_id'] = area
+        }
+        if(bith != '') {
+            data['bith'] = bith
+        }
+        data['email'] = email
+
+        console.log(data)
 
         if ((phoned == '') & (email == '')) {
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')
