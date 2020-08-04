@@ -40,7 +40,7 @@ _valide_named = function(named) {
         if (len < 2) {
             return '確保名字字數大於2'
         } else if (len > 40) {
-            return '名字字數不得大於40'
+            return '請修改名字為40字以內'
         }
 
         let char = /[`~!@#$%^&*(“”‘’'、～·！—_+|=;？，。\\)<>?:"{},.\/;'[\]]/;
@@ -60,8 +60,8 @@ _valide_phone = function(phone) {
         let char = /[`~!@#$%^&*(“”‘’'、～·！—_+|=;？，。\\)<>?:"{},.\/;'[\]]/;
         if (len < 8) {
             return '確保號碼字數大於等於8位'
-        } else if (len > 600) {
-            return '確保號碼字數小於600'
+        } else if (len > 60) {
+            return '確保號碼字數小於60'
         }
         if (char.test(phone)) {
             return '號碼不需要特殊字符！！！'

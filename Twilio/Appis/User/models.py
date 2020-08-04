@@ -50,8 +50,8 @@ class Tag(models.Model):
 
 class Contact(models.Model):
     # 电话薄
-    first_named = models.CharField(max_length=40, null=True, blank=True, verbose_name='姓氏')
-    last_named = models.CharField(max_length=40, null=True, blank=True, verbose_name='名字')
+    first_named = models.CharField(max_length=80, null=True, blank=True, verbose_name='姓氏')
+    last_named = models.CharField(max_length=80, null=True, blank=True, verbose_name='名字')
     bith = models.DateField(null=True, blank=True, verbose_name='出生年月')
 
     star = models.BooleanField(default=False, verbose_name='是否为星标联系人')
