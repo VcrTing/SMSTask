@@ -323,7 +323,7 @@
         }
     }
     _plus = function (data) {
-        
+        console.log('Plus Data =', data)
         $.ajax({
             url: _root + '/contact/',
             type: 'POST',
@@ -513,6 +513,7 @@
         locationDom.find('.email').html(res['email'])
     }
     _update = function (data, id) {
+        console.log('Plus Data =', data)
         $.ajax({
             url: _url + _api_name + '/' + id + '/',
             type: 'PUT',
