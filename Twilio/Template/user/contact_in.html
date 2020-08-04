@@ -323,7 +323,7 @@
         }
     }
     _plus = function (data) {
-        console.log('Plus Data =', data)
+        
         $.ajax({
             url: _root + '/contact/',
             type: 'POST',
@@ -354,6 +354,10 @@
                     })
                 }
                 _clearMsgDom()
+            },
+            error: function(e) {
+                console.log(e)
+                alert('檢測到不合格的輸入。')
             }
         }) 
     }
@@ -513,7 +517,7 @@
         locationDom.find('.email').html(res['email'])
     }
     _update = function (data, id) {
-        console.log('Plus Data =', data)
+        
         $.ajax({
             url: _url + _api_name + '/' + id + '/',
             type: 'PUT',
@@ -534,7 +538,7 @@
             },
             error: function(e) {
                 console.log(e)
-                alert('修改失敗！！！')
+                alert('檢測到不合格的輸入。')
             }
         })  
     }

@@ -60,8 +60,8 @@ _valide_phone = function(phone) {
         let char = /[`~!@#$%^&*(“”‘’'、～·！—_+|=;？，。\\)<>?:"{},.\/;'[\]]/;
         if (len < 8) {
             return '確保號碼字數大於等於8位'
-        } else if (len > 60) {
-            return '確保號碼字數小於60'
+        } else if (len > 11) {
+            return '確保號碼字數小於11'
         }
         if (char.test(phone)) {
             return '號碼不需要特殊字符！！！'
