@@ -39,8 +39,8 @@ _valide_named = function(named) {
         const len = named.length
         if (len < 2) {
             return '确保名字字数大于2'
-        } else if (len > 30) {
-            return '名字字数不得大于30'
+        } else if (len > 40) {
+            return '名字字数不得大于40'
         }
 
         let char = /[`~!@#$%^&*(“”‘’'、～·！—_+|=;？，。\\)<>?:"{},.\/;'[\]]/;
