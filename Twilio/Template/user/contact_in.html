@@ -279,9 +279,10 @@
     }
     contactPhoneSame = function () {
         const phoned = $('#plus_phoned').val()
+        const area = $('#plus_area').find('option:selected').val()
 
-        if (_valide_phone(phoned) != true) {
-            // alert(_valide_phone(phoned))
+        if (_valide_phone(phoned, area) != true) {
+            
             return
         } else {
             $.ajax({
@@ -304,7 +305,7 @@
         const email = $('#plus_email').val()
 
         if (_val_email(email) != true) {
-            // alert(_valide_phone(phoned))
+            
             return
         } else {
             $.ajax({
@@ -356,7 +357,7 @@
                 _clearMsgDom()
             },
             error: function(e) {
-                console.log(e)
+                // console.log(e)
                 alert('檢測到不合格的輸入。')
             }
         }) 
@@ -416,8 +417,8 @@
         } else {
             
             if ((phoned != '') & (phoned != undefined))  {
-                if (_valide_phone(phoned) != true) {
-                    alert(_valide_phone(phoned))
+                if (_valide_phone(phoned, area) != true) {
+                    alert(_valide_phone(phoned, area))
                     return
                 } else {
                     $.ajax({
@@ -436,8 +437,8 @@
                 }
             } else {
                 {% if request.session.layout.sms == 1 %}
-                    if (_valide_phone(phoned) != true) {
-                        alert(_valide_phone(phoned))
+                    if (_valide_phone(phoned, area) != true) {
+                        alert(_valide_phone(phoned, area))
                         return
                     }
                 {% endif %}
@@ -537,7 +538,7 @@
                 $('#contact_one_modal').modal('hide')
             },
             error: function(e) {
-                console.log(e)
+                // console.log(e)
                 alert('檢測到不合格的輸入。')
             }
         })  
@@ -597,15 +598,15 @@
         }
         data['email'] = email
 
-        console.log(data)
+        // console.log(data)
 
         if ((phoned == '') & (email == '')) {
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')
             return
         } else {
             if (phoned != $('#phoned').data('origin')) {
-                if (_valide_phone(phoned) != true) {
-                    alert(_valide_phone(phoned))
+                if (_valide_phone(phoned, area) != true) {
+                    alert(_valide_phone(phoned, area))
                     return
                 } else {
                     $.ajax({

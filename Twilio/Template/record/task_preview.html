@@ -129,7 +129,9 @@
         }
 
         let phoned = $('#phoned').val()
-        phoned = _valide_phone(phoned)
+        const area = $('#area').find('option:selected').data('prefix');
+        
+        phoned = _valide_phone(phoned, area)
         if (phoned != true) {
             alert('提示：' + phoned)
             return null

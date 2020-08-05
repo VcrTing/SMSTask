@@ -11,6 +11,7 @@
         </title>
         <link rel="icon" href="{% static 'Common/Icon/default.jpg' %}" type="image/x-icon"/>
 
+        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
         <link rel="stylesheet" href="{% static 'base.css' %}"/>
         <link rel="stylesheet" href="{% static 'common.css' %}"/>
         <link rel="stylesheet" href="{% static 'css/iconfont.css' %}"/>
@@ -21,13 +22,31 @@
         <script  type="text/javascript" src="{% static 'val.js' %}"></script>
         <script  type="text/javascript" src="{% static 'common.js' %}"></script>
         <script  type="text/javascript" src="{% static 'ser.js' %}"></script>
-        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
         <script  type="text/javascript" src="{% static 'tool.js' %}"></script>
         <script  type="text/javascript" src="{% static 'plugin/laydate/laydate.js' %}"></script>
 
     </head>
     <body>
+        <script>
+
+        let _root = head + '{{ request.get_host }}'
+
+        let area_list = []
+        $.ajax({
+            url: _root + '/api/area/',
+            type: 'GET',
+            success: function(e) {
+                for (let i= 0; i< e.length; i++ ) {
+                    area_list.push({
+                        'id': e[i]['id'],
+                        'prefix': e[i]['phoned_prefix']
+                    })
+                }
+                console.log(area_list)
+            }
+        });
         
+        </script>
         <!-- 主內容 -->
         {% block center %}
         {% endblock center %}

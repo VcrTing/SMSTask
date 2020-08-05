@@ -52,7 +52,25 @@ _valide_named = function(named) {
 }
 
 // 驗證手機號碼的方法
-_valide_phone = function(phone) {
+__86 = function(rec) {
+    const len = rec.length
+    if (len < 11) {
+        return '中國大陸的手機號碼字數長度應等於11'
+    }
+    const char = /^[1][3,4,5,7,8,9][0-9]{9}$/
+    if (!char.test(rec)) {
+        return '中國大陸的手機號碼格式不正確'
+    }
+    return true
+}
+__852 = function(rec) {
+    const len = rec.length
+    if (len > 8) {
+        return '港澳地區的電話號碼字數長度應等於8'
+    }
+    return true
+}
+_valide_phone = function(phone, area) {
     if (!phone | phone == undefined | phone == '') {
         return '電話號碼不為空'
     } else {
@@ -71,7 +89,30 @@ _valide_phone = function(phone) {
             return '號碼中應不存在a-z以及A-Z的字母！！！'
         }
     }
-    return true
+    let prefix = 0;
+    
+    if (area.startsWith('+')) {
+        prefix = area
+
+    } else {
+        prefix = getPrefix(area)
+    }
+    
+    if (prefix == null) { return '無法獲取後臺區域信息，系網絡波動，請重試。' }
+    if (prefix == '+86') {
+        return __86(phone)
+    } else {
+        return __852(phone)
+    }
+}
+getPrefix = function(id) {
+    let res = null
+    for (let i= 0; i< area_list.length; i++ ) {
+        if (area_list[i]['id'] == id) {
+            res = area_list[i]['prefix']
+        }
+    }
+    return res
 }
 
 // 驗證時間 年月日

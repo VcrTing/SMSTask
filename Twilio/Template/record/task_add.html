@@ -10,7 +10,6 @@
     if (isLogin == 0) {
         location.href = '/login/'
     }
-    const _root = head + '{{ request.get_host }}'
 
     $.ajax({
         url: _root + '/num?option=jt',
@@ -172,7 +171,7 @@
         const area = $('#area').children('option:selected').val()
         const url = url_contact
 
-        const val_phoned = _valide_phone(phoned)
+        const val_phoned = _valide_phone(phoned, area)
         if (val_phoned != true) {
             alert(val_phoned)
             return
