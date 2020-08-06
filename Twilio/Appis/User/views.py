@@ -285,11 +285,16 @@ class ContactView(View):
                 # tag = user_models.Tag.objects.get(id = tag)
                 contact.tag.add(tag)
             
-        contact.save()
-
-        return JsonResponse({
-            'res': True,
-        })
+            contact.save()
+        try:
+            return JsonResponse({
+                'res': True,
+                'instance': model_to_dict(contact)
+            })
+        except:
+            return JsonResponse({
+                'res': True
+            })
 
 class ContactTaskerView(View):
     def get(self, request):

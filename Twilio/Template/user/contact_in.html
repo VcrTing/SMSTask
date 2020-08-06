@@ -357,7 +357,7 @@
                 _clearMsgDom()
             },
             error: function(e) {
-                // console.log(e)
+                
                 alert('檢測到不合格的輸入。')
             }
         }) 
@@ -488,7 +488,11 @@
         locationDom.find('.email').data('origin', res['email'])
         locationDom.find('.email').val(res['email'])
 
-        locationDom.find('.area').find('option[value="' + res['area']['id'] + '"]').attr('selected', true)
+        try {
+            locationDom.find('.area').find('option[value="' + res['area']['id'] + '"]').attr('selected', true)
+        } catch(e) {
+
+        }
         locationDom.find('.gender').find('option[value="' + res['gender'] + '"]').attr('selected', true)
     }
     contactOne = function(id) {
@@ -499,6 +503,7 @@
             async: false,
             success: function(e) {
                 const locationDom = $('#contact_one_modal')
+                
                 _locationConatctOne(e, locationDom)
             }
         })
@@ -538,7 +543,7 @@
                 $('#contact_one_modal').modal('hide')
             },
             error: function(e) {
-                // console.log(e)
+                
                 alert('檢測到不合格的輸入。')
             }
         })  
@@ -597,8 +602,6 @@
             data['bith'] = bith
         }
         data['email'] = email
-
-        // console.log(data)
 
         if ((phoned == '') & (email == '')) {
             alert('電話號碼和郵箱地址至少要填寫壹個！！！')

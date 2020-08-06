@@ -32,19 +32,6 @@
         let _root = head + '{{ request.get_host }}'
 
         let area_list = []
-        $.ajax({
-            url: _root + '/api/area/',
-            type: 'GET',
-            success: function(e) {
-                for (let i= 0; i< e.length; i++ ) {
-                    area_list.push({
-                        'id': e[i]['id'],
-                        'prefix': e[i]['phoned_prefix']
-                    })
-                }
-                console.log(area_list)
-            }
-        });
         
         </script>
         <!-- 主內容 -->
@@ -67,6 +54,22 @@
                         '<div class="btn btn-lg btn-info" onclick="openLibrary()">從媒體庫中選取</div>'
                     )
                 })
+            </script>
+        {% endif %}
+        {% if page_flag == 'contact' or page_flag == 'task' %}
+            <script  type="text/javascript">
+                $.ajax({
+                    url: _root + '/api/area/',
+                    type: 'GET',
+                    success: function(e) {
+                        for (let i= 0; i< e.length; i++ ) {
+                            area_list.push({
+                                'id': e[i]['id'],
+                                'prefix': e[i]['phoned_prefix']
+                            })
+                        }
+                    }
+                });
             </script>
         {% endif %}
     </body>
