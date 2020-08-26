@@ -184,6 +184,7 @@ class TaskView(View):
                 contact_key = request.POST.get('contact_key', None)
                 used = request.POST.get('used', None)
                 used = used.split(',')
+                
                 task.save()
                 for index, time_rule_belong in enumerate(sms_template.service.time_rule):
                 

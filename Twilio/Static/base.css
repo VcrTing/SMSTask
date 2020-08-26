@@ -27,7 +27,7 @@ body {
     float: left;
 }
 .d-inline {
-    display: inline;
+    display: inline !important;
 }
 .d-block {
     display: block;
@@ -78,6 +78,10 @@ a:hover {
 
 .ea-td {
     min-width: 120px;
+}
+
+.br-ccc {
+    border: 1px solid #ccc;
 }
 
 /*
@@ -158,6 +162,13 @@ a:hover {
     color: #5bc0de !important;
 }
 
+.text-title {
+    color: #333 !important;
+}
+.text-title:hover {
+    color: #333 !important;
+}
+
 .form-tip {
     color: red;
 }
@@ -174,6 +185,9 @@ a:hover {
     }
 }
 
+.pos-abs {
+    position: absolute;
+}
 /*
     Space
 */
@@ -242,7 +256,8 @@ a:hover {
     color: white;
     border-color: #2e6da4;
 }
-.sms-active:hover {
+.sms-active:hover,
+.sms-active-hover:hover {
     background: #2e6da4 !important;
     color: white !important;
 }

@@ -92,7 +92,14 @@
             for (var i= 0; i< rec.length; i++ ) {
                 tasker = tasker + rec[i]['id'] + ','
             }
-
+            
+            if ((tasker == '') || (tasker == null)) {
+                alert('檢測到零個接收者。')
+                return
+            }
+            if (!confirm('還需確認壹次嗎，確定立即提交？')) { 
+                return 
+            }
             $.ajax({
                 url: _root + '/contact_tasker/?option=plus',
                 type: 'POST',

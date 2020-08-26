@@ -82,7 +82,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ContactSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filter_fields = ('status', 'area', 'gender', 'email', 'phoned', 'star')
-    ordering_fields = ('add_time', )
+    ordering_fields = ('add_time', 'phoned', 'first_named')
     pagination_class = pagination.LimitOffsetPagination
 
     def get_queryset(self):
@@ -91,14 +91,17 @@ class ContactViewSet(viewsets.ModelViewSet):
         filter_status = self.request.query_params.get('filter_status', 0)
         filter_tag = self.request.query_params.get('filter_tag', '')
 
+        search = self.request.query_params.get('search', None)
+        search_flag = self.request.query_params.get('search_flag', False)
+
         age_f = self.request.query_params.get('age_f', False)
         
         res = user_models.Contact.objects.filter(
             Q(status = True) )
+
         if age_f == 'true':
             res = res.filter(
                 Q(bith__range = (end_birth, start_birth)) )
-
         
         if filter_tag != '':
             ids = []
@@ -123,7 +126,13 @@ class ContactViewSet(viewsets.ModelViewSet):
                 
             elif filter_status == 4:
                 res = res.filter(Q(email__isnull = True) | Q(email = ''))
-                
+
+        if search_flag != '' and search != None:
+            if search_flag == 'true':
+                res = res.filter( phoned__icontains = search )
+            else:
+                res = res.filter( first_named__icontains = search )
+
         return res
 
 # FUNCTION
@@ -153,8 +162,6 @@ class TagView(View):
                 contact_id = request.GET.get('contact_id', None)
                 tags = request.GET.get('tags', None)
 
-                print('contact id =', contact_id)
-                print('tags =', tags)
                 contact = user_models.Contact.objects.get(id = contact_id)
 
                 contact.tag.clear()
@@ -282,7 +289,6 @@ class ContactView(View):
             
             contact.tag.clear()
             for tag in tags:
-                # tag = user_models.Tag.objects.get(id = tag)
                 contact.tag.add(tag)
             
             contact.save()

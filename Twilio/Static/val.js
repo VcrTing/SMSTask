@@ -190,3 +190,9 @@ _val_tag = function(named) {
     }
     return true
 }
+
+// 验证 123 SEARCH
+_val_filter_named_and_phoned = function(txt) {
+    
+    return !isNaN(txt)
+}

@@ -24,12 +24,18 @@
                         <div class="col-sm-8">
                             <label for="phoned" class="control-label">
                                 手機號碼&nbsp;
+
+                                <div class="d-inline fr fs-14 fw-400 same-phone-msg">
+                                    
+                                </div>
+
                                 <div style="padding-top: 2px;"
                                     class="hand fr d-inline text-info fw-400 fs-14 lock_update" onclick="lockManager()">
                                     <span class="iconfont icon-lock hand lock"></span>
                                 </div>
+
                             </label>
-                            <input type="text" data-origin="" class="form-control phoned" id="phoned" disabled placeholder="手機號碼">
+                            <input type="text" data-origin="" onchange="contactPhoneSame(1)" class="form-control phoned" id="phoned" disabled placeholder="手機號碼">
                         </div>
                     </div>
                     {% endif %}
@@ -135,6 +141,10 @@
                         <div class="col-sm-8">
                             <label for="plus_phoned" class="control-label">
                                 手機號碼<span class="form-tip text-info">*</span>
+
+                                <div class="d-inline fr fs-14 fw-400 same-phone-msg">
+                                    
+                                </div>
                             </label>
                             <input type="text" onchange="contactPhoneSame()" class="form-control phoned" id="plus_phoned" placeholder="手機號碼">
                         </div>
@@ -277,9 +287,14 @@
 
         $('#plus_gender').find('option[value="0"]').attr('selected', true)
     }
-    contactPhoneSame = function () {
-        const phoned = $('#plus_phoned').val()
-        const area = $('#plus_area').find('option:selected').val()
+    contactPhoneSame = function (option = 0) {
+        let phoned = $('#plus_phoned').val()
+        let area = $('#plus_area').find('option:selected').val()
+
+        if (option == 1) {
+            phoned = $('#phoned').val()
+            area = $('#area').find('option:selected').val()
+        }
 
         if (_valide_phone(phoned, area) != true) {
             
@@ -290,11 +305,12 @@
                 type: 'GET',
                 success: function (e) {
                     try {
-                        alert(
-                            '已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！'
-                        )
+                        const empty = e[0]['id']
+                        
+                        showSameMsg(e.length)
                     } catch(e) {
                         
+                        clearSameMsg()
                     }
                 }
             })
@@ -427,11 +443,15 @@
                         success: function (e) {
                             try {
                                 const id = e[0]['id']
-                                alert('已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！')
+                                // alert('已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！')
                                 _clearMsgDom()
+
+                                showSameMsg(e.length)
                             } catch(e) {
-                                _plus(data)
+                                // _plus(data)
                             }
+                            // PLUS
+                            _plus(data)
                         }
                     })
                 }
@@ -513,7 +533,9 @@
         contactOne(id)
         tagUserUpdate(id)
         lockManager(must_lock = true)
+        
         $('#contact_one_modal').modal('show')
+
     }
     locationCOUpdate = function(res, locationDom) {
         locationDom.find('.phoned').html( res['area']['phoned_prefix'] + ' ' + res['phoned'])
@@ -618,11 +640,15 @@
                         success: function (e) {
                             try {
                                 const id = e[0]['id']
-                                alert('已經存在 [' + e[0]['first_named'] + ']' + phoned + ' 用戶了！！！')
+                                
                                 _clearMsgDom()
+
+                                showSameMsg(e.length)
                             } catch(e) {
-                                _update(data, id)
+                                // _update(data, id)
                             }
+                            
+                            _update(data, id)
                         }
                     })
                 }
@@ -653,8 +679,9 @@
     }
 
 </script>
-<!-- Star -->
+<!-- Other -->
 <script>
+    // STAR
     isStar = function (id) {
         $.ajax({
             url: _url + _api_name + '/' + id + '/',
@@ -684,7 +711,79 @@
             }
         })
     }
+    // ORDER
+    // Change
+    orderManager = function(index) {
+        clearOrder()
+        let rec = conditions['filter']['ordering']['val']
+
+        if (index == 1) {
+            switch(rec) {
+                case 0: 
+                    conditions['filter']['ordering']['res'] = 'first_named'
+                    rec = 1
+                    break;
+                case 1: 
+                    conditions['filter']['ordering']['res'] = '-first_named'
+                    rec = 2
+                    break;
+                default:
+                    conditions['filter']['ordering']['res'] = '-add_time'
+                    rec = 0
+            }
+            $('.order-named').addClass('order-active-' + rec)
+        } else if (index == 2) {
+            switch(rec) {
+                case 0: 
+                    conditions['filter']['ordering']['res'] = 'phoned'
+                    rec = 1
+                    break;
+                case 1: 
+                    conditions['filter']['ordering']['res'] = '-phoned'
+                    rec = 2
+                    break;
+                default:
+                    conditions['filter']['ordering']['res'] = '-add_time'
+                    rec = 0
+            }
+            $('.order-phoned').addClass('order-active-' + rec)
+        } else {
+            conditions['filter']['ordering']['res'] = '-add_time'
+            rec = 0
+        }
+
+        if (rec == 0) {
+            clearOrder()
+        }
+        conditions['filter']['ordering']['val'] = rec
+        _loadData(_build_url(conditions['page']['offset']))
+    }
+    // Clear
+    clearOrder = function() {
+        $('.order-ctrl').removeClass('order-active-1')
+        $('.order-ctrl').removeClass('order-active-2')
+    }
+
+    // SMAE MSG
+    // Show
+    showSameMsg = function(numed) {
+        $('.same-phone-msg').html('（該號碼已存有' + numed + '位聯絡人）')
+    }
+    // Clear
+    clearSameMsg = function() {
+        $('.same-phone-msg').fadeOut(400, () => $('.same-phone-msg').html(''))
+        $('.same-phone-msg').fadeIn(200)
+    }
+
+    // MODAL LISTEN
+    $('.modal').on('hidden.bs.modal', function () {
+        
+        clearSameMsg()
+    })
 </script>
 <style>
-    
+    .same-phone-msg {
+        margin-top: 2px;
+        color: red;
+    }
 </style>

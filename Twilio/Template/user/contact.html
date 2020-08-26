@@ -47,6 +47,10 @@
                 'end_bith': _age_num(150),
                 'val': 0,
                 'age_f': false
+            },
+            'search': {
+                'res': '',
+                'flag': ''
             }
         }
     }
@@ -69,6 +73,8 @@
             '&start_birth=' + filter['bith']['start_bith'] +
             '&end_birth=' + filter['bith']['end_bith'] +
             '&age_f=' + filter['bith']['age_f'] +
+            '&search=' + filter['search']['res'] +
+            '&search_flag=' + filter['search']['flag'] +
             '&ordering=' + filter['ordering']['res']
 
         return res
@@ -169,6 +175,7 @@
                 
                 {% else %}
                 <div class="col-sm-2">
+                    <!--
                     <select class="w-100 form-control filter-select" id="filter_area">
                         <option value="0">-- 地區 --</option>
                         {% for area in areas %}
@@ -176,7 +183,8 @@
                             {{ area.named }}({{ area.phoned_prefix }})
                         </option>
                         {% endfor %}
-                    </select>
+                    </select>-->
+                    <input class="w-100 form-control" id="filter-search" placeholder="輸入名字或號碼"/>
                 </div>
             {% endif %}
             {% if request.session.layout.email == 1 %}
@@ -230,7 +238,7 @@
 
             <div class="col-sm-2 text-right">
                 <button class="btn btn-default fl" onclick="clearFilter()">恢復</button>
-                <button class="btn btn-primary fr" onclick="filterManager()">過濾</button>
+                <button class="btn btn-primary fr" id="btnFilter" onclick="filterManager()">過濾</button>
             </div>
         </div>
     </div>
@@ -245,13 +253,26 @@
                         <input type="checkbox" onclick="choiseAll()" class="box-all" id="box_all">
                     </h4>
                 </td>
-                <td>
-                    <h4>姓名</h4>
+                <td class="">
+                    <h4 class="clearFix">
+                        <div class="d-inline fl">姓名&nbsp;</div>
+                        <div class="d-inline fl hand order-ctrl order-named" onclick="orderManager(1)">
+                            <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
+                            <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
+                        </div>
+                    </h4>
                 </td>
                 {% if request.session.layout.email == 1 %}
                     {% if request.session.layout.sms == 1 %}
                     <td>
-                        <h4>電話號碼</h4>
+                        <h4 class="clearFix">
+                            <div class="d-inline fl">電話號碼&nbsp;</div>
+
+                            <div class="d-inline fl order-ctrl hand order-phoned" onclick="orderManager(2)">
+                                <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
+                                <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
+                            </div>
+                        </h4>
                     </td>
                     <td align="center">
                         <h4>電郵地址</h4>
@@ -261,7 +282,14 @@
                     </td>
                     {% else %}
                     <td>
-                        <h4>電郵地址</h4>
+                        <h4 class="clearFix">
+                            <div class="d-inline fl">電話號碼&nbsp;</div>
+
+                            <div class="d-inline fl order-ctrl hand order-phoned" onclick="orderManager(2)">
+                                <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
+                                <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
+                            </div>
+                        </h4>
                     </td>
                     <td align="center">
                         <h4>性別</h4>
@@ -269,7 +297,14 @@
                     {% endif %}
                 {% else %}
                     <td>
-                        <h4>電話號碼</h4>
+                        <h4 class="clearFix">
+                            <div class="d-inline fl">電話號碼&nbsp;</div>
+
+                            <div class="d-inline fl order-ctrl hand order-phoned" onclick="orderManager(2)">
+                                <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
+                                <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
+                            </div>
+                        </h4>
                     </td>
                     <td align="center">
                         <h4>性別</h4>
@@ -680,95 +715,13 @@
     }
     collapseManager()
 
-    clearFilter = function() {
-        _clearFilter()
-    }
+</script>
+<!-- OTHER -->
+<script>
+    // FILTER
+    // =================================================================>
 
-    optionFilter = function(f) {
-        if (f) {
-            $('#filterTool').collapse('hide')
-        } else {
-            $('#filterTool').collapse('show')
-        }
-    }
-  
-    filterManager = function() {
-        let area = $('#filter_area').find('option:selected').val()
-        area = area==undefined?'':area
-        const gender = $('#filter_gender').find('option:selected').val()
-        const filter_status = $('#filter_status').find('option:selected').val()
-
-        /*
-            let start_age = $('#start_age').val()
-            let end_age = $('#end_age').val()
-        */
-        let tag = parseInt($('#filter_tag').find('option:selected').val())
-        if (tag > 0) {
-            if ( !hasYou(tag, allTag) ) { tag = 0 }
-        }
-
-        let start_age = $('#start_age').find('option:selected').val()
-        let end_age = $('#end_age').find('option:selected').val()
-        let ageF = true
-
-        try {
-            start_age = parseInt(start_age.replace(/\s*/g, ''))
-            end_age = parseInt(end_age.replace(/\s*/g, ''))
-            if (start_age > end_age) {
-                alert('請檢查過濾器中先後年齡的大小順序！！！')
-                return
-            }
-            if (_ser_filter_age(start_age) != true) {
-                start_age = 0
-            } 
-            else if (_ser_filter_age(end_age) != true) {
-                end_age = 150
-            }
-            ageF = true
-            $('#start_age').val(start_age)
-            $('#end_age').val(end_age)
-        } catch(e) {
-            alert('請檢查過濾器中年齡的輸入是否有誤！！！')
-        }
-
-        if ((start_age == 0) && (end_age == 150)) {
-            ageF = false
-        }
-
-        const star = $('#filter_star').find('option:selected').val()
-        let star_bool = ''
-        if (star == 1) { star_bool = true } else if (star == 2) { star_bool = false }
-
-        conditions['filter']['area'] = {
-            'res': area==0?'':area,
-            'val': area
-        }
-        conditions['filter']['filter_status'] = {
-            'res': filter_status==undefined?'':filter_status,
-            'val': filter_status
-        }
-        conditions['filter']['bith'] = {
-            'start_bith': _age_num(start_age),
-            'end_bith': _age_num(end_age),
-            'val': 0,
-            'age_f': ageF
-        }
-        conditions['filter']['star'] = {
-            'res': star_bool,
-            'val': star
-        }
-        conditions['filter']['gender'] = {
-            'res': gender,
-            'val': gender
-        }
-        conditions['filter']['tag'] = {
-            'res': tag==0?'':tag,
-            'val': tag
-        }
-
-        _loadData(_build_url(_offset))
-    }
-
+    // Installing
     makeFilter = function() {
         $('#start_age').html('')
         $('#end_age').html('')
@@ -783,6 +736,145 @@
         }
     }
     makeFilter()
+
+    // Clear
+    clearFilter = function() {
+        _clearFilter()
+    }
+
+    // Option Collapse
+    optionFilter = function(f) {
+        if (f) {
+            $('#filterTool').collapse('hide')
+        } else {
+            $('#filterTool').collapse('show')
+        }
+    }
+    
+    // Center Controller
+    filterManager = function() {
+        
+        const filter_status = $('#filter_status').find('option:selected').val()
+
+        //AREA
+        let area = $('#filter_area').find('option:selected').val()
+        area = area==undefined?'':area
+
+        // GENDER
+        const gender = $('#filter_gender').find('option:selected').val()
+
+        // SEARCH
+        let search = $('#filter-search').val()
+        if (search.length >= 60) {
+            alert('搜索關鍵字長度不可超過60。')
+            return
+        }
+
+        // TAG
+        let tag = parseInt($('#filter_tag').find('option:selected').val())
+        if (tag > 0) {
+            if ( !hasYou(tag, allTag) ) { tag = 0 }
+        }
+
+        // BIRTH
+        let start_age = $('#start_age').find('option:selected').val()
+        let end_age = $('#end_age').find('option:selected').val()
+        let ageF = true
+        if (ageF) {
+            try {
+                start_age = parseInt(start_age.replace(/\s*/g, ''))
+                end_age = parseInt(end_age.replace(/\s*/g, ''))
+                if (start_age > end_age) {
+                    alert('請檢查過濾器中先後年齡的大小順序！！！')
+                    return
+                }
+                if (_ser_filter_age(start_age) != true) {
+                    start_age = 0
+                } 
+                else if (_ser_filter_age(end_age) != true) {
+                    end_age = 150
+                }
+                ageF = true
+                $('#start_age').val(start_age)
+                $('#end_age').val(end_age)
+            } catch(e) {
+                alert('請檢查過濾器中年齡的輸入是否有誤！！！')
+            }
+            if ((start_age == 0) && (end_age == 150)) {
+                ageF = false
+            }
+        }
+
+        // STAR
+        const star = $('#filter_star').find('option:selected').val()
+        let star_bool = ''
+        if (star == 1) { star_bool = true } else if (star == 2) { star_bool = false }
+
+        
+        if (
+            (area == '') && (filter_status == undefined) &&
+            (ageF == false) && (star_bool == '') &&
+            (gender == '') && (tag == 0) && 
+            (search == '')
+        ) {
+            // NEEDENT FILTER
+            return
+        } else {
+
+            conditions['filter']['area'] = {
+            'res': area==0?'':area,
+            'val': area
+            }
+            conditions['filter']['filter_status'] = {
+                'res': filter_status==undefined?'':filter_status,
+                'val': filter_status
+            }
+            conditions['filter']['bith'] = {
+                'start_bith': _age_num(start_age),
+                'end_bith': _age_num(end_age),
+                'val': 0,
+                'age_f': ageF
+            }
+            conditions['filter']['star'] = {
+                'res': star_bool,
+                'val': star
+            }
+            conditions['filter']['gender'] = {
+                'res': gender,
+                'val': gender
+            }
+            conditions['filter']['tag'] = {
+                'res': tag==0?'':tag,
+                'val': tag
+            }
+            conditions['filter']['search'] = {
+                'res': search,
+                'flag': _val_filter_named_and_phoned(search)
+            }
+        }
+
+        _loadData(_build_url(_offset))
+    }
+
+    // KEYBOARD
+    // =================================================================>
+
+    // INIT
+    let keyLock = true
+    function keyboard(e) {
+        let x = e.keyCode || e.which
+        let key = String.fromCharCode(x);
+        
+        if ((key.trim() == '') || (key == null)) {
+            if (keyLock) {
+                $('#btnFilter').click()
+            }
+            keyLock = false
+        }
+        setTimeout(() => keyLock = true, 2400)
+    }
+    document.addEventListener('keyup', keyboard);
+    document.onkeyup = keyboard;
 </script>
 <!-- 樣式 -->
 <style>
@@ -852,6 +944,24 @@
     .tag-td {
         max-width: 170px;
     }
+    .br {
+        border: 1px solid pink;
+    }
+    .order-ctrl {
+        font-size: 12px !important;
+        width: 15px;
+        position: relative;
+        margin-top: -2px;
+    }
+    .order-ctrl div:nth-child(2) {
+        margin-top: -5px;
+    }
+    .order-ctrl:hover,
+    .order-active-1 div:nth-child(1),
+    .order-active-2 div:nth-child(2) {
+        color: #337ab7;
+    }
+    
 </style>
 {% include './contact_in.html' %}
 {% include './contact_tag.html' %}
