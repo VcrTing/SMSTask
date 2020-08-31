@@ -69,6 +69,8 @@
                 <input type="hidden" id="email_template" name="email_template">
                 <input type="hidden" id="time_rule" name="time_rule">
                 <input type="hidden" id="newer" name="newer">
+                <input type="hidden" id="nper" name="nper">
+                <input type="hidden" id="first_status" name="first_status">
                 <div class="v-hidden" onclick="submit()" id="submitTask"></div>
                 {% csrf_token %}
             </form>
@@ -92,6 +94,11 @@
                 $('#preview_message').html(
                     e['message']
                 )
+                
+                $('#new_time_rule').removeAttr('selected')
+                $('#new_time_rule').find('option[value="' + e['time_rule'] + '"]').attr('selected', true)
+
+                newTimeRule()
             }
         })
     },
@@ -174,6 +181,9 @@
             'named': $('#named').val(),
             'addr': $('#email').val(),
             'newer': $('#newer').val(),
+            'time_rule': $('#time_rule').val(),
+            'nper': $('#nper').val(),
+            'first_status': $('#first_status').val(),
             'email_template': $('#email_template').val(),
             'visit_time': $('#visit_time').val(),
             'csrfmiddlewaretoken': '{{ csrf_token }}'

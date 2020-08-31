@@ -31,12 +31,16 @@ class EmailApply(models.Model):
     visit_time = models.DateField(verbose_name='光顾時間', default=timezone.now)
 
     email_template = models.ForeignKey(EmailTemplate, verbose_name='所属模版', on_delete=models.CASCADE, null=True)
-    now_index = models.IntegerField(verbose_name='当前已工作了几期', default = 0)
 
     apply_status = models.BooleanField(verbose_name='生效状态', default = False)
     send_status = models.BooleanField(verbose_name='是否允许发送', default = True)
     over_status = models.BooleanField(verbose_name='是否完结', default = False)
 
+    first_status = models.BooleanField(verbose_name='启用首封？', default = True)
+    nper = models.IntegerField(choices=common.NPER, verbose_name='期数', default = 0)
+    now_time_rule = models.IntegerField(choices=common.TIME_RULE, verbose_name='时间规则', default = 0)
+
+    now_index = models.IntegerField(verbose_name='当前已工作了几期', default = 0)
     next_time = models.DateTimeField(verbose_name='下次发邮件的時間', default=timezone.now)
 
     status = models.BooleanField(verbose_name='数据状态', default = True)

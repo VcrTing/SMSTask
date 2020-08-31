@@ -66,6 +66,11 @@ class EmailApplyAdmin(admin.ModelAdmin):
                 'apply_status', 'send_status', 'over_status'
             ),
         }),
+        ("时间定则", {
+            "fields": (
+                'now_time_rule', 'nper', 'first_status'
+            ),
+        }),
         ("其他", {
             "fields": (
                 'status', 'add_time'

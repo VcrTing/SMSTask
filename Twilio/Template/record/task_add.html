@@ -147,8 +147,14 @@
     }
 
     const named_panel = $('#named_panel')
+    let named_panel_newer = false
+    newerNamed = function(f = true) {
+        named_panel_newer = f
+        clearNamedPanel()
+    }
     openNamedPanel = function(users) {
         named_panel.html('')
+        $('#named').attr('disabled', true)
         
         for(let i= 0; i< users.length; i++ ) {
             const id = users[i].id
@@ -160,8 +166,13 @@
                 '</div>'
             )
         }
-
+        
         if (users.length > 0) {
+            named_panel.append(
+                '<div class="named-panel-item sms-active-hover text-main" onclick="newerNamed()">' +
+                    '<span class="glyphicon glyphicon-plus-sign"></span> 為該號碼新增聯系人' +
+                '</div>'
+            )
             named_panel.addClass('br-ccc')
             named_panel.removeClass('d-none')
         }
@@ -169,6 +180,7 @@
     }
 
     clearNamedPanel = function() {
+        $('#named').attr('disabled', false)
         named_panel.fadeOut(400, function() {
             named_panel.html('')
             named_panel.removeClass('br-ccc')
@@ -197,6 +209,8 @@
                 } catch(err) {
                     // 新客戶
                     _contactOlder(true)
+
+                    newerNamed(false)
                 }
             }, 
         })
@@ -243,14 +257,17 @@
             url: url + '?phoned=' + phoned + '&status=True',
             type: 'GET',
             success: function(e) {
-                
-                try {
-
-                    const the_id = e[0].id
-                    _contactUpdate(url, nowKey, data)
-
-                } catch(err) {
+                if (named_panel_newer) {
                     _contactPlus(url, data)
+                } else {
+                    try {
+
+                        const the_id = e[0].id
+                        _contactUpdate(url, nowKey, data)
+
+                    } catch(err) {
+                        _contactPlus(url, data)
+                    }
                 }
                 previewTask()
             }, 
@@ -301,7 +318,11 @@
         display: block;
         position: relative;
     }
-    .named-panel-inner {
+    .named-panel-newer {
+        background: white;
+    }
+    .named-panel-inner,
+    .named-panel-newer {
         width: 100%;
         position: absolute;
         display: block;

@@ -140,13 +140,28 @@ class EmailView(View):
                             ]
                         })
                 api, dom, sender = get_conf('mailgun')
+                time_rule = [
+                    {
+                        'val': tr[0],
+                        'txt': tr[1]
+                    } for tr in common.TIME_RULE_EMAIL
+                ]
+                nper = [
+                    {
+                        'val': nr[0],
+                        'txt': nr[1]
+                    } for nr in common.NPER
+                ]
+                
                 return render(request, 'email/task_add.html', 
                     { 
                         'title': '首页 - 邮件增加', 
                         'page_flag': self.page_flag,
                         'page_flag_sub': self.page_flag + '_add',
                         'email_template_list': res,
-                        'reply': sender
+                        'reply': sender,
+                        'time_rule': time_rule,
+                        'nper': nper
                     }
                 )
         
@@ -298,6 +313,12 @@ class EmailApplyView(View):
                 addr = request.POST.get('addr', None)
                 named = request.POST.get('named', None)
                 newer = request.POST.get('newer', None)
+                nper = request.POST.get('nper', None)
+                time_rule = request.POST.get('time_rule', None)
+                first_status = request.POST.get('first_status', None)
+                print('first_status =', first_status)
+                print('time_rule =', time_rule)
+                print('nper =', nper)
 
                 if danger.xss(named):
                     return JsonResponse({ 'status': False, 'msg': 'xss' })
@@ -315,14 +336,20 @@ class EmailApplyView(View):
                 email_template = request.POST.get('email_template', None)
                 
                 ea = models.EmailApply()
+
+                if (first_status == 'false') or (first_status == False):
+                    ea.first_status = False
+                ea.nper = nper
+                ea.now_time_rule = time_rule
                 ea.contact = user_modles.Contact.objects.get(id = contact.id )
                 ea.visit_time = visit_time
                 ea.email_template = models.EmailTemplate.objects.get(id = int(email_template))
+                
                 ea.save()
 
                 connection.close()
-                worker = APSTask.TaskProcess([ea.id], common.WAY[1][0])
-                worker.start()
+                # worker = APSTask.TaskProcess([ea.id], common.WAY[1][0])
+                # worker.start()
                 res['id'] = ea.id
                 res['status'] = True
 

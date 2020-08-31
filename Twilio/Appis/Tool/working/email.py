@@ -40,18 +40,38 @@ def _do_email(ea):
     # 这里可能需要序列一下参数
     html = ea.email_template.message
     
-    res = mailgun_now(recivers, subject, html)
+    # 阻隔发送
+    res = False
+    if ea.send_status:
+        if ea.nper == 0:
+            res = True
+        if ea.nper < ea.now_index:
+            res = True
 
-    # 新增邮件记录
-    _email_record(ea, res)
+        if ea.now_index == 0 and ea.first_status == True:
+            res = True
+    # 执行发送
+    if res:
+        res = mailgun_now(recivers, subject, html)
+
+        # 新增邮件记录
+        _email_record(ea, res)
+    
 
     if res is not None:
         # 计算下次时间
         ea.next_time = _ser_next_time(ea.email_template.time_rule * EACH_DAY)
-        ea.now_index = int(ea.now_index) + 1
+
+        if ea.send_status:
+            ea.now_index = int(ea.now_index) + 1
+
         ea.save()
 
-        return True
+        if ea.now_index == 0 and ea.first_status == True:
+            res = True
+
+
+        return res
     
     return False
 
@@ -66,9 +86,8 @@ def _serial_email(ids):
             ea.apply_status = True
 
             # 首发
-            if ea.send_status == True:
-                ea.now_index = 0
-                res = _do_email(ea)
+            ea.now_index = 0
+            res = _do_email(ea)
 
             # 是否完结
             if res and (ea.email_template.time_rule == 0):
