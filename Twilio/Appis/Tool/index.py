@@ -19,7 +19,7 @@ def serial_email(task_ids):
 def running_task():
     
     i = datetime.datetime.now()
-    print('<-------------- RUNNING -------------->')
+    
     if int(i.hour) in conf.WORK_HOUR:
         pass
         _running_task()

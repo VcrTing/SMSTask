@@ -177,6 +177,9 @@
         preview()
     }
     submit = function() {
+        if (!confirm('無需再檢查輸入的資料，立即提交？')) {
+            return
+        }
         const data = {
             'named': $('#named').val(),
             'addr': $('#email').val(),
