@@ -19,6 +19,7 @@ def _do_send(reciver, area, jsms_id, temp_para, content):
     is_success = False
 
     if ((area == '+86') or (area == '+ 86')):
+        print('+86 temp_para =', temp_para)
         res = send.jsms_now(reciver, jsms_id, temp_para)
 
         res, is_success = doing.seial_response(res, 'twilio')

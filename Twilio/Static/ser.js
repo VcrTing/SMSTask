@@ -300,6 +300,26 @@ _sel_tag = function(rec) {
     }
     return res
 }
+
+// 序列化 Nper
+
+_sel_nper = function(nper_num) {
+    for(let i= 0; i< nperList.length; i++ ) {
+        if (nperList[i].val == nper_num) {
+            return nperList[i].txt
+        }
+    }
+}
+
+// 序列化 首发发送
+
+_sel_first_status = function(first_status) {
+    if (first_status) {
+        return '首封需發送'
+    }
+    return '首封不發送'
+}
+
 tagsUser = function(contact_id, targDom) {
     $.ajax({
         url: _root + '/tag/?option=user&contact_id=' + contact_id,

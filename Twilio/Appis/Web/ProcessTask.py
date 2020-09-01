@@ -12,7 +12,7 @@ from django.db import connection
 
 def tick():
     connection.close()
-    worker.running_task()
+    # worker.running_task()
 
 class TaskProcess(Process):
     name = ''

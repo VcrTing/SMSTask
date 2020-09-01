@@ -40,6 +40,7 @@ class EmailApply(models.Model):
     nper = models.IntegerField(choices=common.NPER, verbose_name='期数', default = 0)
     now_time_rule = models.IntegerField(choices=common.TIME_RULE, verbose_name='时间规则', default = 0)
 
+    across_index = models.IntegerField(verbose_name='经过后台几期', default = 0)
     now_index = models.IntegerField(verbose_name='当前已工作了几期', default = 0)
     next_time = models.DateTimeField(verbose_name='下次发邮件的時間', default=timezone.now)
 

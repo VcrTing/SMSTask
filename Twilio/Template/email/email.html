@@ -85,6 +85,7 @@
         const service = item['email_template']['service']
 
         const can = _ser_email_can(apply_status, send_status, over_status)
+        const next_time = _ser_send_time(item['next_time'], cn = true)
 
         const html = '' +
             '<tr id="tr_' + id + '">' +

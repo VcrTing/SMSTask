@@ -5,28 +5,21 @@ from .note import _do_runtask
 from .email import _do_runemail
 
 def _running_sms():
-    res_list = []
     every_task_list = doing.get_running_task()
 
-    print('every_task_list =', every_task_list)
     if every_task_list:
         for every_task in every_task_list:
-            res = _do_runtask(every_task)
-            res_list.append(res)
+            _do_runtask(every_task)
         return True
     else:
         return False
 
 def _running_email():
-    res_list = []
     every_task_list = doing.get_running_email()
     
-    pass
     if every_task_list:
         for every_task in every_task_list:
-            res = _do_runemail(every_task['id'])
-            res_list.append(res)
-            
+            _do_runemail(every_task['id'])
         return True
     return False
 
@@ -34,8 +27,3 @@ def _running_email():
 def _running_task():
     sms = _running_sms()
     email = _running_email()
-
-    if sms is False:
-        pass
-    if email is False:
-        pass

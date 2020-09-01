@@ -30,6 +30,9 @@
                             <option value="1">暫停該任務</option>
                         </select>
                     </div>
+                    <div class="form-group form-group-lg col-sm-12">
+                        <h4 class="d-inline"><small>暫停後的任務依然在序列化狀態，但郵件不會發送到接受者郵箱中，重啟後的任務，若未滿發送封數，會繼續運行，直到達到發送封數後任務完結。</small></h4>
+                    </div>
                     <div class="form-group form-group-lg col-sm-12 text-right">
                         <div class="btn btn-default btn-lg" data-dismiss="modal">關閉</div>
                         <div class="btn btn-primary btn-lg" onclick="submitUpdate()">提交</div>
@@ -77,23 +80,41 @@
         eventElem: '#option_visit_time_laydate'
     });
 
+    nperList = [
+    {% for nr in nper %}
+        {{ nr | safe }},
+    {% endfor %}]
+
     _seeMore = function(ea) {
         const service = ea['email_template']['service']
         const subject = ea['email_template']['subject']
         const message = ea['email_template']['message']
 
-        const time_rule = _ser_email_time_rule(ea['email_template']['time_rule'])
+        const time_rule = _ser_email_time_rule(ea['now_time_rule'])
         const now_index = ea['now_index']
         const named = ea['contact']['first_named']
         const addr = ea['contact']['email']
+        let next_time = _ser_send_time(ea['next_time'], cn = true)
+
+        let nper = ''
+        let first_status = ''
+        
+        if (ea['now_time_rule'] != 0) {
+            nper = '，' + _sel_nper(ea['nper'])
+            first_status = '，' + _sel_first_status(ea['first_status'])
+        }
+        if (ea['over_status'] == true) {
+            next_time = '<span class="complete">（任務已完結）</span>'
+        }
 
         const html = '' +
             '<tr><td align="center" class="ea-td">服務名稱</td><td>' + service + '</td></tr>' +
-            '<tr><td align="center">時間規則</td><td>' + time_rule + '</td></tr>' +
+            '<tr><td align="center">時間規則</td><td>' + time_rule + nper + first_status + '</td></tr>' +
             '<tr><td align="center">發出數量</td><td>' + now_index + ' 封，<a class="hand" onclick="moreRecord(' + ea['id'] + ')">點擊查看更多記錄</a></td></tr>' +
             '<tr><td align="center">接收者</td><td><div class="reciver">' + named + ' &lt;' + addr + '&gt;</div></td></tr>' +
             '<tr><td align="center">郵件標題</td><td>' + subject + '</td></tr>' +
-            '<tr><td align="center">郵件內容</td><td>' + message + '</td></tr>'
+            '<tr><td align="center">郵件內容</td><td>' + message + '</td></tr>' +
+            '<tr><td align="center">下一封的發送時間</td><td>' + next_time + '</td></tr>'
         return html
     }
 

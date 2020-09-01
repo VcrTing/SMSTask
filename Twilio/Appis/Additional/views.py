@@ -106,12 +106,13 @@ class RuningEmailViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
         
         start_date = datetime.date(yesterday.year, yesterday.month, yesterday.day)
         end_date = datetime.date(now.year, now.month, now.day)
-
+        
         res = models.EmailApply.objects.filter(
             Q(next_time__range = (start_date, end_date)) & 
             Q(status = True) & 
-            Q(send_status = True) & 
-            Q(over_status = False))
+            # Q(send_status = True) &
+            Q(over_status = False)
+            )
         return res
 
 # ============================================= V ===============================================
@@ -120,6 +121,14 @@ class EmailView(View):
     page_flag = 'email'
     def get(self, request):
         option = request.GET.get('option', None)
+
+        nper = [
+            {
+                'val': nr[0],
+                'txt': nr[1]
+            } for nr in common.NPER
+        ]
+                
         if option:
             if option == 'add':
 
@@ -146,13 +155,6 @@ class EmailView(View):
                         'txt': tr[1]
                     } for tr in common.TIME_RULE_EMAIL
                 ]
-                nper = [
-                    {
-                        'val': nr[0],
-                        'txt': nr[1]
-                    } for nr in common.NPER
-                ]
-                
                 return render(request, 'email/task_add.html', 
                     { 
                         'title': '首页 - 邮件增加', 
@@ -167,12 +169,14 @@ class EmailView(View):
         
         email_apply = models.EmailApply.objects.filter(status = True)
         cate = sms_modles.Category.objects.filter(Q(status = True) & Q(way = common.WAY[1][0]))
+        
         return render(request, 'email/email.html', 
             { 
                 'title': '首页 - 邮件', 
                 'page_flag': self.page_flag,
                 'email_apply': email_apply,
-                'category': cate
+                'category': cate,
+                'nper': nper
             }
         )
 
@@ -316,9 +320,6 @@ class EmailApplyView(View):
                 nper = request.POST.get('nper', None)
                 time_rule = request.POST.get('time_rule', None)
                 first_status = request.POST.get('first_status', None)
-                print('first_status =', first_status)
-                print('time_rule =', time_rule)
-                print('nper =', nper)
 
                 if danger.xss(named):
                     return JsonResponse({ 'status': False, 'msg': 'xss' })
@@ -348,8 +349,9 @@ class EmailApplyView(View):
                 ea.save()
 
                 connection.close()
-                # worker = APSTask.TaskProcess([ea.id], common.WAY[1][0])
-                # worker.start()
+                worker = APSTask.TaskProcess([ea.id], common.WAY[1][0])
+                worker.start()
+
                 res['id'] = ea.id
                 res['status'] = True
 
@@ -394,6 +396,14 @@ class EmailCollectView(View):
     page_flag = 'email_collect'
     def get(self, request):
         option = request.GET.get('option', None)
+
+        nper = [
+            {
+                'val': nr[0],
+                'txt': nr[1]
+            } for nr in common.NPER
+        ]
+                
         if option:
             if option == 'more':
                 pk = request.GET.get('id', None)
@@ -402,7 +412,8 @@ class EmailCollectView(View):
                     { 
                         'title': '首页 - 邮件记录 - 更多', 
                         'page_flag': self.page_flag,
-                        'email_collect': ecs
+                        'email_collect': ecs,
+                        'nper': nper
                     }
                 )
         
@@ -413,7 +424,8 @@ class EmailCollectView(View):
                 'title': '首页 - 邮件记录', 
                 'page_flag': self.page_flag,
                 'email_collect': ecs,
-                'category': cate
+                'category': cate,
+                'nper': nper
             }
         )
     

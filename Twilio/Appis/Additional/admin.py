@@ -68,7 +68,7 @@ class EmailApplyAdmin(admin.ModelAdmin):
         }),
         ("时间定则", {
             "fields": (
-                'now_time_rule', 'nper', 'first_status'
+                'now_time_rule', 'nper', 'first_status', 'across_index'
             ),
         }),
         ("其他", {

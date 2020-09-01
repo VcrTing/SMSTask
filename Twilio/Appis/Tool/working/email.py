@@ -41,44 +41,78 @@ def _do_email(ea):
     html = ea.email_template.message
     
     # 阻隔发送
-    res = False
+    # print('=============================')
+    send = True
     if ea.send_status:
         if ea.nper == 0:
-            res = True
-        if ea.nper < ea.now_index:
-            res = True
+            send = False
+        else:
+            if ea.now_index > 0 and ea.first_status == False:
+                if ea.nper >= ea.now_index:
+                    if ea.across_index <= 0:
+                        send = False
+    else:
+        send = False
+    # print('THE SEND 1 =', send)
 
-        if ea.now_index == 0 and ea.first_status == True:
-            res = True
+    send = False
+    if ea.send_status:
+        # 无限制
+        if ea.nper == 0:
+            # 首发
+            if ea.now_index == 0 and ea.first_status == True:
+                send = True
+            # 非首发
+            send = False
+        # 有限制
+        else:
+            # 首发
+            if ea.now_index == 0 and ea.first_status == True:
+                send = True
+            # 非首发
+            else:
+                # 已超出 发送量
+                if ea.nper < ea.now_index:
+                    send = True
+                # 未超出 发送量
+                else:
+                    if ea.across_index > 0:
+                        send = True
+                    else:
+                        send = False
+    # print('THE SEND 2 =', send)
+
     # 执行发送
-    if res:
+    res = None
+    if send:
         res = mailgun_now(recivers, subject, html)
 
         # 新增邮件记录
         _email_record(ea, res)
+
+    # 计算下次时间
+    ea.next_time = _ser_next_time(ea.now_time_rule * EACH_DAY)
+    ea.save()
+    ea.across_index = int(ea.across_index) + 1
+
+    # 断后
+    if send:
+        if res is not None:
+
+            if send:
+                ea.now_index = int(ea.now_index) + 1
+
+            if ea.nper <= ea.now_index:
+                ea.over_status = True
+
+            send = bool(1 - send)
     
-
-    if res is not None:
-        # 计算下次时间
-        ea.next_time = _ser_next_time(ea.email_template.time_rule * EACH_DAY)
-
-        if ea.send_status:
-            ea.now_index = int(ea.now_index) + 1
-
-        ea.save()
-
-        if ea.now_index == 0 and ea.first_status == True:
-            res = True
-
-
-        return res
-    
-    return False
+    ea.save()
+    return not res
 
 def _serial_email(ids):
     
     for i in ids:
-        res = False
         ea = EmailApply.objects.get(id = i)
         
         if ea.status and (ea.apply_status is not True):
@@ -87,14 +121,7 @@ def _serial_email(ids):
 
             # 首发
             ea.now_index = 0
-            res = _do_email(ea)
-
-            # 是否完结
-            if res and (ea.email_template.time_rule == 0):
-                ea.over_status = True
-                
-            # 保存改动
-            ea.save()
+            _do_email(ea)
 
 def _do_runemail(pk):
     ea = EmailApply.objects.get(id = pk)
