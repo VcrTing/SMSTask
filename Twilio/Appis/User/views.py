@@ -50,7 +50,7 @@ class LoginView(View):
                     request.session['company'] = company
                     request.session['layout'] = settings.FUNC_LAYOUT
                     
-                    return redirect('/task/?option=add')
+                    return redirect('/')
                 msg = '密码错误，若忘记密码，可联系工作人员获得密码，谢谢合作！！！'
         return render(request, 'login.html', { 'title': '登录', 'msg': msg })
 
