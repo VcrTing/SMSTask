@@ -394,6 +394,7 @@
             email = email.trim()
         } catch(e) { }
 
+        if (isNaN(phoned)) { alert('電話號碼必須要是數字！'); return }
         const year = $('#plus_bith_year').val()
         const month = $('#plus_bith_month').val()
         const day = $('#plus_bith_day').val()
@@ -587,6 +588,8 @@
             phoned = phoned.trim()
         } catch(e) { }
 
+        if (isNaN(phoned)) { alert('電話號碼必須要是數字！'); return }
+        
         const bith_year = $('#bith_year').val()
         const bith_month = $('#bith_month').val()
         const bith_day = $('#bith_day').val()

@@ -54,7 +54,7 @@ _valide_named = function(named) {
 // 驗證手機號碼的方法
 __86 = function(rec) {
     const len = rec.length
-    if (len < 11) {
+    if (len != 11) {
         return '中國大陸的手機號碼字數長度應等於11'
     }
     const char = /^[1][3,4,5,7,8,9][0-9]{9}$/
@@ -65,7 +65,7 @@ __86 = function(rec) {
 }
 __852 = function(rec) {
     const len = rec.length
-    if (len > 8) {
+    if (len != 8) {
         return '港澳地區的電話號碼字數長度應等於8'
     }
     return true
@@ -101,6 +101,7 @@ _valide_phone = function(phone, area) {
     }
     
     if (prefix == null) { return '無法獲取後臺區域信息，系網絡波動，請重試。' }
+    
     if (prefix == '+86') {
         return __86(phone)
     } else {

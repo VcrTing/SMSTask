@@ -3,9 +3,10 @@
 {% block center %}
 {% include 'base/top.html' %}
 {% include 'base/title.html' %}
-<link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
-<script src="{% static 'plugin/summernote/summernote.min.js' %}"></script>
-<script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script>
+<!-- script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script -->
+
+<script src="{% static 'plugin/ckeditor5/ckeditor.js' %}"></script>
+<!-- script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script -->
 
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 
@@ -23,7 +24,7 @@
     <div class="row">
         <div class="col-sm-9">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-5">
                     <div class="form">
                         <div class="form-group form-group-lg">
                             <label for="service" class="control-label">服務名稱：</label>
@@ -43,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <div class="form">
                         <div class="form-group form-group-lg">
                             <label for="time_rule" class="control-label">時間規則：</label>
@@ -72,7 +73,7 @@
                 </div>
                 <div class="col-sm-12">
 
-                    <textarea id="summernote" class="editor" v-model="message">
+                    <textarea id="summernote" class="editor" name="editor" v-model="message">
         
                     </textarea>
                 </div>
@@ -132,12 +133,7 @@
         },
         methods: {
             validate() {
-
-                if ($('#summernote').summernote('isEmpty')) {
-                    // 是空的
-                } else {
-                    this.message = $('#summernote').summernote('code')
-                }
+                this.message = window.editor.getData()
 
                 const val_service = _valide_text(this.service, '服務名稱')
                 if (val_service != true) { alert(val_service); return }
@@ -156,6 +152,9 @@
                 if (xss_message != true) { alert(xss_message); return }
 
                 this.category_flag = this.category
+
+                console.log('editor DATA =', this.message)
+                
                 this.submit()
             },
             submit() {
@@ -187,33 +186,60 @@
 
 <!-- 編輯器 -->
 <script>
-    $('#summernote').summernote({
-        placeholder: '',
-        tabsize: 2,
-        height: 240,
-        minHeight: 90,
-        maxHeight: 800,
-        lang: 'zh-TW',
-        codemirror: {
-            theme: 'yeti'
-        },
-        callbacks: {  
-            onImageUpload: function(files, editor, $editable) {  
-                sendFile(
-                    files[0],
-                    editor,
-                    $editable
-                );  
-            }  
+    window.editor
+    
+    MyCustomUploadAdapterPlugin = function( editor ) {
+        window.editor.plugins.get( 'FileRepository' ).createUploadAdapter = function( loader ) {
+            // Configure the URL to the upload script in your back-end here!
+            console.log('loader =', loader)
+            return new MyUploadAdapter( loader, '/common/img/upload')
         }
-    });
+    }
+            /*
+    CKEDITOR.replace( 'editor' );
+    
+    */
+    ClassicEditor
+    .create( document.querySelector( '#summernote' ),
+        {
+            ckfinder: {
+                uploadUrl: '/',
+                createUploadAdapter: function() {
+                    return ''
+                }
+            },
+            extraPlugins: [ MyCustomUploadAdapterPlugin ],
+            /*
+            toolbar: [
+                "heading", "|", 
+                "bold", "italic", "link", "numberedList", "bulletedList", "|", 
+                "alignment", "|",
+                "imageUpload", "blockQuote",//  "table", "media"
+
+                "|", "undo", "redo", 
+
+                ]
+                */
+        }
+    )
+    .then( editor => {
+
+        window.editor = editor
+
+        // editorSave(editor)
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
 
     back = function() {
         if (confirm('確定要返回嗎？')) {
             javascript:history.back(-1);
         }
     }
-
+    $('.ck-file-dialog-button').click(function() {
+        console.log('AAA')
+    })
 </script>
 
 <!-- 媒体库 -->
@@ -254,9 +280,11 @@
 </div>
 
 <style>
-    .editor {
-        height: 240px !important;
+    /*
+    .ck-content p {
+        min-height: 120px !important;
     }
+    */
     .br {
         border: 1px solid pink !important;
     }

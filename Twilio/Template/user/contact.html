@@ -58,7 +58,6 @@
     let contact = []
 
     _build_url = function(offset) {
-        
         const filter = conditions['filter']
         const page = conditions['page']
 
@@ -144,6 +143,12 @@
             dataDom.append(html)
             tagsUser(id, $('#tag_user_' + id))
         })
+
+        // BUG FIX
+        if ((conditions['page']['offset']) && (res.length < 1)) {
+            $('.page-input').val(1)
+            filterManager()
+        }
     }
 
     Array.prototype.remove = function(val) { 
@@ -921,6 +926,7 @@
         }
         
         // _loadData(_build_url(_offset))
+
         _loadData(_build_url((page_num - 1) * _limit))
     }
     firstLast = function(f) {
@@ -934,7 +940,6 @@
         filterManager()
     }
     doFilter = function() {
-        $('.page-input').val(1)
         filterManager()
     }
 

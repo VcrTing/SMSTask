@@ -141,8 +141,11 @@
     choiseNamed = function(index) {
         
         $('#named').val(namedList[index].first_named)
-        nowKey = namedList[index].id
+
+        $('#area').find('option').removeAttr('selected')
+        $('#area').find('option[value="' + namedList[index].area.id + '"]').attr('selected', true)
         
+        nowKey = namedList[index].id
         clearNamedPanel()
     }
 
@@ -332,7 +335,7 @@
         z-index: 888;
     }
     .named-panel-item {
-        padding: 5px 15px;
+        padding: 10px 15px;
         background: white;
     }
     .named-panel-item:nth-child(2),
