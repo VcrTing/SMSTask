@@ -82,7 +82,7 @@ class ContactViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ContactSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filter_fields = ('status', 'area', 'gender', 'email', 'phoned', 'star')
-    ordering_fields = ('add_time', 'phoned', 'first_named')
+    ordering_fields = ('add_time', 'phoned', 'first_named', 'star')
     pagination_class = pagination.LimitOffsetPagination
 
     def get_queryset(self):

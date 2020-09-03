@@ -753,15 +753,15 @@
         } else if (index == 3) {
             switch(rec) {
                 case 0: 
-                    star_bool = true
+                    conditions['filter']['ordering']['res'] = 'star'
                     rec = 1
                     break;
                 case 1: 
-                    star_bool = false
+                    conditions['filter']['ordering']['res'] = '-star'
                     rec = 2
                     break;
                 default:
-                    star_bool = ''
+                    conditions['filter']['ordering']['res'] = '-add_time'
                     rec = 0
             }
             $('#order-star').addClass('order-active-' + rec)
@@ -775,10 +775,12 @@
         }
         conditions['filter']['ordering']['val'] = rec
 
+        /*
         if (index == 3) {
             filterManager()
             return
         }
+        */
         _loadData(_build_url(conditions['page']['offset']))
     }
     // Clear
