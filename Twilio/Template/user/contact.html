@@ -352,9 +352,9 @@
                     <h4>出生年月</h4>
                 </td>
                 <td align="center">
-                    <h4 class="clearFix">
+                    <h4 class="clearFix ordering-wrapper">
                         <div class="d-inline fl">星標&nbsp;</div>
-                        <div class="d-inline fl hand order-ctrl" id="order-star" onclick="orderManager(3)">
+                        <div class="d-inline hand order-ctrl fl" id="order-star" onclick="orderManager(3)">
                             <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
                             <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                         </div>
@@ -367,7 +367,7 @@
                 </td>
         {% endif %}
 
-                <td>
+                <td align="center">
                     <h4>操作</h4>
                 </td>
             </tr>
@@ -1057,6 +1057,9 @@
     .order-active-1 div:nth-child(1),
     .order-active-2 div:nth-child(2) {
         color: #0073aa;
+    }
+    .ordering-wrapper {
+        display: table;
     }
 
     .star {
