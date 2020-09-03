@@ -203,13 +203,13 @@
                     <option value="2">女</option>
                 </select>
             </div>
-            <div class="col-sm-2">
+            <!--div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_star">
                     <option value="0">-- 星標 --</option>
                     <option value="1">星標</option>
                     <option value="2">非星標</option>
                 </select>
-            </div>
+            </div-->
             
             <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_tag">
@@ -233,9 +233,9 @@
             {% if request.session.layout.email == 1 %}
                 <div class="col-sm-2"></div>
             {% endif %}
-            <div class="col-sm-1">
-                <!-- button class="btn btn-default fl" onclick="clearFilter()">恢復</button -->
-                <button class="btn btn-primary btn-outline fr" id="btnFilter" onclick="doFilter()">過濾</button>
+            <div class="col-sm-3 text-right">
+                <button class="btn btn-default" onclick="clearFilter()">恢復</button>
+                <button class="btn btn-primary" id="btnFilter" onclick="doFilter()">過濾</button>
             </div>
         </div>
 
@@ -255,9 +255,10 @@
                     {% else %}
                         <input type="text" class="form-control page-search" id="filter-search" placeholder="輸入姓名">
                     {% endif %}
+                    
                     <span class="input-group-btn">
-                      <button class="btn btn-primary btn-outline" type="button" onclick="doFilter()">搜索</button>
-                    </span>
+                        <button class="btn btn-primary" type="button" onclick="doFilter()">搜索</button>
+                      </span>
                 </div>
             </div>
             <div class="col-sm-8">
@@ -300,7 +301,7 @@
                 <td class="">
                     <h4 class="clearFix">
                         <div class="d-inline fl">姓名&nbsp;</div>
-                        <div class="d-inline fl hand order-ctrl order-named" onclick="orderManager(1)">
+                        <div class="d-inline fl hand order-ctrl" id="order-named" onclick="orderManager(1)">
                             <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
                             <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                         </div>
@@ -312,7 +313,7 @@
                         <h4 class="clearFix">
                             <div class="d-inline fl">電話號碼&nbsp;</div>
 
-                            <div class="d-inline fl order-ctrl hand order-phoned" onclick="orderManager(2)">
+                            <div class="d-inline fl order-ctrl hand" id="order-phoned" onclick="orderManager(2)">
                                 <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
                                 <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                             </div>
@@ -337,7 +338,7 @@
                         <h4 class="clearFix">
                             <div class="d-inline fl">電話號碼&nbsp;</div>
 
-                            <div class="d-inline fl order-ctrl hand order-phoned" onclick="orderManager(2)">
+                            <div class="d-inline fl order-ctrl hand" id="order-phoned" onclick="orderManager(2)">
                                 <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
                                 <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
                             </div>
@@ -350,11 +351,14 @@
                 <td align="center">
                     <h4>出生年月</h4>
                 </td>
-                <!-- td align="center">
-                    <h4>標簽</h4>
-                </td -->
                 <td align="center">
-                    <h4>星標</h4>
+                    <h4 class="clearFix">
+                        <div class="d-inline fl">星標&nbsp;</div>
+                        <div class="d-inline fl hand order-ctrl" id="order-star" onclick="orderManager(3)">
+                            <div class=""><span class="glyphicon glyphicon-triangle-top"></span></div>
+                            <div class=""><span class="glyphicon glyphicon-triangle-bottom"></span></div>
+                        </div>
+                    </h4>
                 </td>
 
         {% if request.session.layout.sms == 1 %}
@@ -488,7 +492,7 @@
                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
             },
             success: function(e) {
-                
+                console.log('Trash E =', e)
                 $('#tr_' + id).addClass('d-none')
 
                 for (var i= 0; i< contact.length; i++ ) {
@@ -498,7 +502,7 @@
                     }
                 }
             },
-            error: function(e) { isM==true?alert('刪除失敗！！！'):null }
+            error: function(e) { console.log('Trash ERROR =', e); isM==true?alert('刪除失敗！！！'):null }
         })
         
     }
@@ -786,6 +790,7 @@
 <!-- OTHER -->
 <script>
     // FILTER
+    let star_bool = ''
     // =================================================================>
 
     // Installing
@@ -872,10 +877,12 @@
             }
         }
 
+        /*
         // STAR
         const star = $('#filter_star').find('option:selected').val()
         let star_bool = ''
         if (star == 1) { star_bool = true } else if (star == 2) { star_bool = false }
+        */
 
         // PAGE
         let page_num = $('.page-input').val()
@@ -906,10 +913,6 @@
                 'val': 0,
                 'age_f': ageF
             }
-            conditions['filter']['star'] = {
-                'res': star_bool,
-                'val': star
-            }
             conditions['filter']['gender'] = {
                 'res': gender,
                 'val': gender
@@ -917,6 +920,10 @@
             conditions['filter']['tag'] = {
                 'res': tag==0?'':tag,
                 'val': tag
+            }
+            conditions['filter']['star'] = {
+                'res': star_bool,
+                'val': star_bool
             }
             conditions['filter']['search'] = {
                 'res': search,
