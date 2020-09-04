@@ -3,10 +3,9 @@
 {% block center %}
 {% include 'base/top.html' %}
 {% include 'base/title.html' %}
-<!-- script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script -->
-
-<script src="{% static 'plugin/ckeditor5/ckeditor.js' %}"></script>
-<!-- script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script -->
+<link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
+<script src="{% static 'plugin/summernote/summernote.min.js' %}"></script>
+<script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script>
 
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 
@@ -48,7 +47,7 @@
                     <div class="form">
                         <div class="form-group form-group-lg">
                             <label for="time_rule" class="control-label">時間規則：</label>
-                            <select class="form-control" id="time_rule" v-model="time_rule">
+                            <select class="form-control" id="time_rule" v-model="time_rule" @change="msgTimeRule">
                                 {% for i in time_rule %}
                                     <option value="{{ i.value }}">{{ i.view }}</option>
                                 {% endfor %}
@@ -73,7 +72,7 @@
                 </div>
                 <div class="col-sm-12">
 
-                    <textarea id="summernote" class="editor" name="editor" v-model="message">
+                    <textarea id="summernote" class="editor">
         
                     </textarea>
                 </div>
@@ -108,33 +107,45 @@
             <div class="flex-action">
                 <button type="button" class="btn btn-default btn-lg"  onClick="back()">返回</button>
                 <h4 class="d-inline">or</h4>
-                <button type="button" class="btn btn-primary btn-lg" @click="validate()">立即提交</button>
+                <button type="button" class="btn btn-primary btn-lg" @click="validate">立即提交</button>
             </div>
         </div>
-    </div> 
+    </div>
 </div>
 
-<!-- VUE -->
 <script>
+    // 
     var vue = new Vue({
         el: '#app',
         data: {
-            service: '',
-            category: 21,
-            time_rule: 0,
-            subject: '',
-            message: '',
-            category_flag: 21,
+            service: '{{ et.service }}',
+            category: '{{ et.category.flag }}',
+            time_rule: '{{ et.time_rule }}',
+            subject: '{{ et.subject }}',
+            message: '{{ et.message }}',
             csrfmiddlewaretoken: '{{ csrf_token }}',
             status: true
         },
         created() {
-            // this.category = this.couponList[0].id;
+
         },
         methods: {
+            msgTimeRule() {
+                if (this.time_rule != '{{ et.time_rule }}') {
+                    alert('时间规则修改后，相关任务都会按照新的时间规则运行，请谨慎修改！！！')
+                }
+            },
             validate() {
-                this.message = window.editor.getData()
-
+                /*
+                if ($('#summernote').summernote('isEmpty')) {
+                    // 是空的
+                    return 
+                } else {
+                    
+                }
+                */
+                this.message = $('#summernote').summernote('code')
+                
                 const val_service = _valide_text(this.service, '服務名稱')
                 if (val_service != true) { alert(val_service); return }
 
@@ -143,6 +154,7 @@
 
                 const val_message = _valide_message(this.message)
                 if (val_message != true) { alert(val_message); return }
+                
 
                 const xss_service = xss(this.service)
                 if (xss_service != true) { alert(xss_service); return }
@@ -151,15 +163,11 @@
                 const xss_message = xss(this.message)
                 if (xss_message != true) { alert(xss_message); return }
 
-                this.category_flag = this.category
-
-                console.log('editor DATA =', this.message)
-                
                 this.submit()
             },
             submit() {
                 $.ajax({
-                    url: _root + '/email_template/?option=add',
+                    url: _root + '/email_template/?option=update&id=' + '{{ et.id }}',
                     data: this._data,
                     type: 'POST',
                     headers: {
@@ -171,8 +179,10 @@
                                 location.href = '/danger/?option=xss'
                             }
                         }
-                        
-                        location.href = '/email_template/'
+                        alert('修改成功！！！')
+                        setTimeout(function() {
+                            location.href = '/email_template/'
+                        }, 1200)
                     },
                     error: function(e) {
                         alert('請檢查輸入字段是否有誤！')
@@ -181,189 +191,30 @@
             },
         },
     })
-    
-</script>
 
-<!-- 編輯器 -->
-<script>
-    window.editor
-    class InsertImage extends Plugin {
-        init() {
-            const editor = this.editor;
-
-            editor.ui.componentFactory.add( 'insertImage', locale => {
-                const view = new ButtonView( locale );
-
-                view.set( {
-                    label: 'Insert image',
-                    icon: imageIcon,
-                    tooltip: true
-                } );
-
-                // Callback executed once the image is clicked.
-                view.on( 'execute', () => {
-                    const imageUrl = prompt( 'Image URL' );
-
-                    editor.model.change( writer => {
-                        const imageElement = writer.createElement( 'image', {
-                            src: imageUrl
-                        } );
-
-                        // Insert the image in the current selection location.
-                        editor.model.insertContent( imageElement, editor.model.document.selection );
-                    } );
-                } );
-
-                return view;
-            } );
+    // 编辑器
+    $('#summernote').html('{{ et.message }}')
+    $('#summernote').summernote({
+        placeholder: '',
+        tabsize: 2,
+        height: 240,
+        minHeight: 90,
+        maxHeight: 800,
+        lang: 'zh-TW',
+        codemirror: {
+            theme: 'yeti'
+        },
+        callbacks: {  
+            onImageUpload: function(files, editor, $editable) {  
+                sendFile(
+                    files[0],
+                    editor,
+                    $editable
+                );  
+            }  
         }
-    }
+    });
 
-    const example = 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2971788425,8006822&fm=26&gp=0.jpg'
-    MyCustomUploadAdapterPlugin = function( editor ) {
-        console.log('START')
-        // return new MyUploadAdapter( loader )
-
-        
-        editor.plugins.get( 'FileRepository' ).createUploadAdapter = function( loader ) {
-            // Configure the URL to the upload script in your back-end here!
-            console.log('loader =', loader)
-            insertImage(example, '')
-            // window.editor.image.insertImage()
-            return new MyUploadAdapter( loader )
-        }
-    }
-    class MyUploadAdapter {
-        constructor( loader ) {
-            this.loader = loader
-        }
-        upload() {
-            console.log('UPLOAD')
-            /*
-            server.onIploadProgress( data => {
-                loader.uploadTotal = data.total
-                loader.uploaded = data.uploaded
-            })
-            return loader.file.then(
-                file => server.upload( file )
-            )
-            */
-            return new Promise((resolve, reject) => {
-                let res = true
-                if (res) {
-                    resolve({
-                        default: example
-                    })
-                } else {
-                    reject('失败')
-                }
-            })
-        }
-        abort() {
-            console.log('ABORT')
-            // server.abortUpload()
-        }
-    }
-    
-    function insertImage( imageUrl, imageAlt ) {
-        const mod = window.editor.model;
-        console.log(mod)
-        mod.change(writer => {
-            console.log('In Change')
-            writer.insertText( 'foo', paragraph, 'end' );
-            // insertImage( writer, model, { src: 'path/to/image.jpg' } );
-        })
-        
-        /*
-        doc.enqueueChanges( () => {
-            const imageElement = new ModelElement( 'image', {
-                src: imageUrl, 
-                alt: imageAlt
-            } );
-
-            editor.data.insertContent( imageElement, doc.selection );
-        } );
-        */
-        console.log('----------------')
-    }
-
-            /*
-    CKEDITOR.replace( 'editor' );
-    
-    */
-    ClassicEditor
-    .create( document.querySelector( '#summernote' ),
-        {
-            /*
-            plugins: [InsertImage],
-            extraPlugins: [
-                MyCustomUploadAdapterPlugin, 
-            ]*/
-            image: {
-                // ...
-                upload: {
-                    panel: {
-                        items: [ 'insertImageViaUrl' ]
-                    }
-                }
-            }
-        }
-    )
-    .then( editor => {
-
-        window.editor = editor
-        editor.model.document.on('change:data', () => {
-            console.log('Change')
-        })
-
-        editor.ui.componentFactory.add( 'insertImage', locale => {
-            console.log('UI')
-            const view = new ButtonView( locale );
-
-            view.set( {
-                label: 'Insert image',
-                icon: imageIcon,
-                tooltip: true
-            } );
-
-            // Callback executed once the image is clicked.
-            view.on( 'execute', () => {
-                const imageUrl = prompt( 'Image URL' );
-
-                editor.model.change( writer => {
-                    const imageElement = writer.createElement( 'image', {
-                        src: imageUrl
-                    } );
-
-                    // Insert the image in the current selection location.
-                    editor.model.insertContent( imageElement, editor.model.document.selection );
-                } );
-            } );
-
-            return view;
-        } );
-        /*editor
-        editor.createUploadAdapter = function( loader ) {
-            // Configure the URL to the upload script in your back-end here!
-            console.log('loader =', loader)
-            return new MyUploadAdapter( loader )
-        }*/
-        
-        // editorSave(editor)
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
-
-
-    back = function() {
-        if (confirm('確定要返回嗎？')) {
-            javascript:history.back(-1);
-        }
-    }
-    $('.ck-file-dialog-button').click(function() {
-        console.log('AAA')
-    })
 </script>
 
 <!-- 媒体库 -->
@@ -404,13 +255,6 @@
 </div>
 
 <style>
-    /*
-    .ck-content p {
-        min-height: 120px !important;
-    }
-    */
-    .br {
-        border: 1px solid pink !important;
-    }
+
 </style>
 {% endblock %}

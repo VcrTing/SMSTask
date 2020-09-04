@@ -57,7 +57,7 @@ __86 = function(rec) {
     if (len != 11) {
         return '中國大陸的手機號碼字數長度應等於11'
     }
-    const char = /^[1][3,4,5,7,8,9][0-9]{9}$/
+    const char = /^[1][3,4,5,6,7,8,9][0-9]{9}$/
     if (!char.test(rec)) {
         return '中國大陸的手機號碼格式不正確'
     }
