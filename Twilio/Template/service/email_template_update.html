@@ -3,11 +3,9 @@
 {% block center %}
 {% include 'base/top.html' %}
 {% include 'base/title.html' %}
-
-<!-- link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
+<link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
 <script src="{% static 'plugin/summernote/summernote.min.js' %}"></script>
-<script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script -->
-<script src="{% static 'plugin/ckeditor5/ckeditor.js' %}"></script>
+<script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script>
 
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 
@@ -116,8 +114,6 @@
 </div>
 
 <script>
-
-    window.editor
     // 
     var vue = new Vue({
         el: '#app',
@@ -148,7 +144,7 @@
                     
                 }
                 */
-                this.message = window.editor.getData() // $('#summernote').summernote('code')
+                this.message = $('#summernote').summernote('code')
                 
                 const val_service = _valide_text(this.service, '服務名稱')
                 if (val_service != true) { alert(val_service); return }
@@ -197,17 +193,6 @@
     })
 
     // 编辑器
-
-    ClassicEditor
-    .create( document.querySelector( '#summernote' ))
-    .then( editor => {
-        window.editor = editor
-        editor.setData('{{ et.message|safe }}')
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
-    /*
     $('#summernote').html('{{ et.message }}')
     $('#summernote').summernote({
         placeholder: '',
@@ -229,7 +214,6 @@
             }  
         }
     });
-    */
 
 </script>
 

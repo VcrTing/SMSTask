@@ -3,9 +3,10 @@
 {% block center %}
 {% include 'base/top.html' %}
 {% include 'base/title.html' %}
-<link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
-<script src="{% static 'plugin/summernote/summernote.min.js' %}"></script>
-<script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script>
+<!-- script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script -->
+
+<script src="{% static 'plugin/ckeditor5/ckeditor.js' %}"></script>
+<!-- script src="https://cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script -->
 
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 
@@ -72,7 +73,7 @@
                 </div>
                 <div class="col-sm-12">
 
-                    <textarea id="summernote" class="editor" v-model="message">
+                    <textarea id="summernote" class="editor" name="editor" v-model="message">
         
                     </textarea>
                 </div>
@@ -132,12 +133,7 @@
         },
         methods: {
             validate() {
-
-                if ($('#summernote').summernote('isEmpty')) {
-                    // 是空的
-                } else {
-                    this.message = $('#summernote').summernote('code')
-                }
+                this.message = window.editor.getData()
 
                 const val_service = _valide_text(this.service, '服務名稱')
                 if (val_service != true) { alert(val_service); return }
@@ -156,6 +152,9 @@
                 if (xss_message != true) { alert(xss_message); return }
 
                 this.category_flag = this.category
+
+                console.log('editor DATA =', this.message)
+                
                 this.submit()
             },
             submit() {
@@ -187,33 +186,184 @@
 
 <!-- 編輯器 -->
 <script>
-    $('#summernote').summernote({
-        placeholder: '',
-        tabsize: 2,
-        height: 240,
-        minHeight: 90,
-        maxHeight: 800,
-        lang: 'zh-TW',
-        codemirror: {
-            theme: 'yeti'
-        },
-        callbacks: {  
-            onImageUpload: function(files, editor, $editable) {  
-                sendFile(
-                    files[0],
-                    editor,
-                    $editable
-                );  
-            }  
+    window.editor
+    class InsertImage extends Plugin {
+        init() {
+            const editor = this.editor;
+
+            editor.ui.componentFactory.add( 'insertImage', locale => {
+                const view = new ButtonView( locale );
+
+                view.set( {
+                    label: 'Insert image',
+                    icon: imageIcon,
+                    tooltip: true
+                } );
+
+                // Callback executed once the image is clicked.
+                view.on( 'execute', () => {
+                    const imageUrl = prompt( 'Image URL' );
+
+                    editor.model.change( writer => {
+                        const imageElement = writer.createElement( 'image', {
+                            src: imageUrl
+                        } );
+
+                        // Insert the image in the current selection location.
+                        editor.model.insertContent( imageElement, editor.model.document.selection );
+                    } );
+                } );
+
+                return view;
+            } );
         }
-    });
+    }
+
+    const example = 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2971788425,8006822&fm=26&gp=0.jpg'
+    MyCustomUploadAdapterPlugin = function( editor ) {
+        console.log('START')
+        // return new MyUploadAdapter( loader )
+
+        
+        editor.plugins.get( 'FileRepository' ).createUploadAdapter = function( loader ) {
+            // Configure the URL to the upload script in your back-end here!
+            console.log('loader =', loader)
+            insertImage(example, '')
+            // window.editor.image.insertImage()
+            return new MyUploadAdapter( loader )
+        }
+    }
+    class MyUploadAdapter {
+        constructor( loader ) {
+            this.loader = loader
+        }
+        upload() {
+            console.log('UPLOAD')
+            /*
+            server.onIploadProgress( data => {
+                loader.uploadTotal = data.total
+                loader.uploaded = data.uploaded
+            })
+            return loader.file.then(
+                file => server.upload( file )
+            )
+            */
+            return new Promise((resolve, reject) => {
+                let res = true
+                if (res) {
+                    resolve({
+                        default: example
+                    })
+                } else {
+                    reject('失败')
+                }
+            })
+        }
+        abort() {
+            console.log('ABORT')
+            // server.abortUpload()
+        }
+    }
+    
+    function insertImage( imageUrl, imageAlt ) {
+        const mod = window.editor.model;
+        console.log(mod)
+        mod.change(writer => {
+            console.log('In Change')
+            writer.insertText( 'foo', paragraph, 'end' );
+            // insertImage( writer, model, { src: 'path/to/image.jpg' } );
+        })
+        
+        /*
+        doc.enqueueChanges( () => {
+            const imageElement = new ModelElement( 'image', {
+                src: imageUrl, 
+                alt: imageAlt
+            } );
+
+            editor.data.insertContent( imageElement, doc.selection );
+        } );
+        */
+        console.log('----------------')
+    }
+
+            /*
+    CKEDITOR.replace( 'editor' );
+    
+    */
+    ClassicEditor
+    .create( document.querySelector( '#summernote' ),
+        {
+            /*
+            plugins: [InsertImage],
+            extraPlugins: [
+                MyCustomUploadAdapterPlugin, 
+            ]*/
+            image: {
+                // ...
+                upload: {
+                    panel: {
+                        items: [ 'insertImageViaUrl' ]
+                    }
+                }
+            }
+        }
+    )
+    .then( editor => {
+
+        window.editor = editor
+        editor.model.document.on('change:data', () => {
+            console.log('Change')
+        })
+
+        editor.ui.componentFactory.add( 'insertImage', locale => {
+            console.log('UI')
+            const view = new ButtonView( locale );
+
+            view.set( {
+                label: 'Insert image',
+                icon: imageIcon,
+                tooltip: true
+            } );
+
+            // Callback executed once the image is clicked.
+            view.on( 'execute', () => {
+                const imageUrl = prompt( 'Image URL' );
+
+                editor.model.change( writer => {
+                    const imageElement = writer.createElement( 'image', {
+                        src: imageUrl
+                    } );
+
+                    // Insert the image in the current selection location.
+                    editor.model.insertContent( imageElement, editor.model.document.selection );
+                } );
+            } );
+
+            return view;
+        } );
+        /*editor
+        editor.createUploadAdapter = function( loader ) {
+            // Configure the URL to the upload script in your back-end here!
+            console.log('loader =', loader)
+            return new MyUploadAdapter( loader )
+        }*/
+        
+        // editorSave(editor)
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
+
 
     back = function() {
         if (confirm('確定要返回嗎？')) {
             javascript:history.back(-1);
         }
     }
-
+    $('.ck-file-dialog-button').click(function() {
+        console.log('AAA')
+    })
 </script>
 
 <!-- 媒体库 -->
@@ -254,15 +404,13 @@
 </div>
 
 <style>
-    .editor {
-        height: 240px !important;
+    /*
+    .ck-content p {
+        min-height: 120px !important;
     }
+    */
     .br {
         border: 1px solid pink !important;
-    }
-    .btn-codeview,
-    .btn-codeview * {
-        display: none !important;
     }
 </style>
 {% endblock %}
