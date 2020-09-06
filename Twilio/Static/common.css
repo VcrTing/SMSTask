@@ -133,3 +133,20 @@ div.note-group-select-from-files:before {
         width: calc(30px + 60%);
     }
 }
+
+/*
+    CKEditor
+*/
+.btn-codeview,
+.btn-codeview * {
+    display: none !important;
+}
+#media_modal .modal-content {
+    z-index: 800 !important;
+}
+
+#summernote,
+#summernote > div,
+#summernote .w-e-menu {
+    z-index: 20 !important;
+}

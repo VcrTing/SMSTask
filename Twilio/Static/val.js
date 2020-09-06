@@ -83,6 +83,8 @@ _valide_phone = function(phone, area) {
             return '確保號碼字數小於11'
         }
         */
+
+        if (isNaN(phone)) { return '電話號碼必須要是數字！' }
         if (char.test(phone)) {
             return '號碼不需要特殊字符！！！'
         }

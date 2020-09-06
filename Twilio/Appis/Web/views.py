@@ -333,11 +333,16 @@ class ImgView(View):
         ext = request.POST.get('ext', False)
         s = request.POST.get('size', None)
 
+        option = request.GET.get('option', None)
+
         try:
             rec = Image.open(_img)
             w = rec.width
             h = rec.height
+
             mo_img = models.Img()
+            mo_img.w = w 
+            mo_img.h = h 
 
             if ext == 'gif':
                 mo_img.img = _img
@@ -355,18 +360,22 @@ class ImgView(View):
                 else:
                     mo_img.img_tiny = voez.save(rec, ext, 'img_tiny', thum)
 
-            mo_img.w = w 
-            mo_img.h = h 
             mo_img.save()
-            
-            res['status'] = True
-            res['instance'] = {
-                'img': str(mo_img.img),
-                'img_tiny': str(mo_img.img_tiny),
-                'w': w,
-                'h': h,
-                'id': mo_img.id
-            }
+
+            if option == 'ckeditor':
+                res = {
+                    'uploaded': 1,
+                    'url': str(mo_img.img)
+                }
+            else:
+                res['status'] = True
+                res['instance'] = {
+                    'img': str(mo_img.img),
+                    'img_tiny': str(mo_img.img_tiny),
+                    'w': w,
+                    'h': h,
+                    'id': mo_img.id
+                }
             
             mo_img.save()
         except:
@@ -439,5 +448,5 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 
-sch.add_job(fun, 'interval', seconds = 60*1, id = company, misfire_grace_time = 60*11)
+sch.add_job(fun, 'interval', seconds = 60*10, id = company, misfire_grace_time = 60*11)
 sch.start()

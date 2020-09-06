@@ -147,6 +147,7 @@
         {% csrf_token %}
         <!-- 数据操作 -->
         <script>
+            let _root = head + '{{ request.get_host }}'
             var def_ratio
             const h = 170.0
 
