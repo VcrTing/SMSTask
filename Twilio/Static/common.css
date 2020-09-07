@@ -95,6 +95,10 @@ div.note-group-select-from-files:before {
     color: white !important;
 }
 
+.modal-body {
+    overflow: scroll;
+}
+
 
 /* Element */
 
@@ -136,11 +140,11 @@ div.note-group-select-from-files:before {
 
 /*
     CKEditor
-*/
 .btn-codeview,
 .btn-codeview * {
     display: none !important;
 }
+*/
 #media_modal .modal-content {
     z-index: 800 !important;
 }

@@ -77,6 +77,9 @@
                     </textarea>
                 </div>
             </div>
+            <div class="row content-help" id="content_help">
+        
+            </div>
         </div>
         <div class="col-sm-3">
             <table class="table table-striped mr-t-main-r">
@@ -115,6 +118,19 @@
 
 <!-- VUE -->
 <script>
+    // 
+    _sel_iframe = function(rec) {
+        $('#content_help').html(rec)
+
+        const vedio_src = $('#content_help').find('iframe').attr('src')
+        if (!vedio_src.startsWith('http')) {
+            $('#content_help').find('iframe').attr('src', 'https:' + vedio_src)
+        }
+        $('#content_help').find('iframe').attr('allowfullscreen', true)
+        $('#content_help').find('iframe').attr('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
+        return $('#content_help').html()
+    }
+    // VUE
     var vue = new Vue({
         el: '#app',
         data: {
@@ -138,7 +154,7 @@
                 } else {
                     this.message = $('#summernote').summernote('code')
                 }
-
+                
                 const val_service = _valide_text(this.service, '服務名稱')
                 if (val_service != true) { alert(val_service); return }
 
@@ -156,6 +172,9 @@
                 if (xss_message != true) { alert(xss_message); return }
 
                 this.category_flag = this.category
+                
+                this.message = _sel_iframe(this.message)
+                
                 this.submit()
             },
             submit() {
@@ -207,6 +226,8 @@
             }  
         }
     });
+
+
 
     back = function() {
         if (confirm('確定要返回嗎？')) {
