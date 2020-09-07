@@ -15,23 +15,23 @@
         <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
         <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
         <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
-        <h3 onclick="home()">数据处理通道</h3>
+        <h3 onclick="home()">數據處理通道</h3>
         <center>
             <div id="app">
                 <div class="outter">
                     <!-- div class="form-ele">
                         <div>
                             <select v-model="named" id="named" class="conf-select">
-                                <option value="eye">眼镜中心 Eye</option>
-                                <option value="123medhk">医务中心 123Medhk</option>
+                                <option value="eye">眼鏡中心 Eye</option>
+                                <option value="123medhk">醫務中心 123Medhk</option>
                             </select>
                         </div>
                     </div -->
                     <div class="form-ele">
                         <div>
                             <select v-model="working" id="working" class="conf-select">
-                                <option value="0">-- 选择操作 --</option>
-                                <option value="1">初始化数据</option>
+                                <option value="0">-- 選擇操作 --</option>
+                                <option value="1">初始化數據</option>
                             </select>
                         </div>
                     </div>
@@ -65,21 +65,21 @@
                             success: function(e) {
                                 if (e['status']) {
                                     if((e['area']) && (e['category'])) {
-                                        alert('初始化数据成功！！！ ')
+                                        alert('初始化數據成功！！！ ')
                                         location.reload()
                                     }
                                     else if((e['service']) && (e['template'])) {
-                                        alert('服务项目添加数据成功！！！ ')
+                                        alert('服務項目添加數據成功！！！ ')
                                         location.reload()
                                     } else {
-                                        alert('初始化失败！！！')
+                                        alert('初始化失敗！！！')
                                     }
                                 } else {
-                                    alert('错误！！！')
+                                    alert('錯誤！！！')
                                 }
                             },
                             error: function(e) {
-                                alert('服务器错误！！！')
+                                alert('服務器錯誤！！！')
                             }
                         })
                     },
@@ -89,12 +89,12 @@
                         }
                         if (this.is_new) {
                             if (this.working != 1) {
-                                alert('请务必先执行数据初始化！！！')
+                                alert('請務必先執行數據初始化！！！')
                                 return
                             }
                         } else {
                             if (this.working == 1) {
-                                alert('无需执行初始化！！！')
+                                alert('無需執行初始化！！！')
                                 return
                             }
                         }
@@ -107,7 +107,7 @@
                     },
                     _first() {
                         if (this.is_new == true) {
-                            alert('检测到当前平台未初始化数据，请插入初始化数据！！！')
+                            alert('檢測到當前平臺未初始化數據，請插入初始化數據！！！')
                         }
                         return !this.is_new
                     },
@@ -128,7 +128,7 @@
                                 self._first()
                             },
                             error: function(e) {
-                                alert('服务器错误！！！')
+                                alert('服務器錯誤！！！')
                             }
                         })
                     }

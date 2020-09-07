@@ -60,7 +60,7 @@
 
             const html = '' +
                 '<tr>' +
-                '    <td><h4 class="text-main">' + service + '</h4></td>' +
+                '    <td><h4 class="text-main hand" onclick="update(' + id + ')">' + service + '</h4></td>' +
                 '    <td><h4 class="max-subject">' + subject + '</h4></td>' +
                 '    <td><h4>' + category +'</h4></td>' +
                 '    <td align="center"><h4>' + time_rule + '</h4></td>' +
@@ -210,8 +210,8 @@
                     <thead>
                         <th class="text-center">
                             <h3>
-                                模版内容预览
-                                <div class="btn btn-default fr" data-dismiss="modal">关闭</div>
+                                模版內容預覽
+                                <div class="btn btn-default fr" data-dismiss="modal">關閉</div>
                             </h3>
                         </th>
                     </thead>
@@ -232,8 +232,8 @@
         const message = et['message']
 
         const html = '' +
-            '<tr class="subject"><td><div class="fw-bold d-inline">标题:&nbsp;&nbsp;</div>' + subject + '</td></tr>' +
-            '<tr class="message"><td><span class="<fw-bold">内容:</span></td></tr><tr><td><div class="mail-message">' + message + '</div></td></tr>' 
+            '<tr class="subject"><td><div class="fw-bold d-inline">標題：&nbsp;&nbsp;</div>' + subject + '</td></tr>' +
+            '<tr class="message"><td><span class="<fw-bold">內容：</span></td></tr><tr><td><div class="mail-message">' + message + '</div></td></tr>' 
         return html
     }
 

@@ -21,7 +21,7 @@
 <div class="home-space"></div>
 <div class="container" id="app">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-5">
                     <div class="form">
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-3">
+        <!-- div class="col-sm-3">
             <table class="table table-striped mr-t-main-r">
                 <thead>
                     <th>
@@ -102,7 +102,7 @@
                     {% endif %}
                 </tbody>
             </table>
-        </div>
+        </div -->
         <div class="form-group form-group-lg  col-sm-12 mr-t-main">
             <div class="flex-action">
                 <button type="button" class="btn btn-default btn-lg"  onClick="back()">返回</button>
@@ -132,7 +132,7 @@
         methods: {
             msgTimeRule() {
                 if (this.time_rule != '{{ et.time_rule }}') {
-                    alert('时间规则修改后，相关任务都会按照新的时间规则运行，请谨慎修改！！！')
+                    alert('時間規則修改後，相關任務都會按照新的時間規則運行，請謹慎修改！！！')
                 }
             },
             validate() {
@@ -223,10 +223,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="d-inline">
-                    媒体库
+                    媒體庫
                 </h4>
-                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="choise_media">确认选择</button>
-                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="choise_media">確認選擇</button>
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">關閉</button>
             </div>
             <div class="modal-body">
                 <div class="def-iframe">

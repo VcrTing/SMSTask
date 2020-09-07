@@ -20,26 +20,26 @@
             <table class="table table-striped">
                 <thead>
                     <th>
-                        <h4>服务项目</h4>
+                        <h4>服務項目</h4>
                     </th>
                     <th>
                         <h4>接收者</h4>
                     </th>
                     <th>
-                        <h4>发送时间</h4>
+                        <h4>發送時間</h4>
                     </th>
-                    <!-- th>
-                        <h4>期数</h4>
-                    </th -->
+                    <th>
+                        <h4>第幾封</h4>
+                    </th>
                     <th align="center">
                         <h4>接收成功?</h4>
                     </th>
                     <th align="center">
-                        <h4>任务详情</h4>
+                        <h4>任務詳情</h4>
                     </th>
-                    <th align="center">
+                    <!-- th align="center">
                         <h4>操作</h4>
-                    </th>
+                    </th -->
                 </thead>
                 <tbody class="tab-content" id="email_collect_more-content">
                     
@@ -90,10 +90,10 @@
                 '    <td><div style="height: 4px;"></div><div class="reciver mr-t-half">' +
                 '        ' + named + ' &lt;' + addr + '&gt;</div></td>' +
                 '    <td><h4>' + send_time + '</h4></td>' +
-                // '    <td><h4>第' + index + '封</h4></td>' +
+                '    <td><h4>第' + index + '封</h4></td>' +
                 '    <td align="center"><h4>' + _ser_success_status(success_status) + '</h4></td>' +
                 '    <td align="center"><h4 class="text-main hand" onclick="seeMore(' + id + ')">查看</h4></td>' +
-                '    <td align="center"><h4><span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span></h4></td>' +
+                // '    <td align="center"><h4><span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span></h4></td>' +
                 '</tr>'
             
             dataDom.append(html)
@@ -172,7 +172,7 @@
             '<tr><td align="center">拜訪時間</td><td>' + visit_time + '</td></tr>' +
             '<tr><td align="center">任務狀態</td><td>' + task_status + '</td></tr>' +
             '<tr><td align="center">接收成功？</td><td>' + success_status + '</td></tr>' +
-            '<tr><td align="center">後臺信息</td><td class="break-word">' + json_response + '</td></tr>' +
+            // '<tr><td align="center">後臺信息</td><td class="break-word">' + json_response + '</td></tr>' +
             '<tr><td align="center">郵件標題</td><td>' + subject + '</td></tr>' +
             '<tr><td align="center">郵件內容</td><td>' + message + '</td></tr>' +
             '<tr><td align="center">發送時間</td><td>' + send_time + '</td></tr>'
