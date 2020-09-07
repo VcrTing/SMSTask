@@ -163,6 +163,8 @@
                 const xss_message = xss(this.message)
                 if (xss_message != true) { alert(xss_message); return }
 
+                this.message = _sel_iframe(this.message)
+                
                 this.submit()
             },
             submit() {
@@ -255,6 +257,6 @@
 </div>
 
 <style>
-
+    
 </style>
 {% endblock %}

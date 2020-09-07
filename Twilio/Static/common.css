@@ -145,6 +145,15 @@ div.note-group-select-from-files:before {
     display: none !important;
 }
 */
+#content_help {
+    visibility: hidden;
+    height: 30px;
+    overflow: scroll !important;
+}
+.editor,
+.note-editable {
+    min-height: 420px !important;
+}
 #media_modal .modal-content {
     z-index: 800 !important;
 }

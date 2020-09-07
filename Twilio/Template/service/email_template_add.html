@@ -21,7 +21,7 @@
 <div class="home-space"></div>
 <div class="container" id="app">
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <div class="row">
                 <div class="col-sm-5">
                     <div class="form">
@@ -81,7 +81,7 @@
         
             </div>
         </div>
-        <div class="col-sm-3">
+        <!-- div class="col-sm-3">
             <table class="table table-striped mr-t-main-r">
                 <thead>
                     <th>
@@ -105,7 +105,7 @@
                     {% endif %}
                 </tbody>
             </table>
-        </div>
+        </div -->
         <div class="form-group form-group-lg  col-sm-12 mr-t-main">
             <div class="flex-action">
                 <button type="button" class="btn btn-default btn-lg"  onClick="back()">返回</button>
@@ -118,18 +118,6 @@
 
 <!-- VUE -->
 <script>
-    // 
-    _sel_iframe = function(rec) {
-        $('#content_help').html(rec)
-
-        const vedio_src = $('#content_help').find('iframe').attr('src')
-        if (!vedio_src.startsWith('http')) {
-            $('#content_help').find('iframe').attr('src', 'https:' + vedio_src)
-        }
-        $('#content_help').find('iframe').attr('allowfullscreen', true)
-        $('#content_help').find('iframe').attr('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
-        return $('#content_help').html()
-    }
     // VUE
     var vue = new Vue({
         el: '#app',
@@ -275,9 +263,7 @@
 </div>
 
 <style>
-    .editor {
-        height: 240px !important;
-    }
+    
     .br {
         border: 1px solid pink !important;
     }
