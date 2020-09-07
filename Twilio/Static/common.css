@@ -154,6 +154,16 @@ div.note-group-select-from-files:before {
 .note-editable {
     min-height: 420px !important;
 }
+.note-editor .note-insert button:nth-child(3),
+.btn-codeview {
+    display: none !important;
+}
+.note-editor .note-insert button:nth-child(2) {
+    border-radius: 3px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
 #media_modal .modal-content {
     z-index: 800 !important;
 }
