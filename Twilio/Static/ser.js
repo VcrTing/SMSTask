@@ -349,8 +349,10 @@ _sel_iframe = function(rec) {
         $('#content_help').html(rec)
     
         const vedio_src = $('#content_help').find('iframe').attr('src')
-        if (!vedio_src.startsWith('http')) {
-            $('#content_help').find('iframe').attr('src', 'https:' + vedio_src)
+        if (vedio_src) {
+            if (!vedio_src.startsWith('http')) {
+                $('#content_help').find('iframe').attr('src', 'https:' + vedio_src)
+            }
         }
         $('#content_help').find('iframe').attr('allowfullscreen', true)
         $('#content_help').find('iframe').attr('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
