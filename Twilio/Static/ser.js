@@ -353,10 +353,10 @@ _sel_iframe = function(rec) {
             if (!vedio_src.startsWith('http')) {
                 $('#content_help').find('iframe').attr('src', 'https:' + vedio_src)
             }
+            $('#content_help').find('iframe').attr('allowfullscreen', true)
+            $('#content_help').find('iframe').attr('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
+            return $('#content_help').html()
         }
-        $('#content_help').find('iframe').attr('allowfullscreen', true)
-        $('#content_help').find('iframe').attr('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture')
-        return $('#content_help').html()
     }
     return rec
 }

@@ -146,7 +146,7 @@ div.note-group-select-from-files:before {
 }
 */
 #content_help {
-    visibility: hidden;
+    border: 1px solid pink;
     height: 30px;
     overflow: scroll !important;
 }
