@@ -102,7 +102,7 @@ def _backup():
 
     msg += '<br/>磁盘剩余容量：' + str(s) + ' MB，媒体库容量：' + str(m) + ' MB。'
 
-    res = _mail(msg)
+    _mail(msg)
 
 def trash():
     timed = _timed()
