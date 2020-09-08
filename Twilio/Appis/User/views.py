@@ -223,12 +223,27 @@ class ContactView(View):
                     }
                 )
             elif option == 'email':
+
+                nper = [
+                    {
+                        'val': nr[0],
+                        'txt': nr[1]
+                    } for nr in common.NPER
+                ]
+                time_rule = [
+                    {
+                        'val': tr[0],
+                        'txt': tr[1]
+                    } for tr in common.TIME_RULE_EMAIL
+                ]
                 return render(request, 'email/email_tasker.html', 
                     { 
                         'title': '首页 - 邮件增加', 
                         'page_flag': self.page_flag,
                         'page_flag_sub': self.page_flag + '_add',
-                        'email_template_list': res
+                        'email_template_list': res,
+                        'time_rule': time_rule,
+                        'nper': nper
                     }
                 )
 

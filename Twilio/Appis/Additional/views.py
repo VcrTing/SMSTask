@@ -1,4 +1,5 @@
 import json
+import time
 import datetime
 from django import views
 from django.shortcuts import render, redirect
@@ -57,6 +58,13 @@ class EmailApplyViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         start_visit = self.request.query_params.get('start_visit', None)
         end_visit = self.request.query_params.get('end_visit', None)
         time_rule = self.request.query_params.get('time_rule', None)
+        
+        if end_visit != '':
+            if start_visit == '':
+                start_visit = "2001-1-1"
+        if start_visit != '':
+            if end_visit == '':
+                end_visit = datetime.datetime.now().strftime("%Y-%m-%d")
 
         res = models.EmailApply.objects.filter (
             Q(status = True)
@@ -64,9 +72,11 @@ class EmailApplyViewSet(viewsets.ModelViewSet, generics.ListAPIView):
         if (time_rule) and time_rule != '':
             res = res.filter (
                 Q( email_template__time_rule = time_rule) )
-        if (start_visit) and start_visit != '':
+
+        if end_visit != '' and start_visit != '':
             res = res.filter (
                 Q( visit_time__range = (start_visit, end_visit)) )
+
         if (cate) and cate != '':
             res = res.filter(
                 Q( email_template__category = cate) )
@@ -108,7 +118,7 @@ class RuningEmailViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
         end_date = datetime.date(now.year, now.month, now.day)
         
         res = models.EmailApply.objects.filter(
-            Q(next_time__range = (start_date, end_date)) & 
+            Q(next_time__range = (start_date, end_date)) &
             Q(status = True) & 
             # Q(send_status = True) &
             Q(over_status = False)

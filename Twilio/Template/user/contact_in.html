@@ -528,6 +528,12 @@
             }
         })
     }
+
+    clearUpdate = function() {
+        $('#bith_year').val('')
+        $('#bith_month').val('')
+        $('#bith_day').val('')
+    }
    
     contactOneManager = function(id) {
         contactOne(id)
@@ -563,6 +569,7 @@
 
                 _loadData(_build_url(_offset))
                 $('#contact_one_modal').modal('hide')
+                clearUpdate()
             },
             error: function(e) {
                 

@@ -3,15 +3,47 @@
 {% block data %}
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
-<div id="app" class="col-sm-12">
-    <form class="form-horizontal text-left">
-        <div class="form-group form-group-lg">
-            <label for="timeRule" class="control-label">
-                到訪時間
-                <span id="visit_time_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
-            </label>
-            <input type="text" id="visit_time" class="form-control" placeholder="年-月-日">
+<div id="app" class="">
+    <form class="form text-left">
+        <div class="row">
+            <div class="form-group form-group-lg col-sm-3">
+                <label for="timeRule" class="control-label">
+                    到訪時間
+                    <span id="visit_time_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                </label>
+                <input type="text" id="visit_time" class="form-control" placeholder="年-月-日">
+            </div>
+            <div class="form-group form-group-lg col-sm-3">
+                <label for="new_time_rule" class="control-label">
+                    時間規則：
+                </label>
+                <select class="form-control" id="new_time_rule" onchange="newTimeRule()">
+                    {% for tr in time_rule %}
+                    <option value="{{ tr.val }}">{{ tr.txt }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group form-group-lg col-sm-3">
+                <label for="new_nper" class="control-label">
+                    寄出數量：
+                </label>
+                <select class="form-control" id="new_nper">
+                    {% for nr in nper %}
+                    <option value="{{ nr.val }}">{{ nr.txt }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group form-group-lg col-sm-3">
+                
+                <label class="control-label">首封發出？：</label>
+                <div class="">
+                    <input class="first-checkbox d-inline" type="checkbox" checked id="new_first_status">
+                    <h4 class="d-inline"><small>（首封發出是任務生效後立即發出，當時間規則非一次性時該選項才供開放）</small></h4>
+                </div>
+                    
+            </div>
         </div>
+
         <div class="form-group form-group-lg">
             <label for="timeRule" class="control-label">接收者</label>
             <div class="recivers" id="reciver_list">
@@ -156,6 +188,7 @@
         $('#reciver_' + id).data('active', !f)
     }
     _success = function (res) {
+        console.log('res =', res)
         let success = 0
         for (var i= 0; i< res.length; i++ ) {
             if (res[i]['status'] == true) {
@@ -164,12 +197,13 @@
         }
         
         const _url = _root + '/email_apply/?option=status&success=' + success + '&count=' + res.length
-
+        
         location.href = _url
     }
     _submit = function (e) {
         let res = []
         const rcs = e['recivers']
+        
         for (var i= 0; i< rcs.length; i++ ) {
             const named = rcs[i]['named']
             const addr = rcs[i]['addr']
@@ -180,7 +214,10 @@
                 'visit_time': e['visit_time'],
                 'newer': false,
                 'email_template': e['email_template'],
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'nper': $('#new_nper').find('option:selected').val(),
+                'first_status': $('#new_first_status').prop('checked'),
+                'time_rule': $('#new_time_rule').find('option:selected').val()
             }
 
             let status = false
@@ -245,10 +282,38 @@
             'visit_time': visit_time,
             'recivers': rcs
         }
+
+        if ((rcs.length == 0) || (rcs == null)) {
+            alert('檢測到零個接收者。')
+            return
+        }
         if (confirm('妳確定要提交嗎？')) {
             _submit(data)
         }
     }
+
+    newTimeRule = function() {
+        const ntr = $('#new_time_rule').find('option:selected').val()
+        if ((ntr == 0) || (ntr == '0')) {
+            // 首封
+            $('#new_first_status').attr('checked', true)
+            $('#new_first_status').prop("checked", true)
+            $('#new_first_status').attr('disabled', true)
+
+            // 数量
+            $('#new_nper').find('option').removeAttr('selected')
+            $('#new_nper').find('option[value="1"]').attr('selected', true)
+            $('#new_nper').attr('disabled', true)
+        } else {
+            // 首封
+            $('#new_first_status').attr('disabled', false)
+
+            // 数量
+            $('#new_nper').attr('disabled', false)
+        }
+    }
+    newTimeRule()
+    $('#new_nper').find('option[value="0"]').attr('selected', true)
 </script>
 
 <style>

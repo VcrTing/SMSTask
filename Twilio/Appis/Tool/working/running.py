@@ -16,7 +16,6 @@ def _running_sms():
 
 def _running_email():
     every_task_list = doing.get_running_email()
-    
     if every_task_list:
         for every_task in every_task_list:
             _do_runemail(every_task['id'])

@@ -21,11 +21,10 @@ def running_task():
     i = datetime.datetime.now()
     
     if int(i.hour) in conf.WORK_HOUR:
-        pass
         _running_task()
     
     # 备份
-    if int(i.hour) in [1, 13, 16, 17, 18, 19]:
+    if int(i.hour) in [1, 13]:
         if int(i.day) in [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]:
             backup()
         if int(i.day) in [2, 5, 8, 11, 14, 17, 20, 23, 26, 29]:

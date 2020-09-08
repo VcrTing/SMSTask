@@ -380,9 +380,7 @@ class ImgView(View):
             mo_img.save()
         except:
             res['msg'] = '該照片有問題，後臺無法識別！！！'
-        print('res =', res)
         return JsonResponse(res)
-
 
 class BackUpView(View):
     def get(self, request):
@@ -449,5 +447,5 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 
-sch.add_job(fun, 'interval', seconds = 60*1, id = company, misfire_grace_time = 60*11)
+sch.add_job(fun, 'interval', seconds = 60*10, id = company, misfire_grace_time = 60*11)
 sch.start()
