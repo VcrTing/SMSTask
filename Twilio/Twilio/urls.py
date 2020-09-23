@@ -70,10 +70,12 @@ urlpatterns = [
     path('backup/', Web.BackUpView.as_view()),
     path('danger/', Web.DangerView.as_view()),
     path('feedback/',User.FeedBackView.as_view()),
+    path('import/',Web.ImportView.as_view()),
 
     path('num/', Web.NumView.as_view()),
     path('style/', Web.StyleView.as_view()),
     path('task_running/', Web.TaskView.as_view()),
+    path('incentive_task/', Web.IncentiveView.as_view()),
 
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),

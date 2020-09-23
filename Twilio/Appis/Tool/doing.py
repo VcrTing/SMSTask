@@ -34,6 +34,7 @@ def update_sms_task(id, data):
     res = connect.req_Update(url, data)
     return res
 
+# Running
 def get_running_task():
     url = HOST_API + '/running_task/'
     res = connect.req_Get(url)
@@ -43,6 +44,13 @@ def get_running_email():
     url = HOST_API + '/running_email/'
     res = connect.req_Get(url)
     return res
+
+# Incentive
+def get_incentive_task():
+    pass
+
+def get_incentive_email():
+    pass
 
 # 短信
 def seial_response(data, flag):

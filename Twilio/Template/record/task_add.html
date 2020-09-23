@@ -73,11 +73,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- Change col-sm-3 to the col-sm-4 即可一行4个变一行3个 -->
                 <div class="form-group form-group-lg col-sm-12 mr-t-half">
                     <label for="category" class="control-label">選擇服務：</label>
                     <div class="row" id="category_gate">
                         {% for category in category_list %}
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <h4 class="mr-t-main" style="font-weight: 400;">{{ category.named }}</h4>
                         </div>
                         {% endfor %}
@@ -89,7 +90,7 @@
                         <div class="row">
                             {% if sms_template_list is not None %}
                                 {% for sms_templates in sms_template_list %}
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     {% if sms_templates %}
                                         <div class="item-wrapper">
                                         {% for sms in sms_templates %}
@@ -112,6 +113,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- No.2 -->
                 
                 <!-- div class="form-group form-group-lg">
                     <label for="task_status" class="col-sm-2 control-label">任務狀態：</label>
@@ -385,15 +387,6 @@
     padding: 20px;
     border-radius: 6px;
     margin-top: 0px;
-}
-#category_gate > div:nth-child(1) > h4 {
-    background: lightgreen;
-}
-#category_gate > div:nth-child(2) > h4 {
-    background: lightblue;
-}
-#category_gate > div:nth-child(3) > h4 {
-    background: pink;
 }
 #sms_item_outter {
     margin-top: -10px;

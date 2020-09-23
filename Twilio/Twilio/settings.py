@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = SETTING[Now]['time_zone']
+TIME_ZONE = SETTING[Now]['time_zone'] # Asia/Shanghai
 
 USE_I18N = True
 

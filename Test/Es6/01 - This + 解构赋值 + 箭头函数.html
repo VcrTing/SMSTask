@@ -1,0 +1,114 @@
+
+<html>
+    <style>
+        .square {
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+    <body>
+        <div class="square" id="dom">
+
+        </div>
+
+
+        <script>
+            const F4 = ['水果', '饮料', '甜品']
+            let [a, b, c] = F4
+
+            const eaFun = function() {
+                eat = `
+                    Are you eating now?
+                    I am eating ${a}
+                `
+                console.log(eat)
+            }
+            const done = {
+                name: '张三',
+                age: 2,
+                eating: eaFun
+            }
+
+            // 提取 Eating
+            let {eating} = done
+            eating()
+
+            // 简化对象写法
+            const simple = {
+                a,
+                eaFun,
+                simpleFun() {
+                    console.log('This is simple fun.')
+                }
+            }
+
+            // ----------------------- Line -----------------------
+            // 箭头函数
+            oldFun = function() {
+                console.log('This is an older fun.')
+                console.log(this.param)
+            } 
+            let newFun = () => {
+                console.log('This is a newer fun.')
+                console.log(this.param)
+            }
+
+            // This, 始终指向函数声明时所在作用域下的 的值
+            window.param = 'PARAM'
+            const forCall = {
+                param: 'PARAM in forCall'
+            }
+
+            // Call 方法
+            oldFun.call(forCall)
+            newFun.call(forCall)
+
+            this.console.log('---------------------------------')
+
+            // 箭头函数不能作为构造函数去实例化对象
+            // 不能使用 arguments 变量
+
+            // 箭头函数的简写
+            let simpleWrite = n => n * n
+            let result = simpleWrite(1)
+
+            // 箭头函数下的 This，指向声明它的外层
+
+            //箭头函数小例子
+            const numberList = [1, 2, 3, 5, 8, 100]
+                // OLDER
+                result = numberList.filter(function(item) {
+                    if (item % 2 === 0) {
+                        return true
+                    } else {
+                        return false
+                    }
+                })
+
+                // NEWER
+                result = numberList.filter(item => item % 2 === 0)
+            
+            // 箭头函数不适合与 This 有关的！
+
+            // ----------------------- Line -----------------------
+
+            // 函数默认值
+            const aa = function(a = 1, b = 2) {
+                return a + b
+            }
+            result = aa()
+
+            // 与解构赋值结合
+            function connect({host = '127.0.0.1', port}) {
+                console.log('----- Strat -----')
+                console.log(host)
+                console.log(port)
+                console.log('----- End -----')
+            }
+            connect({
+                host: '127.0.0.0',
+                port: '8000'
+            })
+        </script>
+    </body>
+</html>

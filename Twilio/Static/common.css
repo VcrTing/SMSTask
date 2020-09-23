@@ -139,6 +139,25 @@ div.note-group-select-from-files:before {
 }
 
 /*
+    Category Panel
+*/
+#category_gate > div {
+    color: white !important;
+}
+#category_gate > div:nth-child(1) > h4 {
+    background: lightgreen;
+}
+#category_gate > div:nth-child(2) > h4 {
+    background: lightblue;
+}
+#category_gate > div:nth-child(3) > h4 {
+    background: pink;
+}
+#category_gate > div:nth-child(4) > h4 {
+    background: SandyBrown;
+}
+
+/*
     CKEditor
 .btn-codeview,
 .btn-codeview * {
