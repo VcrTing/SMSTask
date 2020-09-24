@@ -39,6 +39,9 @@ body {
 .v-hidden {
     visibility: hidden;
 }
+.v-visible {
+    visibility: visible;
+}
 .text-left {
     text-align: left;
 }

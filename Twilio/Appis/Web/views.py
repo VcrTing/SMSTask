@@ -241,13 +241,14 @@ class ImportView(View):
             if option == 'load':
                 fs = self._loadFile(typed, request)
                 res['files'] = fs
-                print('files =', res['files'])
             elif option == 'import':
                 f = request.POST.get('file', None)
                 field = str(f).split('.')[0]
                 f = os.path.join(MEDIA_ROOT, 'data', company, typed, f)
 
-                rec = imports.import_csv(f, field)
+                rec, index = imports.import_csv(f, field)
+                res['index'] = index
+                res['rec'] = rec
         return JsonResponse(res)
 
 class HelpView(View):

@@ -29,6 +29,7 @@
                     </div -->
                     <div class="form-ele">
                         <div>
+                            <h3 class="wait">&nbsp;</h3>
                             <select v-model="working" id="working" class="conf-select">
                                 <option value="0">-- 選擇文件 --</option>
                             </select>
@@ -41,6 +42,7 @@
                     <div class="btn download">
                         Download
                     </div>
+                    <div class="panel"></div>
                     {% csrf_token %}
                 </div>
             </div>
@@ -58,6 +60,18 @@
                     $('#working').append(html)
                 }
             }
+            waiting = function(f) {
+                if (f) {
+                    $('.wait').html('Waiting...')
+                } else {
+                    $('.wait').html('&nbsp;')
+                }
+            }
+            waiting(false)
+
+            panel = function(res) {
+                $('.panel').html(res)
+            }
             var v = new Vue({
                 el: '#app',
                 data: {
@@ -68,7 +82,7 @@
                 methods: {
                     _submit(itemF) {
                         console.log(itemF)
-                        
+                        waiting(true)
                         $.ajax({
                             url: _root + '/import/?option=import',
                             data: itemF,
@@ -80,13 +94,32 @@
                                 xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
                             },
                             success: function(e) {
+                                waiting(false)
+                                
+                                let html = e['index'] + '个数据导入成功。    ' + '返回结果是: '
+                                const l = e['rec']
+                                panel( html )
+                                if ((l.length < 500) && (l.length > 0)) {
+                                    console.log('e["rec"] = ', e['rec'].length)
+                                    for (let i= 0; i< l.length; i++ ) {
+                                        console.log('item =', l[i])
+                                        $('.panel').append(
+                                            'id = ' + l[i]['id'] + ' res = ' + l[i]['rec'] + '。    '
+                                        )
+                                    }
+                                } 
+                                if (l.length < 1) {
+                                    $('.panel').append('全部成功！！！')
+                                }
+
                                 if (e['status']) {
-                                    
+
                                 } else {
                                     alert('錯誤！！！')
                                 }
                             },
                             error: function(e) {
+                                wait(false)
                                 alert('服務器錯誤！！！')
                             }
                         })
@@ -197,6 +230,23 @@
             }
             .space {
                 height: 15px;
+            }
+
+            .wait {
+                text-align: center;
+                color: white;
+            }
+            .panel {
+                padding: 30px 15px;
+                margin: 30px 0px;
+                border-radius: 8px;
+                border: 1px solid #cccccc;
+                background: rgba(255, 255, 255, 0.8);
+                width: 50%;
+                transition: all 1s;
+            }
+            .panel:hover {
+                background: rgba(255, 255, 255, 0.85);
             }
         </style>
     </body>
