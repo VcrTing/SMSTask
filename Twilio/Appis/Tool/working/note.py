@@ -95,3 +95,4 @@ def _serial_task(ids):
                 
                 if int(et.time_rule_belong) == 0:
                     _do_task(et)
+

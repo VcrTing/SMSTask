@@ -23,11 +23,14 @@ def tick(id, way):
 class TaskProcess(Process):
     task_id = 0
     way = common.WAY[0][0]
-    def __init__(self, task_id, way):
+    waiting = True
+    def __init__(self, task_id, way, waiting = True):
         super().__init__()
         self.task_id = task_id
         self.way = way
+        self.waiting = waiting
 
     def run(self):
-        time.sleep(60*WAIT_MINUTES)
+        if self.waiting:
+            time.sleep(60*WAIT_MINUTES)
         tick(self.task_id, self.way)
