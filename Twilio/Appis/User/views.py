@@ -345,7 +345,7 @@ class ContactTaskerView(View):
         
         tasker = [int(i) for i in tasker.split(',') if i is not '']
         
-        index = 0
+        # index = 0
         task_num = 0
         for pk in tasker:
             contact = user_models.Contact.objects.get(id = pk)
@@ -372,11 +372,11 @@ class ContactTaskerView(View):
 
             worker = APSTask.TaskProcess(ids, common.WAY[0][0], False)
             worker.start()
-
-            if len(tasker) > 10:
-                index += 1
-                if index % 10 == 0:
-                    time.sleep(0.5)
+            
+            # if len(tasker) > 10:
+            #     index += 1
+            #     if index % 1 == 0:
+            #         time.sleep(0.5)
 
         return JsonResponse({
             'res': tasker,
