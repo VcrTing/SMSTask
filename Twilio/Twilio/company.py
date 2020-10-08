@@ -1,5 +1,5 @@
 
-TEST = True
+TEST = False
 
 SYS_MAIL = 'support@manfulls.com'
 
@@ -9,7 +9,7 @@ SETTING = {
     'eye': {
         'key_name': 'eye', # 不用改
         'media': 'Eye', # 媒体库文件夹，不用改
-        'host': 'http://crm.up5d.com',
+        'host': 'http://crm.up5d.com:7000',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字

@@ -33,4 +33,6 @@ class TaskProcess(Process):
     def run(self):
         if self.waiting:
             time.sleep(60*WAIT_MINUTES)
+        else:
+            time.sleep(1*WAIT_MINUTES)
         tick(self.task_id, self.way)
