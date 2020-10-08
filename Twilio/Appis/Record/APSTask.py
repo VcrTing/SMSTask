@@ -19,7 +19,6 @@ def tick(id, way):
     if way == common.WAY[1][0]:
         worker.serial_email(id)
         
-
 class TaskProcess(Process):
     task_id = 0
     way = common.WAY[0][0]
@@ -34,5 +33,5 @@ class TaskProcess(Process):
         if self.waiting:
             time.sleep(60*WAIT_MINUTES)
         else:
-            time.sleep(0.5)
+            time.sleep(10)
         tick(self.task_id, self.way)

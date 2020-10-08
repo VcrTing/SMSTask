@@ -373,11 +373,7 @@ class ContactTaskerView(View):
             worker = APSTask.TaskProcess(ids, common.WAY[0][0], False)
             worker.start()
             
-            # if len(tasker) > 10:
-            #     index += 1
-            #     if index % 1 == 0:
-            #         time.sleep(0.5)
-
+            time.sleep(0.5)
         return JsonResponse({
             'res': tasker,
             'task_num': task_num
