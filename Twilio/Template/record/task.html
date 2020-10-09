@@ -16,8 +16,18 @@
             <option value="1" >順序排列</option>
         </select>
     </div>
-    <div class="form-group form-group-lg col-sm-3">
 
+    <div class="form-group form-group-lg col-sm-3">
+        <select class="w-100 form-control filter-select" id="limit">
+            <option value="10">10 項每頁</option>
+            <option value="20">20 項每頁</option>
+            <option value="30">30 項每頁</option>
+            <option value="40">40 項每頁</option>
+            <option value="50">50 項每頁</option>
+            <option value="100">100 項每頁</option>
+            <option value="200">200 項每頁</option>
+            <option value="500">500 項每頁</option>
+        </select>
     </div>
     <div class="form-group form-group-lg col-sm-3">
         <div class="btn btn-primary btn-lg fr" onclick="filterSubmit()">確認過濾</div>
@@ -164,7 +174,28 @@
         every_task_content.html('')
     }
 
-    const _limit = 20
+    // Limit
+    let _limit = vGet('limit_task')
+    
+    if (_limit == null) {
+        _limit = 20
+    }
+
+    _limitChange = function(limited) {
+        $('#limit').find('option').removeAttr('selected')
+        $('#limit').find('option[value="' + limited + '"]').attr('selected', true)
+        vSet('limit_task', limited)
+    }
+    _limitChange(_limit)
+
+    $('#limit').on('change', function() {
+        let limited = $('#limit').find('option:selected').val()
+        
+        _limitChange(limited)
+        location.reload()
+    })
+
+    // Data
     const _offset = 0
     const api_name = 'every_task'
     const _url = head + '{{ request.get_host }}' + '/api/' + api_name
