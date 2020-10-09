@@ -92,6 +92,19 @@ class RuningTaskViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
             Q(status = True) & 
             Q(send_status = False))
 
+class ContactTaskViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
+    queryset = models.EveryTask.objects.all()
+    serializer_class = serializers.EveryTaskSerializer
+
+    def get_queryset(self):
+        contact_id = self.request.query_params.get('contact', None)
+        print('Contact id = ', contact_id)
+
+        res = models.EveryTask.objects.filter(Q(status = True))
+        print(len(res))
+
+        return res.filter(Q(contact = contact_id))
+
 # ============================================= V ===============================================
 
 def val_time_rule_belong(trb):

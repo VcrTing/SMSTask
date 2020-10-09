@@ -36,6 +36,7 @@ router.register('record', Record.SmsTaskRecordViewSet)
 router.register('task', Record.SmsTaskViewSet)
 router.register('every_task', Record.EveryTaskViewSet)
 router.register('running_task', Record.RuningTaskViewSet)
+router.register('contact_task', Record.ContactTaskViewSet)
 
 router.register('email_template', Additional.EmailTemplateViewSet)
 router.register('email_apply', Additional.EmailApplyViewSet)

@@ -345,7 +345,7 @@ class ContactTaskerView(View):
         
         tasker = [int(i) for i in tasker.split(',') if i is not '']
         
-        # index = 0
+        tasks = []
         task_num = 0
         for pk in tasker:
             contact = user_models.Contact.objects.get(id = pk)
@@ -363,17 +363,20 @@ class ContactTaskerView(View):
                 every_task = record_models.EveryTask()
                 every_task.sms_task = task
                 every_task.numed = index
-                every_task.contact_key = contact
+                every_task.contact = contact
                 every_task.time_rule_belong = time_rule_belong
                 every_task.save()
                 ids.append(every_task.id)
 
                 task_num += 1
 
-            worker = APSTask.TaskProcess(ids, common.WAY[0][0], False)
-            worker.start()
-            
-            time.sleep(0.5)
+            tasks.append(ids)
+            if len(tasks) % 5 == 0:
+                time.sleep(0.5)
+
+        worker = APSTask.TaskProcess(tasks, common.WAY[0][0], False)
+        worker.start()
+
         return JsonResponse({
             'res': tasker,
             'task_num': task_num

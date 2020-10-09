@@ -2,7 +2,7 @@
 <div class="modal fade" tabindex="-1" id="contact_trash_modal" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            AAA
+            NONE
         </div>
     </div>
 </div>
@@ -58,7 +58,7 @@
         
         const dataDom = $('#contact_task_tbody')
         $.ajax({
-            url: _url + 'every_task/?contact=' + id,
+            url: _url + 'contact_task/?contact=' + id,
             type: 'GET',
             success: function(e) {
                 
