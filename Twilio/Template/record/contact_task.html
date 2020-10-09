@@ -125,18 +125,29 @@
                             <a href="#"><h4 id="preview_time_rule" class="form-in-p"></h4></a>
                         </div>
                     </div>
-                    <div class="form-group form-group-lg">
-                        <label class="col-sm-3 control-label">首發模版：</label>
+                    <div class="form-group form-group-lg" id="ptrc_tr">
+                        <label class="col-sm-3 control-label">啟用那種時間規則：</label>
                         <div class="col-sm-9">
-                            <textarea id="preview_content" disabled class="form-control" rows="5">
-                            </textarea>
+                            <h4 id="preview_time_rule_active"></h4>
                         </div>
                     </div>
-                    <div class="form-group form-group-lg">
-                        <label class="col-sm-3 control-label">後發模版：</label>
-                        <div class="col-sm-9">
-                            <textarea id="preview_content_sub" disabled class="form-control" rows="5">
-                            </textarea>
+                    <div class="text-right">
+                        <a class="text-main" onclick="contentCollapse()">查看模版内容？</a>
+                    </div>
+                    <div class="collapse" id="content_collapse">
+                        <div class="form-group form-group-lg mr-t-main">
+                            <label class="col-sm-3 control-label">首發模版：</label>
+                            <div class="col-sm-9">
+                                <textarea id="preview_content" disabled class="form-control" rows="5">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg" id="pcs_tr">
+                            <label class="col-sm-3 control-label">後發模版：</label>
+                            <div class="col-sm-9">
+                                <textarea id="preview_content_sub" disabled class="form-control" rows="5">
+                                </textarea>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -147,6 +158,10 @@
 <script>
     const tasker_list = $('#tasker_list')
 
+    contentCollapse = function() {
+        $('#content_collapse').toggle()
+    }
+
     loading = function(f = true) {
         if (f) {
             $('#tasker_loading').modal('show')
@@ -154,6 +169,7 @@
             $('#tasker_loading').modal('hide')
         }
     }
+    
     taskerPreview = function(len, st) {
         
         $.ajax({
@@ -168,12 +184,24 @@
                 
 
                 let tr = []
+                let html = ''
                 for(let i= 0; i< time_rule.length; i++ ) {
+                    const r = _ser_time_rule_belong(parseInt(time_rule[i]))
+                    
+                    html += '' +
+                        '<div class="checkbox d-inline mr-r-main">' +
+                        '    <label>' +
+                        '        <input type="checkbox" checked name="tr_active" value="' + time_rule[i] + '">' + 
+                        r +
+                        '    </label>' +
+                        '</div>'
                     
                     if (i > 0) {
-                        tr.push('，' + _ser_time_rule_belong(parseInt(time_rule[i])))
+                        tr.push('，' + r)
+                        
                     } else {
-                        tr.push(_ser_time_rule_belong(parseInt(time_rule[i])))
+                        tr.push(r)
+                        
                     }
                 }
 
@@ -182,6 +210,16 @@
                 $('#preview_task_num').html(len + '人接收，每人' + time_rule.length + '封，總發' + (len * time_rule.length) + '封。')
                 $('#preview_content').val(content)
                 $('#preview_content_sub').val(content_sub)
+
+                if (time_rule.length < 2) {
+                    $('#pcs_tr').addClass('d-none')
+                    $('#ptrc_tr').addClass('d-none')
+                } else {
+                    $('#pcs_tr').removeClass('d-none')
+                    $('#ptrc_tr').removeClass('d-none')
+                    $('#preview_time_rule_active').html(html)
+                }
+
 
                 $('#tasker_preview').modal('show')
             }
@@ -200,12 +238,30 @@
             alert('檢測到零個接收者。')
             return
         }
+
+        let tr_active = new Array();
+        $("input[name=tr_active]:checked").each(function() {
+            tr_active.push($(this).val());
+        });
+        
+        if (tr_active.length < 1) {
+            alert('未啟用任何時間規則！！！')
+            return
+        } else {
+            let _tr = ''
+            for (let t= 0; t< tr_active.length; t++ ) {
+                _tr += tr_active[t] + '_'
+            }
+            tr_active = _tr
+        }
+
         if (!confirm('還需確認壹次嗎，確定立即提交？')) { 
             return 
         }
-        _submit(tasker, rec.length)
+        _submit(tasker, rec.length, tr_active)
     })
-    _submit = function(tasker, len) {
+    _submit = function(tasker, len, tr_active) {
+
         $('.modal').modal('hide')
         loading()
         const sms_id = oldId
@@ -215,7 +271,8 @@
             dataType: 'json',
             data: {
                 'sms_id': sms_id,
-                'tasker': tasker
+                'tasker': tasker,
+                'time_rule_active': tr_active
             },
             headers: {
                 Accept: "application/json; charset=utf-8",

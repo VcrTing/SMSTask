@@ -342,8 +342,10 @@ class ContactTaskerView(View):
         
         sms_id = request.POST.get('sms_id', None)
         tasker = request.POST.get('tasker', None)
+        time_rule_active = request.POST.get('time_rule_active', None)
         
         tasker = [int(i) for i in tasker.split(',') if i is not '']
+        time_rule_active = [int(i) for i in time_rule_active.split('_') if i is not '']
         
         tasks = []
         task_num = 0
@@ -360,15 +362,16 @@ class ContactTaskerView(View):
             
             for index, time_rule_belong in enumerate(sms_template.service.time_rule):
                 
-                every_task = record_models.EveryTask()
-                every_task.sms_task = task
-                every_task.numed = index
-                every_task.contact = contact
-                every_task.time_rule_belong = time_rule_belong
-                every_task.save()
-                ids.append(every_task.id)
+                if int(time_rule_belong) in time_rule_active:
+                    every_task = record_models.EveryTask()
+                    every_task.sms_task = task
+                    every_task.numed = index
+                    every_task.contact = contact
+                    every_task.time_rule_belong = time_rule_belong
+                    every_task.save()
+                    ids.append(every_task.id)
 
-                task_num += 1
+                    task_num += 1
 
             tasks.append(ids)
             if len(tasks) % 5 == 0:
