@@ -15,7 +15,8 @@ _valide_message = function(message) {
 }
 
 // 驗證壹般文本框
-_valide_text = function(text, msg_named, isEmpty = false, min_len = 4, max_len = 240) {
+_valide_text = function(text, msg_named, isEmpty = false, min_len = 4, max_len = 800) {
+    
     if (!isEmpty) {
         if (!text | text == undefined | text == '') {
             return msg_named + '不為空'
@@ -24,12 +25,14 @@ _valide_text = function(text, msg_named, isEmpty = false, min_len = 4, max_len =
         const len = text.length
         if (len < 4) {
             return msg_named + '字數應當大於' + min_len
-        } else if (len > max_len) {
+        }
+        if (len > max_len) {
             return msg_named + '字數不得大於' + max_len
         }
     }
     return true
 }
+
 
 // 驗證名字
 _valide_named = function(named) {

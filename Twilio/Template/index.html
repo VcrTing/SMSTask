@@ -112,6 +112,15 @@
                                 <a href="/service/"><h4>服務項目</h4></a>
                             </div>
                             <div class="item-content fr">
+                                {% if page_flag == 'service' %}
+                                <a class="add-wrapper hand" href="/service/?option=add">
+                                    <div class="fl">
+                                        <h4>
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </h4>
+                                    </div>
+                                </a>
+                                {% endif %}
                             </div>
                         </div>
                         {% endif %}

@@ -321,6 +321,7 @@ _sel_first_status = function(first_status) {
 }
 
 tagsUser = function(contact_id, targDom) {
+    /*
     $.ajax({
         url: _root + '/tag/?option=user&contact_id=' + contact_id,
         type: 'GET',
@@ -340,6 +341,7 @@ tagsUser = function(contact_id, targDom) {
             }
         }
     })
+    */
 }
 
 

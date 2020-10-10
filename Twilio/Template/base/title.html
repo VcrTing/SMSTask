@@ -14,7 +14,7 @@
                     {% elif page_flag == 'every_task' %}預定執行的任務隊列表
                     {% elif page_flag == 'every_task_done' %}已完成的任務隊列表
                     {% elif page_flag == 'sms_task_record' %}短信發送完成記錄表 
-                    {% elif page_flag == 'service' %}瀏覽服務項 
+                    {% elif page_flag == 'service' %}<a class="d-inline text-white-half text-white-hr a" href="/service/">服務項目</a>
                     {% elif page_flag == 'contact' %}<a class="d-inline text-white-half text-white-hr a" href="/contact/">聯絡人</a>
                     {% elif page_flag == 'other' %}<a class="d-inline text-white-half text-white-hr a" href="/other/">其他</a>
                     {% elif page_flag == 'task_collect' %}短信申請記錄
@@ -29,6 +29,7 @@
                     {% elif page_flag_sub == 'email_template_update' %} > 修改操作  
                     {% elif page_flag_sub == 'task_add_success' %} > 表格填寫完成
                     {% elif page_flag_sub == 'contact_tasker' %} > 新增任務
+                    {% elif page_flag_sub == 'service_add' %} > 新增服務
                     {% endif %}
                 </h4>
 

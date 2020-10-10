@@ -119,7 +119,7 @@
             const addr = prompt('標簽刪除為敏感操作，確認刪除需輸入登錄電郵：', '')
 
             if (addr.trim() == '{{ request.session.user }}') {
-                alert('成功！！')
+                alert('輸入匹配。')
             } else {
                 alert('輸入不匹配！撤銷刪除')
                 return
