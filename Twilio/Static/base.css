@@ -303,7 +303,7 @@ a:hover {
 }
 
 .error {
-    color: #c25f5d;
+    color: #c25f5d !important;
 }
 .error:hover {
     color: #a94442;

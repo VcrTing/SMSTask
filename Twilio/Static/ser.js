@@ -12,7 +12,7 @@ _ser_email_status = function(apply, send, over) {
     let res = '<span class="apply">生效中</span>'
     if (apply) {
         if (over) {
-            res = '<span class="complete">已完结</span>'
+            res = '<span class="complete">已完結</span>'
         } else {
             if (send) {
                 res = '<span class="success">工作中</span>'
@@ -207,7 +207,7 @@ _ser_time_rule_belong = function(e) {
     if (e < 6) {
         switch(e) {
             case 0: break;
-            case 1: res = '壹月後' 
+            case 1: res = '一月後' 
                 break;
             case 2: res = '二月後'
                 break;
@@ -229,7 +229,7 @@ _ser_time_rule_belong = function(e) {
             case 10: res = '十月後'
                 break;
             default:
-                res = '十壹月後'
+                res = '十一月後'
         }
     } else {
         res = '六月後'

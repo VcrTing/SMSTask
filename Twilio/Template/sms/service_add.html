@@ -226,6 +226,10 @@
                         if ((status == 'True') | (status == 'true') | (status == true)) {
                             alert('添加成功！！！')
                             location.href = '/service/'
+                        } else {
+                            if (e['msg'] == 'xss') {
+                                location.href = '/danger/?option=xss'
+                            }
                         }
                     },
                     error: function(e) {
@@ -234,9 +238,36 @@
                 })
             },
             validate: function() {
+                const self = this
 
                 let val_thing= _valide_text(this.service, '服務名稱')
                 if (val_thing != true) { alert(val_thing); return }
+
+                $.ajax({
+                    url: _root + '/service/?option=same',
+                    data: {
+                        'named': self.service,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    type: 'POST',
+                    headers: {
+                        Accept: "application/json; charset=utf-8",
+                    },
+                    success: function(e) {
+                        const same = e['same']
+                        if ((same == 'true') || (same == true) || (same == 'True')) {
+                            alert('監測到已存在相同名稱的服務項目。')
+                        } else {
+                            self._validate()
+                        }
+                    },
+                    error: function(e) {
+                        alert('因網絡波動！！')
+                    }
+                })
+
+            },
+            _validate: function() {
 
                 if (this.time_rule.length < 1) {
                     alert('請至少選擇一個時間規則！')
@@ -255,6 +286,21 @@
                 val_thing = _valide_text(this.content_sub_en, '英文后发模版內容')
                 if (val_thing != true) { alert(val_thing); return }
 
+                
+                let xss_service = xss(this.service)
+                if (xss_service != true) { alert(xss_service); return }
+                xss_service = xss(this.content)
+                if (xss_service != true) { alert(xss_service); return }
+                xss_service = xss(this.content_sub)
+                if (xss_service != true) { alert(xss_service); return }     
+                xss_service = xss(this.content_en)
+                if (xss_service != true) { alert(xss_service); return }
+                xss_service = xss(this.content_sub_en)
+                if (xss_service != true) { alert(xss_service); return }      
+
+                if (!confirm('還需確認一次嗎，確定立即提交？')) { 
+                    return 
+                }
                 this._submit()
             }
         }

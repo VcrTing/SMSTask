@@ -13,6 +13,8 @@ from django_filters.rest_framework.backends import DjangoFilterBackend
 from Appis.Sms import models
 from Appis.Sms import serializers
 
+from Appis.Tool.func import danger
+
 # Create your views here.
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -89,6 +91,13 @@ class ServiceView(View):
                 smsT = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 1))
                 smsT_en = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 2))
 
+                cate = None
+                time_rule = list(service.time_rule)
+                if smsT:
+                    cate = [ s.category for s in smsT ][0]
+                if smsT_en:
+                    cate = [ s.category for s in smsT_en ][0]
+
                 return render(request, 'sms/service_update.html', 
                     { 
                         'title': '服務項目修改', 
@@ -97,6 +106,8 @@ class ServiceView(View):
                         'category': category,
                         'named': "{{named}}",
                         'numed': "{{numed}}",
+                        'cate': cate,
+                        'time_rule': [int(i) for i in time_rule],
                         'service': service,
                         'sms_template': smsT,
                         'sms_template_en': smsT_en
@@ -131,61 +142,83 @@ class ServiceView(View):
             'status': True
         }
         option = request.GET.get('option', None)
+
         named = request.POST.get('named', None)
-        pk = request.GET.get('id', None)
 
         if option:
-            if option == 'update':
+            if option == 'update' or option == 'add':
 
-                service = models.Service.objects.get(id =pk)
-                time_rule = request.POST.getlist('time_rule', None)
-                service.named = named
+                cate = request.POST.get('cate', None)
+                cate = models.Category.objects.get(id = cate)
+
+                time_rule = request.POST.get('time_rule', None)
+                content = request.POST.get('content', None)
+                content_sub = request.POST.get('content_sub', None)
+                content_en = request.POST.get('content_en', None)
+                content_sub_en = request.POST.get('content_sub_en', None)
+
+                time_rule = [int(i) for i in time_rule.split(',') if i is not '']
+
+
+                if danger.xss(named):
+                    return JsonResponse({ 'status': False, 'msg': 'xss' })
+                if danger.xss(content):
+                    return JsonResponse({ 'status': False, 'msg': 'xss' })
+                if danger.xss(content_sub):
+                    return JsonResponse({ 'status': False, 'msg': 'xss' })
+                if danger.xss(content_en):
+                    return JsonResponse({ 'status': False, 'msg': 'xss' })
+                if danger.xss(content_sub_en):
+                    return JsonResponse({ 'status': False, 'msg': 'xss' })
+
+                smsT = None
+                smsT_en = None
+                service = None
+
+                if option == 'add':
+                    service = models.Service()
+                    smsT = models.SmsTemplate()
+                    smsT_en = models.SmsTemplate()
+
+                elif option == 'update':
+                    service_id = request.POST.get('service_id', None)
+                    sms_template_id = request.POST.get('sms_template_id', None)
+                    sms_template_en_id = request.POST.get('sms_template_en_id', None)
+
+                    service = models.Service.objects.get(id = service_id)
+                    smsT = models.SmsTemplate.objects.get(id = sms_template_id)
+                    smsT_en = models.SmsTemplate.objects.get(id = sms_template_en_id)
+
                 service.time_rule = time_rule
+                service.named = named
                 service.save()
 
-            if option == 'add':
-                try :
-                    cate = request.POST.get('cate', None)
-                    cate = models.Category.objects.get(id = cate)
+                smsT.category = cate
+                smsT.content = content
+                smsT.content_sub = content_sub
 
-                    time_rule = request.POST.get('time_rule', None)
-                    content = request.POST.get('content', None)
-                    content_sub = request.POST.get('content_sub', None)
-                    content_en = request.POST.get('content_en', None)
-                    content_sub_en = request.POST.get('content_sub_en', None)
+                smsT_en.category = cate
+                smsT_en.content = content_en
+                smsT_en.content_sub = content_sub_en
 
-                    time_rule = [int(i) for i in time_rule.split(',') if i is not '']
-
-                    serive = models.Service()
-                    serive.time_rule = time_rule
-                    serive.named = named
-                    serive.save()
-
-                    smsT = models.SmsTemplate()
-                    smsT.service = serive
+                if option == 'add':
+                    smsT.service = service
                     smsT.sms_id = '00'
                     smsT.sms_id_sub = '00'
-                    smsT.content = content
-                    smsT.content_sub = content_sub
                     smsT.lang = 1
-                    smsT.category = cate
-                    smsT.save()
 
-                    smsT_en = models.SmsTemplate()
-                    smsT_en.service = serive
+                    smsT_en.service = service
                     smsT_en.sms_id = '00'
                     smsT_en.sms_id_sub = '00'
-                    smsT_en.content = content_en
-                    smsT_en.content_sub = content_sub_en
                     smsT_en.lang = 2
-                    smsT_en.category = cate
-                    smsT_en.save()
-                except err:
-                    res['status'] = False
+
+                smsT.save()
+                smsT_en.save()
 
             if option == 'trash':
 
-                service = models.Service.objects.get(id =pk)
+                pk = request.GET.get('id', None)
+                service = models.Service.objects.get(id = pk)
 
                 smsT = models.SmsTemplate.objects.filter(service = service)
                 for s in smsT:
@@ -194,6 +227,13 @@ class ServiceView(View):
 
                 service.status = False
                 service.save()
+
+            if option == 'same':
+                res['same'] = False
+                service = models.Service.objects.filter(Q(status = True) & Q(named = named))
+
+                if len(service) > 0:
+                    res['same'] = True
 
         return JsonResponse(res)
                 
