@@ -16,6 +16,9 @@
                     <h4>創建時間</h4>
                 </td>
                 <td align="center">
+                    <h4>模版詳情</h4>
+                </td>
+                <td align="center">
                     <h4>操作</h4>
                 </td>
             </tr>
@@ -26,9 +29,9 @@
                 <td><h4 class="text-main">{{ service.named }}</h4></td>
                 <td><h4>{{ service.time_rule }}</h4></td>
                 <td><h4>{{ service.add_time }}</h4></td>
+                <td align="center"><h4><div class="text-main hand d-inline" onclick="serviceShow({{service.id}})">查看</div></h4></td>
                 <td align="center"><h4>
-                    <div class="text-main hand d-inline" onclick="serviceShow({{service.id}})">查看</div>&nbsp;/&nbsp;
-                    <div class="text-main hand d-inline error" onclick="serviceTrash({{service.id}})">刪除</div>
+                    <span class="glyphicon glyphicon-trash hand text-main" onclick="serviceTrash({{service.id}})"></span>
                 </h4></td>
             </tr>
             {% endfor %}
@@ -42,27 +45,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <!-- button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button -->
-                <h3 class="modal-title d-inline">服務項目詳情</h3>
+                <h2 class="modal-title d-inline">服務項目模版詳情</h2>
 
-                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">關閉</button>
+                <button type="button" class="btn btn-info btn-lg fr" data-dismiss="modal">關閉</button>
             </div>
             <div class="modal-body">
-               <table class="table">
-                    <tr><td>服務名稱：</td>
-                        <td id="smsT_named"></td>
-                    </tr>
-                    <tr><td>時間規則：</td>
-                        <td id="smsT_time_rule"></td>
-                    </tr>
-                    <tr><td>類別：</td>
-                        <td id="smsT_category"></td>
-                    </tr>
-                </table>
-                <ul class="nav nav-tabs" id="smsT_tab_nav">
-                    
-                </ul>
-                <div class="tab-content" id="smsT_tab_content">
-                    
+                <div class="service-h">
+                    <table class="table">
+                        <tr><td>服務名稱：</td>
+                            <td id="smsT_named"></td>
+                        </tr>
+                        <tr><td>時間規則：</td>
+                            <td id="smsT_time_rule"></td>
+                        </tr>
+                        <tr><td>類別：</td>
+                            <td id="smsT_category"></td>
+                        </tr>
+                    </table>
+                    <ul class="nav nav-tabs" id="smsT_tab_nav">
+                        
+                    </ul>
+                    <div class="tab-content" id="smsT_tab_content">
+                        
+                    </div>
                 </div>
 
             </div>
@@ -80,8 +85,12 @@
         $('#smsT_named').html(service['named'])
         let html = ''
         const tr = service['time_rule']
+        console.log('tr =', tr)
         for (let i= 0; i< tr.length; i++ ) {
-            html += _ser_time_rule_belong(tr[i])
+            html += _ser_time_rule_belong(parseInt(tr[i]))
+            if (i != (tr.length - 1)) {
+                html += '，'
+            }
         }
         $('#smsT_time_rule').html(html)
 
@@ -118,8 +127,8 @@
             
             type: 'GET',
             success: function(e) {
-                $('smsT_tab_nav').html('')
-                $('smsT_tab_content').html('')
+                $('#smsT_tab_nav').html('')
+                $('#smsT_tab_content').html('')
                 
                 for (let i= 0; i< e.length; i++ ) {
                     const smsT = e[i]
@@ -144,7 +153,7 @@
             const addr = prompt('服務項目被刪除後之前與之相關的任務依然會執行，您無法通過刪除服務項目來阻止短信發出。要刪除請輸入登錄電郵：', '')
 
             if (addr.trim() == '{{ request.session.user }}') {
-                alert('輸入匹配。')
+                alert('輸入結果匹配成功。')
             } else {
                 alert('輸入不匹配！撤銷刪除')
                 return
@@ -176,6 +185,22 @@
     .smsT-content {
         min-height: 120px;
         padding: 0 15px;
+    }
+    .service-h {
+        font-size: 18px;
+    }
+    
+    .table tr td:nth-child(1) {
+        width: 30%;
+        font-weight: bold;
+    }
+    .table tr:nth-child(1),
+    .table tr:nth-child(1) td {
+        border-top: 0px !important;
+    }
+    .tab-pane,
+    .tab-pane:hover {
+        background: white !important;
     }
 </style>
 {% endblock data %}

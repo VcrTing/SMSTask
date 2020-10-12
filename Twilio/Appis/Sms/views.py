@@ -74,7 +74,7 @@ class ServiceView(View):
                 category = models.Category.objects.filter(way = 1)
                 return render(request, 'sms/service_add.html', 
                     { 
-                        'title': '服務項目添加', 
+                        'title': '服務項目新增', 
                         'page_flag': self.page_flag,
                         'page_flag_sub': self.page_flag + '_add',
                         'category': category,
@@ -83,6 +83,26 @@ class ServiceView(View):
                     }
                 )
             
+            if option == 'update':
+                service = models.Service.objects.get(id =pk)
+                category = models.Category.objects.filter(way = 1)
+                smsT = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 1))
+                smsT_en = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 2))
+
+                return render(request, 'sms/service_update.html', 
+                    { 
+                        'title': '服務項目修改', 
+                        'page_flag': self.page_flag,
+                        'page_flag_sub': self.page_flag + '_update',
+                        'category': category,
+                        'named': "{{named}}",
+                        'numed': "{{numed}}",
+                        'service': service,
+                        'sms_template': smsT,
+                        'sms_template_en': smsT_en
+                    }
+                )
+                
             if option == 'view':
                 service = models.Service.objects.get(id =pk)
                 smsT = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 1))
@@ -166,6 +186,12 @@ class ServiceView(View):
             if option == 'trash':
 
                 service = models.Service.objects.get(id =pk)
+
+                smsT = models.SmsTemplate.objects.filter(service = service)
+                for s in smsT:
+                    s.status = False
+                    s.save()
+
                 service.status = False
                 service.save()
 

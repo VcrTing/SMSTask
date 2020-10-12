@@ -77,7 +77,7 @@ class ServiceAdmin(admin.ModelAdmin):
         }),
         ("其他", {
             "fields": (
-                'add_time',
+                'status', 'add_time',
             ),
         }),
     )
