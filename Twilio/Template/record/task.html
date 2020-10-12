@@ -256,7 +256,7 @@
                     const sms_template = sms_task['sms_template']
                     
                     const id = item['id']
-                    const reciver = sms_task['named'] + "(<a href='#'>" + area['phoned_prefix'] + '&nbsp;' + sms_task['phoned'] + "</a>)&nbsp;&nbsp;"
+                    const reciver = sms_task['named'] + "(<span class='text-main'>" + area['phoned_prefix'] + '&nbsp;' + sms_task['phoned'] + "</span>)&nbsp;&nbsp;"
                     const status = _ser_status(item['apply_status'], item['send_status'], sms_task['task_status'])
                     const time_rule_belong = _ser_time_rule_belong(item['time_rule_belong'])
                     const send_finish_time = _ser_send_time(item['send_finish_time'])

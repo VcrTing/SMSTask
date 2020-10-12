@@ -32,7 +32,11 @@
     <div class="col-sm-12">
         <div class="row" id="category_gate">
             {% for category in category_list %}
-            <div class="col-sm-3">
+                    {% if category_list|length > 3 %}
+                        <div class="col-sm-3">
+                        {% else %}
+                        <div class="col-sm-4">
+                    {% endif %}
                 <h4 class="mr-t-main" style="font-weight: 400;">{{ category.named }}</h4>
             </div>
             {% endfor %}
@@ -42,7 +46,11 @@
         <div id="sms_hk_outter" class="sms_outter">
             <div class="row">
                 {% for sms_templates in sms_list_hk %}
-                <div class="col-sm-3">
+                        {% if sms_list_hk|length > 3 %}
+                            <div class="col-sm-3">
+                            {% else %}
+                            <div class="col-sm-4">
+                        {% endif %}
                     {% if sms_templates %}
                         <div class="item-wrapper">
                         {% for sms in sms_templates %}
@@ -59,7 +67,11 @@
         <div id="sms_en_outter" class="sms_outter">
             <div class="row">
                 {% for sms_templates in sms_list_en %}
-                <div class="col-sm-3">
+                        {% if sms_list_en|length > 3 %}
+                            <div class="col-sm-3">
+                            {% else %}
+                            <div class="col-sm-4">
+                        {% endif %}
                     {% if sms_templates %}
                         <div class="item-wrapper">
                         {% for sms in sms_templates %}

@@ -78,7 +78,11 @@
                     <label for="category" class="control-label">選擇服務：</label>
                     <div class="row" id="category_gate">
                         {% for category in category_list %}
-                        <div class="col-sm-3">
+                            {% if category_list|length > 3 %}
+                                <div class="col-sm-3">
+                                {% else %}
+                                <div class="col-sm-4">
+                            {% endif %}
                             <h4 class="mr-t-main" style="font-weight: 400;">{{ category.named }}</h4>
                         </div>
                         {% endfor %}
@@ -90,7 +94,11 @@
                         <div class="row">
                             {% if sms_template_list is not None %}
                                 {% for sms_templates in sms_template_list %}
-                                <div class="col-sm-3">
+                                        {% if sms_template_list|length > 3 %}
+                                            <div class="col-sm-3">
+                                            {% else %}
+                                            <div class="col-sm-4">
+                                        {% endif %}
                                     {% if sms_templates %}
                                         <div class="item-wrapper">
                                         {% for sms in sms_templates %}

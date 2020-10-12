@@ -130,9 +130,10 @@ class TaskView(View):
                     if len(str(cate[0])) == 1:
                         category = sms_modles.Category.objects.filter(Q(flag = cate[0]))
                         if category[0]:
-                            sms_templates = sms_modles.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang))
-                            res.append( sms_templates )
-                        category_list.append(category[0])
+                            if category[0].status:
+                                sms_templates = sms_modles.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang))
+                                res.append( sms_templates )
+                                category_list.append(category[0])
 
                 areas = sms_modles.Area.objects.filter(status = True)
                 return render(request, 'record/task_add.html', 

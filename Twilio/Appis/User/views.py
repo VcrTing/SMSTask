@@ -187,13 +187,14 @@ class ContactView(View):
                     if len(str(cate[0])) == 1:
                         category = sms_models.Category.objects.filter(flag = cate[0])
                         if category[0]:
-                            st_hk = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang_hk))
-                            res_hk.append( st_hk )
-                            
-                            st_en = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang_en))
-                            res_en.append( st_en )
+                            if category[0].status:
+                                st_hk = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang_hk))
+                                res_hk.append( st_hk )
+                                
+                                st_en = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang_en))
+                                res_en.append( st_en )
 
-                        category_list.append(category[0])
+                                category_list.append(category[0])
 
             if option == 'email':
                 res = []
