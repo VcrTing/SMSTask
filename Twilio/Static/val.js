@@ -199,6 +199,26 @@ _val_tag = function(named) {
 
 // 验证 123 SEARCH
 _val_filter_named_and_phoned = function(txt) {
-    
-    return !isNaN(txt)
+    if (!isNaN(txt) == true) {
+        return 1
+    }
+    return 0
+}
+_val_filter_named_and_email = function(txt) {
+    if (txt.search("@") != -1) {
+        return 2
+    }
+    if (txt.search("com") != -1) {
+        return 2
+    }
+    return 0
+}
+_val_filter_named_and_phoned_and_email = function(txt) {
+    if (_val_filter_named_and_phoned(txt) == true) {
+        return 1 // 是数字
+    }
+    if (_val_filter_named_and_email(txt) == true) {
+        return 2 //电邮
+    }
+    return 0 // 名字
 }

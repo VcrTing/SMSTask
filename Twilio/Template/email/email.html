@@ -5,7 +5,12 @@
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 <!-- 初始化 -->
 <script>
-    const _limit = 15
+
+    let _limit = parseInt(vGet('limit_email'))
+
+    if (_limit == null) {
+        _limit = 20
+    }
     const _offset = 0
     const _api_name = 'email_apply'
     const _url = _root + '/api/'
@@ -120,7 +125,7 @@
 <div class="collapse" id="filterTool">
     <div class="well">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_category">
                     <option value="0">-- 全部分類 --</option>
                     {% for cate in category %}
@@ -130,10 +135,23 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_ordering">
                     <option value="0">順序排序</option>
                     <option value="1">逆序排序</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <select class="w-100 form-control filter-select" id="limit">
+                    <option value="3">3 項每頁</option>
+                    <option value="10">10 項每頁</option>
+                    <option value="20">20 項每頁</option>
+                    <option value="30">30 項每頁</option>
+                    <option value="40">40 項每頁</option>
+                    <option value="50">50 項每頁</option>
+                    <option value="100">100 項每頁</option>
+                    <option value="200">200 項每頁</option>
+                    <option value="500">500 項每頁</option>
                 </select>
             </div>
             <div class="col-sm-4">
@@ -204,7 +222,7 @@
 <script>
 
     _change_page_msg = function(offset, count) {
-        if (count <= 0) {
+        if ((count == undefined) ||(count <= 0)) {
             count = 0
         }
         $('#countMsg').html('(' + count + ')')
@@ -335,6 +353,23 @@
 </script>
 <!-- 過濾 -->
 <script>
+
+    // Limit
+    _limitChange = function(limited) {
+        $('#limit').find('option').removeAttr('selected')
+        $('#limit').find('option[value="' + limited + '"]').attr('selected', true)
+        vSet('limit_email', limited)
+    }
+    _limitChange(_limit)
+
+    $('#limit').on('change', function() {
+        let limited = $('#limit').find('option:selected').val()
+        
+        _limitChange(limited)
+        location.reload()
+    })
+
+    // 操作过滤
 
     optionFilter = function(f) {
         if (f) {

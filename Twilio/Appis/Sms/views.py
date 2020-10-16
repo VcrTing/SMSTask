@@ -186,8 +186,19 @@ class ServiceView(View):
                     sms_template_en_id = request.POST.get('sms_template_en_id', None)
 
                     service = models.Service.objects.get(id = service_id)
-                    smsT = models.SmsTemplate.objects.get(id = sms_template_id)
-                    smsT_en = models.SmsTemplate.objects.get(id = sms_template_en_id)
+                    
+                    try:
+                        smsT = models.SmsTemplate.objects.get(id = sms_template_id)
+                    except:
+                        smsT = models.SmsTemplate()
+                        option = 'add'
+
+                    try:
+                        smsT_en = models.SmsTemplate.objects.get(id = sms_template_en_id)
+                    except:
+                        smsT = models.SmsTemplate()
+                        option = 'add'
+
 
                 service.time_rule = time_rule
                 service.named = named
@@ -202,15 +213,17 @@ class ServiceView(View):
                 smsT_en.content_sub = content_sub_en
 
                 if option == 'add':
-                    smsT.service = service
-                    smsT.sms_id = '00'
-                    smsT.sms_id_sub = '00'
-                    smsT.lang = 1
+                    if smsT.service is not None:
+                        smsT.service = service
+                        smsT.sms_id = '00'
+                        smsT.sms_id_sub = '00'
+                        smsT.lang = 1
 
-                    smsT_en.service = service
-                    smsT_en.sms_id = '00'
-                    smsT_en.sms_id_sub = '00'
-                    smsT_en.lang = 2
+                    if smsT_en.service is not None:
+                        smsT_en.service = service
+                        smsT_en.sms_id = '00'
+                        smsT_en.sms_id_sub = '00'
+                        smsT_en.lang = 2
 
                 smsT.save()
                 smsT_en.save()

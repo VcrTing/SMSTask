@@ -128,8 +128,10 @@ class ContactViewSet(viewsets.ModelViewSet):
                 res = res.filter(Q(email__isnull = True) | Q(email = ''))
 
         if search_flag != '' and search != None:
-            if search_flag == 'true':
+            if int(search_flag) == 1:
                 res = res.filter( phoned__icontains = search )
+            elif int(search_flag) == 2:
+                res = res.filter( email__icontains = search )
             else:
                 res = res.filter( first_named__icontains = search )
 

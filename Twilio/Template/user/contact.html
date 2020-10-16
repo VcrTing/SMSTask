@@ -3,7 +3,7 @@
 {% block data %}
 <!-- 初始化 -->
 <script>
-    let _limit = vGet('limit_contact')
+    let _limit = parseInt(vGet('limit_contact'))
     
     if (_limit == null) {
         _limit = 20
@@ -63,12 +63,13 @@
     let contact = []
 
     _build_url = function(offset) {
+        
         const filter = conditions['filter']
         const page = conditions['page']
 
         const res = _url + _api_name + '/?format=json&status=True' +
+            '&offset=' + parseInt(offset) +
             '&limit=' + page['limit'] + 
-            '&offset=' + offset +
 
             '&area=' + filter['area']['res'] +
             '&star=' + filter['star']['res'] +
@@ -81,7 +82,7 @@
             '&search=' + filter['search']['res'] +
             '&search_flag=' + filter['search']['flag'] +
             '&ordering=' + filter['ordering']['res']
-
+        
         return res
     }
 
@@ -258,7 +259,7 @@
                         <input type="text" class="form-control page-search" id="filter-search" placeholder="輸入姓名或電話號碼">
                         {% endif %}
                     {% else %}
-                        <input type="text" class="form-control page-search" id="filter-search" placeholder="輸入姓名">
+                        <input type="text" class="form-control page-search" id="filter-search" placeholder="輸入姓名或電郵地址">
                     {% endif %}
                     
                     <span class="input-group-btn">
@@ -268,6 +269,7 @@
             </div>
             <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="limit">
+                    <option value="3">3 項每頁</option>
                     <option value="10">10 項每頁</option>
                     <option value="20">20 項每頁</option>
                     <option value="30">30 項每頁</option>
@@ -439,7 +441,8 @@
                 // 更改 Page
                 var previous = e['previous']
                 var next = e['next']
-                var count = e['count']
+
+                var count = parseInt(e['count'])
 
                 // 增加 首頁 末頁 功能
                 if (previous == null) {
@@ -449,6 +452,7 @@
                 if (next == null) {
                     next = _build_url(_offset)
                     conditions['page']['offset'] = Math.floor(count / _limit) * _limit
+                    
                 }
 
                 // 賦值
@@ -456,9 +460,9 @@
                 conditions['page']['next'] = next
                 conditions['page']['count'] = count
 
-                // 展示 頁數
+                // 展示 頁數    
                 showPageMsg(
-                    (Math.floor(conditions['page']['offset'] / _limit) + 1),
+                    (Math.floor(parseInt(conditions['page']['offset']) / _limit) + 1),
                     Math.abs(Math.ceil(count / _limit)),
                     count
                 )
@@ -917,8 +921,10 @@
 
         // PAGE
         let page_num = $('.page-input').val()
+        
         page_num = page_num >= pageCount ? pageCount : page_num
         page_num = page_num <= 0 ? 1 : page_num
+        
 
         if (
             (area == '') && (filter_status == undefined) &&
@@ -927,7 +933,7 @@
             (search == '')
         ) {
             // NEEDENT FILTER
-            return
+            
         } else {
 
             conditions['filter']['area'] = {
@@ -958,9 +964,20 @@
             }
             conditions['filter']['search'] = {
                 'res': search,
-                'flag': _val_filter_named_and_phoned(search)
+                'flag': 
+                
+                {% if request.session.layout.sms == 1 %}
+                        {% if request.session.layout.email == 1 %}
+                        _val_filter_named_and_phoned_and_email(search)
+                        {% else %}
+                        _val_filter_named_and_phoned(search)
+                        {% endif %}
+                    {% else %}
+                    _val_filter_named_and_email(search)
+                {% endif %}
             }
             conditions['page']['offset'] = (page_num - 1) * _limit
+            
         }
         
         // _loadData(_build_url(_offset))
@@ -975,6 +992,7 @@
         }
         
         $('.page-input').val(page_num)
+
         filterManager()
     }
     doFilter = function() {
