@@ -3,11 +3,13 @@
 {% block data %}
 <!-- 初始化 -->
 <script>
-    let _limit = parseInt(vGet('limit_contact'))
+    let _limit = vGet('limit_contact')
     
     if (_limit == null) {
         _limit = 20
     }
+    _limit = parseInt(_limit)
+    
     // const _limit = 50
     const _offset = 0
     const _api_name = 'contact'

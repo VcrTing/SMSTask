@@ -6,11 +6,13 @@
 <!-- 初始化 -->
 <script>
 
-    let _limit = parseInt(vGet('limit_email'))
+    let _limit = vGet('limit_email')
 
     if (_limit == null) {
         _limit = 20
     }
+    _limit = parseInt(_limit)
+    
     const _offset = 0
     const _api_name = 'email_apply'
     const _url = _root + '/api/'
