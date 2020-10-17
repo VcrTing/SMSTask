@@ -73,3 +73,22 @@ class Img(models.Model):
         except:
             pass
         return super(Img, self).delete()
+
+    
+class Running(models.Model):
+    ids = models.TextField(max_length=600, default=common.NULL, null=True, blank=True, verbose_name='Ids')
+    ids_block = models.TextField(max_length=600, default='', null=True, blank=True, verbose_name='Ids 坏死的')
+
+    done_status = models.BooleanField(verbose_name='是否做了', default = True)
+    block_status = models.BooleanField(verbose_name='是否有坏的任务', default = True)
+    way = models.SmallIntegerField(choices=common.WAY, default=1, verbose_name='发送消息的方式', null=True)
+
+    lock = models.BooleanField(verbose_name='锁死？', default = False)
+    add_time = models.DateTimeField(verbose_name='創建時間', default=timezone.now)
+
+    class Meta:
+        verbose_name = "千人任务"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return '千人任务'

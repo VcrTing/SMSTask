@@ -192,3 +192,32 @@ div.note-group-select-from-files:before {
 #summernote .w-e-menu {
     z-index: 20 !important;
 }
+
+/*
+    Loading
+*/
+.loading {
+    margin-top: 30vh;
+    width: 120;
+    height: 120;
+}
+
+@keyframes rotate{
+    0% {
+        transform: rotate(0);
+    }
+    50% {
+        transform:rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.loading > div {
+    transition: 0.5s;
+    /* transform-origin: 30px 30px;  */
+    animation: rotate 2s linear infinite;  /*开始动画后无限循环，用来控制rotate*/
+}
+.loading span {
+    font-size: 120px;
+}

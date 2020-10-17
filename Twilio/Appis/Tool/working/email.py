@@ -53,8 +53,7 @@ def _do_email(ea):
                         send = False
     else:
         send = False
-    # print('THE SEND 1 =', send)
-
+        
     send = False
     if ea.send_status:
         # 无限制
@@ -63,7 +62,8 @@ def _do_email(ea):
             if ea.now_index == 0 and ea.first_status == True:
                 send = True
             # 非首发
-            send = False
+            else:
+                send = False
         # 有限制
         else:
             # 首发
@@ -80,8 +80,7 @@ def _do_email(ea):
                         send = True
                     else:
                         send = False
-    # print('THE SEND 2 =', send)
-
+                        
     # 执行发送
     res = None
     if send:
@@ -111,17 +110,25 @@ def _do_email(ea):
     return not res
 
 def _serial_email(ids):
-    
+    index = 0
     for i in ids:
-        ea = EmailApply.objects.get(id = i)
-        
-        if ea.status and (ea.apply_status is not True):
-            # 设置已生效
-            ea.apply_status = True
+        try:
+            ea = EmailApply.objects.get(id = i)
+            
+            if ea.status and (ea.apply_status is not True):
+                # 设置已生效
+                ea.apply_status = True
 
-            # 首发
-            ea.now_index = 0
-            _do_email(ea)
+                # 首发
+                ea.now_index = 0
+
+                _do_email(ea)
+        except e:
+            pass
+        
+        index += 1
+        if index % 5 == 0:
+            time.sleep(0.5)
 
 def _do_runemail(pk):
     ea = EmailApply.objects.get(id = pk)

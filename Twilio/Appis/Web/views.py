@@ -69,6 +69,28 @@ class ImgViewSet(viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     pagination_class = pagination.LimitOffsetPagination
 
+class RunningViewSet(viewsets.ModelViewSet):
+    """
+        运行的任务
+    """
+    queryset = models.Running.objects.all()
+    serializer_class = serializers.RunningSerializer
+    ordering_fields = ('add_time', )
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filter_fields = ('done_status', 'add_time')
+    pagination_class = pagination.LimitOffsetPagination
+
+    def get_queryset(self):
+
+        res = models.Running.objects.filter(
+            Q(done_status = False)
+            )
+        way = self.request.query_params.get('way', None)
+        if way:
+            res = res.filter( Q(way = way) )
+
+        return res
+
 # ===================================================================
 class WebView(View):
     def get(self, request):
@@ -477,6 +499,7 @@ import time, logging
 import apscheduler
 
 from Appis.Tool.index import running_task as rt
+from Appis.Tool.index import running_taskers as rb
 
 from Appis.Web.task.aps import init_scheduler_options
 
@@ -486,7 +509,8 @@ from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXEC
 logger = logging.getLogger('job')
 
 def fun():
-    rt()
+    rt() # 定时任务
+    rb() # 千人运行
 
 def job_listener(Event):
     job = sch.get_job(Event.job_id)
@@ -508,5 +532,5 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 
-sch.add_job(fun, 'interval', seconds = 60*10, id = company, misfire_grace_time = 60*11)
+sch.add_job(fun, 'interval', seconds = 60*5, id = company, misfire_grace_time = 60*11)
 sch.start()

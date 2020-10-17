@@ -1,6 +1,6 @@
 import os
 import django
-from .company import Now, SETTING, TEST
+from .company import Now, SETTING, TEST, EVERY
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -248,6 +248,8 @@ WAIT_HOURS = 12 # Runing 任务每隔多久 执行一次 (单位：小时)
 WORK_HOUR = SETTING[Now]['work_hour']
 
 FUNC_LAYOUT = SETTING[Now]['layout']
+
+EVERY_NUM = EVERY # 千人任务
 
 # 作者
 AUTHOR = [

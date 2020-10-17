@@ -365,6 +365,58 @@ class EmailApplyView(View):
                 res['id'] = ea.id
                 res['status'] = True
 
+            if option == 'tasker':
+                numed = settings.EVERY
+                tasks = []
+                index = 0
+                ids = request.POST.get('ids', None)
+
+                ids = ids.split(',')
+
+                nper = request.POST.get('nper', None)
+                time_rule = request.POST.get('time_rule', None)
+
+                visit_time = request.POST.get('visit_time', None)
+                email_template = request.POST.get('email_template', None)
+
+                first_status = request.POST.get('first_status', None)
+                if (first_status == 'false') or (first_status == False):
+                    first_status = False
+                else:
+                    first_status = True
+                    
+                for e in ids:
+                    contact = user_modles.Contact.objects.filter(Q(id = e) & Q(status = True))
+                    if contact:
+                        contact = contact[0]
+                        
+                        ea = models.EmailApply()
+                        ea.nper = nper
+                        ea.now_time_rule = time_rule
+                        ea.contact = contact
+                        ea.visit_time = visit_time
+                        ea.email_template = models.EmailTemplate.objects.get(id = int(email_template))
+                        ea.first_status = first_status
+                        ea.save()
+                        
+                        tasks.append(str(ea.id))
+                        if len(tasks) % 5 == 0:
+                            time.sleep(0.5)
+
+                index = len(tasks)
+                tasks = [ tasks[i: i + numed] for i in range(0, len(tasks), numed) ]
+                
+                for ts in tasks:
+                    ts = '_'.join(ts)
+                    running = web_models.Running()
+                    running.way = common.WAY[1][0]
+                    running.ids = ts
+                    running.done_status = False
+                    running.block_status = False
+                    running.save()
+                res['status'] = True
+                res['numed'] = index
+                
             if option == 'update':
                 pk = request.POST.get('id', None)
                 if pk is None:

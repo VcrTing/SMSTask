@@ -25,3 +25,11 @@ class ImgSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Img
         fields = '__all__'
+
+class RunningSerializer(serializers.ModelSerializer):
+    """
+        SYSTEM IMG
+    """
+    class Meta:
+        model = models.Running
+        fields = '__all__'

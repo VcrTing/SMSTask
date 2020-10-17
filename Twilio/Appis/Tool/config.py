@@ -13,6 +13,8 @@ WORK_HOUR = settings.WORK_HOUR
 NUMED = comm.NUMED
 NUMED_EN = comm.NUMED_EN
 
+WAY = comm.WAY
+
 EMAIL_NAME = settings.EMAIL_NAME
 COMPANY = settings.COMPANY
 

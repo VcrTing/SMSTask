@@ -54,22 +54,26 @@ class EveryTaskViewSet(viewsets.ModelViewSet):
     queryset = models.EveryTask.objects.all()
     serializer_class = serializers.EveryTaskSerializer
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
-    filter_fields = ('status', 'send_finish_time', 'contact', 'send_status', 'apply_status')
+    filter_fields = ('status', 'send_finish_time', 'contact', 'send_status', 'apply_status', 'add_time')
     ordering_fields = ('add_time', )
     pagination_class = pagination.LimitOffsetPagination
 
     def get_queryset(self):
+        res = models.EveryTask.objects.filter(
+            Q(status = True)
+            )
+
+        option = self.request.query_params.get('option', None)
         start_date = self.request.query_params.get('start_date', None)
         end_date = self.request.query_params.get('end_date', None)
 
-        if (start_date) and start_date != '':
-            return models.EveryTask.objects.filter(
-                Q(send_finish_time__range = (start_date, end_date)) & 
-                Q(status = True)
-                )
-        return models.EveryTask.objects.filter(
-            Q(status = True)
-            )
+        if option == 'block':
+            res = res.filter(Q(add_time__range = (start_date, end_date)) & Q(send_status = False) & ~Q(apply_status = True) & Q(numed = 1))
+        else:
+            if (start_date) and start_date != '':
+                res = res.filter(
+                    Q(send_finish_time__range = (start_date, end_date)))
+        return res
 
 class RuningTaskViewSet(mixins.ListModelMixin,viewsets.GenericViewSet):
     queryset = models.EveryTask.objects.all()

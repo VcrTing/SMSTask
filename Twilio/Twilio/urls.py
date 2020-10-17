@@ -22,6 +22,7 @@ router = routers.DefaultRouter()
 router.register('img', Web.ImgViewSet)
 router.register('sms_conf', Web.SMSConfViewSet)
 router.register('system_msg', Web.SystemMsgViewSet)
+router.register('running', Web.RunningViewSet)
 
 router.register('contact', User.ContactViewSet)
 router.register('tag', User.TagViewSet)

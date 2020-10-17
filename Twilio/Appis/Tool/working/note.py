@@ -48,7 +48,7 @@ def _do_task(et):
         
         # 建立参数，序列文本
         content, temp_para = _build_para(content, sms_task.named, et.numed)
-
+        
         # 执行发送
         if et.status == True:
             res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
@@ -79,20 +79,26 @@ def _do_runtask(rec):
 
 # 开始 序列化
 def _serial_task(ids):
-
     for et_id in ids:
-        et = record_model.EveryTask.objects.get(id = et_id)
+        try:
+            et = record_model.EveryTask.objects.get(id = et_id)
 
-        if et.apply_status == None:
-            if et.send_status == False:
+            if et.apply_status == None:
+                if et.send_status == False:
 
-                et.send_finish_time = validate.val_send_time(
-                    et.time_rule_belong, 
-                    EACH_DAY, 0
-                )
-                et.apply_status = False
-                et.save()
-                
-                if int(et.time_rule_belong) == 0:
-                    _do_task(et)
+                    et.send_finish_time = validate.val_send_time(
+                        et.time_rule_belong, 
+                        EACH_DAY, 0
+                    )
+                    et.apply_status = False
+                    et.save()
+                    
+                    if int(et.time_rule_belong) == 0:
+                        _do_task(et)
+        except e:
+            pass
 
+# 执行报废的 任务
+# django 后台运行完，但是进程崩坏的任务
+def _block_task():
+    pass

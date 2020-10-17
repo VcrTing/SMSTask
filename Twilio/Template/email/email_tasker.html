@@ -1,8 +1,7 @@
 {% extends '../index.html' %}
 {% load staticfiles %}
 {% block data %}
-<script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
-<script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+
 <div id="app" class="">
     <form class="form text-left">
         <div class="row">
@@ -65,6 +64,15 @@
     </div>
     
 </div>
+<!-- Loading -->
+<div class="modal" tabindex="-1" id="tasker_loading" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg text-center" role="document" data-backdrop="static">
+        <h3 class="text-white loading"><div><span class="glyphicon glyphicon-refresh"></span></div></h3>
+        <br/>
+        <p class="mr-t-main text-white">運行中，僅需幾秒，請耐心等待。</p>
+    </div>
+</div>
+
 <!-- 數據加載 -->
 <script>
     let recivers = []
@@ -153,6 +161,14 @@
             this.splice(index, 1); 
         } 
     };
+
+    loading = function(f = true) {
+        if (f) {
+            $('#tasker_loading').modal('show')
+        } else {
+            $('#tasker_loading').modal('hide')
+        }
+    }
 </script>
 <!-- 數據操作 -->
 <script>
@@ -188,69 +204,53 @@
         $('#reciver_' + id).data('active', !f)
     }
     _success = function (res) {
-        console.log('res =', res)
-        let success = 0
-        for (var i= 0; i< res.length; i++ ) {
-            if (res[i]['status'] == true) {
-                success += 1
-            }
-        }
         
-        const _url = _root + '/email_apply/?option=status&success=' + success + '&count=' + res.length
+        const _url = _root + '/email_apply/?option=status&success=' + res + '&count=' + res
         
         location.href = _url
     }
     _submit = function (e) {
-        let res = []
         const rcs = e['recivers']
-        
-        for (var i= 0; i< rcs.length; i++ ) {
-            const named = rcs[i]['named']
-            const addr = rcs[i]['addr']
-            
-            const data = {
-                'named': named,
-                'addr': addr,
-                'visit_time': e['visit_time'],
-                'newer': false,
-                'email_template': e['email_template'],
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'nper': $('#new_nper').find('option:selected').val(),
-                'first_status': $('#new_first_status').prop('checked'),
-                'time_rule': $('#new_time_rule').find('option:selected').val()
-            }
 
-            let status = false
-
-            $.ajax({
-                url: _root + '/email_apply/?option=add',
-                data: data,
-                type: 'POST',
-                async: false,
-                headers: {
-                    Accept: "application/json; charset=utf-8",
-                },
-                success: function(e) {
-                    if (e['status']) {
-                        status = true
-                    } else {
-
-                    }
-                    res.push({
-                        'id': rcs[i]['id'],
-                        'status': status
-                    })
-                },
-                error: function(e) {
-                    res.push({
-                        'id': rcs[i]['id'],
-                        'status': status
-                    })
-                }
-            })
+        let id_rec = []
+        for (let i= 0; i< rcs.length; i++ ) {
+            const id = rcs[i]['id']
+            id_rec.push(id)
         }
+        
+        const data = {
+            'ids': id_rec.toString(),
+            'visit_time': e['visit_time'],
+            'newer': false,
+            'email_template': e['email_template'],
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'nper': $('#new_nper').find('option:selected').val(),
+            'first_status': $('#new_first_status').prop('checked'),
+            'time_rule': $('#new_time_rule').find('option:selected').val()
+        }
+        
+        $.ajax({
+            url: _root + '/email_apply/?option=tasker',
+            data: data,
+            type: 'POST',
+            headers: {
+                Accept: "application/json; charset=utf-8",
+            },
+            success: function(e) {
+                const status = e['status']
+                loading(false)
+                if ((status == 'True') || (status == 'true') || (status == true)) {
+                    const res = e['numed']
+                    _success(res)
+                } else {
+                    alert('任務提交時出現些差錯，麻煩請檢查壹下任務是否已提交。')
+                }
+            },
+            error: function(e) {
+                alert('網絡故障。')
+            }
+        })
 
-        _success(res)
     }
     validate = function () {
         const et_id = $('#email_template').val()
@@ -288,6 +288,8 @@
             return
         }
         if (confirm('妳確定要提交嗎？')) {
+
+            loading(true)
             _submit(data)
         }
     }
@@ -314,6 +316,7 @@
     }
     newTimeRule()
     $('#new_nper').find('option[value="0"]').attr('selected', true)
+
 </script>
 
 <style>

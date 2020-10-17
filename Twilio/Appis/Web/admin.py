@@ -47,3 +47,15 @@ class ImgAdmin(admin.ModelAdmin):
         return ['-add_time', ]
     
     
+@admin.register(models.Running)
+class RunningAdmin(admin.ModelAdmin):
+    list_display = ['ids', 'ids_block', 'done_status', 'block_status']
+    readonly_fields = ['add_time']
+    exclude = ['id']
+    list_per_page = 50
+    empty_value_display = ADMIN_CONF['empty_value_display']
+
+    def get_ordering(self, request):
+        return ['-add_time', ]
+    
+    

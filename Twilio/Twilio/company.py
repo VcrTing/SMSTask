@@ -1,5 +1,5 @@
 
-TEST = True
+TEST = False
 
 SYS_MAIL = 'support@manfulls.com'
 
@@ -63,3 +63,6 @@ SETTING = {
         'work_hour': [11, 20, 21] # 定时任务的准点工作时间
     }
 }
+
+# 千人任务分割
+EVERY = 20

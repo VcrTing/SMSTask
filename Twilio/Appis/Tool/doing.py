@@ -45,12 +45,11 @@ def get_running_email():
     res = connect.req_Get(url)
     return res
 
-# Incentive
-def get_incentive_task():
-    pass
-
-def get_incentive_email():
-    pass
+# Indective
+def get_incentive_tasker(way):
+    url = HOST_API + '/running/?way=' + str(way)
+    res = connect.req_Get(url)
+    return res
 
 # 短信
 def seial_response(data, flag):

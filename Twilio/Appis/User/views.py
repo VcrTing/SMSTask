@@ -24,7 +24,7 @@ from Appis.Sms.serializers import AreaSerializer
 from Appis import common as common
 from Twilio import settings as settings
 from Appis.Record import APSTask as APSTask
-from Appis.Web.models import SystemMsg
+from Appis.Web.models import SystemMsg, Running
 
 from Twilio.company import Now as company
 from Appis.Tool.working.sys import mail
@@ -342,6 +342,7 @@ class ContactTaskerView(View):
         return redirect('/')
 
     def post(self, request):
+        EVERY = settings.EVERY
         
         sms_id = request.POST.get('sms_id', None)
         tasker = request.POST.get('tasker', None)
@@ -368,21 +369,31 @@ class ContactTaskerView(View):
                 if int(time_rule_belong) in time_rule_active:
                     every_task = record_models.EveryTask()
                     every_task.sms_task = task
-                    every_task.numed = index
+                    every_task.numed = (index + 1)
                     every_task.contact = contact
                     every_task.time_rule_belong = time_rule_belong
                     every_task.save()
-                    ids.append(every_task.id)
+                    ids.append(str(every_task.id))
 
                     task_num += 1
 
-            tasks.append(ids)
+            tasks.append('@'.join(ids))
             if len(tasks) % 5 == 0:
                 time.sleep(0.5)
 
-        worker = APSTask.TaskProcess(tasks, common.WAY[0][0], False)
-        worker.start()
+        tasks = [ tasks[i: i + EVERY] for i in range(0, len(tasks), EVERY) ]
+        
+        for ts in tasks:
+            
+            ts = '_'.join(ts)
+            running = Running()
+            running.way = common.WAY[0][0]
+            running.ids = ts
+            running.done_status = False
+            running.block_status = False
 
+            running.save()
+            
         return JsonResponse({
             'res': tasker,
             'task_num': task_num
