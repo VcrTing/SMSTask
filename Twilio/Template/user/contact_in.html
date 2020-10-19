@@ -55,7 +55,7 @@
                     </div>
                     {% endif %}
 
-                    <div class="form-group form-group-lg row">
+                    <div class="form-group form-group-lg row" id="update_gender_wrapper">
                         <div class="col-sm-12">
                             <label for="area" class="control-label">性別</label>
                             <select class="form-control def-select gender" name="gender" id="gender">
@@ -508,12 +508,14 @@
         locationDom.find('.email').data('origin', res['email'])
         locationDom.find('.email').val(res['email'])
 
+        $('.gender').find('option').removeAttr('selected')
+        locationDom.find('.gender').find('option[value="' + res['gender'] + '"]').attr('selected', true)
+
         try {
             locationDom.find('.area').find('option[value="' + res['area']['id'] + '"]').attr('selected', true)
         } catch(e) {
 
         }
-        locationDom.find('.gender').find('option[value="' + res['gender'] + '"]').attr('selected', true)
     }
     contactOne = function(id) {
         $.ajax({
@@ -525,6 +527,20 @@
                 const locationDom = $('#contact_one_modal')
                 
                 _locationConatctOne(e, locationDom)
+
+                $('#update_gender_wrapper').html('' + 
+                '<div class="col-sm-12"> ' + 
+                '    <label for="area" class="control-label">性別</label> ' + 
+                '    <select class="form-control def-select gender" name="gender" id="gender"> ' + 
+                '        <option value="0">未知</option> ' + 
+                '        <option value="1">男</option> ' + 
+                '        <option value="2">女</option> ' + 
+                '    </select></div> ' 
+                )
+
+                $('#gender').find('option').removeAttr('selected')
+                locationDom.find('#gender').find('option[value=' + e['gender'] + ']').attr('selected', true)
+
             }
         })
     }
@@ -533,15 +549,16 @@
         $('#bith_year').val('')
         $('#bith_month').val('')
         $('#bith_day').val('')
+        $('#gender').find('option').removeAttr('selected')
     }
    
     contactOneManager = function(id) {
+        
         contactOne(id)
         tagUserUpdate(id)
         lockManager(must_lock = true)
         
         $('#contact_one_modal').modal('show')
-
     }
     locationCOUpdate = function(res, locationDom) {
         locationDom.find('.phoned').html( res['area']['phoned_prefix'] + ' ' + res['phoned'])
@@ -808,6 +825,7 @@
     $('.modal').on('hidden.bs.modal', function () {
         
         clearSameMsg()
+        clearUpdate()
     })
 </script>
 <style>

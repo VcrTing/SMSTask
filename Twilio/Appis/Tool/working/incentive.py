@@ -1,6 +1,5 @@
 import time
-from .. import doing as doing
-from ..config import WAY as WAY
+from django.db.models import Q
 
 from .email import _serial_email
 from .note import _serial_task
@@ -9,23 +8,28 @@ from Appis.Additional import models as email_models
 from Appis.Record import models as sms_models
 from Appis.Web import models as web_models
 
+from ..config import WAY as WAY
+
 _AT = '@'
 _XL = '_'
 
+def get_incentive_tasker(way):
+    res = web_models.Running.objects.filter( Q(done_status = False) & Q(way = way) )
+    print(res)
+    return res
+
 # SMS
 def _get_incentive_sms():
-    rec = doing.get_incentive_tasker(WAY[0][0])
+    rec = get_incentive_tasker(WAY[0][0])
     if rec:
 
         index = 0
-        for r in rec:
-            if r['lock'] == False:
-                pk = r['id']
-                running = web_models.Running.objects.get(id = pk)
+        for running in rec:
+            if running.lock == False:
                 running.lock = True
                 running.save()
 
-                tasks = r['ids']
+                tasks = running.ids
                 tasks = tasks.split(_XL)
 
                 for ids in tasks:
@@ -45,17 +49,15 @@ def _get_incentive_sms():
 
 # EMAIL
 def _get_incentive_email():
-    rec = doing.get_incentive_tasker(WAY[1][0])
+    rec = get_incentive_tasker(WAY[1][0])
 
     if rec:
-        for r in rec:
-            if r['lock'] == False:
-                pk = r['id']
-                running = web_models.Running.objects.get(id = pk)
+        for running in rec:
+            if running.lock == False:
                 running.lock = True
                 running.save()
 
-                ids = r['ids']
+                ids = running.ids
                 ids = ids.split(_XL)
                 ids = [int(i) for i in ids]
                 
