@@ -3,7 +3,7 @@ TEST = False
 
 SYS_MAIL = 'support@manfulls.com'
 
-Now = '123medhk' # 该值是指当前 公司的 key_name
+Now = 'eye' # 该值是指当前 公司的 key_name
 
 SETTING = {
     'eye': {

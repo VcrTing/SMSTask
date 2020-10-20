@@ -16,6 +16,43 @@ body {
 }
 
 /*
+    Primary Color
+*/
+
+/* */
+.star,
+.text-main,
+.active span,
+.co-main-hover:hover 
+{
+    color: #337ab7;
+}
+.text-main:hover {
+    color: #23527c;
+}
+
+/* */
+.bg-blue,
+.page-active,
+.page-active a,
+.sms-active
+{
+    background: #337ab7;
+}
+.sms-active:hover,
+.sms-active-hover:hover {
+    background: #23527c !important;
+}
+
+/* */
+.br-main-hover:hover {
+    border-color: #337ab7;
+}
+.sms-active {
+    border-color: #23527c;
+}
+
+/*
     Layout MAIN: #0073aa DARK: #2e6da4
 */
 .w-100 {
@@ -152,17 +189,6 @@ a:hover {
 .bg-main {
     background: #23282d;
 }
-.bg-blue {
-    background: #0073aa;
-}
-
-.br-main-hover:hover {
-    border-color: #0073aa;
-}
-.co-main-hover:hover {
-    color: #0073aa;
-}
-
 .text-white {
     color: white;
 }
@@ -171,13 +197,6 @@ a:hover {
 }
 .text-white-hr:hover {
     color: rgba(255, 255, 255, 1);
-}
-
-.text-main {
-    color: #0073aa;
-}
-.text-main:hover {
-    color: #2e6da4;
 }
 
 .text-black {
@@ -303,25 +322,18 @@ a:hover {
     color: rgb(168, 168, 168) !important;
     border-color: rgb(168, 168, 168) !important;
 }
-
-.del {
-    color: #df8382;
-}
-.del:hover {
-    color: #df6662;
-}
-
-.error {
-    color: #c25f5d !important;
-}
-.error:hover {
-    color: #a94442;
-}
+/*
 .success {
     color: rgb(0, 139, 0);
 }
 .success:hover {
     color: rgb(0, 121, 0);
+}
+.error {
+    color: #c25f5d !important;
+}
+.error:hover {
+    color: #a94442;
 }
 .apply {
     color: rebeccapurple;
@@ -340,4 +352,73 @@ a:hover {
 }
 .red:hover {
     color: rgb(216, 0, 0);
+}
+*/
+
+.del {
+    color: #df8382;
+}
+.del:hover {
+    color: #df6662;
+}
+
+.apply,
+.error,
+.success,
+.complete
+{
+    color: white;
+}
+.apply:hover,
+.error:hover,
+.success:hover,
+.complete:hover
+{
+    background: white;
+}
+.apply,
+.error,
+.success,
+.complete,
+.apply:hover,
+.error:hover,
+.success:hover,
+.complete:hover 
+{
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 2px solid white;
+}
+
+.apply:hover {
+    color: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.apply {
+    background: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.error:hover {
+    color: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.error {
+    background: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.success:hover {
+    color: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.success {
+    background: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.complete:hover {
+    color: #a9e1ba;
+    border-color:  #a9e1ba;
+}
+.complete {
+    background: #a9e1ba;
+    border-color:  #a9e1ba;
 }

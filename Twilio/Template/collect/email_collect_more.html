@@ -14,7 +14,7 @@
     const _url = _root + '/api/'
 </script>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm-12 table-responsive">
             <table class="table table-striped">
@@ -29,13 +29,13 @@
                         <h4>發送時間</h4>
                     </th>
                     <th>
-                        <h4>第幾封</h4>
+                        <h4 class="text-center">第幾封</h4>
                     </th>
                     <th align="center">
-                        <h4>接收成功?</h4>
+                        <h4 class="text-center">接受狀態</h4>
                     </th>
                     <th align="center">
-                        <h4>任務詳情</h4>
+                        <h4 class="text-center">任務詳情</h4>
                     </th>
                     <!-- th align="center">
                         <h4>操作</h4>
@@ -90,9 +90,9 @@
                 '    <td><div style="height: 4px;"></div><div class="reciver mr-t-half">' +
                 '        ' + named + ' &lt;' + addr + '&gt;</div></td>' +
                 '    <td><h4>' + send_time + '</h4></td>' +
-                '    <td><h4>第' + index + '封</h4></td>' +
-                '    <td align="center"><h4>' + _ser_success_status(success_status) + '</h4></td>' +
-                '    <td align="center"><h4 class="text-main hand" onclick="seeMore(' + id + ')">查看</h4></td>' +
+                '    <td><h4 class="text-center">第' + index + '封</h4></td>' +
+                '    <td align="center"><h4 class="text-center">' + _ser_success_status(success_status) + '</h4></td>' +
+                '    <td align="center"><h4 class="text-center text-main hand" onclick="seeMore(' + id + ')">查看</h4></td>' +
                 // '    <td align="center"><h4><span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span></h4></td>' +
                 '</tr>'
             
