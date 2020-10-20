@@ -277,7 +277,7 @@ _ser_content = function(template, short=false, params=null) {
 
 // 序列化 参数
 _ser_numed = function(res, lang) {
-    res += 1
+    // res += 1
     if (lang == 2) { // 繁体
         return numed_txt_en[res]
     } 

@@ -13,21 +13,20 @@
             </h2>
             <div class="space"></div>
             <h3>
-                <a href>{{ wait_minute }}分鐘</a>后，首封邮件就会发出，之后邮件任务就会在后台生成任务队列
+                <span class="text-main">{{ wait_minute }}分鐘</span>后，首封邮件就会发出，之后邮件任务就会在后台生成任务队列
             </h3>
             <h4>
                 註：已發送的邮件無法撤銷
             </h4>
             <div class="space"></div>
-            <a class="btn btn-info btn-lg" role="button" href="/email/">
+            <span class="btn btn-info btn-lg" role="button" onclick="go('/email/')">
                 確定
-            </a>
+            </span>
             <div class="space"></div>
         </div>
     </div>
 </div>
-<script>
-</script>
+
 <style>
 .space {
     height: 15px;

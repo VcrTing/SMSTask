@@ -64,7 +64,7 @@
                 '    <td><h4 class="max-subject">' + subject + '</h4></td>' +
                 '    <td><h4>' + category +'</h4></td>' +
                 '    <td align="center"><h4>' + time_rule + '</h4></td>' +
-                '    <td align="center"><h4><a class="text-info hand" onclick="seeMore(' + id + ')">預覽</a></h4></td>' +
+                '    <td align="center"><h4><span class="text-main hand" onclick="seeMore(' + id + ')">預覽</span></h4></td>' +
                 '    <td align="center"><h4>' +
                 '        <span onclick="update(' + id + ')" class="glyphicon glyphicon-pencil hand text-main"></span>' +
                 '        <span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span>' +
@@ -117,17 +117,17 @@
 <nav aria-label="...">
     <ul class="pager">
         <li class="next">
-            <a href="#" id="next" onclick="loadData(true)">
+            <span class="text-main hand" id="next" onclick="loadData(true)">
                 下一頁 <span aria-hidden="true">&rarr;</span>
-            </a>
+            </span>
         </li>
         <li class="fr">
             <h5 id="pageMsg"></h5>
         </li>
         <li class="previous fr">
-            <a href="#" class="disable" id="previous" onclick="loadData(false)">
+            <span class="text-main hand disable" id="previous" onclick="loadData(false)">
                 <span aria-hidden="true">&larr;</span> 上一頁
-            </a>
+            </span>
         </li>
     </ul>
 </nav>
@@ -135,7 +135,7 @@
 <script>
     sureTrash = function(id) {
         window.event? window.event.cancelBubble = true : e.stopPropagation();
-        var flag = confirm("確認要刪除嗎？");
+        var flag = confirm("模版刪除後，與之相關的任務依然會照常執行，您沒有辦法通過刪除模版來阻止電郵發送。確認要刪除嗎？");
         if (flag) {
             location.href = "/email_template?option=trash&id=" + id
         }

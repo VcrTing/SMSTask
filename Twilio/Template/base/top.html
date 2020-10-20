@@ -6,7 +6,7 @@
             <img class="logo" src="{% static '/Common/Logo/' %}{{ request.session.company }}.png" />
         </div>
         <div class="login-out fr">
-            <h4 class="fw-400">需要&nbsp;&nbsp;<a class="txt-main" href="/login-out/">登出</a>？</h4>
+            <h4 class="fw-400">需要&nbsp;&nbsp;<span class="text-main hand" onclick="go('/login-out/')">登出</span>？</h4>
         </div>
         <div class="name fr">
             <h4 class="fw-400">歡迎&nbsp;&nbsp;<div class="text-main d-inline" href="#">{{ request.session.user }}</div>，</h4>

@@ -15,7 +15,6 @@ _XL = '_'
 
 def get_incentive_tasker(way):
     res = web_models.Running.objects.filter( Q(done_status = False) & Q(way = way) )
-    print(res)
     return res
 
 # SMS

@@ -1,15 +1,11 @@
-{% extends 'base/base.html' %}
+{% extends '../index.html' %}
 {% load staticfiles %}
-{% block center %}
+{% block data %}
+
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
-{% include 'base/top.html' %}
-{% include 'base/title.html' %}
-<input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
+
 <script>
-    isLogin = $('#isLogin').val()
-    if (isLogin == 0) {
-        location.href = '/login/'
-    }
+    
     const _api = '/api'
     
 </script>
@@ -39,9 +35,9 @@
         text-align: right;
     }
 </style>
-<div class="container  mr-t-main">
+<div class="">
     <div class="row">
-        <div class="col-sm-8" id="app">
+        <div class="col-sm-9" id="app">
             <form class="form">
 
                 <div class="form-group form-group-lg row">
@@ -116,7 +112,7 @@
             </form>
             <button id="submitV" style="visibility: hidden;" @click="validate()">Submit</button>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <div class="form-group form-group-lg">
                 <label for="service" class="control-label">模版參數說明：</label>
                 <div class="info-panel">
@@ -308,4 +304,4 @@
     })
 </script>
 {% include 'base/footer.html' %}
-{% endblock center %}
+{% endblock data %}

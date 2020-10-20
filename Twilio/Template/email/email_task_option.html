@@ -110,7 +110,7 @@
         const html = '' +
             '<tr><td align="center" class="ea-td">服務名稱</td><td>' + service + '</td></tr>' +
             '<tr><td align="center">時間規則</td><td>' + time_rule + nper + first_status + '</td></tr>' +
-            '<tr><td align="center">發出數量</td><td>' + now_index + ' 封，<a class="hand" onclick="moreRecord(' + ea['id'] + ')">點擊查看更多記錄</a></td></tr>' +
+            '<tr><td align="center">發出數量</td><td>' + now_index + ' 封，<span class="text-main hand" onclick="moreRecord(' + ea['id'] + ')">點擊查看更多記錄</span></td></tr>' +
             '<tr><td align="center">接收者</td><td><div class="reciver">' + named + ' &lt;' + addr + '&gt;</div></td></tr>' +
             '<tr><td align="center">郵件標題</td><td>' + subject + '</td></tr>' +
             '<tr><td align="center">郵件內容</td><td>' + message + '</td></tr>' +
@@ -161,7 +161,9 @@
         })
     }
 </script>
-<!-- Vue -->
-<script>
-    
-</script>
+
+<style>
+    table {
+        width: 100% !important;
+    }
+</style>

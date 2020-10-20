@@ -3,7 +3,7 @@
 {% block data %}
 <!-- 初始化 -->
 <script>
-    const _limit = 15
+    const _limit = 20
     const _offset = 0
     const _api_name = 'task'
     const _url = _root + '/api/'
@@ -38,8 +38,8 @@
         const page = conditions['page']
 
         const res = _url + _api_name + '/?format=json&status=True' +
-            '&limit=' + page['limit'] + 
-            '&offset=' + offset +
+            '&limit=' + parseInt(page['limit']) + 
+            '&offset=' + parseInt(offset) +
             /* '&gender=' + filter['gender']['res'] + */
             '&ordering=' + filter['ordering']['res']
 
@@ -105,23 +105,25 @@
     </table>
 </div>
 <!-- 分頁 -->
+
 <nav aria-label="...">
     <ul class="pager">
         <li class="next">
-            <a href="#" id="next" onclick="loadData(true)">
+            <span class="text-main hand" id="next" onclick="loadData(true)">
                 下一頁 <span aria-hidden="true">&rarr;</span>
-            </a>
+            </span>
         </li>
         <li class="fr">
             <h5 id="pageMsg"></h5>
         </li>
         <li class="previous fr">
-            <a href="#" class="disable" id="previous" onclick="loadData(false)">
+            <span class="text-main hand disable" id="previous" onclick="loadData(false)">
                 <span aria-hidden="true">&larr;</span> 上一頁
-            </a>
+            </span>
         </li>
     </ul>
 </nav>
+
 <!-- 加載數據 -->
 <script>
     _loadData = function(url) {
@@ -137,7 +139,7 @@
                 // 更改 Page
                 var previous = e['previous']
                 var next = e['next']
-                var count = e['count']
+                var count = parseInt(e['count'])
 
                 // 增加 首頁 末頁 功能
                 if (previous == null) {
@@ -155,7 +157,7 @@
                 conditions['page']['count'] = count
 
                 // 展示 頁數
-                let text = (Math.floor(conditions['page']['offset'] / _limit) + 1) + '/' + Math.abs(Math.ceil(count / _limit))
+                let text = (Math.floor(parseInt(conditions['page']['offset']) / _limit) + 1) + '/' + Math.abs(Math.ceil(count / _limit))
                 $('#pageMsg').html(text)
 
             },

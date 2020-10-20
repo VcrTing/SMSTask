@@ -1,22 +1,16 @@
-{% extends 'base/base.html' %}
+{% extends '../index.html' %}
 {% load staticfiles %}
-{% block center %}
+{% block data %}
+
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
-{% include 'base/top.html' %}
-{% include 'base/title.html' %}
-<input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
 <script>
-    isLogin = $('#isLogin').val()
-    if (isLogin == 0) {
-        location.href = '/login/'
-    }
     const _api = '/api'
     // let jsms_num = 0
     // let twilio_num = 0
     // let twilio_currency = 'USD'
     
 </script>
-<div class="container mt-r-main">
+<div class="">
     <div class="row">
         <div class="col-sm-12" id="app">
             <div class="home-space"></div>
@@ -349,4 +343,5 @@ loadTemplate()
 </style>
 {% include 'email/task_preview.html' %}
 {% include 'base/footer.html' %}
-{% endblock center %}
+
+{% endblock data %}

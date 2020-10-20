@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="zh">
+
+    {% extends '../index.html' %}
+    {% block data %}
+
     {% load staticfiles %}
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <title>
-            信息管理系統 - {{ title }}
-        </title>
-        <link rel="icon" href="{% static 'Common/Icon/default.jpg' %}" type="image/x-icon"/>
-
-        <link rel="stylesheet" href="{% static 'base.css' %}"/>
-        <link rel="stylesheet" href="{% static 'common.css' %}"/>
-        <link rel="stylesheet" href="{% static 'css/iconfont.css' %}"/>
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}"/>
-        <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
-        <script  type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-        <!-- link rel="shortcut icon" href="{{ MEDIA_URL }}" type="image/x-icon"/-->
-        <script  type="text/javascript" src="{% static 'common.js' %}"></script>
-        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
         <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
-
-    </head>
-    <body>
         <style>
             .media-row {
                 width: 100%;
@@ -108,11 +88,6 @@
                 margin-top: 22px;
             }
         </style>
-        {% if option == 'page' %}
-            {% include 'base/top.html' %}
-            {% include 'base/title.html' %}
-
-        {% endif %}
         <div id="app">
             {% if option == 'page' %}
             <div class="home-space"></div>
@@ -127,7 +102,7 @@
                         </div>
                     </div>
                     <div class="col-xs-3 text-right">
-                        <span class="glyphicon glyphicon-trash media-trash-icon" @click="trashImg()"></span>
+                        <span class="glyphicon glyphicon-trash media-trash-icon hand" @click="trashImg()"></span>
                         <input type="hidden" id="now_pk" data-choise="false">
                     </div>
                 </div>
@@ -147,7 +122,7 @@
         {% csrf_token %}
         <!-- 数据操作 -->
         <script>
-            let _root = head + '{{ request.get_host }}'
+            // let _root = head + '{{ request.get_host }}'
             var def_ratio
             const h = 170.0
 
@@ -381,12 +356,13 @@
         </script>
     
     {% if option == 'page' %}
-        <div class="container-fluid">
-            <div class="form-group form-group-lg  col-sm-12 mr-t-main">
+        <!-- div class="">
+            <div class="form-group form-group-lg mr-t-main">
                 <div class="flex-action">
                     <button type="button" class="btn btn-default btn-lg"  onclick="back()">返回</button>
                 </div>
             </div>
-        </div>
+        </div -->
     {% endif %}
-</body>
+
+{% endblock data %}

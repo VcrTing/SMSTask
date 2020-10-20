@@ -100,6 +100,16 @@ div.note-group-select-from-files:before {
 }
 
 
+.active {
+    background: #f9f9f9;
+}
+.active span {
+    color: #0073aa !important;
+}
+.active:hover {
+    background: #f9f9f9;
+}
+
 /* Element */
 
 .two-input-group {
@@ -136,6 +146,16 @@ div.note-group-select-from-files:before {
     .two-input-group .end-age {
         width: calc(30px + 60%);
     }
+}
+
+.star {
+    font-size: 24px !important;
+    color: #0073aa;
+    margin-top: 2px;
+}
+.star-active {
+    color: rgb(252, 217, 19);
+    background-color: linear-gradient(to bottom right, gold, rgb(211, 179, 1));
 }
 
 /*

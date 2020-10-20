@@ -103,7 +103,7 @@
             '    </td>' +
             // '    <td align="center"><h4>' + _ser_email_time_rule(time_rule) + '</h4></td>' +
             '    <td align="center"><h4>' + _ser_email_status(apply_status, send_status, over_status) + '</h4></td>' +
-            '    <td align="center"><a class="hand" onclick="seeMore(' + id + ')"><h4>查看</h4></a></td>' +
+            '    <td align="center"><span class="text-main hand" onclick="seeMore(' + id + ')"><h4>查看</h4></span></td>' +
             '    <td align="center"><h4>' +
             '        <span onclick="update(' + id + ', ' + can + ')" class="glyphicon glyphicon-pencil hand text-main"></span>' +
             '        <span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span>' +
@@ -205,21 +205,20 @@
 <nav aria-label="...">
     <ul class="pager">
         <li class="next">
-            <a href="#" id="next" onclick="loadData(true)">
+            <span class="text-main hand" id="next" onclick="loadData(true)">
                 下一頁 <span aria-hidden="true">&rarr;</span>
-            </a>
+            </span>
         </li>
         <li class="fr">
             <h5 id="pageMsg"></h5>
         </li>
         <li class="previous fr">
-            <a href="#" class="disable" id="previous" onclick="loadData(false)">
+            <span class="text-main hand disable" id="previous" onclick="loadData(false)">
                 <span aria-hidden="true">&larr;</span> 上一頁
-            </a>
+            </span>
         </li>
     </ul>
 </nav>
-
 <!-- 加載數據 -->
 <script>
 

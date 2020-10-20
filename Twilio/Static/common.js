@@ -11,6 +11,10 @@ back = function() {
     history.back()
 }
 
+go = function(url) {
+    location.href = url
+}
+
 /*
     验证表单
 */

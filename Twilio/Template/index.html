@@ -33,16 +33,16 @@
                         {% if request.session.layout.sms == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'task' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/task/"><h4>短信</h4></a>
+                                <span class="hand" onclick="go('/task/')"><h4>短信</h4></span>
                             </div>
                             <div class="item-content fr">
-                                <a class="add-wrapper" href="/task/?option=add">
+                                <span class="add-wrapper text-main hand" onclick="go('/task/?option=add')">
                                     <div class="fl">
                                         <h4>
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </h4>
                                     </div>
-                                </a>
+                                </span>
                             </div>
                         </div>
                         {% endif %}
@@ -50,33 +50,33 @@
                         {% if request.session.layout.email == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'email' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/email/"><h4>電郵</h4></a>
+                                <span class="hand" onclick="go('/email/')"><h4>電郵</h4></span>
                             </div>
                             <div class="item-content fr">
-                                <a class="add-wrapper" href="/email/?option=add">
+                                <span class="add-wrapper text-main hand" onclick="go('/email/?option=add')">
                                     <div class="fl">
                                         <h4>
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </h4>
                                     </div>
-                                </a>
+                                </span>
                             </div>
                         </div>
                         {% endif %}
                         
                         <div class="item bg-white clearfix {% if page_flag == 'contact' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/contact/"><h4>聯絡人</h4></a>
+                                <span class="hand" onclick="go('/contact/')"><h4>聯絡人</h4></span>
                             </div>
                             <div class="item-content fr">
                                 {% if page_flag == 'contact' and page_flag_sub == None %}
-                                <a class="add-wrapper hand" id="contact_plus">
+                                <span class="add-wrapper hand text-main" id="contact_plus">
                                     <div class="fl">
                                         <h4>
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </h4>
                                     </div>
-                                </a>
+                                </span>
                                 {% endif %}
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                         {% if request.session.layout.sms == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'task_collect' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/task/?option=collect"><h4>短信申請記錄</h4></a>
+                                <span class="hand" onclick="go('/task/?option=collect')"><h4>短信申請記錄</h4></span>
                             </div>
                             <div class="item-content fr">
                             </div>
@@ -100,7 +100,7 @@
                         {% if request.session.layout.email == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'email_collect' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/email_collect/"><h4>電郵發送記錄</h4></a>
+                                <span class="hand" onclick="go('/email_collect/')"><h4>電郵發送記錄</h4></span>
                             </div>
                             <div class="item-content fr">
                             </div>
@@ -117,17 +117,17 @@
                         {% if request.session.layout.sms == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'service' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/service/"><h4>服務項目</h4></a>
+                                <span class="hand" onclick="go('/service/')"><h4>服務項目</h4></span>
                             </div>
                             <div class="item-content fr">
                                 {% if page_flag == 'service' %}
-                                <a class="add-wrapper hand" href="/service/?option=add">
+                                <span class="add-wrapper text-main hand" onclick="go('/service/?option=add')">
                                     <div class="fl">
                                         <h4>
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </h4>
                                     </div>
-                                </a>
+                                </span>
                                 {% endif %}
                             </div>
                         </div>
@@ -135,17 +135,17 @@
                         {% if request.session.layout.email == 1 %}
                         <div class="item bg-white clearfix {% if page_flag == 'email_template' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/email_template/"><h4>電郵模版</h4></a>
+                                <span class="hand" onclick="go('/email_template/')"><h4>電郵模版</h4></span>
                             </div>
                             <div class="item-content fr">
                                 {% if page_flag == 'email_template' and page_flag_sub == None %}
-                                <a class="add-wrapper hand" href="/email_template/?option=add">
+                                <span class="add-wrapper text-main hand" onclick="go('/email_template/?option=add')">
                                     <div class="fl">
                                         <h4>
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </h4>
                                     </div>
-                                </a>
+                                </span>
                                 {% endif %}
                             </div>
                         </div>
@@ -159,9 +159,9 @@
                             </div>
                         </div>
                         {% if request.session.layout.email == 1 %}
-                        <div class="item bg-white clearfix {% if page_flag == 'sms_num' %}active{% endif %}">
+                        <div class="item bg-white clearfix {% if page_flag == 'library' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/img/?option=page"><h4>媒體庫</h4></a>
+                                <span class="hand" onclick="go('/img/?option=page')"><h4>媒體庫</h4></span>
                             </div>
                             <div class="item-content fr">
                             </div>
@@ -169,7 +169,7 @@
                         {% endif %}
                         <div class="item bg-white clearfix {% if page_flag == 'other' %}active{% endif %}">
                             <div class="item-title fl">
-                                <a href="/other/"><h4>其他</h4></a>
+                                <span class="hand" onclick="go('/other/')"><h4>其他</h4></span>
                             </div>
                             <div class="item-content fr">
                             </div>
@@ -250,15 +250,6 @@
         color: #3e3e3e;
     }
 
-    .active {
-        background: #f9f9f9;
-    }
-    .active a {
-        color: #0073aa !important;
-    }
-    .active:hover {
-        background: #f9f9f9;
-    }
 </style>
 {% endblock css %}
 

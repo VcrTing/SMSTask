@@ -1,28 +1,22 @@
-{% extends 'base/base.html' %}
+{% extends '../index.html' %}
 {% load staticfiles %}
-{% block center %}
-{% include 'base/top.html' %}
-{% include 'base/title.html' %}
+{% block data %}
+
 <link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
 <script src="{% static 'plugin/summernote/summernote.min.js' %}"></script>
 <script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script>
 
 <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
 
-<input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
 <script>
-    isLogin = $('#isLogin').val()
-    if (isLogin == 0) {
-        location.href = '/login/'
-    }
+    
     const _api = _root + '/api/'
 </script>
 
-<div class="home-space"></div>
-<div class="container" id="app">
-    <div class="row">
+<div class="row" id="app">
+    <!-- div class="row">
         <div class="col-sm-12">
-            <div class="row">
+            <div class="row">-->
                 <div class="col-sm-5">
                     <div class="form">
                         <div class="form-group form-group-lg">
@@ -76,9 +70,10 @@
         
                     </textarea>
                 </div>
+        <!--
             </div>
         </div>
-        <!-- div class="col-sm-3">
+        <div class="col-sm-3">
             <table class="table table-striped mr-t-main-r">
                 <thead>
                     <th>
@@ -110,9 +105,11 @@
                 <button type="button" class="btn btn-primary btn-lg" @click="validate">立即提交</button>
             </div>
         </div>
+<!--
     </div>
 </div>
-
+-->
+</div>
 <script>
     // 
     var vue = new Vue({
@@ -259,4 +256,4 @@
 <style>
     
 </style>
-{% endblock %}
+{% endblock data %}

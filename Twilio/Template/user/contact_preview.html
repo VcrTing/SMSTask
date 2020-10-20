@@ -100,14 +100,14 @@
                             '<td class="task_item task_item_content" data-close="true" id="task_content_' + id + '" ' +
                                 'data-show="' + content_short + '" data-content="' + content + '">' +
                             '<div class="d-inline" id="task_content_dom_' + id + '">' + content_short + '</div>' +                                    
-                                '<a class="eye hand" id="task_content_a_' + id + '" onclick="taskContentManager(' + id + ')">' +
+                                '<span class="eye hand text-main" id="task_content_a_' + id + '" onclick="taskContentManager(' + id + ')">' +
                                     '<span class="fs-14">[展開]</span>' +
-                                '</a>' +
+                                '</span>' +
                             '</td>' +
                             '<td class="task_item" align="center">' + time_belong + '</td>' +
                             '<td class="task_item" align="center">' + status + '</td>' +
                             '<td class="task_item fr" align="center" width="60">' +
-                                '<a onclick="taskTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a>' +
+                                '<span onclick="taskTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></span>' +
                             '</td>' +
                         '</tr>'
                     
