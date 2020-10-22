@@ -66,7 +66,7 @@
                     <div class="panel-body">
                     
                         <div class="form-group form-group-lg">
-                            <label for="" class="control-label d-block">首发模版：
+                            <label for="" class="control-label d-block">首發模版：
                                 <span class="txt-len">
                                     <input v-model="content_len">
                                 </span>
@@ -74,7 +74,7 @@
                             <textarea class="form-control" rows="5" v-model="content"></textarea>
                         </div>
                         <div class="form-group form-group-lg">
-                            <label for="" class="control-label d-block">后发模版：
+                            <label for="" class="control-label d-block">後發模版：
 
                                 <span class="txt-len">
                                     <input v-model="content_sub_len"></span>
@@ -269,16 +269,16 @@
                     return 
                 }
 
-                val_thing = _valide_text(this.content, '中文首发模版內容')
+                val_thing = _valide_text(this.content, '中文首發模版內容')
                 if (val_thing != true) { alert(val_thing); return }
 
-                val_thing = _valide_text(this.content_sub, '中文后发模版內容')
+                val_thing = _valide_text(this.content_sub, '中文後發模版內容')
                 if (val_thing != true) { alert(val_thing); return }
 
-                val_thing = _valide_text(this.content_en, '英文首发模版內容')
+                val_thing = _valide_text(this.content_en, '英文首發模版內容')
                 if (val_thing != true) { alert(val_thing); return }
 
-                val_thing = _valide_text(this.content_sub_en, '英文后发模版內容')
+                val_thing = _valide_text(this.content_sub_en, '英文後發模版內容')
                 if (val_thing != true) { alert(val_thing); return }
 
                 
