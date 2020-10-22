@@ -1,6 +1,19 @@
+{% extends 'base/base.html' %}
+{% block center %}
 
-    {% extends '../index.html' %}
-    {% block data %}
+
+{% if option == 'page' %}
+
+    {% include 'base/top.html' %}
+    {% include 'base/title.html' %}
+    <input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
+    <script>
+        const isLogin = $('#isLogin').val()
+        if (isLogin == 0) {
+            location.href = '/login/'
+        }
+    </script>
+{% endif %}
 
     {% load staticfiles %}
         <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
@@ -356,13 +369,13 @@
         </script>
     
     {% if option == 'page' %}
-        <!-- div class="">
+        <div class="">
             <div class="form-group form-group-lg mr-t-main">
                 <div class="flex-action">
                     <button type="button" class="btn btn-default btn-lg"  onclick="back()">返回</button>
                 </div>
             </div>
-        </div -->
+        </div>
     {% endif %}
 
-{% endblock data %}
+{% endblock %}

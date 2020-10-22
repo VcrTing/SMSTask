@@ -23,9 +23,7 @@ table {
 .text-main {
     transition: all 2s;
 }
-.text-main:hover {
-    text-decoration: underline !important;
-}
+
 
 /*
     Layout MAIN: #0073aa DARK: #2e6da4
@@ -196,6 +194,9 @@ a:hover {
     }
 }
 
+.pos-rel {
+    position: relative;
+}
 .pos-abs {
     position: absolute;
 }

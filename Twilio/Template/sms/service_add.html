@@ -9,6 +9,22 @@
     
 </script>
 <style>
+    .copy-click {
+        z-index: 99;
+        background: white;
+        overflow: hidden;
+    }
+    .copy-input,
+    .copy-input:hover,
+    .copy-input:focus,
+    .copy-input:active {
+        border: none !important;
+        width: 70px;
+        left: 0;
+        z-index: -99;
+        outline: none !important;
+    }
+
     .form-control-simple {
         margin-top: 5px;
         margin-bottom: -15px;
@@ -117,11 +133,29 @@
                 <div class="info-panel">
                     短信模版是可以添加壹些參數來提高短信接收者的用戶體驗感，
                     我們支持的參數有“接收者名字”和 ”第幾封短信“。<br/><br/><br/>
-                    把下面藍色的字復制到短信模版想要的位置即可！
+                    把下面藍色的字復制到短信模版想要的位置即可！<br/><br/>
+                    點擊即可復制。
                 </div>
-                <div class="info-panel"><br/>
-                    <span class="text-main">{{named}}</span>&nbsp;&nbsp;=&nbsp;&nbsp;接收者名字<br/>
-                    <span class="text-main">{{numed}}</span>&nbsp;&nbsp;=&nbsp;&nbsp;第幾封短信
+                <div class="info-panel">
+                    <div class="d-inline pos-rel" onclick="copyContent('named_input', 'named_tooltip')">
+                        <div class="text-main hand dropdown-toggle d-inline copy-click" 
+                            id="named_tooltip"
+                            data-toggle="tooltip" data-placement="top" title="點擊即可復制。">
+                            {{named}}
+                        </div>&nbsp;&nbsp;=&nbsp;&nbsp;接收者名字
+                        <input class="copy-input pos-abs" type="text" id="named_input" value="{{named}}">
+                    </div>
+
+                    <br/>
+                    <div class="d-inline pos-rel" onclick="copyContent('numed_input', 'numed_tooltip')">
+                        <div class="text-main hand dropdown-toggle d-inline copy-click" 
+                            id="numed_tooltip"
+                            data-toggle="tooltip" data-placement="top" title="點擊即可復制。">
+                            {{numed}}
+                        </div>&nbsp;&nbsp;=&nbsp;&nbsp;第幾封短信
+                        <input class="copy-input pos-abs" type="text" id="numed_input" value="{{numed}}">
+                    </div>
+
                 </div>
                 <br/>
                 <div class="info-panel ">
@@ -139,6 +173,14 @@
     </div>
     
 <script>
+    $('.dropdown-toggle').tooltip()
+    copyContent = function(val_dom, tip_dom) {
+        
+        var input = document.getElementById(val_dom)
+        input.select()
+        document.execCommand('copy')
+    }
+
     buildTimeRule = function() {
         let html = ''
         const tr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -301,5 +343,4 @@
         }
     })
 </script>
-{% include 'base/footer.html' %}
 {% endblock data %}
