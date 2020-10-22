@@ -532,5 +532,5 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 
-sch.add_job(fun, 'interval', seconds = 60*5, id = company, misfire_grace_time = 60*11)
+sch.add_job(fun, 'interval', seconds = 60, id = company, misfire_grace_time = 60*11)
 sch.start()

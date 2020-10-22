@@ -41,3 +41,14 @@ def mailgun_now(recivers, subject, html):
         return mailgun.send_message(DOMAIN, APP_KEY, data)
     else:
         return None
+    
+# Email STATUS
+def mailgun_status(typed):
+    APP_KEY, DOMAIN, SENDER = get_conf('mailgun')
+    if APP_KEY:
+        if typed == 0: # RUNNING
+            return mailgun.get_stats_running(DOMAIN, APP_KEY) 
+        if typed == 1: # BLOCK
+            return mailgun.get_stats_block(DOMAIN, APP_KEY)
+    else:
+        return None

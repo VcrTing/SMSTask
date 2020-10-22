@@ -58,6 +58,7 @@ class EmailCollect(models.Model):
     email_apply = models.ForeignKey(EmailApply, verbose_name='服务申请表', on_delete=models.CASCADE, null=True)
     email_template = models.ForeignKey(EmailTemplate, verbose_name='任务模版', on_delete=models.CASCADE, null=True)
     success_status = models.BooleanField(verbose_name='是否发送成功', default = False)
+    plate_stats = models.SmallIntegerField(default=0, verbose_name='平台状态')
 
     json_response = models.TextField(max_length=400, default=common.NULL, null=True, blank=True, verbose_name='回应的Response')
     

@@ -96,7 +96,7 @@ class EmailCollectAdmin(admin.ModelAdmin):
     fieldsets = (
         ("邮件相关", {
             "fields": (
-                'email_apply', 'email_template', 'success_status', 
+                'email_apply', 'email_template', 'success_status', 'plate_stats'
             ),
         }),
         ("发送相关", {

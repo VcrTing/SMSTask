@@ -29,8 +29,12 @@ def _email_record(ea, response):
     ec.success_status = False
 
     if response is not None:
+        ec.plate_stats = 1
+
         if 'id' in response:
+            ec.plate_stats = 2
             ec.success_status = True
+            
     ec.save()
 
 def _do_email(ea):

@@ -15,41 +15,16 @@ body {
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 }
 
-/*
-    Primary Color
-*/
+table {
+    width: 100% !important;
+}
 
-/* */
-.star,
-.text-main,
-.active span,
-.co-main-hover:hover 
-{
-    color: #337ab7;
+
+.text-main {
+    transition: all 2s;
 }
 .text-main:hover {
-    color: #23527c;
-}
-
-/* */
-.bg-blue,
-.page-active,
-.page-active a,
-.sms-active
-{
-    background: #337ab7;
-}
-.sms-active:hover,
-.sms-active-hover:hover {
-    background: #23527c !important;
-}
-
-/* */
-.br-main-hover:hover {
-    border-color: #337ab7;
-}
-.sms-active {
-    border-color: #23527c;
+    text-decoration: underline !important;
 }
 
 /*
@@ -113,7 +88,7 @@ a:hover {
     height: auto;
 }
 .def-border {
-    border: 1px solid #eeeeee;
+    border: 1px solid white;
 }
 .circle {
     border-radius: 100%;
@@ -186,9 +161,7 @@ a:hover {
 .bg-hui {
     background: #eeeeee;
 }
-.bg-main {
-    background: #23282d;
-}
+
 .text-white {
     color: white;
 }
@@ -202,12 +175,6 @@ a:hover {
 .text-black {
     color: black;
 }
-.text-info {
-    color: #46b8da !important;
-}
-.text-info:hover {
-    color: #5bc0de !important;
-}
 
 .text-title {
     color: #333 !important;
@@ -216,9 +183,6 @@ a:hover {
     color: #333 !important;
 }
 
-.form-tip {
-    color: red;
-}
 
 .flex-action {
     position: fixed;
@@ -303,31 +267,27 @@ a:hover {
 */
 
 .reciver {
-    border: 1px solid rgb(226, 183, 97);
-    color: rgb(226, 183, 97);
+    border: 1px solid white;
+    
     padding: 6px 20px;
     display: inline;
     border-radius: 20px;
     line-height: 31px;
 }
 .reciver:hover {
-    color: rgb(247, 179, 43);
-    border-color: rgb(247, 179, 43);
+    
+    border-color: white;
 }
 .reciver-lg {
     padding: 10px 26px;
     line-height: 48px;
-}
-.reciver-hui {
-    color: rgb(168, 168, 168) !important;
-    border-color: rgb(168, 168, 168) !important;
 }
 /*
 .success {
     color: rgb(0, 139, 0);
 }
 .success:hover {
-    color: rgb(0, 121, 0);
+    color: rgb(0, 110, 0);
 }
 .error {
     color: #c25f5d !important;
@@ -339,7 +299,7 @@ a:hover {
     color: rebeccapurple;
 }
 .apply:hover {
-    color: rgb(124, 0, 124)
+    color: rgb(85, 3, 85)
 }
 .complete {
     color: rgb(226, 183, 97);
@@ -348,12 +308,11 @@ a:hover {
     color: rgb(247, 179, 43);
 }
 .red {
-    color: red
+    color: rgb(223, 11, 11)
 }
 .red:hover {
-    color: rgb(216, 0, 0);
+    color: rgb(204, 6, 6)
 }
-*/
 
 .del {
     color: #df8382;
@@ -361,7 +320,17 @@ a:hover {
 .del:hover {
     color: #df6662;
 }
+*/
+.del
+.apply,
+.error,
+.success,
+.complete
+{
+    transition: all 2s;
+}
 
+/*
 .apply,
 .error,
 .success,
@@ -422,3 +391,5 @@ a:hover {
     background: #a9e1ba;
     border-color:  #a9e1ba;
 }
+
+*/

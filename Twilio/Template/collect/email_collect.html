@@ -67,6 +67,7 @@
         const named = item['email_apply']['contact']['first_named']
         const send_time = item['send_time']
         const success_status = item['success_status']
+        const plate_status = item['plate_stats']
         const service = item['email_template']['service']
 
         const html = '' +
@@ -75,6 +76,7 @@
             '    <td>' + named + '<br/>' + addr + '</td>' +
             '    <td><h4>' + _ser_send_time(send_time) + '</h4></td>' +
             '    <td align="center"><h4>' + _ser_success_status(success_status) + '</h4></td>' +
+            /*'    <td align="center"><h4>' + _ser_plate_status(plate_status) + '</h4></td>' +*/
             '    <td align="center"><h4 onclick="seeMore(' + id + ')" class="text-main hand">查看</h4></td>' +
             /*'    <td align="center"><h4>' +
             '        <span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span>' +
@@ -163,8 +165,11 @@
                     <h4>發送時間</h4>
                 </td>
                 <td align="center">
-                    <h4>接受狀態</h4>
+                    <h4>發送狀態</h4>
                 </td>
+                <!--td align="center">
+                    <h4>接收狀態</h4>
+                </td-->
                 <td align="center">
                     <h4>任務詳情</h4>
                 </td>
