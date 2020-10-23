@@ -139,9 +139,8 @@
 
                     '<td align="center"><div class="star" onclick="isStar(' + id + ')">' + _ser_star(star) + '</div></td>' +
 
-                    {% if request.session.layout.sms == 1 %}
-                        '<td align="center"><h4 class="hand see-task" onclick="seeTask(' + id + ')">查看</h4></td>' +
-                    {% endif %}
+                    '<td align="center"><h4 class="hand see-task" onclick="seeTask(' + id + ')">查看</h4></td>' +
+
 
                     '<td align="center" width="64px"><h4><span onclick="contactOneManager(' + id + ')" class="glyphicon glyphicon-pencil hand text-main"></span></h4></td>' +
                 '</tr>'
@@ -382,11 +381,9 @@
                     </h4>
                 </td>
 
-        {% if request.session.layout.sms == 1 %}
                 <td align="center">
                     <h4>歷史任務</h4>
                 </td>
-        {% endif %}
 
                 <td align="center">
                     <h4>操作</h4>

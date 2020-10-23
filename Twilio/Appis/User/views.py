@@ -180,6 +180,13 @@ class TagView(View):
 class ContactView(View):
     page_flag = 'contact'
     def get(self, request):
+        nper = [
+            {
+                'val': nr[0],
+                'txt': nr[1]
+            } for nr in common.NPER
+        ]
+               
         option = request.GET.get('option', None)
         if option:
             if option == 'task':
@@ -227,12 +234,6 @@ class ContactView(View):
                 )
             elif option == 'email':
 
-                nper = [
-                    {
-                        'val': nr[0],
-                        'txt': nr[1]
-                    } for nr in common.NPER
-                ]
                 time_rule = [
                     {
                         'val': tr[0],
@@ -257,7 +258,8 @@ class ContactView(View):
                 'title': '电话薄', 
                 'page_flag': self.page_flag,
                 'contact_list': contact_list,
-                'areas': areas
+                'areas': areas,
+                'nper': nper
             }
         )
 

@@ -103,12 +103,12 @@
             </table>
     </div> 
         </div>-->
-</div>
-<div class="form-group form-group-lg  col-sm-12 mr-t-main">
-    <div class="flex-action">
-        <button type="button" class="btn btn-default btn-lg"  onClick="back()">返回</button>
-        <h4 class="d-inline">or</h4>
-        <button type="button" class="btn btn-primary btn-lg" @click="validate()">立即提交</button>
+    <div class="form-group form-group-lg  col-sm-12 mr-t-main">
+        <div class="flex-action">
+            <button type="button" class="btn btn-default btn-lg"  onClick="back()">返回</button>
+            <h4 class="d-inline">or</h4>
+            <button type="button" class="btn btn-primary btn-lg" @click="validate()">立即提交</button>
+        </div>
     </div>
 </div>
 
@@ -158,7 +158,7 @@
                 this.category_flag = this.category
                 
                 this.message = _sel_iframe(this.message)
-                
+                console.log('走到这')
                 this.submit()
             },
             submit() {

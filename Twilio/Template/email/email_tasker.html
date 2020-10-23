@@ -14,7 +14,7 @@
             </div>
             <div class="form-group form-group-lg col-sm-3">
                 <label for="new_time_rule" class="control-label">
-                    時間規則：
+                    循環發出間隔：
                 </label>
                 <select class="form-control" id="new_time_rule" onchange="newTimeRule()">
                     {% for tr in time_rule %}
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group form-group-lg col-sm-3">
                 <label for="new_nper" class="control-label">
-                    寄出數量：
+                    總發出數限制：
                 </label>
                 <select class="form-control" id="new_nper">
                     {% for nr in nper %}
@@ -305,6 +305,7 @@
             // 数量
             $('#new_nper').find('option').removeAttr('selected')
             $('#new_nper').find('option[value="1"]').attr('selected', true)
+            $('#new_nper').find('option[value=1]').attr('selected', true)
             $('#new_nper').attr('disabled', true)
         } else {
             // 首封
@@ -314,9 +315,9 @@
             $('#new_nper').attr('disabled', false)
         }
     }
-    newTimeRule()
     $('#new_nper').find('option[value="0"]').attr('selected', true)
 
+    newTimeRule()
 </script>
 
 <style>
@@ -351,12 +352,15 @@
 }
 .category-gate > div:nth-child(1) > h4 {
     background: lightgreen;
+    color: rgba(255, 255, 255, 0.92);
 }
 .category-gate > div:nth-child(2) > h4 {
     background: lightblue;
+    color: rgba(255, 255, 255, 0.92);
 }
 .category-gate > div:nth-child(3) > h4 {
     background: pink;
+    color: rgba(255, 255, 255, 0.92);
 }
 @media screen and (min-width: 768px) {
     .item-outter {

@@ -9,10 +9,10 @@
 .active span,
 .co-main-hover:hover 
 {
-    color: #3E89D1;
+    color: #337ab7;
 }
 .text-main:hover {
-    color: #0A58A3;
+    color: #0a64a4;
 }
 
 .bg-blue,
@@ -20,18 +20,18 @@
 .page-active a,
 .sms-active
 {
-    background: #3E89D1;
+    background: #337ab7;
 }
 .sms-active:hover,
 .sms-active-hover:hover {
-    background: #0A58A3 !important;
+    background: #0a64a4 !important;
 }
 
 .br-main-hover:hover {
-    border-color: #3E89D1;
+    border-color: #337ab7;
 }
 .sms-active {
-    border-color: #0A58A3;
+    border-color: #0a64a4;
 }
 
 /*
@@ -79,8 +79,8 @@
 }
 
 .reciver {
-    color: #c38743;
-    border-color: #c38743;
+    color: #bf8130;
+    border-color: #bf8130;
     transition: all .5s;
 }
 .reciver:hover {
@@ -94,7 +94,7 @@
 
 
 .star-active {
-    color: #f8b500;
+    color: #ffc873;
     background-color: linear-gradient(to bottom right, gold, rgb(211, 179, 1));
 }
 

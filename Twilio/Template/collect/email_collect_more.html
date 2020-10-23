@@ -20,6 +20,9 @@
             <table class="table table-striped">
                 <thead>
                     <th>
+                        <h4>序號</h4>
+                    </th>
+                    <th>
                         <h4>服務項目</h4>
                     </th>
                     <th>
@@ -32,10 +35,10 @@
                         <h4 class="text-center">第幾封</h4>
                     </th>
                     <th align="center">
-                        <h4 class="text-center">接受狀態</h4>
+                        <h4 class="text-center">任務狀態</h4>
                     </th>
                     <th align="center">
-                        <h4 class="text-center">任務詳情</h4>
+                        <h4 class="text-center">更多信息</h4>
                     </th>
                     <!-- th align="center">
                         <h4>操作</h4>
@@ -86,6 +89,7 @@
 
             const html = '' +
                 '<tr id="tr_' + id + '">' +
+                '    <td><h4>' + (i + 1) + '</h4></td>' +
                 '    <td><h4>' + service + '</h4></td>' +
                 '    <td><div style="height: 4px;"></div><div class="reciver mr-t-half">' +
                 '        ' + named + ' &lt;' + addr + '&gt;</div></td>' +
