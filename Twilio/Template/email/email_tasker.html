@@ -60,7 +60,7 @@
     <div class="flex-action">
         <button type="button" class="btn btn-default btn-lg"  onClick="javascript:history.back(-1);">返回</button>
         <h4 class="d-inline">or</h4>
-        <button type="button" class="btn btn-primary btn-lg" onclick="validate()">下壹步</button>
+        <button type="button" class="btn btn-primary btn-lg" onclick="validate()">下一步</button>
     </div>
     
 </div>
@@ -73,10 +73,65 @@
     </div>
 </div>
 
+<!-- /.modal-content -->
+<div class="modal fade" tabindex="-1" id="preview_modal" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button -->
+                <h2 class="modal-title d-inline">電郵任務審核單</h2>
+
+                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="submit">確認提交</button>
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">返回更改</button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">接收人数：</label>
+                        <div class="col-sm-9">
+                            <div class="text-main mr-t-half"><h2 class="d-inline" id="preview_person"></h2> 人</div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">時間規則：</label>
+                        <div class="col-sm-9">
+                            <h4 class="form-in-p" id="preview_time_rule"></h4>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">到访时间：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_visit_time">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">所選服務：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_service">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">电邮标题：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_subject">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 數據加載 -->
 <script>
     let recivers = []
     let contact = []
+    const _url = _root + '/api/'
+
+    const nperList = [
+    {% for nr in nper %}
+        {{ nr | safe }},
+    {% endfor %}]
 
     const reciver_list = $('#reciver_list')
 
@@ -173,6 +228,7 @@
 <!-- 數據操作 -->
 <script>
     let oldId = 0
+    let idList = []
     _activeSms = function(id, old_id, cls_name = 'sms-active') {
         $('#item_' + id).addClass(cls_name)
         $('#item_' + old_id).removeClass(cls_name)
@@ -209,8 +265,8 @@
         
         location.href = _url
     }
-    _submit = function (e) {
-        const rcs = e['recivers']
+    _submit = function () {
+        const rcs = idList
 
         let id_rec = []
         for (let i= 0; i< rcs.length; i++ ) {
@@ -220,9 +276,9 @@
         
         const data = {
             'ids': id_rec.toString(),
-            'visit_time': e['visit_time'],
+            'visit_time': $('#visit_time').val(),
             'newer': false,
-            'email_template': e['email_template'],
+            'email_template': $('#email_template').val(),
             'csrfmiddlewaretoken': '{{ csrf_token }}',
             'nper': $('#new_nper').find('option:selected').val(),
             'first_status': $('#new_first_status').prop('checked'),
@@ -277,22 +333,59 @@
             alert('請選擇壹個拜訪時間！！！')
             return
         }
-        const data = {
-            'email_template': et_id,
-            'visit_time': visit_time,
-            'recivers': rcs
-        }
+        
 
         if ((rcs.length == 0) || (rcs == null)) {
             alert('檢測到零個接收者。')
             return
         }
-        if (confirm('妳確定要提交嗎？')) {
 
-            loading(true)
-            _submit(data)
-        }
+        idList = rcs
+
+        priview()
     }
+
+    priview = function() {
+        const visit_time = $('#visit_time').val()
+        const nper = $('#new_nper').find('option:selected').val()
+        const first_status = $('#new_first_status').prop('checked')
+        const time_rule = $('#new_time_rule').find('option:selected').val()
+
+        const ea = $('#email_template').val()
+        
+        $.ajax({
+            url: _url + 'email_template/' + ea,
+            type: 'GET',
+            success: function(e) {
+                $('#preview_service').val(
+                    e['service']
+                )
+                $('#preview_subject').val(
+                    e['subject']
+                )
+            }
+        })
+
+        $('#preview_visit_time').val(
+            _ser_send_time(visit_time, true, true)
+        ) 
+        $('#preview_time_rule').html(
+            _ser_email_time_rule(time_rule) + ', ' + _sel_nper(nper) + ', ' + _sel_first_status(first_status)
+        )
+        $('#preview_person').html(
+            idList.length + ''
+        )
+        
+        $('#preview_modal').modal('show')
+    }
+    
+    $('#submit').click(function () {
+        if (confirm('妳確定要提交嗎？')) {
+            $('#preview_modal').modal('hide')
+            loading(true)
+            _submit()
+        }
+    })
 
     newTimeRule = function() {
         const ntr = $('#new_time_rule').find('option:selected').val()
@@ -352,15 +445,12 @@
 }
 .category-gate > div:nth-child(1) > h4 {
     background: lightgreen;
-    color: rgba(255, 255, 255, 0.92);
 }
 .category-gate > div:nth-child(2) > h4 {
     background: lightblue;
-    color: rgba(255, 255, 255, 0.92);
 }
 .category-gate > div:nth-child(3) > h4 {
     background: pink;
-    color: rgba(255, 255, 255, 0.92);
 }
 @media screen and (min-width: 768px) {
     .item-outter {

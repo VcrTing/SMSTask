@@ -46,10 +46,10 @@
 }
 
 .text-info {
-    color: #00a497 !important;
+    color: #3c8f6d !important;
 }
 .text-info:hover {
-    color: #006e54 !important;
+    color: #0e7c4f !important;
 }
 .form-tip {
     color: #d9333f;
@@ -59,7 +59,7 @@
     color: #9e9e9e;
 }
 #countMsg {
-    color: #674598;
+    color: #4b4991;
 }
 
 /*
@@ -79,13 +79,13 @@
 }
 
 .reciver {
-    color: #bf8130;
-    border-color: #bf8130;
+    color: #bf9050;
+    border-color: #bf9050;
     transition: all .5s;
 }
 .reciver:hover {
-    color: #9f563a;
-    border-color: #9f563a;
+    color: #a66813;
+    border-color: #a66813;
 }
 .reciver-hui {
     color: rgb(168, 168, 168) !important;
@@ -94,7 +94,7 @@
 
 
 .star-active {
-    color: #ffc873;
+    color: #ffac3a;
     background-color: linear-gradient(to bottom right, gold, rgb(211, 179, 1));
 }
 
@@ -102,10 +102,10 @@
     状态
 */
 .success {
-    color: #028760;
+    color: #2bb183;
 }
 .success:hover {
-    color: #006e54;
+    color: #0e7c4f;
 }
 .error {
     color: #c53d43 !important;
@@ -114,16 +114,16 @@
     color: #a22041;
 }
 .apply {
-    color: #7058a3;
+    color: #4442c2;
 }
 .apply:hover {
-    color: #522f60;
+    color: #4b4991;
 }
 .complete {
-    color: #f8b500;
+    color: #ffac3a;
 }
 .complete:hover {
-    color: #bb5535;
+    color: #a66813;
 }
 .red {
     color: #d7003a;

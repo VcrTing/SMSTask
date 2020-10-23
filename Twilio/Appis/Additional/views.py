@@ -320,10 +320,9 @@ class EmailApplyView(View):
             if option == 'contact':
                 contact_id = request.GET.get('contact', None)
                 ea = models.EmailApply.objects.filter(Q(contact = contact_id) & Q(status = True))
-                for e in ea:
-                    print(e.add_time)
-                    print(e.email_template)
+
                 return JsonResponse( djSerializer.serialize('json', ea), safe = False )
+            
 
     def post(self, request):
         res = {
@@ -448,23 +447,19 @@ class EmailApplyView(View):
 
             if option == 'trash':
                 pk = request.GET.get('id', None)
-                print(pk)
-                print(pk)
-                print(pk)
                 if pk is None:
-                    return JsonResponse(res)
-                print(pk)
+                    pk = request.POST.get('id', None)
+
                 ea = models.EmailApply.objects.get(id = pk)
                 ea.status = False
                 ea.save()
-                res['status'] = True 
-                """
+                res['status'] = True
                 res['instance'] = {
                     'named': ea.contact.first_named,
                     'addr': ea.contact.email,
                     'service': ea.email_template.service
                 }
-                """
+                
 
         return JsonResponse(res)
 
