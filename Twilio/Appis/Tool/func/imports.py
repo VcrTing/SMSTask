@@ -3,7 +3,7 @@ import os, datetime, time
 import csv 
 from Twilio.company import Now
 
-from Appis.User.models import Contact, Area
+from Appis.User.models import Contact, Area, Tag
 
 def _finish(paths, done):
     n = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -17,27 +17,37 @@ def _deal_save(pk, rec):
         'id': pk
     }
 
-def _contact(rec, area):
+def _contact(rec, area, tag):
     contact = Contact()
     contact.first_named = rec[0]
     contact.area = area
     contact.phoned = rec[1]
     
+    if tag is not None:
+        tag = [ t.id for t in tag]
+        contact.tag.clear()
+        for t in tag:
+            contact.tag.add(t)
+
     contact.save()
     return _deal_save(contact.pk, rec)
     # return True
 
-def _import_contact_csv(rec):
+def _import_contact_csv(rec, tag):
     if Now == '123medhk':
         res = []
         rec = list(rec)
         rec = rec[1: ]
 
         area = Area.objects.get(phoned_prefix = '+852')
+
+        if tag == None:
+            tag = Tag.objects.filter(named____icontains = tag)
+            print('Tag = ', tag)
         index = 0
 
         for r in rec:
-            _save = _contact(r, area)
+            _save = _contact(r, area, tag)
 
             if _save is not True:
                 res.append(_save)
@@ -53,12 +63,23 @@ def import_csv(paths, fields):
     rec = None
     if os.path.exists(paths):
         with open(paths, 'r') as f:
+
+            print(paths)
+            print('进来了')
             if str(paths).endswith('csv'):
                 rec = csv.reader(f)
+            print('读取成功')
 
             if fields.startswith('Contact'):
-                res, index = _import_contact_csv(rec)
+                res, index = _import_contact_csv(rec, None)
 
+                _finish(paths, True)
+                return res, index
+
+            if fields.startswith('ContactTag'):
+                print('AAA')
+                res, index = _import_contact_csv(rec, '屈醫生')
+                
                 _finish(paths, True)
                 return res, index
     return True

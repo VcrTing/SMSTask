@@ -1,9 +1,16 @@
+import platform
 
-TEST = False
+print(platform.system())
+ 
+_TEST = True
+if (platform.system() == 'Linux'):
+  _TEST = False
+
+TEST = _TEST
 
 SYS_MAIL = 'support@manfulls.com'
 
-Now = 'eye' # 该值是指当前 公司的 key_name
+Now = '123medhk' # 该值是指当前 公司的 key_name
 
 SETTING = {
     'eye': {

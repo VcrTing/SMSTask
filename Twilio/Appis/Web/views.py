@@ -267,7 +267,8 @@ class ImportView(View):
                 f = request.POST.get('file', None)
                 field = str(f).split('.')[0]
                 f = os.path.join(MEDIA_ROOT, 'data', company, typed, f)
-
+                print(field)
+                print(f)
                 rec, index = imports.import_csv(f, field)
                 res['index'] = index
                 res['rec'] = rec
