@@ -23,6 +23,7 @@ def _contact(rec, area, tag):
     contact.area = area
     contact.phoned = rec[1]
     
+    contact.save()
     if tag is not None:
         tag = [ t.id for t in tag]
         contact.tag.clear()
@@ -41,9 +42,8 @@ def _import_contact_csv(rec, tag):
 
         area = Area.objects.get(phoned_prefix = '+852')
 
-        if tag == None:
-            tag = Tag.objects.filter(named____icontains = tag)
-            print('Tag = ', tag)
+        if tag is not None:
+            tag = Tag.objects.filter(named = tag)
         index = 0
 
         for r in rec:
@@ -64,11 +64,14 @@ def import_csv(paths, fields):
     if os.path.exists(paths):
         with open(paths, 'r') as f:
 
-            print(paths)
-            print('进来了')
             if str(paths).endswith('csv'):
                 rec = csv.reader(f)
-            print('读取成功')
+
+            if fields.startswith('ContactTag'):
+                res, index = _import_contact_csv(rec, '屈醫生')
+                
+                _finish(paths, True)
+                return res, index
 
             if fields.startswith('Contact'):
                 res, index = _import_contact_csv(rec, None)
@@ -76,12 +79,6 @@ def import_csv(paths, fields):
                 _finish(paths, True)
                 return res, index
 
-            if fields.startswith('ContactTag'):
-                print('AAA')
-                res, index = _import_contact_csv(rec, '屈醫生')
-                
-                _finish(paths, True)
-                return res, index
     return True
 
 
