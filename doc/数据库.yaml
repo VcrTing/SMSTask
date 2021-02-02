@@ -1,3 +1,6 @@
+列出所有表:
+  show tables;
+
 删除某表数据:
   delete from table_name;
 
