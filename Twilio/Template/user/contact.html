@@ -508,9 +508,11 @@
     }
 
     setTimeout(function() {
-        $('#loadingImg').fadeOut(100)
-        _loadData(_build_url(conditions['page']['offset']))
-    }, 618)
+        $('#loadingImg').fadeOut(200, function() {
+            _loadData(_build_url(conditions['page']['offset']))
+        })
+        
+    }, 318)
     
     // DELETE
     _trash = function(id, isM = true) {

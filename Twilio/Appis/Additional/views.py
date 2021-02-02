@@ -177,14 +177,14 @@ class EmailView(View):
                     }
                 )
         
-        email_apply = models.EmailApply.objects.filter(status = True)
+        # email_apply = models.EmailApply.objects.filter(status = True)
         cate = sms_modles.Category.objects.filter(Q(status = True) & Q(way = common.WAY[1][0]))
         
         return render(request, 'email/email.html', 
             { 
                 'title': '首页 - 邮件', 
                 'page_flag': self.page_flag,
-                'email_apply': email_apply,
+                # 'email_apply': email_apply,
                 'category': cate,
                 'nper': nper
             }

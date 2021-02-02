@@ -324,9 +324,10 @@
 
     setTimeout(function() {
 
-        $('#loadingImg').fadeOut(100)
-        loadData(true)
-    }, 618)
+        $('#loadingImg').fadeOut(200, function() {
+            loadData(true)
+        })
+    }, 318)
 
     // 睁眼
     eye = function(id) {

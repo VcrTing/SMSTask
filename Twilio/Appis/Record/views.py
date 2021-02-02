@@ -165,12 +165,12 @@ class TaskView(View):
                     }
                 )
 
-        task_list = models.EveryTask.objects.filter(status = True)
+        # task_list = models.EveryTask.objects.filter(status = True)
         return render(request, 'record/task.html', 
             { 
                 'title': '首页', 
                 'page_flag': self.page_flag,
-                'task_list': task_list
+                # 'task_list': task_list
             }
         )
 
