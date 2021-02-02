@@ -395,7 +395,7 @@
             <tr>
                 <td colspan="10">
                     <div class="loadingGif">
-                        <img src='{% static "Common/Icon/loading.gif" %}'>
+                        <img src='{% static "Common/Icon/loading.gif" %}' id="loadingImg">
                     </div>
                 </td>
             </tr>
@@ -508,7 +508,7 @@
     }
 
     setTimeout(function() {
-
+        $('#loadingImg').fadeOut(100)
         _loadData(_build_url(conditions['page']['offset']))
     }, 618)
     

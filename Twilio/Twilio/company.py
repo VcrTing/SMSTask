@@ -58,7 +58,7 @@ SETTING = {
             'PORT': 3306,
             'USER': 'root',
             'PASSWORD': 'VcrTing.ZT123zlt',
-            'CONN_MAX_AGE': 20000
+            'CONN_MAX_AGE': 2000
         },
         'layout': {
             'sms': 1,
