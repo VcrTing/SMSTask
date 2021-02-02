@@ -237,43 +237,6 @@ class DangerView(View):
 
         return render(request, 'catch/danger.html', res)
 
-class ImportView(View):
-    def get(self, request):
-        res = {
-            'title': '数据导入导出',
-            'msg': '没有任何数据可导入'
-        }
-        option = request.GET.get('option', 'csv')
-        res['typed'] = option
-        return render(request, 'other/import.html', res)
-    
-    def _loadFile(self, typed, request):
-        company = request.session.get('company')
-        _dir = os.path.join(MEDIA_ROOT, 'data', company, typed)
-        fs = os.listdir(_dir)
-        return [f for f in fs if f.endswith(typed)]
-
-    def post(self, request):
-        option = request.GET.get('option', None)
-        typed = request.GET.get('typed', 'csv')
-        res = {
-            'status': True
-        }
-        if option:
-            if option == 'load':
-                fs = self._loadFile(typed, request)
-                res['files'] = fs
-            elif option == 'import':
-                f = request.POST.get('file', None)
-                field = str(f).split('.')[0]
-                f = os.path.join(MEDIA_ROOT, 'data', company, typed, f)
-                print(field)
-                print(f)
-                rec, index = imports.import_csv(f, field)
-                res['index'] = index
-                res['rec'] = rec
-        return JsonResponse(res)
-
 class HelpView(View):
     def get(self, request):
         now = load('_conf', company)

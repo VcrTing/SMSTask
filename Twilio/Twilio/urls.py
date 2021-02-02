@@ -11,6 +11,7 @@ from .company import TEST
 # from .catch import handler
 
 from Appis.Web import views as Web
+from Appis.Web import views_option as Webop
 from Appis.Sms import views as Sms
 from Appis.User import views as User
 from Appis.Record import views as Record
@@ -72,12 +73,14 @@ urlpatterns = [
     path('backup/', Web.BackUpView.as_view()),
     path('danger/', Web.DangerView.as_view()),
     path('feedback/',User.FeedBackView.as_view()),
-    path('import/',Web.ImportView.as_view()),
 
     path('num/', Web.NumView.as_view()),
     path('style/', Web.StyleView.as_view()),
     path('task_running/', Web.TaskView.as_view()),
     path('incentive_task/', Web.IncentiveView.as_view()),
+    
+    path('import/',Webop.ImportView.as_view()),
+    path('option/delete/',Webop.OptionDeleteView.as_view()),
 
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),

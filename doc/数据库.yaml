@@ -8,7 +8,7 @@
   mysqldump -u root -p DB > DB.sql
 
 导入数据:
-  mysql -uroot -p NAME < /root/doc/tsms.sql
+  mysql -uroot -p tsms < /root/doc/tsms.sql
 
 创建数据库:
   CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
@@ -16,6 +16,12 @@
 
   删除数据库:
   drop database NAME;
+  
+查询表字段:
+  show full columns from TABLE;
+
+  根据字段删除数据:
+  delete from TABLE where name='XXX';
 
 删除主数据库的里面的表:
   SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = '数据库名字';
