@@ -508,10 +508,12 @@
     }
 
     setTimeout(function() {
-        $('#loadingImg').fadeOut(200, function() {
+        $('#loadingImg').fadeOut(200)
+
+        setTimeout(function() {
+
             _loadData(_build_url(conditions['page']['offset']))
-        })
-        
+        }, 100)
     }, 318)
     
     // DELETE

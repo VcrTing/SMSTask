@@ -211,20 +211,19 @@ class ServiceView(View):
                 smsT_en.category = cate
                 smsT_en.content = content_en
                 smsT_en.content_sub = content_sub_en
-
+                
                 if option == 'add':
-                    if smsT.service is not None:
-                        smsT.service = service
-                        smsT.sms_id = '00'
-                        smsT.sms_id_sub = '00'
-                        smsT.lang = 1
+                    
+                    smsT.service = service
+                    smsT.sms_id = '00'
+                    smsT.sms_id_sub = '00'
+                    smsT.lang = 1
 
-                    if smsT_en.service is not None:
-                        smsT_en.service = service
-                        smsT_en.sms_id = '00'
-                        smsT_en.sms_id_sub = '00'
-                        smsT_en.lang = 2
-
+                    smsT_en.service = service
+                    smsT_en.sms_id = '00'
+                    smsT_en.sms_id_sub = '00'
+                    smsT_en.lang = 2
+                    
                 smsT.save()
                 smsT_en.save()
 

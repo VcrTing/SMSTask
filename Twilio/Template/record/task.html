@@ -324,9 +324,11 @@
 
     setTimeout(function() {
 
-        $('#loadingImg').fadeOut(200, function() {
+        $('#loadingImg').fadeOut(200)
+        
+        setTimeout(function() {
             loadData(true)
-        })
+        }, 100)
     }, 318)
 
     // 睁眼

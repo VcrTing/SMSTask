@@ -183,7 +183,6 @@
     }
     
     taskerPreview = function(len, st) {
-        console.log(st)
 
         $.ajax({
             url: _root + '/api/sms_template/' + st + '/',
@@ -195,10 +194,11 @@
                 const content = res['content']
                 const content_sub = res['content_sub']
                 
-                console.log(time_rule)
                 let tr = []
                 let html = ''
                 for(let i= 0; i< time_rule.length; i++ ) {
+
+                    console.log('进来了')
                     const r = _ser_time_rule_belong(parseInt(time_rule[i]))
                     
                     html += '' +
@@ -230,9 +230,9 @@
                 } else {
                     $('#pcs_tr').removeClass('d-none')
                     $('#ptrc_tr').removeClass('d-none')
-                    $('#preview_time_rule_active').html(html)
                 }
 
+                $('#preview_time_rule_active').html(html)
 
                 $('#tasker_preview').modal('show')
             }
@@ -253,10 +253,14 @@
         }
 
         let tr_active = new Array();
+        
         $("input[name=tr_active]:checked").each(function() {
+            
             tr_active.push($(this).val());
         });
         
+        console.log('tr =', tr_active, tr_active.length)
+
         if (tr_active.length < 1) {
             alert('未啟用任何時間規則！！！')
             return
@@ -267,20 +271,16 @@
             }
             tr_active = _tr
         }
-    
+        
         if (!confirm('還需確認一次嗎，確定立即提交？')) { 
             return 
         }
         _submit(tasker, rec.length, tr_active)
     })
     _submit = function(tasker, len, tr_active) {
-        console.log('提交')
-        console.log(tasker)
-        console.log(len)
-        console.log(tr_active)
 
         $('.modal').modal('hide')
-        return
+        // return
         loading()
         const sms_id = oldId
         $.ajax({
