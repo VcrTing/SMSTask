@@ -283,6 +283,18 @@ a:hover {
     padding: 10px 26px;
     line-height: 48px;
 }
+
+.loadingGif {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 50px;
+    height: 160px;
+}
+.loadingGif img {
+    height: 100%;
+    width: auto;
+}
 /*
 .success {
     color: rgb(0, 139, 0);

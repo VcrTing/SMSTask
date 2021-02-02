@@ -102,25 +102,25 @@
     状态
 */
 .success {
-    color: #178a5a;
+    color: #26ad53;
 }
 .success:hover {
     color: #0e7c4f;
 }
 .error {
-    color: #c53d43 !important;
+    color: #e92b2b !important;
 }
 .error:hover {
     color: #a22041;
 }
 .apply {
-    color: #5f50af;
+    color: #6a57c9;
 }
 .apply:hover {
-    color: #4b4991;
+    color: #9593ce;
 }
 .complete {
-    color: #ffac3a;
+    color: #ddb814;
 }
 .complete:hover {
     color: #a66813;

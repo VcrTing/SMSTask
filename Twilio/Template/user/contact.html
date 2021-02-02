@@ -391,6 +391,14 @@
             </tr>
         </thead>
         <tbody class="tab-content" id="contact_content">
+
+            <tr>
+                <td colspan="10">
+                    <div class="loadingGif">
+                        <img src='{% static "Common/Icon/loading.gif" %}'>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -499,7 +507,10 @@
         }
     }
 
-    _loadData(_build_url(conditions['page']['offset']))
+    setTimeout(function() {
+
+        _loadData(_build_url(conditions['page']['offset']))
+    }, 618)
     
     // DELETE
     _trash = function(id, isM = true) {

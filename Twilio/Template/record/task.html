@@ -59,6 +59,14 @@
             </tr>
         </thead>
         <tbody class="tab-content" id="every_task-content">
+
+            <tr>
+                <td colspan="10">
+                    <div class="loadingGif">
+                        <img src='{% static "Common/Icon/loading.gif" %}'>
+                    </div>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
@@ -313,7 +321,11 @@
             getData(thePage.previous)
         }
     }
-    loadData(true)
+
+    setTimeout(function() {
+
+        loadData(true)
+    }, 618)
 
     // 睁眼
     eye = function(id) {
