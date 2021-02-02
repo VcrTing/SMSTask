@@ -183,7 +183,8 @@
     }
     
     taskerPreview = function(len, st) {
-        
+        console.log(st)
+
         $.ajax({
             url: _root + '/api/sms_template/' + st + '/',
             type: 'GET',
@@ -194,7 +195,7 @@
                 const content = res['content']
                 const content_sub = res['content_sub']
                 
-
+                console.log(time_rule)
                 let tr = []
                 let html = ''
                 for(let i= 0; i< time_rule.length; i++ ) {
@@ -273,8 +274,13 @@
         _submit(tasker, rec.length, tr_active)
     })
     _submit = function(tasker, len, tr_active) {
+        console.log('提交')
+        console.log(tasker)
+        console.log(len)
+        console.log(tr_active)
 
         $('.modal').modal('hide')
+        return
         loading()
         const sms_id = oldId
         $.ajax({
