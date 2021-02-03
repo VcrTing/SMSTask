@@ -5,9 +5,12 @@
 <script>
     let _limit = vGet('limit_contact')
     
-    if (_limit == null) {
+    try {
+        let _limit = parseInt(_limit)
+    } catch(err) {
         _limit = 20
     }
+    
     _limit = parseInt(_limit)
     
     // const _limit = 50
@@ -436,12 +439,15 @@
     let pageCount = 0
     _loadData = function(url) {
         
+        loadingView('contact_content')
+        
         $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',
             success: function(e) {
                 
+                loadingView()
                 // 渲染數據
                 _build_html(e['results'])
 
@@ -476,7 +482,7 @@
 
             },
             error: function(e) {
-                alert('暫無更新！！！')
+                alert('暂无記錄！！！')
             }
         })
     }
@@ -508,12 +514,8 @@
     }
 
     setTimeout(function() {
-        $('#loadingImg').fadeOut(200)
+        _loadData(_build_url(conditions['page']['offset']))
 
-        setTimeout(function() {
-
-            _loadData(_build_url(conditions['page']['offset']))
-        }, 100)
     }, 318)
     
     // DELETE

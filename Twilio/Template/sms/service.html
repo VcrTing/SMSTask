@@ -86,7 +86,7 @@
         $('#smsT_named').html(service['named'])
         let html = ''
         const tr = service['time_rule']
-        console.log('tr =', tr)
+        
         for (let i= 0; i< tr.length; i++ ) {
             html += '<span class="text-main">' + _ser_time_rule_belong(parseInt(tr[i])) + '</span>'
             if (i != (tr.length - 1)) {

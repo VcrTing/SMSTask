@@ -8,7 +8,9 @@
 
     let _limit = vGet('limit_email')
 
-    if (_limit == null) {
+    try {
+        let _limit = parseInt(_limit)
+    } catch(err) {
         _limit = 20
     }
     _limit = parseInt(_limit)

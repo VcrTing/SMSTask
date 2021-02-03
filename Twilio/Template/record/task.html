@@ -185,7 +185,9 @@
     // Limit
     let _limit = parseInt(vGet('limit_task'))
     
-    if (_limit == null) {
+    try {
+        let _limit = parseInt(_limit)
+    } catch(err) {
         _limit = 20
     }
 
@@ -246,6 +248,7 @@
     getData = function(url) {
         url += filter_url
 
+        loadingView('every_task-content')
         $.ajax({
             url: url,
             method: 'GET',
@@ -254,9 +257,10 @@
                 'Content-Type': 'application/json;charset=utf8'
             },
             success: function(e) {
-                _clear()
+                loadingView()
                 let res = e['results']
                 
+                _clear()
                 $.each(res, function(index, item) {
                     
                     const sms_task = item['sms_task']
@@ -324,11 +328,7 @@
 
     setTimeout(function() {
 
-        $('#loadingImg').fadeOut(200)
-        
-        setTimeout(function() {
-            loadData(true)
-        }, 100)
+        loadData(true)
     }, 318)
 
     // 睁眼

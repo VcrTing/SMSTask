@@ -15,6 +15,27 @@ go = function(url) {
     location.href = url
 }
 
+getLoadingHtml = function() {
+    const src = $('#loadingImgSrc').val()
+    const html = '' +
+    '<tr>' +
+    '    <td colspan="10">' +
+    '        <div class="loadingGif">' +
+    '            <img src="' + src + '" id="loadingImg">' +
+    '        </div>' +
+    '    </td>' +
+    '</tr>'
+    return html
+}
+
+loadingView = function(dom_name = null) {
+    if (dom_name == null) {
+        $('#loadingImg').fadeOut(200)
+    } else {
+        $('#' + dom_name).html(getLoadingHtml())
+    }
+} 
+
 /*
     验证表单
 */
