@@ -6,7 +6,8 @@
     let _limit = vGet('limit_email_collect')
 
     try {
-        let _limit = parseInt(_limit)
+        _limit = parseInt(_limit)
+        if (isNaN(_limit)) { _limit = 20 }
     } catch(err) {
         _limit = 20
     }

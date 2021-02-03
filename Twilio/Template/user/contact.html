@@ -6,7 +6,8 @@
     let _limit = vGet('limit_contact')
     
     try {
-        let _limit = parseInt(_limit)
+        _limit = parseInt(_limit)
+        if (isNaN(_limit)) { _limit = 20 }
     } catch(err) {
         _limit = 20
     }
@@ -832,6 +833,7 @@
     _limitChange = function(limited) {
         $('#limit').find('option').removeAttr('selected')
         $('#limit').find('option[value="' + limited + '"]').attr('selected', true)
+        
         vSet('limit_contact', limited)
     }
     _limitChange(_limit)
@@ -840,6 +842,7 @@
         let limited = $('#limit').find('option:selected').val()
         
         _limitChange(limited)
+        
         location.reload()
     })
 
