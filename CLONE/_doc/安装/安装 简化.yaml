@@ -1,0 +1,104 @@
+项目复制:
+  yum install -y git
+  git clone '.com'
+
+数据库:
+  安装 blog:
+    https://baijiahao.baidu.com/s?id=1653056691945263760&wfr=spider&for=pc
+  用户 权限:
+    https://www.iteye.com/blog/cnjarchen-2221676
+  创建数据库:
+    drop database NAME;
+    CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+  导入数据:
+    cd /root/SMSTask/doc
+    mysqldump -u root -p DB < DB.sql
+  设置自启动:
+    systemctl enable mysqld.service
+
+Nginx:
+  准备工作:
+    sudo yum install epel-release
+    yum update
+  下载:
+    yum install nginx
+  设置自启动:
+    systemctl enable nginx.service
+  配置Conf:
+    cp /root/SMSTask/doc/nginx.http.conf /etc/nginx/conf.d/smstask.conf
+    cp /root/SMSTask/doc/nginx.https.conf /etc/nginx/conf.d/smstask.conf
+
+    改 smstask.conf 里面的 Server Name
+    vim /etc/nginx/conf.d/smstask.conf
+  更改User为 Root:
+    yum install vim
+    vim /etc/nginx/nginx.conf
+  移除 Nginx 默认的配置:
+    删除 nginx.conf 里面默认的一个 80 端口的配置
+
+Python:
+  下载安装:
+    https://www.cnblogs.com/Chan94/p/10660131.html
+  安装依赖:
+    pip3 install -r /root/SMSTask/doc/setup.txt
+  改参数:
+    1:
+      vim /usr/local/lib/python3.6/site-packages/django/db/backends/mysql/base.py
+      第 35, 36 行
+      注释 if version < (1, 3, 1)
+      注释     raise Improperly
+
+    2:
+      vim /usr/local/lib/python3.6/site-packages/django/db/backends/mysql/operations.py
+      第 146 行
+      将 query.decode 改为 query.encode
+
+Settings:
+  进入:
+    vim /root/SMSTask/Twilio/Twilio/company.py
+  数据库连接:
+    database需要改成合适的连接
+  改HOST:
+    host参数需要改成网站的domain
+
+完善工作:
+  数据生成:
+    cd ~/SMSTask/Twilio
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+  添加超级用户:
+    python3 manage.py createsuperuser
+  启动定时:
+    python manage.py crontab add
+
+问题解决:
+  关于mysql用户无权访问IP:
+    https://blog.csdn.net/keplerpig/article/details/78517837
+
+Supervisor:
+  下载安装:
+    yum install supervisor
+  自启动:
+    systemctl enable supervisord
+  修改Conf:
+    vim /etc/supervisord.conf
+    拉到最后一行 *.ini 改成 *.conf
+  复制Conf:
+    cp /root/SMSTask/doc/supervisor.smstask.conf /etc/supervisord.d/xxx.conf
+  修改command:
+    vim /etc/supervisord.d/xxx.conf
+
+安装iptable:
+  安装:
+    https://linuxize.com/post/how-to-install-iptables-on-centos-7/
+  Selinux:
+    vim /etc/selinux/config
+    改 SELINUX=disabled
+  开放端口:
+    https://support.rackspace.com/how-to/use-iptables-with-centos-7/
+  查看配置结果:
+    
+
+安装解压:
+  yum install -y unzip zip
+

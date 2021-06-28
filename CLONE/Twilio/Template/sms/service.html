@@ -1,0 +1,214 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+
+<div class="data-wrapper def-border">
+    <table class="table table-responsive">
+        <thead class="">
+            <tr>
+                <td>
+                    <h4>服務名稱</h4>
+                </td>
+                <td>
+                    <h4>時間規則</h4>
+                </td>
+                <td>
+                    <h4>創建時間</h4>
+                </td>
+                <td align="center">
+                    <h4>模版詳情</h4>
+                </td>
+                <td align="center">
+                    <h4>操作</h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            {% for service in service_list %}
+            <tr>
+                <td><h4 class="text-main">{{ service.named }}</h4></td>
+                <td><h4>{{ service.time_rule }}</h4></td>
+                <td><h4>{{ service.add_time }}</h4></td>
+                <td align="center"><h4><div class="text-main hand d-inline" onclick="serviceShow({{service.id}})">查看</div></h4></td>
+                <td align="center"><h4>
+                    <span class="glyphicon glyphicon-pencil hand text-main" onclick="serviceUpdate({{service.id}})"></span>&nbsp;
+                    <span class="glyphicon glyphicon-trash hand text-main" onclick="serviceTrash({{service.id}})"></span>
+                </h4></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Template -->
+<div class="modal fade" tabindex="-1" id="smsTModel" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button -->
+                <h2 class="modal-title d-inline">服務項目模版詳情</h2>
+
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">關閉</button>
+            </div>
+            <div class="modal-body">
+                <div class="service-h">
+                    <table class="table table-striped">
+                        <tr><td>服務名稱：</td>
+                            <td id="smsT_named"></td>
+                        </tr>
+                        <tr><td>所屬類別：</td>
+                            <td id="smsT_category"></td>
+                        </tr>
+                        <tr><td>時間規則：</td>
+                            <td id="smsT_time_rule"></td>
+                        </tr>
+                    </table>
+                    <ul class="nav nav-tabs" id="smsT_tab_nav">
+                        
+                    </ul>
+                    <div class="tab-content" id="smsT_tab_content">
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const _api = '/api'
+
+    _buildService = function(smsT, lang) {
+        const service = smsT['service']
+        const category = smsT['category']
+
+        $('#smsT_named').html(service['named'])
+        let html = ''
+        const tr = service['time_rule']
+        
+        for (let i= 0; i< tr.length; i++ ) {
+            html += '<span class="text-main">' + _ser_time_rule_belong(parseInt(tr[i])) + '</span>'
+            if (i != (tr.length - 1)) {
+                html += '，'
+            }
+        }
+        $('#smsT_time_rule').html(html)
+
+        $('#smsT_category').html(category['named'])
+
+
+        let language = '中文'
+        if (lang == 'en') { language = '英文' }
+        let nav = '' +
+        '<li role="presentation" class="">' +
+        '    <a href="#smsT_' + lang + '" data-toggle="tab">' + language + '模版</a>' +
+        '</li>'
+
+        $('#smsT_tab_nav').append(nav)
+        
+
+        const content = smsT['content']
+        const content_sub = smsT['content_sub']
+        html = '' +
+        '<div class="tab-pane fade in smsT-content" id="smsT_' + lang + '"><br/>' +
+        '    <h4>首發模版：</h4>' +
+        '    <div>' + content + '</div> <br/><br/>' +
+        '    <h4>後發模版：</h4>' +
+        '    <div>' + content_sub + '</div> <br/><br/><br/>' +
+        '</div>'
+
+        $('#smsT_tab_content').append(html)
+    }
+
+    serviceShow = function(id) {
+        
+        $.ajax({
+            url: _root + _api + '/sms_template/?service=' + id,
+            
+            type: 'GET',
+            success: function(e) {
+                $('#smsT_tab_nav').html('')
+                $('#smsT_tab_content').html('')
+                
+                for (let i= 0; i< e.length; i++ ) {
+                    const smsT = e[i]
+                    let lang = smsT['lang']
+                    if (lang == 1) {
+                        lang = 'cn'
+                    } else if (lang == 2) {
+                        lang = 'en'
+                    }
+                    _buildService(smsT, lang)
+                }
+                $('#smsTModel').modal('show')
+                $('#smsT_tab_nav > li').first().addClass('active')
+                $('#smsT_tab_content > div').first().addClass('active')
+            }
+        })
+    }
+    serviceTrash = function(id) {
+
+        window.event? window.event.cancelBubble = true : e.stopPropagation()
+        try {
+            const addr = prompt('服務項目被刪除後之前與之相關的任務依然會執行，您無法通過刪除服務項目來阻止短信發出。要刪除請輸入登錄電郵：', '')
+
+            if (addr.trim() == '{{ request.session.user }}') {
+                alert('輸入結果匹配成功。')
+            } else {
+                alert('輸入不匹配！撤銷刪除')
+                return
+            }
+        } catch(e) { return }
+        
+        $.ajax({
+            url: _root + '/service/?option=trash&id=' + id,
+            
+            type: 'POST',
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+            },
+            success: function(e) {
+                
+                const status = e['status']
+                if ((status == 'True') | (status == 'true') | (status == true)) {
+                    alert('刪除成功！！！')
+                    location.reload()
+                }
+            },
+            error: function(e) {
+                alert('因網絡波動，刪除失敗！')
+            }
+        })
+    }
+    serviceUpdate = function(id) {
+        location.href = '/service/?option=update&id=' + id
+    }
+</script>
+<style>
+    .smsT-content {
+        min-height: 120px;
+        padding: 0 15px;
+    }
+
+    .smsT-content h4 {
+        color: #9e9e9c;
+    }
+    .service-h {
+        font-size: 18px;
+        margin-top: -15px;
+    }
+    
+    .table tr td:nth-child(1) {
+        width: 30%;
+    }
+    .table tr:nth-child(1),
+    .table tr:nth-child(1) td {
+        border-top: 0px !important;
+    }
+    .tab-pane,
+    .tab-pane:hover {
+        background: white !important;
+    }
+</style>
+{% endblock data %}

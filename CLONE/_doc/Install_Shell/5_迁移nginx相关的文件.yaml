@@ -1,0 +1,7 @@
+更改User为 Root:
+  vim /etc/nginx/nginx.conf
+移除 Nginx 默认的配置:
+  删除 nginx.conf 里面默认的一个 80 端口的配置
+配置Conf:
+  cp /root/SMSTask/doc/nginx.http.conf /etc/nginx/conf.d/smstask.conf
+  cp /root/SMSTask/doc/nginx.https.conf /etc/nginx/conf.d/smstask.conf
