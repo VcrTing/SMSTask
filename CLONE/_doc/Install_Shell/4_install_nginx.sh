@@ -3,11 +3,11 @@ echo ''
 echo ''
 ### Nginx
 echo '准备安装 NGINX'
-yum remove nginx -y
-sudo yum install epel-release
-yum update -y
+yum -y remove nginx
+sudo yum install -y epel-release
+yum -y update
 echo '...'
-yum install nginx -y
+yum -y install nginx
 systemctl enable nginx.service
 echo '安装 完成'
 echo '<======================'
