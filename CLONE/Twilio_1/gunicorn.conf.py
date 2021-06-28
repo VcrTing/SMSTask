@@ -2,7 +2,7 @@ import multiprocessing
 
 from .conf import PORT, DATA_BASE
 
-bind = "0.0.0.0:" + PORT
+bind = "0.0.0.0:8001"
 backlog = 512 #监听队列数量，64-2048
 worker_class = 'sync' # 使用gevent模式，还可以使用sync 模式，默认的是sync模式
 workers = multiprocessing.cpu_count()

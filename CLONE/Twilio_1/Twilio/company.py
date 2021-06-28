@@ -28,7 +28,7 @@ SETTING = {
         'database': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': DATA_BASE,
-            'HOST': DOMAIN,
+            'HOST': 'localhost',
             'PORT': 3306,
             'USER': 'root',
             'PASSWORD': 'VcrTing.ZT123zlt',
