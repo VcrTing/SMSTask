@@ -7,5 +7,7 @@
   # 注释掉也行
 
 配置Conf:
-  cp /root/SMSTask/CLONE/Twilio_1/nginx.http.conf /etc/nginx/conf.d/age.conf
+  cp /root/SMSTask/CLONE/Twilio_1/nginx.http.conf /etc/nginx/conf.d/[NAME].conf
   # cp /root/SMSTask/CLONE/_doc/nginx.https.conf /etc/nginx/conf.d/smstask.conf
+
+  # [NAME] = 项目名称

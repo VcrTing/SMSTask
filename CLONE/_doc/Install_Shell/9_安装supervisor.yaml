@@ -11,4 +11,5 @@
   # *.ini 改成 *.conf
 
 复制Conf:
-  cp /root/SMSTask/CLONE/Twilio_1/supervisor.conf /etc/supervisord.d/xxx.conf
+  cp /root/SMSTask/CLONE/Twilio_1/supervisor.conf /etc/supervisord.d/[NAME].conf  
+  # [NAME] = 项目名称
