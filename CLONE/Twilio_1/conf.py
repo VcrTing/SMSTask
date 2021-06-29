@@ -1,6 +1,6 @@
 
-DOMAIN = 'crm.agegroupltd.com.hk'
-HOST = 'http://crm.agegroupltd.com.hk'
+DOMAIN = 'crm05.svr.up5d.com'
+HOST = 'http://crm05.svr.up5d.com'
 
 PORT = 8001
 
