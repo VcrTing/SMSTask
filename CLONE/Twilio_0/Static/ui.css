@@ -37,10 +37,11 @@
 .glyphicon-pencil {
     color: #0e46a1 !important
 }
+/*
 .glyphicon-trash {
-    color: #a81d10 !important
+    color: #953128 !important
 }
-
+*/
 #previous:hover,
 #next:hover {
     background: #fcfdff !important;
@@ -59,10 +60,10 @@
 }
 
 .text-info {
-    color: #2ecc71 !important;
+    color: #0fad12 !important;
 }
 .text-info:hover {
-    color: #27ae60 !important;
+    color: #128d14 !important;
 }
 .form-tip {
     color: #e74c3c;
@@ -115,28 +116,28 @@
     状态
 */
 .success {
-    color: #27ae60;
+    color: rgb(54, 149, 59);
 }
 .success:hover {
-    color: #2ecc71;
+    color: #3b7c3e;
 }
 .error {
-    color: #e74c3c !important;
+    color: rgb(180, 63, 45) !important;
 }
 .error:hover {
-    color: #c0392b;
+    color: rgb(173, 48, 34);
 }
 .apply {
-    color: #9b59b6;
+    color: #9d47c0;
 }
 .apply:hover {
-    color: #8e44ad;
+    color: #9441b5;
 }
 .complete {
-    color: #f1c40f;
+    color: #d2aa1a;
 }
 .complete:hover {
-    color: #f39c12;
+    color: #e3ba26;
 }
 .red {
     color: #e74c3c;
