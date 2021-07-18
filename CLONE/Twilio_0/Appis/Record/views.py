@@ -132,6 +132,7 @@ class TaskView(View):
                 lang = request.GET.get('lang', 1)
                 for cate in common.CATEGORY:
                     if len(str(cate[0])) == 1:
+                        print('CATE =', cate)
                         category = sms_modles.Category.objects.filter(Q(flag = cate[0]))
                         if category[0]:
                             if category[0].status:

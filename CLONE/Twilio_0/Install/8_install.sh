@@ -8,7 +8,7 @@ echo '数据同步完成'
 echo '...'
 cp ./nginx.http.conf /etc/nginx/conf.d/project.conf
 echo 'Nginx 文件配置完成'
-cp ./supervisor.conf /etc/supervisord.d/project.conf
+cp ./supervisor.ini /etc/supervisord.d/project.ini
 echo 'Supervisor 文件配置完成'
 echo '...'
 echo '准备导入数据，Mysql 密码为:'

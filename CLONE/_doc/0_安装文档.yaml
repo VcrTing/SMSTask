@@ -18,5 +18,6 @@ cd /root/SMSTask/CLONE/_doc/Install_Shell
 
 之后:
   # cd 到项目/Install 文件夹下面
-  sh 8_install.sh
+  cd /root/SMSTask/CLONE
   # 执行 针对项目 的安装
+  sh 8_install.sh
