@@ -1,0 +1,236 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block center %}
+
+{% include 'base/top.html' %}
+{% include 'base/title.html' %}
+<input type="hidden" id="isLogin" value="{% if request.session.isLogin != True %}0{% else %}1{% endif %}"/>
+<script>
+    isLogin = $('#isLogin').val()
+    if (isLogin == 0) {
+        location.href = '/login/'
+    }
+    const _api_name = 'email_collect'
+    const _url = _root + '/api/'
+</script>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <th>
+                        <h4>序號</h4>
+                    </th>
+                    <th>
+                        <h4>服務項目</h4>
+                    </th>
+                    <th>
+                        <h4>接收者</h4>
+                    </th>
+                    <th>
+                        <h4>發送時間</h4>
+                    </th>
+                    <th>
+                        <h4 class="text-center">第幾封</h4>
+                    </th>
+                    <th align="center">
+                        <h4 class="text-center">任務狀態</h4>
+                    </th>
+                    <th align="center">
+                        <h4 class="text-center">更多信息</h4>
+                    </th>
+                    <!-- th align="center">
+                        <h4>操作</h4>
+                    </th -->
+                </thead>
+                <tbody class="tab-content" id="email_collect_more-content">
+                    
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm-12">
+            <div class="flex-action">
+                <button type="button" class="btn btn-primary btn-lg"  onClick="javascript:history.back(-1);">返回</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const contact = [
+        {% for ec in email_collect %}
+        {
+            'id': {{ ec.id }},
+            'service': '{{ ec.email_template.service }}',
+            'named': '{{ ec.email_apply.contact.first_named }}',
+            'addr': '{{ ec.email_apply.contact.email }}',
+            'send_time': '{{ ec.send_time }}',
+            'index': {{ ec.index }},
+            'success_status': '{{ ec.success_status }}',
+            'subject': '{{ ec.email_template.subject }}',
+            'message': '{{ ec.email_template.message }}'
+        },
+        {% endfor %}
+    ]
+    
+    let dataDom = $('#email_collect_more-content')
+    loadData = function() {
+        dataDom.html('')
+        for(var i= 0; i< contact.length; i++ ) {
+            const item = contact[i]
+            const id = item['id']
+            const addr = item['addr']
+            const named = item['named']
+            const send_time = item['send_time']
+            const index = item['index']
+            const success_status = item['success_status']=='False'?false:true
+            const service = item['service']
+
+            const html = '' +
+                '<tr id="tr_' + id + '">' +
+                '    <td><h4>' + (i + 1) + '</h4></td>' +
+                '    <td><h4>' + service + '</h4></td>' +
+                '    <td><div style="height: 4px;"></div><div class="reciver mr-t-half">' +
+                '        ' + named + ' &lt;' + addr + '&gt;</div></td>' +
+                '    <td><h4>' + send_time + '</h4></td>' +
+                '    <td><h4 class="text-center">第' + index + '封</h4></td>' +
+                '    <td align="center"><h4 class="text-center">' + _ser_success_status(success_status) + '</h4></td>' +
+                '    <td align="center"><h4 class="text-center text-main hand" onclick="seeMore(' + id + ')">查看</h4></td>' +
+                // '    <td align="center"><h4><span onclick="sureTrash(' + id + ')" class="glyphicon glyphicon-trash hand text-main"></span></h4></td>' +
+                '</tr>'
+            
+            dataDom.append(html)
+        }
+    }
+    loadData()
+
+    sureTrash = function(id) {
+        window.event? window.event.cancelBubble = true : e.stopPropagation();
+        var flag = confirm("確認要刪除嗎？");
+        if (flag) {
+            $.ajax({
+                url: _root + '/' + _api_name + '/?option=trash',
+                data: {
+                    'id': id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                type: 'POST',
+                headers: {
+                    Accept: "application/json; charset=utf-8",
+                },
+                success: function(e) {
+                    $('#tr_' + id).addClass('danger')
+                    $('#tr_' + id).fadeOut(2000, function() {
+
+                    })
+                },
+                error: function(e) {
+                    alert('刪除失敗！！！請重試')
+                }
+            })
+        }
+    }
+
+    nperList = [
+        {% for nr in nper %}
+            {{ nr | safe }},
+        {% endfor %}]
+
+    _seeMore = function(ec) {
+        const ea = ec['email_apply']
+        const service = ec['email_template']['service']
+        const subject = ec['email_template']['subject']
+        const message = ec['email_template']['message']
+        const category = ec['email_template']['category']['named']
+
+        const index = ec['index']
+        const json_response = ec['json_response']
+        const send_time = _ser_send_time(ec['send_time'], cn = true)
+        const success_status = _ser_success_status(ec['success_status'])
+
+        const addr = ec['email_apply']['contact']['email']
+        const named = ec['email_apply']['contact']['first_named']
+        const visit_time = _ser_send_time(ec['email_apply']['visit_time'], cn = true, short = true)
+        const task_status = _ser_email_status(
+            ec['email_apply']['apply_status'], 
+            ec['email_apply']['send_status'], 
+            ec['email_apply']['over_status']
+        )
+        const time_rule = _ser_email_time_rule(ea['now_time_rule'])
+
+        let nper = ''
+        let first_status = ''
+        
+        if (ea['now_time_rule'] != 0) {
+            nper = '，' + _sel_nper(ea['nper'])
+            first_status = '，' + _sel_first_status(ea['first_status'])
+        }
+
+        const html = '' +
+            '<tr><td align="center" class="ea-td">服務名稱</td><td>' + service + '</td></tr>' +
+            '<tr><td align="center">時間規則</td><td>' + time_rule + nper + first_status + '</td></tr>' +
+            '<tr><td align="center">第幾封</td><td>' + index + '</td></tr>' +
+            '<tr><td align="center">分類</td><td>' + category + '</td></tr>' +
+            '<tr><td align="center">接收者</td><td><div class="reciver">' + named + ' &lt;' + addr + '&gt;</div></td></tr>' +
+            '<tr><td align="center">拜訪時間</td><td>' + visit_time + '</td></tr>' +
+            '<tr><td align="center">任務狀態</td><td>' + task_status + '</td></tr>' +
+            '<tr><td align="center">接收成功？</td><td>' + success_status + '</td></tr>' +
+            // '<tr><td align="center">後臺信息</td><td class="break-word">' + json_response + '</td></tr>' +
+            '<tr><td align="center">郵件標題</td><td>' + subject + '</td></tr>' +
+            '<tr><td align="center">郵件內容</td><td>' + message + '</td></tr>' +
+            '<tr><td align="center">發送時間</td><td>' + send_time + '</td></tr>'
+        return html
+    }
+
+    seeMore = function(id) {
+
+        $.ajax({
+            url: _url + _api_name + '/' + id,
+            type: 'GET',
+            headers: {
+                Accept: "application/json; charset=utf-8",
+            },
+            success: function(e) {
+                $('#more-content').html(_seeMore(e))
+                $('#see_more_modal').modal('show')
+            },
+            error: function(e) {
+                alert('刪除失敗！！！請重試')
+            }
+        })
+    }
+</script>
+
+<!-- 查看詳情 -->
+<div class="modal fade" tabindex="-1" id="see_more_modal" data-id="" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <th colspan="2" class="text-center">
+                            <h3>
+                                記錄詳情清單
+                                <div class="btn btn-default fr" data-dismiss="modal">關閉</div>
+                            </h3>
+                        </th>
+                    </thead>
+                    <tbody id="more-content">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'base/footer.html' %}
+{% endblock center %}
+
+<!-- Css -->
+{% block css %}
+{% endblock css %}
+<!-- Js -->
+{% block js %}
+{% endblock js %}
