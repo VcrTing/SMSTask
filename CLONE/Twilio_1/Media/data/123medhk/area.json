@@ -1,9 +1,5 @@
 [
     {
-        "phoned_prefix": "+86",
-        "named": "大陆"
-    },
-    {
         "phoned_prefix": "+853",
         "named": "澳門"
     },

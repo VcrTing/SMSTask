@@ -1,0 +1,7 @@
+查看 是否支持 https:
+  /usr/local/nginx/sbin/nginx -V
+  # 如果出现 configure arguments: --with-http_ssl_module, 则已安装
+  # 一般现在的 Linux 都 支持
+
+  
+    

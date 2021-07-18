@@ -8,8 +8,15 @@
   alter user 'root'@'localhost' identified by 'VcrTing.ZT123zlt';
 
 赋予权限:
-  change_role="grant all privileges on *.* to 'root'@'%';"
+  grant all privileges on *.* to 'root'@'%';
   # 大概率出错
 
 刷新权限:
   FLUSH PRIVILEGES
+
+新建数据库:
+  CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+  # [NAME] = 数据库名称。
+  
+退出:
+  exit;

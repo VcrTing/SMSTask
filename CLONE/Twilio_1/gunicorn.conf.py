@@ -1,7 +1,5 @@
 import multiprocessing
 
-from .conf import PORT, DATA_BASE
-
 bind = "0.0.0.0:8001"
 backlog = 512 #监听队列数量，64-2048
 worker_class = 'sync' # 使用gevent模式，还可以使用sync 模式，默认的是sync模式
@@ -14,4 +12,4 @@ errorlog = "./log/gunicorn_error.log"
 accesslog = "-" # 访问日志文件，"-" 表示标准输出
 errorlog = "-"
 
-proc_name = DATA_BASE # 进程名
+proc_name = 'twilio' # 进程名
