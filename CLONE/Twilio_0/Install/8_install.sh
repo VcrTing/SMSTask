@@ -24,7 +24,6 @@ echo '2. 如果需要 切换Sms Api收费源，链接为: 域名/scret_window/op
 echo '3. 登录后台，操作您需要的数据'
 echo ''
 echo ''
-echo '我们已经执行了 Reboot'
-reboot
+echo '但是，先需要执行了 Reboot'
 echo ''
 echo '<======================'

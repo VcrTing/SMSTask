@@ -35,12 +35,12 @@
 }
 
 .glyphicon-pencil {
-    color: #0e46a1 !important
+    color: #0a6ba3 !important
+}
+.glyphicon-trash {
+    color: #0a6ba3 !important
 }
 /*
-.glyphicon-trash {
-    color: #953128 !important
-}
 */
 #previous:hover,
 #next:hover {
@@ -128,13 +128,13 @@
     color: rgb(173, 48, 34);
 }
 .apply {
-    color: #9d47c0;
+    color: #696969de;
 }
 .apply:hover {
-    color: #9441b5;
+    color: #7a7a7ade;
 }
 .complete {
-    color: #d2aa1a;
+    color: #e0ba30;
 }
 .complete:hover {
     color: #e3ba26;
@@ -152,6 +152,16 @@
 .del:hover {
     color: #95a5a6;
 }
+
+.del,
+.red,
+.error,
+.apply,
+.success,
+.complete {
+    transition: all .4s;
+}
+
 
 /*
     Category Panel

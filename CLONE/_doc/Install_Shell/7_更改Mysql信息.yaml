@@ -20,3 +20,6 @@
   
 退出:
   exit;
+
+准备安装:
+  cd /root/SMSTask/CLONE
