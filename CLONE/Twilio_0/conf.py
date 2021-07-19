@@ -4,10 +4,11 @@ HOST = 'http://crm05.svr.up5d.com'
 
 PORT = 8001
 
-DATA_BASE = 'agegroupltd'
+DATA_BASE = 'sms'
 
-EMAIL_NAME = 'Agegroupltd'
-COMPANY_NAME = 'Agegroupltd'
+EMAIL_NAME = 'AGE'
+COMPANY_NAME = 'Age Group Limited'
+EMAIL_REPLAY_TO = 'agecuisineexpress@gmail.com'
 
 LAYOUT = {
     'sms': 1,
