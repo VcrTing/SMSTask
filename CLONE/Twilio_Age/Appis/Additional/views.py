@@ -158,7 +158,8 @@ class EmailView(View):
                                 } for et in ets
                             ]
                         })
-                api, dom, sender = get_conf('mailgun')
+                # api, dom, sender = get_conf('mailgun')
+
                 time_rule = [
                     {
                         'val': tr[0],
@@ -171,7 +172,7 @@ class EmailView(View):
                         'page_flag': self.page_flag,
                         'page_flag_sub': self.page_flag + '_add',
                         'email_template_list': res,
-                        'reply': sender,
+                        'reply': settings.EMAIL_REPLAY_TO,
                         'time_rule': time_rule,
                         'nper': nper
                     }
