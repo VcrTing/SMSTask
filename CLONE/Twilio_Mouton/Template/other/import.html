@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load staticfiles %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <title>
+            {{ title }}
+        </title>
+        <link rel="icon" href="{% static 'Common/Icon/default.jpg' %}" type="image/x-icon"/>
+    </head>
+    <body>
+        <script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'jquery3.js' %}"></script>
+        <script  type="text/javascript" src="{% static 'conf.js' %}"></script>
+        <h3 onclick="home()">數據處理通道</h3>
+        <center>
+            <div id="app">
+                <div class="outter">
+                    <!-- div class="form-ele">
+                        <div>
+                            <select v-model="named" id="named" class="conf-select">
+                                <option value="eye">眼鏡中心 Eye</option>
+                                <option value="123medhk">醫務中心 123Medhk</option>
+                            </select>
+                        </div>
+                    </div -->
+                    <div class="form-ele">
+                        <div>
+                            <h3 class="wait">&nbsp;</h3>
+                            <select v-model="working" id="working" class="conf-select">
+                                <option value="0">-- 選擇文件 --</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                    <div class="btn submit" v-on:click="submit">
+                        Import
+                    </div>
+                    <div class="btn download">
+                        Download
+                    </div>
+                    <div class="panel"></div>
+                    {% csrf_token %}
+                </div>
+            </div>
+        </center>
+        <script>
+            const _root = head + '{{ request.get_host }}'
+            const def = '<option value="0">-- 選擇文件 --</option>'
+            const typed = '{{typed}}'
+            loadWorking = function(working) {
+                $('#working').html('')
+                $('#working').append(def)
+                for (let i= 0; i< working.length; i++ ) {
+                    const item = working[i]
+                    const html = '<option value="' + item + '">' + item + '</option>'
+                    $('#working').append(html)
+                }
+            }
+            waiting = function(f) {
+                if (f) {
+                    $('.wait').html('Waiting...')
+                } else {
+                    $('.wait').html('&nbsp;')
+                }
+            }
+            waiting(false)
+
+            panel = function(res) {
+                $('.panel').html(res)
+            }
+            var v = new Vue({
+                el: '#app',
+                data: {
+                    company: '{{request.session.company}}',
+                    working: [],
+                    files: []
+                },
+                methods: {
+                    _submit(itemF) {
+                        console.log(itemF)
+                        waiting(true)
+                        $.ajax({
+                            url: _root + '/import/?option=import',
+                            data: itemF,
+                            type: 'POST',
+                            headers: {
+                                Accept: "application/json; charset=utf-8",
+                            },
+                            beforeSend:function(xhr, settings){
+                                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                            },
+                            success: function(e) {
+                                waiting(false)
+                                
+                                let html = e['index'] + '个数据导入成功。    ' + '返回结果是: '
+                                const l = e['rec']
+                                panel( html )
+                                if ((l.length < 500) && (l.length > 0)) {
+                                    console.log('e["rec"] = ', e['rec'].length)
+                                    for (let i= 0; i< l.length; i++ ) {
+                                        console.log('item =', l[i])
+                                        $('.panel').append(
+                                            'id = ' + l[i]['id'] + ' res = ' + l[i]['rec'] + '。    '
+                                        )
+                                    }
+                                } 
+                                if (l.length < 1) {
+                                    $('.panel').append('全部成功！！！')
+                                }
+
+                                if (e['status']) {
+
+                                } else {
+                                    alert('錯誤！！！')
+                                }
+                            },
+                            error: function(e) {
+                                wait(false)
+                                alert('服務器錯誤！！！')
+                            }
+                        })
+                    },
+                    submit() {
+                        console.log('working =', this.working)
+                        if (this.working.length > 0) {
+                            this._submit({
+                                'file': this.working,
+                                'typed': typed
+                            })
+                        }
+                    },
+                    loadFile() {
+                        console.log(_root + '/import/?option=load&typed=csv')
+                        $.ajax({
+                            url: _root + '/import/?option=load&typed=csv',
+                            type: 'POST',
+                            headers: {
+                                Accept: "application/json; charset=utf-8",
+                            },
+                            beforeSend:function(xhr, settings){
+                                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                            },
+                            success: function(e) {
+                                if ((e['status'] == 'true') || (e['status'] == true)) {
+                                    this.working = e['files']
+                                    loadWorking(this.working)
+                                } else {
+                                    alert('錯誤！！！')
+                                }
+                            }
+                        })
+                    }
+                },
+                created() {
+                    this.loadFile()
+                },
+            })
+            home = function() {
+                location.href = '/'
+            }
+        </script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                background-image: url('{% static "pool.jpg" %}');
+            }
+            h3 {
+                color: #f5f5f5;
+                margin-left: 12px;
+            }
+            #app {
+                display: block;
+                margin-top: 20vh;
+            }
+            .form-ele div {
+                display: inline;
+                margin: 6px;
+            }
+            .form-ele span {
+                color: #f5f5f5;
+            }
+            .btn {
+                padding: 8px 28px;
+                background: none;
+                border: 1px solid white;
+                border-radius: 28px;
+                display: inline;
+                transition: all .3s;
+                cursor: pointer;
+            }
+            select {
+                width: 100%;
+
+            }
+            input, select {
+                padding: 8px 12px;
+                width: 240px;
+                margin: 6px;
+                border: none;
+                background-color: none !important;
+                border-bottom: 1px solid rgb(255, 174, 200);
+                transition: all .1s;
+            }
+            input:focus, select:focus
+            input:hover, select:hover
+            input:active, select:active {
+                border-color: rgb(218, 71, 117);
+                outline: none;
+                background-color: none !important;
+            }
+            .submit {
+                background-color: rgb(255, 174, 200);
+                color: white;
+                border-color: rgb(255, 174, 200);
+            }
+            .submit:hover {
+                background-color: rgb(240, 140, 172);
+                border-color: rgb(240, 140, 172);
+            }
+            .download {
+                border-color: rgb(0, 168, 243);
+                color: rgb(0, 168, 243);
+                margin-left: 15px;
+            }
+            .space {
+                height: 15px;
+            }
+
+            .wait {
+                text-align: center;
+                color: white;
+            }
+            .panel {
+                padding: 30px 15px;
+                margin: 30px 0px;
+                border-radius: 8px;
+                border: 1px solid #cccccc;
+                background: rgba(255, 255, 255, 0.8);
+                width: 50%;
+                transition: all 1s;
+            }
+            .panel:hover {
+                background: rgba(255, 255, 255, 0.85);
+            }
+        </style>
+    </body>
+</html>

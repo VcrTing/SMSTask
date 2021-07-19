@@ -1,0 +1,2 @@
+
+const head = 'http://'

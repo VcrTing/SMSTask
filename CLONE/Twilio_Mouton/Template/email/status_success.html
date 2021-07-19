@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+{% block center %}
+<meta http-equiv=refresh content="10;url=/email/">
+{% include 'base/top.html' %}
+{% include 'base/title.html' %}
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-6">
+            <h2>
+                多項電郵任務申請成功！！！
+            </h2>
+            <div class="space"></div>
+            <h3>
+                總共申請<a href>{{ count }}</a>項，成功申請<a href>{{ success }}</a>項。
+            </h3>
+            <h3>
+                請稍後幾分鐘，任務將會依次執行。首封郵件就會發出，之後郵件任務就會在後臺生成任務隊列
+            </h3>
+            <h4>
+                註：已發送的郵件無法撤銷
+            </h4>
+            <div class="space"></div>
+            <a class="btn btn-default btn-lg" role="button" href="/contact/">
+                返回聯系人
+            </a>
+            <a class="btn btn-primary btn-lg" role="button" href="/email/">
+                查看任務
+            </a>
+            <div class="space"></div>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+<style>
+.space {
+    height: 15px;
+}
+</style>
+{% include 'base/footer.html' %}
+{% endblock center %}
+
+<!-- Css -->
+{% block css %}
+{% endblock css %}
+<!-- Js -->
+{% block js %}
+{% endblock js %}

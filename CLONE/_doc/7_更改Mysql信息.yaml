@@ -12,7 +12,7 @@
   # 大概率出错
 
 刷新权限:
-  FLUSH PRIVILEGES
+  FLUSH PRIVILEGES;
 
 新建数据库:
   CREATE DATABASE sms DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;

@@ -4,7 +4,7 @@ yum install -y vim
 cd ~
 mv SMSTask OLDER_SMSTask
 git clone 'https://www.github.com/VcrTing/SMSTask.git'
-cd /root/SMSTask/CLONE/_doc/Install_Shell
+cd /root/SMSTask/CLONE/_doc
 ls
 
 之后:

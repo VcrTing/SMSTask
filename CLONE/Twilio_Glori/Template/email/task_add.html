@@ -1,0 +1,346 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+
+<script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
+<script>
+    const _api = '/api'
+    // let jsms_num = 0
+    // let twilio_num = 0
+    // let twilio_currency = 'USD'
+    
+</script>
+<div class="">
+    <div class="row">
+        <div class="col-sm-12" id="app">
+            <div class="home-space"></div>
+
+            <form class="row" id="form-submit" method="post" action="">
+                <!-- div class="form-group form-group-lg col-sm-2">
+                    <label for="cycle" class="control-label">作業期限：</label>
+                    <select class="form-control def-select" v-model="cycle" id="cycle">
+                        <option value="3" >3年</option>
+                        <option value="4" >4年</option>
+                        <option value="5" >5年</option>
+                        <option value="0" >無期限</option>
+                    </select>
+                </div -->
+                <div class="form-group form-group-lg col-sm-4">
+                    <label for="visit_time" class="control-label">
+                        到訪日子：
+                        <span id="visit_time_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                    </label>
+                    <input type="text" class="form-control" id="visit_time" placeholder="年月日">
+                </div>
+                <div class="form-group form-group-lg col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6" id="email_label">
+                            <label for="email" class="control-label">
+                                電郵：
+                                <div class="d-inline" id="fx_contact"></div>
+                            </label>
+                            <input type="email" class="form-control" id="email" onblur="loadContact()" placeholder="電郵地址">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="area" class="control-label">接收者：</label>
+                            <input class="form-control" id="named" placeholder="姓名" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-group-lg col-sm-12 mr-t-half">
+                    <label for="category" class="control-label">選擇模版：</label>
+                    <div class="row category-gate" id="email_template-shower">
+                        
+                    </div>
+                </div>
+                <div class="form-group form-group-lg  col-sm-12 mr-t-main">
+                    <div class="flex-action">
+                        <button type="button" class="btn btn-default btn-lg"  onclick="javascript:history.back(-1);">返回</button>
+                        <h4 class="d-inline">or</h4>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="validate()">下壹步</button>
+                    </div>
+                </div>
+                <input type="hidden" id="email_template" name="email_template">
+                <input type="hidden" id="time_rule" name="time_rule">
+                <input type="hidden" id="newer" name="newer">
+                <input type="hidden" id="nper" name="nper">
+                <input type="hidden" id="first_status" name="first_status">
+                <div class="v-hidden" onclick="submit()" id="submitTask"></div>
+                {% csrf_token %}
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    _et = function() {
+        const email_template = $('#email_template').val()
+        $.ajax({
+            url: _root + _api + '/email_template/' + email_template,
+            type: 'GET',
+            headers: {
+                Accept: "application/json; charset=utf-8",
+            },
+            success: function(e) {
+                $('#preview_subject').val(
+                    e['subject']
+                )
+                $('#preview_message').html(
+                    e['message']
+                )
+                
+                $('#new_time_rule').removeAttr('selected')
+                $('#new_time_rule').find('option[value="' + e['time_rule'] + '"]').attr('selected', true)
+
+                newTimeRule()
+            }
+        })
+    },
+    _lc = function(addr) {
+        
+        $.ajax({
+            url: _root + _api + '/contact/?format=json&status=True&email=' + addr,
+            type: 'GET',
+            headers: {
+                Accept: "application/json; charset=utf-8",
+            },
+            success: function(e) {
+                
+                try {
+                    const named = e[0]['first_named']
+                    
+                    $('#fx_contact').html('<span class="success fs-14">已存在該用戶</span>' )
+                    $('#named').val(named)
+
+                    $('#newer').val(false)
+                } catch(e) {
+                    
+                    $('#fx_contact').html('<span class="fs-14" style="color: red">新用戶</span>'  )
+
+                    $('#newer').val(true)
+                }
+            }
+        })
+    }
+    
+    preview = function() {
+        const named = $('#named').val()
+        const addr = $('#email').val()
+        const time_rule = $('#time_rule').val()
+        
+        // 資料
+        $('#preview_named').html(named)
+        $('#preview_email').html(addr)
+        $('#preview_time_rule').html(
+            _ser_email_time_rule(parseInt(time_rule))
+        )
+        
+        // 拜訪時間
+        const visit_time = $('#visit_time').val()
+        if ($.trim(visit_time) == '') {
+            alert('到訪時間應不為空！！！')
+            return
+        }
+        $('#preview_visit_time').val(visit_time)
+
+        _et()
+
+        $('#preview_modal').modal('show')
+    }
+        
+    validate = function() {
+        const named = $('#named').val()
+        const addr = $('#email').val()
+
+        $('#email_label').click()
+
+        const val_named = _valide_named(named)
+        if (val_named != true) { alert(val_named); return }
+
+        const val_email = _val_email(addr)
+        if (val_email != true) { alert(val_email); return }
+
+        const email_template = $('#email_template').val()
+        if (email_template == '') {
+            alert('請選擇壹項服務！！！')
+            return
+        }
+
+        const xss_named = xss(named)
+        if (xss_named != true) { alert(xss_named); return }
+                
+        preview()
+    }
+    submit = function() {
+        if (!confirm('無需再檢查輸入的資料，立即提交？')) {
+            return
+        }
+        const data = {
+            'named': $('#named').val(),
+            'addr': $('#email').val(),
+            'newer': $('#newer').val(),
+            'time_rule': $('#time_rule').val(),
+            'nper': $('#nper').val(),
+            'first_status': $('#first_status').val(),
+            'email_template': $('#email_template').val(),
+            'visit_time': $('#visit_time').val(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        }
+        
+        $.ajax({
+            url: _root + '/email_apply/?option=add',
+            data: data,
+            type: 'POST',
+            headers: {
+                Accept: "application/json; charset=utf-8",
+            },
+            success: function(e) {
+                if (e['status'] == false) {
+                    if (e['msg'] == 'xss') {
+                        location.href = '/danger/?option=xss'
+                    }
+                }
+                
+                const id = e['id']
+                if (id) {
+                    location.replace('/email_apply/?option=success&id=' + e['id'])
+                } else { alert('網絡出錯！！！') }
+            },
+            error: function(e) {
+                alert('請檢查輸入字段是否有誤！')
+            }
+        })
+    }
+
+    loadContact = function() {
+        const addr = $.trim($('#email').val())
+        
+        if (addr != '') {
+            _lc(addr)
+        } else {
+            $('#fx_contact').html('')
+        }
+    }
+    
+laydate.render({
+    elem: '#visit_time',
+    lang: 'en',
+    theme: '#46b8da',
+    eventElem: '#visit_time_laydate',
+    trigger: 'click',
+    value: _now(),
+    showBottom: false,
+    done: function(value, date){
+        
+    }
+});
+
+let oldId = 0
+_activeSms = function(id, old_id, cls_name = 'sms-active') {
+    $('#item_' + id).addClass(cls_name)
+    $('#item_' + old_id).removeClass(cls_name)
+}
+chooseSms = function(id) {
+    if (id != oldId) {
+        _activeSms(id, oldId)
+    }
+    oldId = id
+    $('#email_template').val(id)
+    $('#time_rule').val($('#item_' + id).data('timerule'))
+}
+
+const email_template_list = eval({{ email_template_list|safe }});
+
+loadTemplate = function() {
+    if (email_template_list == []) {
+        alert('暫無電郵服務項目，無法新增電郵任務！！！')
+        return
+    }
+    $('#email_template-shower').html('')
+    for (var i= 0; i< email_template_list.length; i++ ) {
+        const category = email_template_list[i]['k']
+        const ets = email_template_list[i]['v']
+        
+        let serviceHtml = '' +
+            '<div class="col-sm-4">' +
+            '    <h4 class="mr-t-main" style="font-weight: 400; margin-bottom: 0px;">' + category + '</h4>' 
+
+        for(var j= 0; j< ets.length; j++ ) {
+            const id = ets[j]['id']
+            const named = ets[j]['service']
+            const time_rule = ets[j]['time_rule']
+
+            serviceHtml +=
+                '<div class="item-outter">' +
+                '    <div class="item-wrapper">' +
+                '        <div class="item hand" data-timerule="' + time_rule + '" id="item_' + id + '" onclick="chooseSms(' + id + ')">' + named + '</div>' +
+                '    </div>' +
+                '</div>'
+        }
+        serviceHtml += '</div>'
+        $('#email_template-shower').append(serviceHtml)
+    }
+}
+loadTemplate()
+
+</script>
+
+<style>
+    .text-light {
+        color: #9e9e9e;
+    }
+.preview-title-row {
+    background: #f5f5f5;
+}
+#preview_every_task .form-group {
+    margin-bottom: 0px;
+}
+#preview_every_task .collapse {
+    margin-bottom: 14px;
+}
+#preview_every_task form {
+    margin-bottom: 1px;
+}
+.form-in-p {
+    padding-top: 5px;
+    padding-bottom: -7.5px;
+}
+.item-wrapper {
+    height: auto !important;
+    border: 1px solid #ccc;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .07);
+    color: #555;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.item {
+    padding: 15px 15px;
+    border-top: 1px solid #eeeeee;
+}
+.item:hover {
+    background: rgb(252, 252, 252);
+}
+.category-gate h4 {
+    padding: 20px;
+    border-radius: 6px;
+    margin-top: 0px;
+}
+.category-gate > div:nth-child(1) > h4 {
+    background: lightgreen;
+}
+.category-gate > div:nth-child(2) > h4 {
+    background: lightblue;
+}
+.category-gate > div:nth-child(3) > h4 {
+    background: pink;
+}
+@media screen and (min-width: 768px) {
+    .item-outter {
+        
+    }
+}
+</style>
+{% include 'email/task_preview.html' %}
+
+{% endblock data %}
