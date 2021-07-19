@@ -1,0 +1,21 @@
+echo '===========================>'
+sh ./Install_Shell/1_install_mysql.sh
+echo ''
+echo ''
+sh ./Install_Shell/2_install_nginx.sh
+echo ''
+echo ''
+sh ./Install_Shell/3_install_python.sh
+echo ''
+echo ''
+sh ./Install_Shell/4_change_python.sh
+echo ''
+echo ''
+sh ./Install_Shell/5_install_supervisor.sh
+echo ''
+echo ''
+sh ./Install_Shell/6_install_certbot.sh
+echo ''
+echo ''
+echo '<==========================='
+
