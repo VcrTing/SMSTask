@@ -159,6 +159,7 @@ class EmailView(View):
                             ]
                         })
                 # api, dom, sender = get_conf('mailgun')
+
                 time_rule = [
                     {
                         'val': tr[0],

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from django.forms.models import model_to_dict
+from django.forms.models import construct_instance, model_to_dict
 from django.db.models.query import QuerySet
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
@@ -279,6 +279,7 @@ class ContactView(View):
         bith = request.POST.get('bith', None)
         tags = request.POST.get('tags', None)
 
+        # print('经过后台')
         if danger.xss(first_named):
             return JsonResponse({ 'status': False, 'msg': 'xss' })
 

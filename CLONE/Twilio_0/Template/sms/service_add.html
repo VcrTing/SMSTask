@@ -310,7 +310,7 @@
                     alert('請至少選擇一個時間規則！')
                     return 
                 }
-
+                console.log(this.content, '----')
                 val_thing = _valide_text(this.content, '中文首發模版內容')
                 if (val_thing != true) { alert(val_thing); return }
 
