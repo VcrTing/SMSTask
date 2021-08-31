@@ -1,0 +1,267 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+
+<link rel="stylesheet" href="{% static 'plugin/summernote/summernote.min.css' %}"/>
+<script src="{% static 'plugin/summernote/summernote.min.js' %}"></script>
+<script src="{% static 'plugin/summernote/lang/summernote-zh-TW.js' %}"></script>
+
+<script  type="text/javascript" src="{% static 'vue.min.js' %}"></script>
+
+<script>
+    
+    const _api = _root + '/api/'
+</script>
+
+<div class="row" id="app">
+    <!--
+    <div class="row">
+        <div class="col-sm-12"> -->
+            <div class="">
+                <div class="col-sm-5">
+                    <div class="form">
+                        <div class="form-group form-group-lg">
+                            <label for="service" class="control-label">服務名稱：</label>
+                            <input type="text" class="form-control" v-model="service" id="service">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form">
+                        <div class="form-group form-group-lg">
+                            <label for="category" class="control-label">選擇分類：</label>
+                            <select class="form-control" v-model="category" id="category">
+                                {% for cate in category %}
+                                <option value="{{ cate.flag }}">{{ cate.named }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form">
+                        <div class="form-group form-group-lg">
+                            <label for="time_rule" class="control-label">時間規則：</label>
+                            <select class="form-control" id="time_rule" v-model="time_rule">
+                                {% for i in time_rule %}
+                                    <option value="{{ i.value }}">{{ i.view }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form">
+                        <div class="form-group form-group-lg">
+                            <label for="subject" class="control-label">電郵標題：</label>
+                            <input type="text" class="form-control" id="subject"  v-model="subject">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form">
+                        <div class="form-group form-group-lg">
+                            <label for="summernote" class="control-label">電郵內容：</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+
+                    <textarea id="summernote" class="editor" v-model="message">
+        
+                    </textarea>
+                </div>
+            </div>
+            <div class="row content-help" id="content_help">
+        
+            </div>
+        <!--
+        </div>
+        <div class="col-sm-3">
+            <table class="table table-striped mr-t-main-r">
+                <thead>
+                    <th>
+                        <h4>已有模版</h4>
+                    </th>
+                </thead>
+                <tbody class="">
+                    {% if email_template %}
+                        {% for t in email_template %}
+                        <tr>
+                            <td><a class="hand">{{ t.service }}</a></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr align="center">
+                            <td height="60">
+                                <div class="mr-t-main"></div>
+                                <a class="hand">暫無模版</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+    </div> 
+        </div>-->
+    <div class="form-group form-group-lg  col-sm-12 mr-t-main">
+        <div class="flex-action">
+            <button type="button" class="btn btn-default btn-lg"  onClick="back()">返回</button>
+            <h4 class="d-inline">or</h4>
+            <button type="button" class="btn btn-primary btn-lg" @click="validate()">立即提交</button>
+        </div>
+    </div>
+</div>
+
+<!-- VUE -->
+<script>
+    // VUE
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            service: '',
+            category: 21,
+            time_rule: 0,
+            subject: '',
+            message: '',
+            category_flag: 21,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            status: true
+        },
+        created() {
+            // this.category = this.couponList[0].id;
+        },
+        methods: {
+            validate() {
+
+                if ($('#summernote').summernote('isEmpty')) {
+                    // 是空的
+                } else {
+                    this.message = $('#summernote').summernote('code')
+                }
+                
+                const val_service = _valide_text(this.service, '服務名稱')
+                if (val_service != true) { alert(val_service); return }
+
+                const val_subject = _valide_text(this.subject, '電郵標題')
+                if (val_subject != true) { alert(val_subject); return }
+
+                const val_message = _valide_message(this.message)
+                if (val_message != true) { alert(val_message); return }
+
+                const xss_service = xss(this.service)
+                if (xss_service != true) { alert(xss_service); return }
+                const xss_subject = xss(this.subject)
+                if (xss_subject != true) { alert(xss_subject); return }
+                const xss_message = xss(this.message)
+                if (xss_message != true) { alert(xss_message); return }
+
+                this.category_flag = this.category
+                
+                this.message = _sel_iframe(this.message)
+                console.log('走到这')
+                this.submit()
+            },
+            submit() {
+                $.ajax({
+                    url: _root + '/email_template/?option=add',
+                    data: this._data,
+                    type: 'POST',
+                    headers: {
+                        Accept: "application/json; charset=utf-8",
+                    },
+                    success: function(e) {
+                        if (e['status'] == false) {
+                            if (e['msg'] == 'xss') {
+                                location.href = '/danger/?option=xss'
+                            }
+                        }
+                        
+                        location.href = '/email_template/'
+                    },
+                    error: function(e) {
+                        alert('請檢查輸入字段是否有誤！')
+                    }
+                })
+            },
+        },
+    })
+    
+</script>
+
+<!-- 編輯器 -->
+<script>
+    $('#summernote').summernote({
+        placeholder: '',
+        tabsize: 2,
+        height: 240,
+        minHeight: 90,
+        maxHeight: 800,
+        lang: 'zh-TW',
+        codemirror: {
+            theme: 'yeti'
+        },
+        callbacks: {  
+            onImageUpload: function(files, editor, $editable) {  
+                sendFile(
+                    files[0],
+                    editor,
+                    $editable
+                );  
+            }  
+        }
+    });
+
+
+
+    back = function() {
+        if (confirm('確定要返回嗎？')) {
+            javascript:history.back(-1);
+        }
+    }
+
+</script>
+
+<!-- 媒体库 -->
+<div class="modal fade" tabindex="-1" id="media_modal" data-id="" role="dialog">
+    <div class="modal-dialog modal-lg" role="document" data-backdrop="static" data-keyboard="false">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="d-inline">
+                    媒體庫
+                </h4>
+                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="choise_media">確認選擇</button>
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">關閉</button>
+            </div>
+            <div class="modal-body">
+                <div class="def-iframe">
+                    <iframe id="library" src=""></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        openLibrary = function() {
+            $('#media_modal').modal( {
+                backdrop: "static",
+                show: true
+            })
+            $('#library').attr('src', _root + '/img/?option=choise')
+        }
+        $('#choise_media').click(function() {
+            const origin = $('#library')[0].contentWindow.getOriginMedia('img')
+            
+            $('.note-image-url').val(origin)
+            $('.note-image-btn').removeAttr('disabled')
+
+            $('#media_modal').modal('hide')
+        })
+    </script>
+</div>
+
+<style>
+    
+    .br {
+        border: 1px solid pink !important;
+    }
+</style>
+{% endblock data %}

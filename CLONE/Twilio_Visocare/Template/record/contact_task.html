@@ -1,0 +1,445 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<!-- 提示信息 -->
+<div id="sms_num_dom"></div>
+<!-- 聯系人列表 -->
+<div class="row">
+    <div class="col-sm-12">
+        <h4>所選聯系人：</h4>
+        <ul class="tasker" id="tasker_list">
+        </ul>
+    </div>
+</div>
+<!-- 選單列表 -->
+<div class="row mr-t-main">
+    <div class="col-sm-12 clearfix">
+        <h4 class="d-inline fl">請選擇服務：</h4>
+        <div class="fr mr-t-main">
+            <h4 class="d-inline">短信語言：</h4>
+            <div class="d-inline hand" id="lang_hk_txt" onclick="langManager(1)">
+                繁體
+            </div>
+            <div class="d-inline shu-diliver">
+                |
+            </div>
+            <div class="d-inline hand" id="lang_en_txt" onclick="langManager(2)">
+                英文
+            </div>
+        </div>
+    </div>
+    <!-- Change col-sm-3 to the col-sm-4 即可一行4个变一行3个 -->
+    <div class="col-sm-12">
+        <div class="row" id="category_gate">
+            {% for category in category_list %}
+                    {% if category_list|length > 3 %}
+                        <div class="col-sm-3">
+                        {% else %}
+                        <div class="col-sm-4">
+                    {% endif %}
+                <h4 class="mr-t-main" style="font-weight: 400;">{{ category.named }}</h4>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div id="sms_hk_outter" class="sms_outter">
+            <div class="row">
+                {% for sms_templates in sms_list_hk %}
+                        {% if sms_list_hk|length > 3 %}
+                            <div class="col-sm-3">
+                            {% else %}
+                            <div class="col-sm-4">
+                        {% endif %}
+                    {% if sms_templates %}
+                        <div class="item-wrapper">
+                        {% for sms in sms_templates %}
+                            <div class="item hand" id="item_{{ sms.id }}" onclick="chooseSms({{ sms.id }})">{{ sms.service.named }}</div>
+                        {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>暫無選項</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div id="sms_en_outter" class="sms_outter">
+            <div class="row">
+                {% for sms_templates in sms_list_en %}
+                        {% if sms_list_en|length > 3 %}
+                            <div class="col-sm-3">
+                            {% else %}
+                            <div class="col-sm-4">
+                        {% endif %}
+                    {% if sms_templates %}
+                        <div class="item-wrapper">
+                        {% for sms in sms_templates %}
+                            <div class="item hand" id="item_{{ sms.id }}" onclick="chooseSms({{ sms.id }})">{{ sms.service.named }}</div>
+                        {% endfor %}
+                        </div>
+                        {% else %}
+                        <p>暫無選項</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="flex-action">
+    <button type="button" class="btn btn-default btn-lg" onclick="taskerBack()">返回</button>
+    <h4 class="d-inline">or</h4>
+    <button type="button" class="btn btn-primary btn-lg" onclick="taskerSubmit()">立刻提交</button>
+</div>
+
+<!-- Loading -->
+<div class="modal" tabindex="-1" id="tasker_loading" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg text-center" role="document" data-backdrop="static">
+        <h3 class="text-white loading"><div><span class="glyphicon glyphicon-refresh"></span></div></h3>
+        <br/>
+        <p class="mr-t-main text-white">運行中，僅需幾秒，請耐心等待。</p>
+    </div>
+</div>
+<!-- Privew -->
+<div class="modal fade" tabindex="-1" id="tasker_preview" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- button type="button" class="close btn-lg" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button -->
+                <h1 class="modal-title d-inline">短信服務審核單</h1>
+
+                <button type="button" class="btn btn-primary btn-lg fr mr-l-half" id="submit">立即提交</button>
+                <button type="button" class="btn btn-default btn-lg fr" data-dismiss="modal">返回更改</button>
+            </div>
+            <div class="modal-body">
+                
+                <h3 class="text-center">
+                    任務信息
+                </h3>
+                <hr/>
+                <form class="form-horizontal">
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">發送數量信息：</label>
+                        <div class="col-sm-9">
+                            <span class="text-main"><h4 id="preview_task_num" class="form-in-p"></h4></span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">所選服務：</label>
+                        <div class="col-sm-9">
+                            <input type="text" disabled class="form-control" id="preview_service">
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg">
+                        <label class="col-sm-3 control-label">時間規則：</label>
+                        <div class="col-sm-9">
+                            <span class="text-main"><h4 id="preview_time_rule" class="form-in-p"></h4></span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-lg" id="ptrc_tr">
+                        <label class="col-sm-3 control-label">啟用那種時間規則：</label>
+                        <div class="col-sm-9">
+                            <h4 id="preview_time_rule_active"></h4>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-main hand" onclick="contentCollapse()">查看模版内容？</span>
+                    </div>
+                    <div class="collapse" id="content_collapse">
+                        <div class="form-group form-group-lg mr-t-main">
+                            <label class="col-sm-3 control-label">首發模版：</label>
+                            <div class="col-sm-9">
+                                <textarea id="preview_content" disabled class="form-control" rows="5">
+                                </textarea>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-lg" id="pcs_tr">
+                            <label class="col-sm-3 control-label">後發模版：</label>
+                            <div class="col-sm-9">
+                                <textarea id="preview_content_sub" disabled class="form-control" rows="5">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const tasker_list = $('#tasker_list')
+
+    contentCollapse = function() {
+        $('#content_collapse').toggle()
+    }
+
+    loading = function(f = true) {
+        if (f) {
+            $('#tasker_loading').modal('show')
+        } else {
+            $('#tasker_loading').modal('hide')
+        }
+    }
+    
+    taskerPreview = function(len, st) {
+
+        $.ajax({
+            url: _root + '/api/sms_template/' + st + '/',
+            type: 'GET',
+            success: function(res) {
+                
+                const service = res['service']['named']
+                const time_rule = res['service']['time_rule']
+                const content = res['content']
+                const content_sub = res['content_sub']
+                
+                let tr = []
+                let html = ''
+                for(let i= 0; i< time_rule.length; i++ ) {
+
+                    const r = _ser_time_rule_belong(parseInt(time_rule[i]))
+                    
+                    html += '' +
+                        '<div class="checkbox d-inline mr-r-main">' +
+                        '    <label>' +
+                        '        <input type="checkbox" checked name="tr_active" value="' + time_rule[i] + '">' + 
+                        r +
+                        '    </label>' +
+                        '</div>'
+                    
+                    if (i > 0) {
+                        tr.push('，' + r)
+                        
+                    } else {
+                        tr.push(r)
+                        
+                    }
+                }
+
+                $('#preview_service').val(service)
+                $('#preview_time_rule').html(tr)
+                $('#preview_task_num').html(len + '人接收，每人' + time_rule.length + '封，總發' + (len * time_rule.length) + '封。')
+                $('#preview_content').val(content)
+                $('#preview_content_sub').val(content_sub)
+
+                if (time_rule.length < 2) {
+                    $('#pcs_tr').addClass('d-none')
+                    $('#ptrc_tr').addClass('d-none')
+                } else {
+                    $('#pcs_tr').removeClass('d-none')
+                    $('#ptrc_tr').removeClass('d-none')
+                }
+
+                $('#preview_time_rule_active').html(html)
+
+                $('#tasker_preview').modal('show')
+            }
+        })
+    }
+    $('#submit').click(function() {
+
+        let tasker = ''
+        const rec = eval(localStorage.getItem('sms_tasker'))
+
+        for (var i= 0; i< rec.length; i++ ) {
+            tasker = tasker + rec[i]['id'] + ','
+        }
+
+        if ((tasker == '') || (tasker == null)) {
+            alert('檢測到零個接收者。')
+            return
+        }
+
+        let tr_active = new Array();
+        
+        $("input[name=tr_active]:checked").each(function() {
+            
+            tr_active.push($(this).val());
+        });
+        
+        console.log('tr =', tr_active, tr_active.length)
+
+        if (tr_active.length < 1) {
+            alert('未啟用任何時間規則！！！')
+            return
+        } else {
+            let _tr = ''
+            for (let t= 0; t< tr_active.length; t++ ) {
+                _tr += tr_active[t] + '_'
+            }
+            tr_active = _tr
+        }
+        
+        if (!confirm('還需確認一次嗎，確定立即提交？')) { 
+            return 
+        }
+        _submit(tasker, rec.length, tr_active)
+    })
+    _submit = function(tasker, len, tr_active) {
+
+        $('.modal').modal('hide')
+        // return
+        loading()
+        const sms_id = oldId
+        $.ajax({
+            url: _root + '/contact_tasker/?option=plus',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'sms_id': sms_id,
+                'tasker': tasker,
+                'time_rule_active': tr_active
+            },
+            headers: {
+                Accept: "application/json; charset=utf-8",
+            },
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+            },
+            success: function(e) {
+                console.log('res = ', e)
+                loading(false)
+                location.href = _root + '/contact_tasker/?option=success&task_num=' + e['task_num'] + '&contact_num=' + len
+            },
+        })
+    }
+
+    taskerSubmit = function () {
+        const sms_id = oldId
+        if (sms_id == 0) {
+            alert('未選擇服務！！！')
+        } else {
+            const rec = eval(localStorage.getItem('sms_tasker'))
+            
+            taskerPreview(rec.length, sms_id)
+            
+        }
+    }
+
+    loadContact = function () {
+        tasker_list.html()
+        const tasker = eval(localStorage.getItem('sms_tasker'))
+        for (var i= 0; i< tasker.length; i++ ) {
+            const id = tasker[i]['id']
+            const named = tasker[i]['first_named']
+            const phoned = tasker[i]['phoned']
+            const area = tasker[i]['area']['phoned_prefix']
+
+            const html = '' + 
+            '<li class="tasker-item hand" id="li_' + id + '" data-id="' + id + '">' +
+            '    <div class="tasker-one br-main-hover co-main-hover">' +
+            '        <div class="tasker-name">' +
+                        named + ':&nbsp;' +
+            '        </div>' +
+            '        <div class="tasker-phoned">' +
+                        area + '&nbsp;' + phoned
+            '        </div>' +
+            '    </div>' +
+            '</li>'
+            tasker_list.append(html)
+        }
+    }
+    loadContact()
+
+    taskerBack = function () {
+        if (confirm('確定要返回嗎？')) {
+            history.back()
+        }
+    }
+
+    let oldId = 0
+    _activeSms = function(id, old_id, cls_name = 'sms-active') {
+        $('#item_' + id).addClass(cls_name)
+        $('#item_' + old_id).removeClass(cls_name)
+    }
+    chooseSms = function(id) {
+        if (id != oldId) {
+            _activeSms(id, oldId)
+        }
+        oldId = id
+        // $('#sms_id').val(id)
+    }
+
+    langManager = function (lang = 1) {
+        if (lang == 1) {
+            $('#sms_hk_outter').attr('style', 'display: block;')
+            $('#lang_hk_txt').addClass('text-main')
+
+            $('#sms_en_outter').attr('style', 'display: none;')
+            $('#lang_en_txt').removeClass('text-main')
+            
+        }
+        else if (lang == 2) {
+            $('#sms_en_outter').attr('style', 'display: block;')
+            $('#lang_en_txt').addClass('text-main')
+
+            $('#sms_hk_outter').attr('style', 'display: none;')
+            $('#lang_hk_txt').removeClass('text-main')
+        }
+        $('#item_' + oldId).removeClass('sms-active')
+        oldId = 0
+    }
+    langManager()
+</script>
+<style>
+    .tasker-toolbar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding-bottom: 15px;
+        border: 1px solid pink;
+    }
+    .tasker {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .tasker-item {
+        margin-top: 16px;
+        margin-bottom: 11px;
+        margin-right: 5px;
+        display: inline;
+    }    
+    .tasker-one {
+        padding: 10px 25px;
+        border-radius: 30px;
+        line-height: 45px;
+        border: 1px solid #cccccc;
+        display: inline;
+        transition: all .3s;
+    }
+    
+    .tasker-one > div {
+        display: inline;
+    }
+    
+    /* */
+
+    .item-wrapper {
+        height: auto !important;
+        border: 1px solid #ccc;
+        transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .07);
+        color: #555;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+    .item {
+        padding: 15px 15px;
+        border-top: 1px solid #eeeeee;
+    }
+    .item:hover {
+        background: rgb(252, 252, 252);
+    }
+    #category_gate h4 {
+        padding: 20px;
+        border-radius: 6px;
+        margin-top: 0px;
+    }
+    .sms_outter {
+        margin-top: -10px;
+    }
+</style>
+{% endblock data %}
