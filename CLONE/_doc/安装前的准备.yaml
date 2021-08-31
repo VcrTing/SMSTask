@@ -1,6 +1,5 @@
 准备:
-yum install -y git
-yum install -y vim
+yum install -y git vim
 cd ~
 mv SMSTask OLDER_SMSTask
 git clone 'https://www.github.com/VcrTing/SMSTask.git'
