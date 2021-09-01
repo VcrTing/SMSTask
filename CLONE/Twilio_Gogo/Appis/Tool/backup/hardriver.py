@@ -36,8 +36,8 @@ def _trash_media(timed):
             fs = [f[0] for f in fs if f[0].endswith('.zip')]
             for f in fs:
                 s = _f(f)
-                
-                if s < int(timed):
+                t = int(timed) - 6
+                if s < t:
                     src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
                     
                     os.remove(src)
