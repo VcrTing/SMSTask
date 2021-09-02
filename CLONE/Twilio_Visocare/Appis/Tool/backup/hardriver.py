@@ -39,8 +39,8 @@ def _trash_media(timed):
 
             for f in fs:
                 s = _f(f)
-                t = int(timed) - 6
-                if s < t:
+                t = int(timed)
+                if t - s > BACKUP['SAVING_DAY']:
                     src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
                     
                     print('====> 删除:', src)

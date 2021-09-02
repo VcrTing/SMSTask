@@ -38,7 +38,7 @@ def _trash_mysql(timed):
 
             for f in fs:
                 s = _f(f)
-                if s < int(timed):
+                if int(timed) - s > BACKUP['SAVING_DAY']:
                     src = os.path.join(BACKUP['MYSQL_SRC'], f)
 
                     print('====> 删除:', src)
