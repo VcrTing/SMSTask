@@ -41,8 +41,15 @@ def _mail(message):
 
 def _timed():
     n = datetime.datetime.now()
-    name =  str(n.year) + str(n.month) + str(n.day)
-    return name
+    mon = int(n.month)
+    day = int(n.day)
+
+    if mon < 10:
+        mon = '0' + str(mon)
+    if day < 10:
+        day = '0' + str(day)
+
+    return str(n.year) + mon + day
 
 def mysql(timed, msg):
     res = [ ]
@@ -88,7 +95,7 @@ def _backup():
 
     s = osed.size_full()
     m = osed.size(BACKUP['MEDIA_SRC'])
-
+    print('伺服器内存剩余:', s)
     if s <= ((m * 3) - 10):
         # 容量不足
         msg = '磁盘剩余容量为：' + str(s) + ' MB，不足以支持媒体库进行备份，请解决。'
@@ -99,6 +106,7 @@ def _backup():
 
         res_mysql, msg = mysql(timed, msg)
         res_media, msg = media(timed, msg)
+        print('备份完成。')
 
     msg += '<br/>磁盘剩余容量：' + str(s) + ' MB，媒体库容量：' + str(m) + ' MB。'
 
@@ -112,6 +120,7 @@ def trash():
 def backup():
 
     backuping = osed.load(_lock)
+    print('开始执行备份 backuping =', backuping)
     if backuping['backuping'] == False:
 
         backuping['backuping'] = True

@@ -41,8 +41,15 @@ def _mail(message):
 
 def _timed():
     n = datetime.datetime.now()
-    name =  str(n.year) + str(n.month) + str(n.day)
-    return name
+    mon = int(n.month)
+    day = int(n.day)
+
+    if mon < 10:
+        mon = '0' + str(mon)
+    if day < 10:
+        day = '0' + str(day)
+
+    return str(n.year) + mon + day
 
 def mysql(timed, msg):
     res = [ ]

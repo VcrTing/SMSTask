@@ -238,8 +238,8 @@ if TEST:
     BACKUP['MEDIA_HARDRIVER'] = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup')
     
 else:
-    BACKUP['MYSQL_HARDRIVER'] = os.path.join('~', 'Backup', 'Mysql')
-    BACKUP['MEDIA_HARDRIVER'] = os.path.join('~', 'Backup')
+    BACKUP['MYSQL_HARDRIVER'] = os.path.join('/root', 'Backup', 'Mysql')
+    BACKUP['MEDIA_HARDRIVER'] = os.path.join('/root', 'Backup')
 
 # 平台定义
 
