@@ -26,12 +26,13 @@ def running_task():
         _running_task()
     
     # 备份
-    if int(i.hour) in [1, 13]:
-        if int(i.day) in [1, 4, 7, 10, 13, 16, 19, 22, 25, 28]:
-            backup()
-        if int(i.day) in [2, 5, 8, 11, 14, 17, 20, 23, 26, 29]:
-            lockit('backuping', False)
-            trash()
+    if int(i.hour) in [11, 12, 14, 15, 16, 17]:
+        print('即将备份:')
+        backup()
+    if int(i.hour) in [ 14, 15, 16, 17]:
+        print('执行删除:')
+        trash()
+        lockit('backuping', False)
 
 # 运行中的任务
 def running_taskers():
