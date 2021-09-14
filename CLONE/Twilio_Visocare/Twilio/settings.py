@@ -227,7 +227,7 @@ SQL_CONN = {
 }
 
 BACKUP = {
-    'SAVING_DAY': 3, # 仅保存3日内的备份档案
+    'SAVING_DAY': 1, # 仅保存3日内的备份档案
     
     'MYSQL_SRC': os.path.join(BASE_DIR, 'Media', 'backup', 'mysql'),
 

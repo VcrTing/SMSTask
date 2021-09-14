@@ -1,4 +1,4 @@
-import os, json, datetime
+import os, shutil, json, datetime
 
 from Twilio.settings import BACKUP, SQL_CONN
 from Appis.Tool.func import osed
@@ -27,9 +27,13 @@ def _f(f):
     return int(s[1])
     
 def _trash_mysql(timed):
-    res = [ ]
-    fs = osed.files(BACKUP['MYSQL_SRC'])
+    res = [ True ]
+    shutil.rmtree(
+        BACKUP['MYSQL_SRC']
+    )
 
+    """
+    fs = osed.files(BACKUP['MYSQL_SRC'])
     if len(fs) > 0:
         try:
             fs = [f[0] for f in fs if f[0].endswith('.sql')]
@@ -38,14 +42,16 @@ def _trash_mysql(timed):
 
             for f in fs:
                 s = _f(f)
+
+                src = os.path.join(BACKUP['MYSQL_SRC'], f)
                 if int(timed) - s > BACKUP['SAVING_DAY']:
-                    src = os.path.join(BACKUP['MYSQL_SRC'], f)
 
                     print('====> 删除:', src)
                     os.remove(src)
                     res.append(True)
         except:
             pass
+    """
     return res
 
         

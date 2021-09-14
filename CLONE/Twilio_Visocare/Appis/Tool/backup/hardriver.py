@@ -1,5 +1,5 @@
 
-import os
+import os, shutil
 from Twilio.settings import BACKUP
 from Appis.Tool.func import osed
 
@@ -28,7 +28,10 @@ def _f(f):
 # TRASH OLD MEDIA DIR
 def _trash_media(timed):
     res = [ ]
-
+    shutil.rmtree(
+        BACKUP['MYSQL_SRC']
+    )
+    """
     fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
 
     if len(fs) > 0:
@@ -49,5 +52,6 @@ def _trash_media(timed):
                     res.appen(True)
         except:
             pass
+    """
         
     return res
