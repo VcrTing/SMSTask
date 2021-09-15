@@ -60,7 +60,7 @@ def mysql(timed, msg):
     
             # INSERT MYSQL TO MEDIA DIR
             rec = _mysql(_sql_cmd, f, timed)
-
+            
             time.sleep(16)
             # 系统邮件
 

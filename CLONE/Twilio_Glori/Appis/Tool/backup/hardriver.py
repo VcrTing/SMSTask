@@ -32,6 +32,7 @@ def _trash_media(timed):
         shutil.rmtree(
             BACKUP['MEDIA_HARDRIVER']
         )
+        print('删除文件夹 MEdia =', BACKUP['MEDIA_HARDRIVER'])
     except Exception as e:
             
         fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
