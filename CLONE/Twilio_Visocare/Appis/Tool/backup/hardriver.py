@@ -28,30 +28,32 @@ def _f(f):
 # TRASH OLD MEDIA DIR
 def _trash_media(timed):
     res = [ ]
-    shutil.rmtree(
-        BACKUP['MYSQL_SRC']
-    )
-    """
-    fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
+    try:
+        shutil.rmtree(
+            BACKUP['MEDIA_HARDRIVER']
+        )
+    except Exception as e:
+            
+        fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
 
-    if len(fs) > 0:
-        try:
-            fs = [f[0] for f in fs if f[0].endswith('.zip')]
+        if len(fs) > 0:
+            try:
+                fs = [f[0] for f in fs if f[0].endswith('.zip')]
 
-            print('Media 文件数量 =', str(len(fs)))
+                print('Media 文件数量 =', str(len(fs)))
 
-            for f in fs:
-                s = _f(f)
-                t = int(timed)
-                if t - s > BACKUP['SAVING_DAY']:
-                    src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
-                    
-                    print('====> 删除:', src)
+                for f in fs:
+                    s = _f(f)
+                    t = int(timed)
+                    if t - s > BACKUP['SAVING_DAY']:
+                        src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
+                        
+                        print('====> 删除:', src)
 
-                    os.remove(src)
-                    res.appen(True)
-        except:
-            pass
-    """
+                        os.remove(src)
+                        res.appen(True)
+            except:
+                pass
+        
         
     return res

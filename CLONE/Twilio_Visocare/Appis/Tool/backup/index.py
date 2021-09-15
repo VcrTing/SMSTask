@@ -49,7 +49,8 @@ def _timed():
     if day < 10:
         day = '0' + str(day)
 
-    return str(n.year) + mon + day
+    res = str(n.year) + str(mon) + str(day)
+    return res
 
 def mysql(timed, msg):
     res = [ ]
