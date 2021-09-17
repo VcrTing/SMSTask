@@ -5,6 +5,7 @@ echo '安装 Supervisor'
 yum remove supervisor -y
 yum install supervisor -y
 systemctl enable supervisord
+yum install zip unzip -y
 echo '安装完成'
 # rm -rf /etc/supervisord.conf
 # cp ./SAVE/supervisord.conf /etc/supervisord.conf
