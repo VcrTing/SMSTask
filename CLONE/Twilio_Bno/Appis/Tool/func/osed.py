@@ -52,6 +52,6 @@ def save(rec, data):
         
         with open(_path, 'w') as j:
             j.write(json.dumps(data)) 
-        return res
+        return True
     except:
         return None

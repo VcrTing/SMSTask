@@ -1,5 +1,5 @@
 
-import os
+import os, shutil
 from Twilio.settings import BACKUP
 from Appis.Tool.func import osed
 
@@ -16,7 +16,7 @@ def _media(cmd, f, timed):
     rec = os.path.join(rec, _file)
 
     cmd = cmd + ' ' + rec + ' ' + BACKUP['MEDIA_SRC']
-    
+    print('备份命令 =', cmd)
     os.system(cmd)
 
     return rec
@@ -28,21 +28,33 @@ def _f(f):
 # TRASH OLD MEDIA DIR
 def _trash_media(timed):
     res = [ ]
+    try:
+        shutil.rmtree(
+            BACKUP['MEDIA_HARDRIVER']
+        )
+        print('删除文件夹 MEdia =', BACKUP['MEDIA_HARDRIVER'])
+    except Exception as e:
+            
+        fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
 
-    fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
+        if len(fs) > 0:
+            try:
+                fs = [f[0] for f in fs if f[0].endswith('.zip')]
 
-    if len(fs) > 0:
-        try:
-            fs = [f[0] for f in fs if f[0].endswith('.zip')]
-            for f in fs:
-                s = _f(f)
-                t = int(timed) - 6
-                if s < t:
-                    src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
-                    
-                    os.remove(src)
-                    res.appen(True)
-        except:
-            pass
+                print('Media 文件数量 =', str(len(fs)))
+
+                for f in fs:
+                    s = _f(f)
+                    t = int(timed)
+                    if t - s > BACKUP['SAVING_DAY']:
+                        src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
+                        
+                        print('====> 删除:', src)
+
+                        os.remove(src)
+                        res.appen(True)
+            except:
+                pass
+        
         
     return res
