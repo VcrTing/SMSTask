@@ -32,9 +32,9 @@ def mailgun_now(recivers, subject, html):
     APP_KEY, DOMAIN, SENDER = get_conf('mailgun')
     if APP_KEY:
         data = {
-            'from': conf.COMPANY + ' <' + conf.EMAIL_NAME + '@' + DOMAIN + '>',
+            'from': conf.COMPANY + ' <' + conf.EMAIL_REPLAY_TO + '>',
             'to': recivers,
-            'h:Reply-To': SENDER,
+            'h:Reply-To': conf.EMAIL_REPLAY_TO,
             'subject': subject,
             'html': html
         }
