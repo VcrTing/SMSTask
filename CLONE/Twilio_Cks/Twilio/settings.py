@@ -227,15 +227,20 @@ SQL_CONN = {
 }
 
 BACKUP = {
+    'SAVING_DAY': 1, # 仅保存3日内的备份档案
+    
     'MYSQL_SRC': os.path.join(BASE_DIR, 'Media', 'backup', 'mysql'),
-    'MYSQL_HARDRIVER': os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup', 'Mysql'),
-    'MYSQL_ONEDRIVER': os.path.join('Backup', 'SMSTask', SETTING[Now]['media'], 'Mysql'),
 
-    'MEDIA_SRC': os.path.join(BASE_DIR, 'Media'),
-    'MEDIA_HARDRIVER': os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup'),
-    'MEDIA_ONEDRIVER': os.path.join('Backup', 'SMSTask', SETTING[Now]['media'])
+    'MEDIA_SRC': os.path.join(BASE_DIR, 'Media')
 }
-
+if TEST:
+    BACKUP['MYSQL_HARDRIVER'] = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup', 'Mysql')
+    BACKUP['MEDIA_HARDRIVER'] = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'Backup')
+    
+else:
+    BACKUP['MYSQL_HARDRIVER'] = os.path.join('/root', 'Backup', 'Mysql')
+    BACKUP['MEDIA_HARDRIVER'] = os.path.join('/root', 'Backup')
+    
 # 平台定义
 
 EACH_DAY = 30 # 医学每隔30天就算一个月
