@@ -48,7 +48,13 @@
     border-color: #0a6ba3;
 }
 
-/*
+.glyphicon-trash {
+    color: #a3343d !important;
+}
+.glyphicon-pencil {
+    color: #2c5a76 !important;
+}
+/* #161f27
     元素
 */
 .def-border {
@@ -73,7 +79,7 @@
     color: #9e9e9e;
 }
 #countMsg {
-    color: #772717;
+    color: #502a5f;
 }
 
 /*
@@ -128,10 +134,10 @@
     color: #3b7c3e;
 }
 .error {
-    color: rgb(180, 63, 45) !important;
+    color: #be4a39 !important;
 }
 .error:hover {
-    color: rgb(173, 48, 34);
+    color: #9c3222;
 }
 .apply {
     color: #696969de;
