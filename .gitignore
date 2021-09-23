@@ -3,7 +3,6 @@ node_modules
 /dist
 /CLONE/Linux.txt
 __pycache__
-/Twillio
 
 # local env files
 .env.local
