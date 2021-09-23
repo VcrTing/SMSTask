@@ -46,7 +46,7 @@ def _trash_media(timed):
                         src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
 
                         os.remove(src)
-                        res.appen(True)
+                        res.append(True)
             except:
                 pass
         

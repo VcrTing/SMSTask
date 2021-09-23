@@ -16,6 +16,7 @@ def _media(cmd, f, timed):
     rec = os.path.join(rec, _file)
 
     cmd = cmd + ' ' + rec + ' ' + BACKUP['MEDIA_SRC']
+    
     os.system(cmd)
 
     return rec
@@ -28,10 +29,6 @@ def _f(f):
 def _trash_media(timed):
     res = [ ]
     try:
-        shutil.rmtree(
-            BACKUP['MEDIA_HARDRIVER']
-        )
-    except Exception as e:
             
         fs = osed.files(BACKUP['MEDIA_HARDRIVER'])
 
@@ -46,9 +43,14 @@ def _trash_media(timed):
                         src = os.path.join(BACKUP['MEDIA_HARDRIVER'], f)
 
                         os.remove(src)
-                        res.appen(True)
+                        res.append(True)
             except:
                 pass
         
+    except Exception as e:
+        res.append(True)
+        shutil.rmtree(
+            BACKUP['MEDIA_HARDRIVER']
+        )
         
     return res

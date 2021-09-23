@@ -19,20 +19,18 @@ def serial_email(task_ids):
 
 # 执行 运行中 的任务
 def running_task():
+    
     i = datetime.datetime.now()
     
     if int(i.hour) in conf.WORK_HOUR:
         _running_task()
     
     # 备份
-    if int(i.hour) in [13, 22]:
+    if int(i.hour) in [13, 23]:
         trash()
         backup()
+    if int(i.hour) in [14, 1]:
         lockit('backuping', False)
-        try:
-            pass
-        except Exception as e:
-            pass
 
 # 运行中的任务
 def running_taskers():

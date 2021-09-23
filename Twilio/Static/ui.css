@@ -9,10 +9,10 @@
 .active span,
 .co-main-hover:hover 
 {
-    color: #1e90ff;
+    color: #337ab7;
 }
 .text-main:hover {
-    color: #2980b9;
+    color: #0a64a4;
 }
 
 .bg-blue,
@@ -20,18 +20,18 @@
 .page-active a,
 .sms-active
 {
-    background: #1e90ff;
+    background: #337ab7;
 }
 .sms-active:hover,
 .sms-active-hover:hover {
-    background: #2980b9 !important;
+    background: #0a64a4 !important;
 }
 
 .br-main-hover:hover {
-    border-color: #1e90ff;
+    border-color: #337ab7;
 }
 .sms-active {
-    border-color: #2980b9;
+    border-color: #0a64a4;
 }
 
 /*
@@ -46,13 +46,13 @@
 }
 
 .text-info {
-    color: #2ecc71 !important;
+    color: #3c8f6d !important;
 }
 .text-info:hover {
-    color: #27ae60 !important;
+    color: #0e7c4f !important;
 }
 .form-tip {
-    color: #e74c3c;
+    color: #d9333f;
 }
 
 #pageMsg {
@@ -79,13 +79,13 @@
 }
 
 .reciver {
-    color: #f39c12;
-    border-color: #f39c12;
+    color: #bf9050;
+    border-color: #bf9050;
     transition: all .5s;
 }
 .reciver:hover {
-    color: #e67e22;
-    border-color: #e67e22;
+    color: #a66813;
+    border-color: #a66813;
 }
 .reciver-hui {
     color: rgb(168, 168, 168) !important;
@@ -94,49 +94,49 @@
 
 
 .star-active {
-    color: #f1c40f;
-    background-color: linear-gradient(to bottom right, #f1c40f, #f39c12);
+    color: #ffd67d;
+    background-color: linear-gradient(to bottom right, gold, rgb(211, 179, 1));
 }
 
 /* 
     状态
 */
 .success {
-    color: #27ae60;
+    color: #219247;
 }
 .success:hover {
-    color: #2ecc71;
+    color: #0e7c4f;
 }
 .error {
-    color: #e74c3c !important;
+    color: #e92b2b !important;
 }
 .error:hover {
-    color: #c0392b;
+    color: #a22041;
 }
 .apply {
-    color: #9b59b6;
+    color: #6c55be;
 }
 .apply:hover {
-    color: #8e44ad;
+    color: #615eac;
 }
 .complete {
-    color: #f1c40f;
+    color: #f7c746;
 }
 .complete:hover {
-    color: #f39c12;
+    color: #a66813;
 }
 .red {
-    color: #e74c3c;
+    color: #d7003a;
 }
 .red:hover {
-    color: #c0392b;
+    color: #c9171e;
 }
 
 .del {
     color: #df8382;
 }
 .del:hover {
-    color: #95a5a6;
+    color: #9e9d9d;
 }
 
 /*

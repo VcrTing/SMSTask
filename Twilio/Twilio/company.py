@@ -44,7 +44,7 @@ SETTING = {
     '123medhk': {
         'key_name': '123medhk', # 不用改
         'media': '123Medhk', # 媒体库文件夹，不用改
-        'host': 'http://crm99.svr.up5d.com',
+        'host': 'http://crm.123medhk.com',
         'time_zone': 'Asia/Shanghai', # 时区
 
         'admin_name': 'SMS任务管理', # 后台名字
@@ -53,11 +53,11 @@ SETTING = {
 
         'database': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'tsms',
-            'HOST': 'crm99.svr.up5d.com',
+            'NAME': 'jAUMMp',
+            'HOST': 'crm.123medhk.com',
             'PORT': 3306,
             'USER': 'root',
-            'PASSWORD': 'VcrTing.ZT123zlt',
+            'PASSWORD': 'zHJEMsoQ6q7NC!7H6ZRGbQ9oJqPDEy',
             'CONN_MAX_AGE': 2000
         },
         'layout': {

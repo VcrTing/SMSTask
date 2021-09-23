@@ -60,7 +60,7 @@ def mysql(timed, msg):
     
             # INSERT MYSQL TO MEDIA DIR
             rec = _mysql(_sql_cmd, f, timed)
-            
+
             time.sleep(16)
             # 系统邮件
 
@@ -96,7 +96,7 @@ def _backup():
 
     s = osed.size_full()
     m = osed.size(BACKUP['MEDIA_SRC'])
-    
+
     if s <= ((m * 3) - 10):
         # 容量不足
         msg = '磁盘剩余容量为：' + str(s) + ' MB，不足以支持媒体库进行备份，请解决。'
@@ -120,7 +120,6 @@ def trash():
 def backup():
 
     backuping = osed.load(_lock)
-    
     if backuping['backuping'] == False:
 
         backuping['backuping'] = True
