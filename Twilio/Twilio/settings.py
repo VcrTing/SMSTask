@@ -260,3 +260,5 @@ WORK_HOUR = SETTING[Now]['work_hour']
 FUNC_LAYOUT = SETTING[Now]['layout']
 
 MESSING_PHONE = [ '852' , '61515651']
+
+MESSING_DATE = [ 7, 18 ]

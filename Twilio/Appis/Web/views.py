@@ -498,5 +498,5 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 """
-sch.add_job(fun, 'interval', seconds = 60, id = company)
+sch.add_job(fun, 'interval', seconds = 300, id = company)
 sch.start()

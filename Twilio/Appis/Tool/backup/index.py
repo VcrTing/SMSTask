@@ -1,6 +1,6 @@
 import os, json, datetime, time
 
-from Twilio.settings import BACKUP, SQL_CONN, BASE_DIR
+from Twilio.settings import BACKUP, SQL_CONN, BASE_DIR, MESSING_DATE
 from Appis.Tool.func import osed
 
 from Appis.Tool.backup.source import _mysql
@@ -134,8 +134,8 @@ def backup():
     
 def messing():
     i = datetime.datetime.now()
-    if i.day == 7:
-        if i.hour == 17:
+    if i.day == MESSING_DATE[0]:
+        if i.hour == MESSING_DATE[1]:
             lockit({
                 'messing': False
             })
