@@ -9,6 +9,8 @@ from Appis.Tool.backup.source import _trash_mysql as _del_mysql
 from Appis.Tool.backup.hardriver import _media
 from Appis.Tool.backup.hardriver import _trash_media as _del_media
 
+from Appis.Tool.backup.messaing import messing_again
+
 from Appis.Tool.working.sys import mail
 from Appis.common import SYSTEMMSGTYPED
 from Twilio.company import Now, SYS_MAIL
@@ -22,11 +24,12 @@ _zip_cmd = 'zip -r'
 
 _lock = os.path.join(BASE_DIR, 'Media', '_lock.json')
 
-def lockit(word, res):
+def lockit(res):
     data = osed.load(_lock)
 
     if data:
-        data[word] = res
+        for k in res.keys():
+            data[ k ] = res[ k ]
         osed.save(_lock, data)
 
 
@@ -127,3 +130,22 @@ def backup():
 
         _backup()
     
+    
+    
+def messing():
+    i = datetime.datetime.now()
+    if i.day == 7:
+        if i.hour == 17:
+            lockit({
+                'messing': False
+            })
+
+    backuping = osed.load(_lock)
+
+    if backuping['messing'] is not True:
+
+        messing_again()
+
+        lockit({
+            'messing': True
+        })

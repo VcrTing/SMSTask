@@ -473,9 +473,11 @@ from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXEC
 logger = logging.getLogger('job')
 
 def fun():
+    print('--------------------------------')
     rt() # 定时任务
     rb() # 千人运行
 
+"""
 def job_listener(Event):
     job = sch.get_job(Event.job_id)
 
@@ -486,15 +488,15 @@ def job_listener(Event):
         logger.error("jobname=%s|jobtrigger=%s|errcode=%s|exception=[%s]|traceback=[%s]|scheduled_time=%s", job.name,
                      job.trigger, Event.code,
                      Event.exception, Event.traceback, Event.scheduled_run_time)
-
-sch = BackgroundScheduler(**init_scheduler_options)
-
+"""
+sch = BackgroundScheduler()#**init_scheduler_options)
+"""
 sch.add_listener(
     job_listener, 
     EVENT_JOB_ERROR | \
     EVENT_JOB_MISSED | \
     EVENT_JOB_EXECUTED
 )
-
-sch.add_job(fun, 'interval', seconds = 60*5, id = company)
+"""
+sch.add_job(fun, 'interval', seconds = 60, id = company)
 sch.start()

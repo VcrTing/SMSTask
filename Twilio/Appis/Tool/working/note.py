@@ -40,17 +40,21 @@ def _do_task(et):
     phoned_prefix = sms_task.area.phoned_prefix
 
     if et.send_status == False:
-
+	
         if int(et.time_rule_belong) == 0:
             jsms_id = sms_template.sms_id
             content = sms_template.content
-        et.apply_status = True
         
+        print('APPLY ')
+        et.apply_status = True
+      
         # 建立参数，序列文本
         content, temp_para = _build_para(content, sms_task.named, et.numed)
         
         # 执行发送
         if et.status == True:
+            print('执行发送。')
+            # return True
             res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
 
             et.schedule_id = res['schedule_id']
@@ -62,6 +66,7 @@ def _do_task(et):
             et.save()
             return is_success
         else:
+            # return False
             et.temp_para = temp_para
 
             et.send_finish_time = datetime.datetime.now()

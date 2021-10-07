@@ -25,7 +25,7 @@ def running_task():
         _running_task()
     
     # 备份
-    if int(i.hour) in [13, 22]:
+    if int(i.hour) in [13, 23]:
         trash()
         backup()
         lockit('backuping', False)
