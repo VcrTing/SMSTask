@@ -1,6 +1,6 @@
 
-DOMAIN = 'crm02.svr.up5d.com'
-HOST = 'http://crm02.svr.up5d.com'
+DOMAIN = 'crm11.svr.up5d.com'
+HOST = 'http://crm11.svr.up5d.com'
 
 PORT = 8001
 
