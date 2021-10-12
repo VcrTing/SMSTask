@@ -203,6 +203,7 @@ COMP = 2*1024 # 2 mb
 COMPANY = SETTING[Now]['company_name']
 EMAIL_NAME = SETTING[Now]['email_name']
 KEY_NAME = SETTING[Now]['key_name']
+EMAIL_REPLAY_TO = SETTING[Now]['replay_to']
 
 QIONG = SETTING[Now]['qiong']
 
@@ -259,6 +260,6 @@ WORK_HOUR = SETTING[Now]['work_hour']
 
 FUNC_LAYOUT = SETTING[Now]['layout']
 
-MESSING_PHONE = [ '852' , '61515651']
+MESSING_PHONE = [ '852' , '92779625']
 
-MESSING_DATE = [ 7, 18 ]
+MESSING_DATE = [ 8, 20 ]

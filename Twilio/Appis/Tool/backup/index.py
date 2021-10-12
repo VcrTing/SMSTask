@@ -141,9 +141,10 @@ def messing():
             })
 
     backuping = osed.load(_lock)
-
+    
+    # print('backup =', backuping)
     if backuping['messing'] is not True:
-
+        # print('进入')
         messing_again()
 
         lockit({

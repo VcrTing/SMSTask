@@ -381,7 +381,7 @@ class ContactTaskerView(View):
 
             tasks.append('@'.join(ids))
             if len(tasks) % 5 == 0:
-                time.sleep(0.5)
+                time.sleep(0.3)
 
         tasks = [ tasks[i: i + EVERY] for i in range(0, len(tasks), EVERY) ]
         

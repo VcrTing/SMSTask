@@ -25,3 +25,6 @@
 
 删除主数据库的里面的表:
   SELECT concat('DROP TABLE IF EXISTS ', table_name, ';') FROM information_schema.tables WHERE table_schema = '数据库名字';
+
+查看旧密码:
+  grep 'temporary password' /var/log/mysqld.log

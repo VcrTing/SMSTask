@@ -473,7 +473,6 @@ from apscheduler.events import EVENT_JOB_ERROR, EVENT_JOB_MISSED, EVENT_JOB_EXEC
 logger = logging.getLogger('job')
 
 def fun():
-    print('--------------------------------')
     rt() # 定时任务
     rb() # 千人运行
 
@@ -498,5 +497,6 @@ sch.add_listener(
     EVENT_JOB_EXECUTED
 )
 """
-sch.add_job(fun, 'interval', seconds = 300, id = company)
+sch.add_job(fun, 'interval', seconds = 60, id = company)
 sch.start()
+print('任务启动')

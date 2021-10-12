@@ -45,7 +45,6 @@ def _do_task(et):
             jsms_id = sms_template.sms_id
             content = sms_template.content
         
-        print('APPLY ')
         et.apply_status = True
       
         # 建立参数，序列文本
@@ -53,7 +52,6 @@ def _do_task(et):
         
         # 执行发送
         if et.status == True:
-            print('执行发送。')
             # return True
             res, is_success = _do_send(sms_task.phoned, phoned_prefix, jsms_id, temp_para, content)
 
@@ -100,7 +98,7 @@ def _serial_task(ids):
                     
                     if int(et.time_rule_belong) == 0:
                         _do_task(et)
-        except e:
+        except Exception as e:
             pass
 
 # 执行报废的 任务

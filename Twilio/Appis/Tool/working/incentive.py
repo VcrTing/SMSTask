@@ -15,6 +15,9 @@ _XL = '_'
 
 def get_incentive_tasker(way):
     res = web_models.Running.objects.filter( Q(done_status = False) & Q(way = way) )
+
+    if len(res) > 2:
+        res = res[0: 2]
     return res
 
 # SMS
@@ -34,12 +37,13 @@ def _get_incentive_sms():
                 for ids in tasks:
                     ids = str(ids).split(_AT)
                     ids = [int(i) for i in ids]
-                    
-                    _serial_task(ids)
-
+                    try:
+                        _serial_task(ids)
+                    except Exception as e:
+                        pass
                     index += 1
                     if index % 5 == 0:
-                        time.sleep(0.5)
+                        time.sleep(0.1)
 
                 running.lock = False
                 running.done_status = True

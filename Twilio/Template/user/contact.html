@@ -725,7 +725,7 @@
 
         let tasker = _delNoneUser(_getTasker(), 0)
         tasker = JSON.stringify(tasker)
-        localStorage.setItem('sms_tasker', tasker)
+        sessionStorage.setItem('sms_tasker', tasker)
         location.href = '/contact/?option=task'
     }
     doEmail = function() {
@@ -737,7 +737,7 @@
 
         let tasker = _delNoneUser(_getTasker(), 1)
         tasker = JSON.stringify(tasker)
-        localStorage.setItem('email_tasker', tasker)
+        sessionStorage.setItem('email_tasker', tasker)
         location.href = '/contact/?option=email'
     }
     trashAll = function() {

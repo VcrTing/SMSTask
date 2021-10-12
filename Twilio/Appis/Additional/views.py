@@ -171,7 +171,7 @@ class EmailView(View):
                         'page_flag': self.page_flag,
                         'page_flag_sub': self.page_flag + '_add',
                         'email_template_list': res,
-                        'reply': sender,
+                        'reply': settings.EMAIL_REPLAY_TO,
                         'time_rule': time_rule,
                         'nper': nper
                     }

@@ -68,6 +68,10 @@ urlpatterns = [
     path('task_preview/', Record.TaskPreView.as_view()),
     path('contact_tasker/', User.ContactTaskerView.as_view()),
 
+    path('group_send/', Record.GroupSendView.as_view()),
+    path('group_send_tool/', Record.GroupSendToolView.as_view()),
+    
+
     path('scret_window/', Web.SMSConfView.as_view()),
     path('init/', Web.DataView.as_view()),
     path('backup/', Web.BackUpView.as_view()),

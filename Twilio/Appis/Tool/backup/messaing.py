@@ -24,14 +24,17 @@ def messing_again():
         doing = True
         t = res.send_finish_time
 
+        # print('T =', t)
         if i.month == t.month:
             if i.day == t.day:
                 doing = False
-            
+
+        # print('doing = ', doing)  
         if doing:
             res.send_status = False
             res.apply_status = False
             res.send_finish_time = datetime.datetime.now()
             res.save()
+
     except Exception as e:
-        pass
+        print('Err =', e)
