@@ -46,6 +46,7 @@ class UserProfileAdmin(UserAdmin):
 class ContactAdmin(admin.ModelAdmin):
     list_display = ['phoned', 'first_named', 'bith' , 'gender', 'area', 'add_time']
     search_fields = ['phoned', 'first_named']
+    list_filter = ['area', 'status']
     readonly_fields = ['add_time']
     exclude = ['id']
     fieldsets = (
@@ -65,7 +66,7 @@ class ContactAdmin(admin.ModelAdmin):
             ),
         }),
     )
-    list_per_page = 100
+    list_per_page = 200
     empty_value_display = ADMIN_CONF['empty_value_display']
 
     def get_ordering(self, request):
