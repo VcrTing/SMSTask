@@ -16,8 +16,8 @@ _XL = '_'
 def get_incentive_tasker(way):
     res = web_models.Running.objects.filter( Q(done_status = False) & Q(way = way) )
 
-    if len(res) > 2:
-        res = res[0: 2]
+    if len(res) > 5:
+        res = res[0: 5]
     return res
 
 # SMS

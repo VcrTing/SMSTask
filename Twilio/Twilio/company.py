@@ -29,7 +29,7 @@ SETTING = {
         'database': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': DATA_BASE, # jAUMMp
-            'HOST': 'crm.123medhk.com',
+            'HOST': 'localhost',
             'PORT': 3306,
             'USER': 'root',
             'PASSWORD': 'VcrTing.ZT123zlt', # zHJEMsoQ6q7NC!7H6ZRGbQ9oJqPDEy

@@ -9,7 +9,7 @@
 .active span,
 .co-main-hover:hover 
 {
-    color: #0a6ba3;
+    color: #1c7eb7;
 }
 .text-main:hover {
     color: #2980b9;
@@ -20,7 +20,7 @@
 .page-active a,
 .sms-active
 {
-    background: #0a6ba3;
+    background: #1c7eb7;
 }
 .sms-active:hover,
 .sms-active-hover:hover {
@@ -28,24 +28,24 @@
 }
 
 .br-main-hover:hover {
-    border-color: #0a6ba3;
+    border-color: #1c7eb7;
 }
 .sms-active {
     border-color: #2980b9;
 }
 
 .glyphicon-pencil {
-    color: #0a6ba3 !important
+    color: #1c7eb7 !important
 }
 .glyphicon-trash {
-    color: #0a6ba3 !important
+    color: #1c7eb7 !important
 }
 /*
 */
 #previous:hover,
 #next:hover {
     background: #fcfdff !important;
-    border-color: #0a6ba3;
+    border-color: #1c7eb7;
 }
 
 .glyphicon-trash {

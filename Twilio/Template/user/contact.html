@@ -241,10 +241,18 @@
                 </div>
             </div>
             
-            {% if request.session.layout.email == 1 %}
-                <div class="col-sm-2"></div>
+            {% if request.session.layout.sms == 1 %}
+                <div class="col-sm-1"></div>
             {% endif %}
-            <div class="col-sm-3 text-right">
+            
+            {% if request.session.layout.email == 1 %}
+                {% if request.session.layout.sms == 0 %}
+                    <div class="col-sm-3"></div>
+                    {% else %}
+                    <div class="col-sm-2"></div>
+                {% endif %}
+            {% endif %}
+            <div class="col-sm-2 text-right">
                 <button class="btn btn-default" onclick="clearFilter()">恢復</button>
                 <button class="btn btn-primary" id="btnFilter" onclick="doFilter()">過濾</button>
             </div>

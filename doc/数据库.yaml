@@ -8,11 +8,11 @@
   mysqldump -u root -p DB > DB.sql
 
 导入数据:
-  mysql -uroot -p tsms < /root/doc/tsms.sql
+  mysql -uroot -p sms < /root/doc/tsms.sql
 
 创建数据库:
   CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-  CREATE DATABASE tsms DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+  CREATE DATABASE sms DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
   删除数据库:
   drop database NAME;

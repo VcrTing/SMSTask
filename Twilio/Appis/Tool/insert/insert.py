@@ -6,8 +6,17 @@ from Appis.User.models import Contact, Tag
 
 from Twilio.settings import MEDIA_ROOT
 
+HERE_DIR = os.path.dirname(os.path.abspath(__file__))
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
+
+
+def _saving_long_phoned(r):
+    context = ','.join(r)
+    with open(
+        os.path.join(HERE_DIR, 'long_phoned.csv')
+    , mode = 'a') as f:
+        f.write( context + '\n' )
 
 def _ser_row(r):
     if len(r) >= 4:
@@ -17,10 +26,17 @@ def _ser_row(r):
             r[1] = '123Medhk客户' 
         if r[2] == '':
             r[2] = r[1]
+
+        r[3] = r[3].replace(' ','')
     return r
 
 
 def _contact(rec, area, tag):
+
+    if len(rec[3]) > 8:
+        _saving_long_phoned(rec)
+        return False
+
     contact = Contact()
     contact.first_named = rec[2]
     contact.area = area
@@ -55,23 +71,28 @@ def _saving(rec):
         if index % 100 == 0:
             time.sleep(0.2)
 
-def _doing(file):
-    files = os.listdir(file)
+        if index == 481:
+            return False
+
+def _doing(rec):
+
+    with open(rec, encoding = 'utf-8') as fs:
+        
+        rec = csv.reader(fs)
+        next(rec)
+        _saving(rec)
+
+    time.sleep(0.2)
+        
+def insert_contact():
+    f_path = os.path.join(MEDIA_ROOT, 'data', '123medhk')
+
+    files = os.listdir(f_path)
     
     for f in files:
         if str(f).startswith('.'):
             continue
 
-        rec = os.path.join(file, f)
-        with open(rec, encoding = 'utf-8') as fs:
-            
-            rec = csv.reader(fs)
-            next(rec)
-            _saving(rec)
+        rec = os.path.join(f_path, f)
 
-        time.sleep(0.2)
-        
-def insert_contact():
-    file = os.path.join(MEDIA_ROOT, 'data', '123medhk')
-
-    _doing(file)
+        _doing(rec)

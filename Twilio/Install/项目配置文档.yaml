@@ -6,3 +6,6 @@
 安装完成后:
   /init/ 
   # 进入初始化数据界面
+
+进入项目:
+  cd /root/SMSTask/Twilio

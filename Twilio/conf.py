@@ -10,12 +10,13 @@ EMAIL_NAME = '123Medhk'
 COMPANY_NAME = '123醫務中心'
 EMAIL_REPLAY_TO = 'support@manfulls.com'
 
+# LAYOUT 功能，还请更改 /Media/_app.json
 LAYOUT = {
-    'sms': 0,
-    'email': 1
+    'sms': 1,
+    'email': 0
 }
 
-WORK_HOUR = [11, 21, 20]
+WORK_HOUR = [10, 21, 20]
 
 # CATEGORY
 CATE = (

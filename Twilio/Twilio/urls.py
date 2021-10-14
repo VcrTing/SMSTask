@@ -80,6 +80,7 @@ urlpatterns = [
 
     path('num/', Web.NumView.as_view()),
     path('style/', Web.StyleView.as_view()),
+    path('app_conf/', User.AppConfView.as_view()),
     path('task_running/', Web.TaskView.as_view()),
     path('incentive_task/', Web.IncentiveView.as_view()),
     

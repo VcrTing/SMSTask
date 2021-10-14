@@ -6,8 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponsePermanentRedirect,HttpResponse,JsonResponse
 
-import os, time
-import Twilio.settings as settings
+import os, time, json
 # Create your views here.
 from rest_framework import filters, pagination
 from rest_framework import mixins, viewsets, views, status, generics
@@ -30,6 +29,26 @@ from Twilio.company import Now as company
 from Appis.Tool.working.sys import mail
 from Appis.Tool.func import danger
 
+
+def app_switching():
+    res = None
+    pat = os.path.join(settings.MEDIA_ROOT, '_app.json')
+    
+    with open(pat, encoding='utf-8') as f:
+        res = f.read()
+
+    return json.loads(res) 
+
+def app_saving(res):
+    res = json.dumps(res)
+    pat = os.path.join(settings.MEDIA_ROOT, '_app.json')
+    
+    with open(pat, encoding='utf-8', mode = 'w') as f:
+        f.write(res)
+
+    return True
+
+
 # FOR USERFROFILE
 class LoginView(View):
     def get(self, request):
@@ -48,7 +67,7 @@ class LoginView(View):
                     request.session['user'] = user.email
                     request.session['isLogin'] = True
                     request.session['company'] = company
-                    request.session['layout'] = settings.FUNC_LAYOUT
+                    request.session['layout'] = app_switching()
                     
                     return redirect('/')
                 msg = '密码错误，若忘记密码，可联系工作人员获得密码，谢谢合作！！！'
@@ -434,5 +453,32 @@ class FeedBackView(View):
             suc = mail(sub, msg, code, au)
             if suc:
                 res['suc'] = res['suc'] + 1
+
+        return JsonResponse(res)
+
+# 站点配置
+class AppConfView(View):
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        res = { 'status': False }
+
+        option = request.GET.get('option', None)
+        print('in', option)
+
+        if option:
+            if option == 'change_layout':
+                sms = request.POST.get('sms', None)
+                email = request.POST.get('email', None)
+
+                print(sms, email)
+
+                app = app_switching()
+
+                app['sms'] = int(sms)
+                app['email'] = int(email)
+
+                app_saving(app)
 
         return JsonResponse(res)
