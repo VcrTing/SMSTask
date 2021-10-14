@@ -254,7 +254,7 @@ _ser_status = function(apply_status, send_status, task_status) {
     if (apply_status == true) {
         if (send_status == true) {
             color = 'success'
-            text = '已發送'
+            text = '<i class="glyphicon glyphicon-ok"></i> 送達'
         } else {
             color = 'error'
             text = '失敗！'

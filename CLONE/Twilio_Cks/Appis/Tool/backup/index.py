@@ -1,6 +1,6 @@
 import os, json, datetime, time
 
-from Twilio.settings import BACKUP, SQL_CONN, BASE_DIR
+from Twilio.settings import BACKUP, SQL_CONN, BASE_DIR, MESSING_DATE
 from Appis.Tool.func import osed
 
 from Appis.Tool.backup.source import _mysql
@@ -8,6 +8,8 @@ from Appis.Tool.backup.source import _trash_mysql as _del_mysql
 
 from Appis.Tool.backup.hardriver import _media
 from Appis.Tool.backup.hardriver import _trash_media as _del_media
+
+from Appis.Tool.backup.messaing import messing_again
 
 from Appis.Tool.working.sys import mail
 from Appis.common import SYSTEMMSGTYPED
@@ -22,11 +24,12 @@ _zip_cmd = 'zip -r'
 
 _lock = os.path.join(BASE_DIR, 'Media', '_lock.json')
 
-def lockit(word, res):
+def lockit(res):
     data = osed.load(_lock)
 
     if data:
-        data[word] = res
+        for k in res.keys():
+            data[ k ] = res[ k ]
         osed.save(_lock, data)
 
 
@@ -60,7 +63,7 @@ def mysql(timed, msg):
     
             # INSERT MYSQL TO MEDIA DIR
             rec = _mysql(_sql_cmd, f, timed)
-            
+
             time.sleep(16)
             # 系统邮件
 
@@ -96,7 +99,7 @@ def _backup():
 
     s = osed.size_full()
     m = osed.size(BACKUP['MEDIA_SRC'])
-    
+
     if s <= ((m * 3) - 10):
         # 容量不足
         msg = '磁盘剩余容量为：' + str(s) + ' MB，不足以支持媒体库进行备份，请解决。'
@@ -120,7 +123,6 @@ def trash():
 def backup():
 
     backuping = osed.load(_lock)
-    
     if backuping['backuping'] == False:
 
         backuping['backuping'] = True
@@ -128,3 +130,23 @@ def backup():
 
         _backup()
     
+    
+    
+def messing():
+    i = datetime.datetime.now()
+    if i.day == MESSING_DATE[0]:
+        if i.hour == MESSING_DATE[1]:
+            lockit({
+                'messing': False
+            })
+
+    backuping = osed.load(_lock)
+    
+    # print('backup =', backuping)
+    if backuping['messing'] is not True:
+        # print('进入')
+        messing_again()
+
+        lockit({
+            'messing': True
+        })

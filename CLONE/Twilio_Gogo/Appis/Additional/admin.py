@@ -43,7 +43,7 @@ class EmailTemplateAdmin(admin.ModelAdmin):
 @admin.register(models.EmailApply)
 class EmailApplyAdmin(admin.ModelAdmin):
 
-    list_display = ['email_template', 'contact', 'send_status', 'over_status', 'status', 'add_time']
+    list_display = ['email_template', 'contact', 'send_status', 'over_status', 'first_status', 'status', 'add_time']
     # filter_horizontal = ('time_rule', )
     
     search_fields = ['add_time', ]

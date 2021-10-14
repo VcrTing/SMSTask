@@ -8,10 +8,21 @@
     const now_icon = {{ now_icon }};
     const now_bgimg = {{ now_bgimg }};
 </script>
-<div id="app">
-    <div class="jumbotron">
-        <h2>幫助</h2>
-        <p>若出現未知問題，請及時聯系 <span class="text-main">support@manfulls.com</span></p>
+<div>
+    <div class="jumbotron" id="app">
+        <h2>站點配置</h2>
+        <div class="wrapper">
+            <div>短信功能:&nbsp;&nbsp;&nbsp;</div>
+            <input type="checkbox" v-model="sms" @change="funcValidate">
+
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <div>电邮功能:&nbsp;&nbsp;&nbsp;</div>
+            <input type="checkbox" v-model="email" @change="funcValidate">
+        </div>
+        <p class="tip">
+            提示：開啟任意功能後，您需要重新登錄該網站，重登後您的配置才會被重新加載。
+        </p>
     </div>
 
     <div class="jumbotron">
@@ -43,6 +54,72 @@
 </div>
 
 <script>
+    let sms_def = {{ request.session.layout.sms }}
+    let email_def = {{ request.session.layout.email }}
+
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            sms: sms_def,
+            email: email_def,
+        },
+        watch: {
+            sms(n, o) {
+                console.log(o, n, this.email)
+                if (!n) {
+                    if (!this.email) {
+                        alert('站点功能应至少开启一个！！！')
+                        setTimeout(() => { this.sms = true }, 200)
+                    }
+                }
+            },
+            email(n, o) {
+                if (!n) {
+                    if (!this.sms) {
+                        alert('站点功能应至少开启一个！！！')
+                        setTimeout(() => { this.email = true }, 200)
+                    }
+                }
+            }
+        },
+        methods: {
+            funcSubmit(data) {
+                
+                $.ajax({
+                    url: _root + '/app_conf/?option=change_layout',
+                    data: data,
+                    type: 'POST',
+                    dataType: 'json',
+                    async: false,
+                    beforeSend:function(xhr, settings){
+                        xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
+                    },
+                    success: function(e) {
+                        console.log('submit e =', e)
+                    }
+                })
+            },
+
+            funcValidate() {
+                if (!this.sms & !this.email) {
+                    return 0
+                }
+
+                let sms = 1
+                if (!this.sms) { sms = 0 }
+
+                let email = 1
+                if (!this.email) { email = 0 }
+
+                const data = {
+                    sms,
+                    email
+                }
+                
+                this.funcSubmit(data)
+            }
+        },
+    })
     
     
     let html_icon = $('#icons');
@@ -122,6 +199,58 @@
 </script>
 
 <style>
+    .tip {
+        margin-top: 8px;
+        font-size: 18px !important;
+    }
+
+    .wrapper {
+        margin-top: 12px;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+    }
+    .wrapper div {
+        font-size: 20px;
+        display: inline-block;
+        margin: 0px;
+    }
     
+    input[type="checkbox"] {
+        margin-top: 0px;
+
+        outline: none;
+        position: relative;
+        width: 4em;
+        height: 2em;
+        appearance: none;
+        -webkit-appearance: none;
+        background: #7f7f7f;
+        border-radius: 2em;
+        transition: .5s;
+        font-size: inherit;
+        box-shadow: inset 0 0 .2em rgba(0, 0, 0, .12);
+    }
+    input:checked[type="checkbox"] {
+        background: #3498db;
+    }
+    input[type="checkbox"]::before {
+        content: '';
+        width: 2em;
+        height: 2em;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        transition: .5s;
+        background: #fff;
+        transform: scale(1.1);
+        box-shadow: 0 0.05em .2em rgba(0, 0, 0, .12);
+    }
+    input:checked[type="checkbox"]::before {
+        left: 2em
+    }
 </style>
 {% endblock data %}

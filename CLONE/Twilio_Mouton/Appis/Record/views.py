@@ -14,7 +14,9 @@ from rest_framework.response import Response
 from django_filters.rest_framework.backends import DjangoFilterBackend
 
 from Appis.Record import models
-from Appis.Sms import models as sms_modles
+from Appis.User import models as user_models
+from Appis.Sms import models as sms_models
+from Appis.Additional import models as addit_models
 from Appis.User.models import Contact
 from Appis.Record import serializers
 
@@ -132,15 +134,14 @@ class TaskView(View):
                 lang = request.GET.get('lang', 1)
                 for cate in common.CATEGORY:
                     if len(str(cate[0])) == 1:
-                        # print('CATE =', cate)
-                        category = sms_modles.Category.objects.filter(Q(flag = cate[0]))
+                        category = sms_models.Category.objects.filter(Q(flag = cate[0]))
                         if category[0]:
                             if category[0].status:
-                                sms_templates = sms_modles.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang))
+                                sms_templates = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang))
                                 res.append( sms_templates )
                                 category_list.append(category[0])
 
-                areas = sms_modles.Area.objects.filter(status = True)
+                areas = sms_models.Area.objects.filter(status = True)
                 return render(request, 'record/task_add.html', 
                     { 
                         'title': '首页', 
@@ -292,3 +293,82 @@ class TaskPreView(View):
             'service': model_to_dict(sms_template.service),
             'sms_template': model_to_dict(sms_template)
         })
+
+
+class GroupSendToolView(View):
+    def get(self, request):
+        tags = request.GET.get('tags', None)
+
+        if tags:
+            tags = tags.split('_')
+            tags = [i for i in tags if i is not '']
+            
+        res = user_models.Contact.objects.filter(
+            Q()
+        )
+        
+        return JsonResponse({
+            'tags': tags,
+        })
+
+
+class GroupSendView(View):
+    page_flag = 'group_send'
+    def get(self, request):
+        nper = [
+            {
+                'val': nr[0],
+                'txt': nr[1]
+            } for nr in common.NPER
+        ]
+               
+        option = request.GET.get('option', None)
+
+        if option:
+            if option == 'task':
+                res_hk, res_en, category_list = [], [], []
+                lang_hk, lang_en = common.LANG[0][0], common.LANG[1][0]
+                for cate in common.CATEGORY:
+                    if len(str(cate[0])) == 1:
+                        category = sms_models.Category.objects.filter(flag = cate[0])
+                        if category[0]:
+                            if category[0].status:
+                                st_hk = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang_hk))
+                                res_hk.append( st_hk )
+                                
+                                st_en = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang_en))
+                                res_en.append( st_en )
+
+                                category_list.append(category[0])
+
+                tags = user_models.Tag.objects.all()
+
+            if option == 'email':
+                res = []
+                for cate in common.CATEGORY:
+                    if len(str(cate[0])) == 2:
+                        c_id = sms_models.Category.objects.get(flag = cate[0])
+                        ets = addit_models.EmailTemplate.objects.filter(Q(category = c_id) & Q(status = True))
+                        res.append({
+                            'k': c_id.named,
+                            'v': [
+                                {
+                                    'id': et.id,
+                                    'service': et.service,
+                                    'time_rule': et.time_rule
+                                } for et in ets
+                            ]
+                        })
+        
+        return render(request, 'record/GroupSend/group_send.html', 
+            { 
+                'title': '電話薄 - 組團任務', 
+                'page_flag': self.page_flag,
+                'page_flag_sub': 'group_send',
+
+                'tags': tags,
+                'sms_list_hk': res_hk,
+                'sms_list_en': res_en,
+                'category_list': category_list
+            }
+        )

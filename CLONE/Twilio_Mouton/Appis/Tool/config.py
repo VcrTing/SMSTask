@@ -17,6 +17,5 @@ WAY = comm.WAY
 
 EMAIL_NAME = settings.EMAIL_NAME
 COMPANY = settings.COMPANY
-EMAIL_REPLAY_TO = settings.EMAIL_REPLAY_TO
 
 KEY_DIR = settings.KEY_DIR

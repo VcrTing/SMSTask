@@ -12,7 +12,7 @@ cp ./supervisor.ini /etc/supervisord.d/project.ini
 echo 'Supervisor 文件配置完成'
 echo '...'
 echo '准备导入数据，Mysql 密码为:'
-mysqldump -u root -p $database < ../../_doc/Install_Shell/SAVE/tsms.sql 
+mysqldump -u root -p $database < ../../CLONE/_doc/Install_Shell/SAVE/tsms.sql 
 echo '导入数据 完成'
 echo '您需要创建一名用来登录的默认超级用户:'
 python3 ../manage.py createsuperuser

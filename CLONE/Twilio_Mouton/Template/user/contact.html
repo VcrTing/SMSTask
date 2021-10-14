@@ -121,7 +121,7 @@
 
                         {% if request.session.layout.sms == 1 %}
                             '<td><h4>' + phoned + '</h4></td>' +
-                            '<td><h4>' + email + '</h4></td>' +
+                            '<td align="center"><h4>' + email + '</h4></td>' +
                             '<td align="center"><h4 class="gender">' + _ser_gender(gender) + '</h4></td>' +
 
                         {% else %}
@@ -178,32 +178,33 @@
         <div class="row filter-row">
             {% if request.session.layout.email == 1 %}
                 {% if request.session.layout.sms == 1 %}
-                    <div class="col-sm-3">
-                        <select class="w-100 form-control filter-select" id="filter_status">
-                            <option value="0">-- 全部狀態 --</option>
-                            
-                            <option value="1">有號碼的用戶</option>
-                            <option value="2">無號碼的用戶</option>
+                <div class="col-sm-3">
+                    <select class="w-100 form-control filter-select" id="filter_status">
+                        <option value="0">-- 全部狀態 --</option>
+                        
+                        <option value="1">有號碼的用戶</option>
+                        <option value="2">無號碼的用戶</option>
 
-                            <option value="3">有電郵的用戶</option>
-                            <option value="4">無電郵的用戶</option>
-                        </select>
-                    </div>
+                        <option value="3">有電郵的用戶</option>
+                        <option value="4">無電郵的用戶</option>
+                    </select>
+                </div>
+
                 {% endif %}
                 
                 {% else %}
-                    <div class="col-sm-2">
-                        
-                        <select class="w-100 form-control filter-select" id="filter_area">
-                            <option value="0">-- 地區 --</option>
-                            {% for area in areas %}
-                            <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
-                                {{ area.named }}({{ area.phoned_prefix }})
-                            </option>
-                            {% endfor %}
-                        </select>
-                        <!--input class="w-100 form-control" id="filter-search" placeholder="輸入名字或號碼"/-->
-                    </div>
+                <div class="col-sm-2">
+                    
+                    <select class="w-100 form-control filter-select" id="filter_area">
+                        <option value="0">-- 地區 --</option>
+                        {% for area in areas %}
+                        <option value="{{ area.id }}" data-prefix="{{ area.phoned_prefix }}">
+                            {{ area.named }}({{ area.phoned_prefix }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <!--input class="w-100 form-control" id="filter-search" placeholder="輸入名字或號碼"/-->
+                </div>
             {% endif %}
             <div class="col-sm-2">
                 <select class="w-100 form-control filter-select" id="filter_gender">
@@ -239,7 +240,7 @@
                     <div>歲</div>
                 </div>
             </div>
-
+            
             {% if request.session.layout.sms == 1 %}
                 <div class="col-sm-1"></div>
             {% endif %}
@@ -732,7 +733,7 @@
 
         let tasker = _delNoneUser(_getTasker(), 0)
         tasker = JSON.stringify(tasker)
-        localStorage.setItem('sms_tasker', tasker)
+        sessionStorage.setItem('sms_tasker', tasker)
         location.href = '/contact/?option=task'
     }
     doEmail = function() {
@@ -744,7 +745,7 @@
 
         let tasker = _delNoneUser(_getTasker(), 1)
         tasker = JSON.stringify(tasker)
-        localStorage.setItem('email_tasker', tasker)
+        sessionStorage.setItem('email_tasker', tasker)
         location.href = '/contact/?option=email'
     }
     trashAll = function() {

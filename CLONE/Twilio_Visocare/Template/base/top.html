@@ -2,7 +2,7 @@
 {% load staticfiles %}
 <div class="top-bar">
     <div class="container-fluid">
-        <div class="fl hand logo-outter" onclick="goIndex()">
+        <div class="fl hand" onclick="goIndex()">
             <img class="logo" src="{% static '/Common/Logo/' %}{{ request.session.company }}.png" />
         </div>
         <div class="login-out fr">
@@ -44,20 +44,11 @@
 .top-bar > div {
     padding-top: 3px;
 }
-
-.logo-outter {
-    width: 110px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    height: 42px;
-    margin-top: -1px;
-    margin-left: -12px;
-}
 .logo {
     overflow: hidden;
-    flex: 1;
-    text-align: left;
+    height: 120px;
+    margin-top: -39px;
+    margin-left: -12px;
 }
 .logo img {
     height: 100%;

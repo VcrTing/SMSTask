@@ -36,17 +36,28 @@ from Twilio.company import Now as company
 from Twilio.company import SYS_MAIL
 from Twilio.settings import BASE_DIR, MEDIA_ROOT
 from Appis.common  import SYSTEMMSGTYPED, ICON, BGIMG
+
+from ..Tool.insert.insert import insert_contact
+
 # Create your views here.
 
 class ImportView(View):
     def get(self, request):
         res = {
-            'title': '数据导入导出',
-            'msg': '没有任何数据可导入'
+            'title': 'Data Import.',
+            'msg': 'No One Data Import.'
         }
-        option = request.GET.get('option', 'csv')
+        option = request.GET.get('option', None)
         res['typed'] = option
-        return render(request, 'other/import.html', res)
+        # return render(request, 'other/import.html', res)
+
+        if option:
+            if option == 'contact':
+                insert_contact()
+            
+            res['msg'] = option + ' Data import success !!!'
+
+        return JsonResponse(res)
     
     def _loadFile(self, typed, request):
         company = request.session.get('company')

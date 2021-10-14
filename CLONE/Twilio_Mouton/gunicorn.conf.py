@@ -12,4 +12,4 @@ errorlog = "./log/gunicorn_error.log"
 accesslog = "-" # 访问日志文件，"-" 表示标准输出
 errorlog = "-"
 
-proc_name = 'twilio' # 进程名
+proc_name = 'Twilio' # 进程名

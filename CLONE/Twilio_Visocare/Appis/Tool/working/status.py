@@ -35,7 +35,7 @@ def get_logs():
         'recipients': 'eric@manfulls.com',
         'begin': 'Wed, 21 Oct 2020 09:00:00 -0000'
     })
-    print(res.text)
+    # print(res.text)
 
 # Email 
 def _get_status_email():

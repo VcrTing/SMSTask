@@ -3,7 +3,8 @@ import os, datetime, time
 import csv 
 from Twilio.company import Now
 
-from Appis.User.models import Contact, Area, Tag
+from Appis.Sms.models import Area
+from Appis.User.models import Contact, Tag
 
 def _finish(paths, done):
     n = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')

@@ -44,16 +44,16 @@
                     <h4>接收者</h4>
                 </td>
                 <td align="center">
-                    <h4>時間規則</h4>
+                    <h4>任務狀態</h4>
                 </td>
                 <td align="center">
-                    <h4>任務狀態</h4>
+                    <h4>時間規則</h4>
                 </td>
                 <td>
                     <h4>發送時間</h4>
                 </td>
                 <td align="center">
-                    <h4>操作</h4>
+                    <h4></h4>
                 </td>
             </tr>
         </thead>
@@ -268,7 +268,7 @@
                     const sms_template = sms_task['sms_template']
                     
                     const id = item['id']
-                    const reciver = sms_task['named'] + "(<span class='text-main'>" + area['phoned_prefix'] + '&nbsp;' + sms_task['phoned'] + "</span>)&nbsp;&nbsp;"
+                    const reciver = sms_task['named'] + "(<span class='text- main'>" + area['phoned_prefix'] + '&nbsp;' + sms_task['phoned'] + "</span>)&nbsp;&nbsp;"
                     const status = _ser_status(item['apply_status'], item['send_status'], sms_task['task_status'])
                     const time_rule_belong = _ser_time_rule_belong(item['time_rule_belong'])
                     const send_finish_time = _ser_send_time(item['send_finish_time'])
@@ -278,8 +278,8 @@
                     const html = "<tr>" +
                     "<td><h4 class='tip hand' onclick='eye(" + id + ")' id='tip_" + id + "' data-toggle='popover' title='提示' data-content='" + tip + "'>" + sms_template['service']['named'] + "</h4></td>"+
                     "<td><h4>" + reciver + "</h4></td>"+
-                    "<td align='center'><h4>" + time_rule_belong + "</h4></td>"+
                     "<td align='center'><h4>" + status + "</h4></td>"+
+                    "<td align='center'><h4>" + time_rule_belong + "</h4></td>"+
                     "<td><h4>" + send_finish_time + "</h4></td>"+
                     "<td align='center'><h4><span class='text-main hand' onclick='sureTrash(" + id + ", " + id + ")'><span class='glyphicon glyphicon-trash'></span></span></h4></td>"+
                     "</tr>";

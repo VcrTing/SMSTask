@@ -28,11 +28,11 @@ SETTING = {
 
         'database': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': DATA_BASE,
+            'NAME': DATA_BASE, # jAUMMp
             'HOST': 'localhost',
             'PORT': 3306,
             'USER': 'root',
-            'PASSWORD': 'VcrTing.ZT123zlt',
+            'PASSWORD': 'VcrTing.ZT123zlt', # zHJEMsoQ6q7NC!7H6ZRGbQ9oJqPDEy
             'CONN_MAX_AGE': 2000
         },
         'layout': LAYOUT, # 功能设定，0 为关闭，1 为打开

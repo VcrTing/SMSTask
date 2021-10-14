@@ -9,9 +9,11 @@
         <div class="container-ﬂuid">
             <div class="login-space"></div>
             <div class="login-wrapper">
-                <h2 class="text-center">
-                    <img class="login-avatar" src="{% static 'Common/Icon/default.jpg' %}" />
-                </h2>
+                <div class="logo-wrapper">
+                    <h2 class="login-logo">
+                        <img class="login-avatar" src="{% static 'Common/Icon/default.jpg' %}" />
+                    </h2>
+                </div>
                 <div class="login-trangle">
                     <div class=""></div>
                 </div>
@@ -102,9 +104,25 @@
         width: 100%;
         border-radius: 2px !important;
     }
+
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 127px;
+        height: 127px;
+        padding: 2px;
+        border-radius: 100%;
+        background: rgba(255, 255, 255 ,0.23);
+    }
     .login-avatar {
-        width: 120px;
-        border-radius: 3px;
+        width: 100%;
+        height: auto;
     }
     .login-trangle {
         position: relative;

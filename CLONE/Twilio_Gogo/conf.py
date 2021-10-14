@@ -15,7 +15,7 @@ LAYOUT = {
     'email': 1
 }
 
-WORK_HOUR = [11, 21, 20]
+WORK_HOUR = [10, 21, 20]
 
 # CATEGORY
 CATE = (

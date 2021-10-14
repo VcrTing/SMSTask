@@ -6,10 +6,12 @@ from .email import _do_runemail
 
 def _running_sms():
     every_task_list = doing.get_running_task()
-
+    # print('搜寻的 任务 =', every_task_list)
     if every_task_list:
         for every_task in every_task_list:
-            _do_runtask(every_task)
+            # print('every task =', every_task)
+            _do_runtask(every_task)	
+            # print('')
         return True
     else:
         return False

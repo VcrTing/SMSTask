@@ -90,7 +90,7 @@ class ServiceView(View):
                 category = models.Category.objects.filter(way = 1)
                 smsT = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 1))
                 smsT_en = models.SmsTemplate.objects.filter(Q(service = service.id) & Q(lang = 2))
-                
+
                 cate = None
                 time_rule = list(service.time_rule)
                 if smsT:

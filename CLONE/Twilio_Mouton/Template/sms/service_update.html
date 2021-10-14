@@ -144,7 +144,6 @@
     </div>
 </div>
 <script>
-
     buildTimeRule = function() {
         let html = ''
         const tr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
@@ -162,26 +161,23 @@
         $('#time_rule_panel').html(html)
     }
     buildTimeRule()
-    
-    var cate = [
-        {{cate.id}}, `{{cate.named}}`
-    ]
-
-    var service = [ '{{service.id}}', `{{service.named}}`, {{time_rule}}]
-
-    var sms_template = [
-        {% for c in sms_template %}
-            {{c.id}}, `{{c.content}}`, `{{c.content_sub}}`,
-        {% endfor %}
-    ]
-    var sms_template_en = [
-        {% for c in sms_template_en %}
-            {{c.id}}, `{{c.content}}`, `{{c.content_sub}}`,
-        {% endfor %}
-    ]
-    
 </script>
 <script>
+    const cate = [
+        {{cate.id}}, "{{cate.named}}"
+    ]
+
+    const service = [ '{{service.id}}', '{{service.named}}', {{time_rule}}]
+    const sms_template = [
+        {% for c in sms_template %}
+            {{c.id}}, "{{c.content}}", "{{c.content_sub}}",
+        {% endfor %}
+    ]
+    const sms_template_en = [
+        {% for c in sms_template_en %}
+            {{c.id}}, "{{c.content}}", "{{c.content_sub}}",
+        {% endfor %}
+    ]
 
     submit = function() {
         $('#submitV').click()
@@ -307,5 +303,5 @@
         }
     })
 </script>
-
+{% include 'base/footer.html' %}
 {% endblock data %}

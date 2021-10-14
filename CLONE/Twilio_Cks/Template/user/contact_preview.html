@@ -25,8 +25,8 @@
                                 <td>到訪時間</td>
                             {% endif %}
                             <td>服務名</td>
-                            <td align="center">時間規則</td>
                             <td align="center">狀態</td>
+                            <td align="center">時間規則</td>
                             {% if request.session.layout.sms == 1 %}
                                 <td>短信內容</td>
                             {% endif %}
@@ -46,8 +46,8 @@
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>
                                 </td>
-                                <td class="task_item" align="center">即時</td>
                                 <td class="task_item" align="center">成功</td>
+                                <td class="task_item" align="center">即時</td>
                                 <td class="task_item fr" align="center" width="60">
                                     <a onclick="sureTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a>
                                 </td>
@@ -183,8 +183,8 @@
                 '<tr class="" id="contact_task_tr_' + id + '">' +
                     '<td class="task_item">' + send_time + '</td>' +
                     '<td class="task_item">' + named + '</td>' +
-                    '<td class="task_item" align="center">' + time_belong + '</td>' +
                     '<td class="task_item" align="center">' + status + '</td>' +
+                    '<td class="task_item" align="center">' + time_belong + '</td>' +
 
                     '<td class="task_item task_item_content" data-close="true" id="task_content_' + id + '" ' +
                         'data-show="' + content_short + '" data-content="' + content + '">' +

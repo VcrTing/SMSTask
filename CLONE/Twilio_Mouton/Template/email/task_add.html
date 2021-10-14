@@ -72,7 +72,6 @@
     </div>
 </div>
 <script>
-const email_template_list = eval({{ email_template_list|safe }});
 
     _et = function() {
         const email_template = $('#email_template').val()
@@ -124,22 +123,10 @@ const email_template_list = eval({{ email_template_list|safe }});
         })
     }
     
-    
     preview = function() {
         const named = $('#named').val()
         const addr = $('#email').val()
         const time_rule = $('#time_rule').val()
-        let service = $('#email_template').val()
-
-        for (var i= 0; i< email_template_list.length; i++ ) {
-            const ets = email_template_list[i]['v']
-
-            for (var j= 0; j< ets.length; j++ ) {
-                if (service == ets[j].id) {
-                    service = ets[j].service
-                }
-            }
-        }
         
         // 資料
         $('#preview_named').html(named)
@@ -147,7 +134,6 @@ const email_template_list = eval({{ email_template_list|safe }});
         $('#preview_time_rule').html(
             _ser_email_time_rule(parseInt(time_rule))
         )
-        $('#preview_service').val(service)
         
         // 拜訪時間
         const visit_time = $('#visit_time').val()
@@ -182,7 +168,7 @@ const email_template_list = eval({{ email_template_list|safe }});
 
         const xss_named = xss(named)
         if (xss_named != true) { alert(xss_named); return }
-    
+                
         preview()
     }
     submit = function() {
@@ -263,6 +249,7 @@ chooseSms = function(id) {
     $('#time_rule').val($('#item_' + id).data('timerule'))
 }
 
+const email_template_list = eval({{ email_template_list|safe }});
 
 loadTemplate = function() {
     if (email_template_list == []) {
@@ -355,5 +342,6 @@ loadTemplate()
 }
 </style>
 {% include 'email/task_preview.html' %}
+{% include 'base/footer.html' %}
 
 {% endblock data %}

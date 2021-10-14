@@ -1,0 +1,159 @@
+/*
+    Primary Color
+    337ab7
+    23527c
+*/
+
+.star,
+.text-main,
+.active span,
+.co-main-hover:hover 
+{
+    color: #337ab7;
+}
+.text-main:hover {
+    color: #0a64a4;
+}
+
+.bg-blue,
+.page-active,
+.page-active a,
+.sms-active
+{
+    background: #337ab7;
+}
+.sms-active:hover,
+.sms-active-hover:hover {
+    background: #0a64a4 !important;
+}
+
+.br-main-hover:hover {
+    border-color: #337ab7;
+}
+.sms-active {
+    border-color: #0a64a4;
+}
+
+/*
+    元素
+*/
+.def-border {
+    border-color: #eeeeee;
+}
+
+.bg-main {
+    background: #23282d;
+}
+
+.text-info {
+    color: #3c8f6d !important;
+}
+.text-info:hover {
+    color: #0e7c4f !important;
+}
+.form-tip {
+    color: #d9333f;
+}
+
+#pageMsg {
+    color: #9e9e9e;
+}
+#countMsg {
+    color: #4b4991;
+}
+
+/*
+    激活
+*/
+.active {
+    background: #f9f9f9;
+}
+.active:hover {
+    background: #f9f9f9;
+}
+
+.page-icon:hover {
+    background-color: white !important;
+    color: #286090 !important;
+    border-color: #286090 !important;
+}
+
+.reciver {
+    color: #bf9050;
+    border-color: #bf9050;
+    transition: all .5s;
+}
+.reciver:hover {
+    color: #a66813;
+    border-color: #a66813;
+}
+.reciver-hui {
+    color: rgb(168, 168, 168) !important;
+    border-color: rgb(168, 168, 168) !important;
+}
+
+
+.star-active {
+    color: #ffd67d;
+    background-color: linear-gradient(to bottom right, gold, rgb(211, 179, 1));
+}
+
+/* 
+    状态
+*/
+.success {
+    color: #219247;
+}
+.success:hover {
+    color: #0e7c4f;
+}
+.error {
+    color: #e92b2b !important;
+}
+.error:hover {
+    color: #a22041;
+}
+.apply {
+    color: #6c55be;
+}
+.apply:hover {
+    color: #615eac;
+}
+.complete {
+    color: #f7c746;
+}
+.complete:hover {
+    color: #a66813;
+}
+.red {
+    color: #d7003a;
+}
+.red:hover {
+    color: #c9171e;
+}
+
+.del {
+    color: #df8382;
+}
+.del:hover {
+    color: #9e9d9d;
+}
+
+/*
+    Category Panel
+*/
+#category_gate > div {
+    color: white !important;
+}
+#category_gate > div:nth-child(1) > h4 {
+    background: lightgreen;
+}
+#category_gate > div:nth-child(2) > h4 {
+    background: lightblue;
+}
+#category_gate > div:nth-child(3) > h4 {
+    background: pink;
+}
+#category_gate > div:nth-child(4) > h4 {
+    background: SandyBrown;
+}

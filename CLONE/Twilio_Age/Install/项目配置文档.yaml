@@ -3,3 +3,9 @@
   项目/conf.py
   # DATABASE 即更改数据库名
 
+安装完成后:
+  /init/ 
+  # 进入初始化数据界面
+
+进入项目:
+  cd /root/SMSTask/Twilio

@@ -3,16 +3,8 @@
 {% block data %}
 <!-- 提示信息 -->
 <div id="sms_num_dom"></div>
-<!-- 聯系人列表 -->
-<div class="row">
-    <div class="col-sm-12">
-        <h4>所選聯系人：</h4>
-        <ul class="tasker" id="tasker_list">
-        </ul>
-    </div>
-</div>
 <!-- 選單列表 -->
-<div class="row mr-t-main">
+<div class="row">
     <div class="col-sm-12 clearfix">
         <h4 class="d-inline fl">請選擇服務：</h4>
         <div class="fr mr-t-main">
@@ -85,6 +77,14 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
+</div>
+<!-- 聯系人列表 -->
+<div class="row mr-t-main">
+    <div class="col-sm-12">
+        <h4>所選聯系人：</h4>
+        <ul class="tasker" id="tasker_list">
+        </ul>
     </div>
 </div>
 <div class="flex-action">
@@ -198,6 +198,7 @@
                 let html = ''
                 for(let i= 0; i< time_rule.length; i++ ) {
 
+                    console.log('进来了')
                     const r = _ser_time_rule_belong(parseInt(time_rule[i]))
                     
                     html += '' +
@@ -240,7 +241,7 @@
     $('#submit').click(function() {
 
         let tasker = ''
-        const rec = eval(localStorage.getItem('sms_tasker'))
+        const rec = eval(sessionStorage.getItem('sms_tasker'))
 
         for (var i= 0; i< rec.length; i++ ) {
             tasker = tasker + rec[i]['id'] + ','
@@ -310,7 +311,7 @@
         if (sms_id == 0) {
             alert('未選擇服務！！！')
         } else {
-            const rec = eval(localStorage.getItem('sms_tasker'))
+            const rec = eval(sessionStorage.getItem('sms_tasker'))
             
             taskerPreview(rec.length, sms_id)
             
@@ -319,7 +320,7 @@
 
     loadContact = function () {
         tasker_list.html()
-        const tasker = eval(localStorage.getItem('sms_tasker'))
+        const tasker = eval(sessionStorage.getItem('sms_tasker'))
         for (var i= 0; i< tasker.length; i++ ) {
             const id = tasker[i]['id']
             const named = tasker[i]['first_named']

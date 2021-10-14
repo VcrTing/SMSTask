@@ -4,7 +4,7 @@ from . import config as conf
 from .working.email import _serial_email
 from .working.note import _serial_task
 
-from Appis.Tool.backup.index import backup, lockit, trash
+from Appis.Tool.backup.index import backup, lockit, trash, messing
 from .working.running import _running_task
 from .working.incentive import _get_incentive_tasker
 from .working.status import _running_status
@@ -19,20 +19,22 @@ def serial_email(task_ids):
 
 # 执行 运行中 的任务
 def running_task():
-    i = datetime.datetime.now()
     
+    i = datetime.datetime.now()
+    # print('WORK HOUR =', conf.WORK_HOUR, str(i.hour))
     if int(i.hour) in conf.WORK_HOUR:
         _running_task()
     
     # 备份
-    if int(i.hour) in [13, 22]:
+    if int(i.hour) in [13, 16, 23]:
         trash()
         backup()
-        lockit('backuping', False)
-        try:
-            pass
-        except Exception as e:
-            pass
+    if int(i.hour) in [14, 1]:
+        lockit({
+            'backuping': False
+        })
+
+    messing()
 
 # 运行中的任务
 def running_taskers():

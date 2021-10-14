@@ -1,4 +1,4 @@
-import os, shutil, json, datetime
+import os, json, datetime, shutil
 
 from Twilio.settings import BACKUP, SQL_CONN
 from Appis.Tool.func import osed
@@ -27,11 +27,7 @@ def _f(f):
 def _trash_mysql(timed):
     res = [ True ]
     try:
-        shutil.rmtree(
-            BACKUP['MYSQL_SRC']
-        )
-    except Exception as e:
-        
+        res = [ ]
         fs = osed.files(BACKUP['MYSQL_SRC'])
         if len(fs) > 0:
             try:
@@ -47,7 +43,10 @@ def _trash_mysql(timed):
                         res.append(True)
             except:
                 pass
-            
+    except Exception as e:
+        shutil.rmtree(
+            BACKUP['MYSQL_SRC']
+        )
     return res
 
         
