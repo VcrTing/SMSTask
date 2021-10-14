@@ -4,3 +4,6 @@
 version = 3.0.0   
 author = vcrting@163.com  
 lastedit = 2020年10月22日  
+
+## Dowload
+git clone 'https://www.github.com/VcrTing/SMSTask.git'

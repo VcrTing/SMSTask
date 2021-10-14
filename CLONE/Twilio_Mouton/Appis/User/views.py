@@ -480,5 +480,7 @@ class AppConfView(View):
                 app['email'] = int(email)
 
                 app_saving(app)
+                res['status'] = True
+                request.session['layout'] = app
 
         return JsonResponse(res)

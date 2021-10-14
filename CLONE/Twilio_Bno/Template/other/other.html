@@ -95,7 +95,13 @@
                         xhr.setRequestHeader("X-CSRFToken", $("input[name='csrfmiddlewaretoken']").val() );
                     },
                     success: function(e) {
-                        console.log('submit e =', e)
+
+                        console.log(e)
+                        if (e['status']) {
+                            setTimeout(() => {
+                                location.reload()
+                            }, 500)
+                        }
                     }
                 })
             },
@@ -234,6 +240,7 @@
     }
     input:checked[type="checkbox"] {
         background: #3498db;
+        background: #3aa379;
     }
     input[type="checkbox"]::before {
         content: '';
