@@ -1,4 +1,6 @@
 
+from conf import CATE
+
 NULL = '無'
 
 UNKNOW = '未知'
@@ -40,15 +42,7 @@ TIME_RULE_EMAIL = [
     [13, '每兩年(可重複寄出)'],
 ]
 
-CATEGORY = (
-    (1, '疫苗'),
-    (2, '手術'),
-    (3, '美容'),
-    (4, '商品'),
-    (21, '產品'),
-    (22, '服務'),
-    (23, '檢查')
-)
+CATEGORY = CATE
 
 NUMED = (
     (0, '零'),
