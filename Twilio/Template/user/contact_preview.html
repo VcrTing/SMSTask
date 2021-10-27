@@ -18,22 +18,24 @@
                 <div class="mr-t-main task_wrapper">
                     <table class="table table-responsive table-striped fs-def">
                         <thead class="fw-bold">
-                            {% if request.session.layout.sms == 1 %}
-                                <td>發送時間</td>
-                            {% endif %}
-                            {% if request.session.layout.email == 1 %}
-                                <td>到訪時間</td>
-                            {% endif %}
-                            <td>服務名</td>
-                            <td align="center">狀態</td>
-                            <td align="center">時間規則</td>
-                            {% if request.session.layout.sms == 1 %}
-                                <td>短信內容</td>
-                            {% endif %}
-                            {% if request.session.layout.email == 1 %}
-                                <td align="center">發送記錄</td>
-                            {% endif %}
-                            <td align="center" width="60">操作</td>
+                            <tr>
+                                {% if request.session.layout.sms == 1 %}
+                                    <td>到訪時間</td>
+                                    {% else %}
+                                    <td>發送時間</td>
+                                {% endif %}
+
+                                <td>服務名</td>
+                                <td align="center">狀態</td>
+                                <td align="center">時間規則</td>
+                                
+                                {% if request.session.layout.email == 1 %}
+                                    <td align="center">發送記錄</td>
+                                    {% else %}
+                                    <td>短信內容</td>
+                                {% endif %}
+                                <td align="center" width="60"></td>
+                            </tr>
                         </thead>
                         <tbody class="" id="contact_task_tbody">
                             <tr class="" id="contact_tr_19">
@@ -48,7 +50,7 @@
                                 </td>
                                 <td class="task_item" align="center">成功</td>
                                 <td class="task_item" align="center">即時</td>
-                                <td class="task_item fr" align="center" width="60">
+                                <td class="task_item fr" align="center">
                                     <a onclick="sureTrash(' + id + ')"><span class="glyphicon glyphicon-trash hand text-main"></span></a>
                                 </td>
                             </tr>
@@ -133,8 +135,9 @@
                 '<tr class="" id="contact_task_tr_' + id + '">' +
                 '    <td class="task_item">' + visit_time + '</td>' +
                 '    <td class="task_item" id="contact_task_email_service_' + id + '"></td>' +
-                '    <td class="task_item" align="center">' + time_rule + ', ' + nper + ', ' + first_status +'</td>' +
                 '    <td class="task_item" align="center">' + status + '</td>' +
+                
+                '    <td class="task_item" align="center">' + time_rule + ', ' + nper + ', ' + first_status +'</td>' +
                 
                 '    <td align="center"><div class="hand text-main" onclick="goEmailCollect(' + id + ')">前往查看</div></td>' +
                 '    <td class="task_item fr" align="center" width="60">' +

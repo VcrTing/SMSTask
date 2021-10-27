@@ -21,7 +21,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 mt-mobie">
                             <label for="phoned" class="control-label">
                                 手機號碼&nbsp;
 
@@ -86,17 +86,17 @@
                             <label for="bith" class="control-label">
                                 出生年
                                 <div class="d-inline">
-                                    <span id="update_bith_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                                    <span id="update_bith_laydate" class="glyphicon glyphicon-calendar hand txt-sky"></span>
                                     <input type="text" style="width: 15px; visibility: hidden; height: 10px;" id="update_bith">
                                 </div>
                             </label>
                             <input type="text" class="form-control bith_year" id="bith_year" placeholder="">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 mt-mobie">
                             <label for="bith" class="control-label">月</label>
                             <input type="text" class="form-control bith_month" id="bith_month" placeholder="">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 mt-mobie">
                             <label for="bith" class="control-label">日</label>
                             <input type="text" class="form-control bith_day" id="bith_day" placeholder="">
                         </div>
@@ -138,9 +138,9 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 mt-mobie">
                             <label for="plus_phoned" class="control-label">
-                                手機號碼<span class="form-tip text-info">*</span>
+                                手機號碼<span class="form-tip txt-sky">*</span>
 
                                 <div class="d-inline fr fs-14 fw-400 same-phone-msg">
                                     
@@ -154,7 +154,7 @@
                     {% if request.session.layout.email == 1 %}
                     <div class="form-group form-group-lg">
                         <label for="plus_email" class="control-label">
-                            電郵<span class="form-tip text-info">*</span>
+                            電郵<span class="form-tip txt-sky">*</span>
                         </label>
                         <input type="email" onchange="contactEmailSame()" class="form-control " id="plus_email" placeholder="郵箱地址">
                     </div>
@@ -191,17 +191,17 @@
                             <label for="plus_bith" class="control-label">
                                 出生年 
                                 <div class="d-inline">
-                                    <span id="plus_bith_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                                    <span id="plus_bith_laydate" class="glyphicon glyphicon-calendar hand txt-sky"></span>
                                     <input type="text" style="width: 15px; visibility: hidden; height: 10px;" id="plus_bith">
                                 </div>
                             </label>
                             <input type="text" class="form-control bith_year" id="plus_bith_year" placeholder="">
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 mt-mobie">
                             <label for="bith" class="control-label">月</label>
                             <input type="text" id="plus_bith_month" class="form-control" />
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 mt-mobie">
                             <label for="bith" class="control-label">日</label>
                             <input type="text" id="plus_bith_day" class="form-control" />
                         </div>

@@ -190,7 +190,13 @@ a:hover {
 }
 @media screen and (max-width: 768px) {
     .flex-action {
-    right: 4%;
+        right: 4%;
+    }
+}
+@media screen and (max-width: 768px) {
+
+    .mt-mobie {
+        margin-top: 12px
     }
 }
 

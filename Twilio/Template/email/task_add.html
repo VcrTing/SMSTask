@@ -28,7 +28,7 @@
                 <div class="form-group form-group-lg col-sm-4">
                     <label for="visit_time" class="control-label">
                         到訪日子：
-                        <span id="visit_time_laydate" class="glyphicon glyphicon-calendar hand text-info"></span>
+                        <span id="visit_time_laydate" class="glyphicon glyphicon-calendar hand txt-sky"></span>
                     </label>
                     <input type="text" class="form-control" id="visit_time" placeholder="年月日">
                 </div>
@@ -57,7 +57,7 @@
                     <div class="flex-action">
                         <button type="button" class="btn btn-default btn-lg"  onclick="javascript:history.back(-1);">返回</button>
                         <h4 class="d-inline">or</h4>
-                        <button type="button" class="btn btn-primary btn-lg" onclick="validate()">下壹步</button>
+                        <button type="button" class="btn btn-primary btn-lg" onclick="validate()">下一步</button>
                     </div>
                 </div>
                 <input type="hidden" id="email_template" name="email_template">
@@ -342,6 +342,5 @@ loadTemplate()
 }
 </style>
 {% include 'email/task_preview.html' %}
-{% include 'base/footer.html' %}
 
 {% endblock data %}

@@ -28,5 +28,5 @@ echo ''
 echo ''
 grep 'temporary password' /var/log/mysqld.log
 # echo '配置 Https'
-# sudo certbot --nginx
+sudo certbot --nginx
 # certbot certonly --preferred-challenges dns --manual  -d $domain --server https://acme-v02.api.letsencrypt.org/directory
