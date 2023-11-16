@@ -135,8 +135,8 @@ class TaskView(View):
                 for cate in common.CATEGORY:
                     if len(str(cate[0])) == 1:
                         category = sms_models.Category.objects.filter(Q(flag = cate[0]))
-                        if category[0]:
-                            if category[0].status:
+                        if category:
+                            if category[0] and category[0].status:
                                 sms_templates = sms_models.SmsTemplate.objects.filter(Q(category = category[0].id) & Q(status = True) & Q(lang = lang))
                                 res.append( sms_templates )
                                 category_list.append(category[0])
