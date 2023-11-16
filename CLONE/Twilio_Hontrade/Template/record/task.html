@@ -1,0 +1,395 @@
+{% extends '../index.html' %}
+{% load staticfiles %}
+{% block data %}
+<!-- FILTER -->
+<form class="row" id="filterForm">
+    <div class="form-group form-group-lg col-sm-3">
+        <select class="form-control" name="filterStatus" id="filterStatus">
+            <option value="0" >全部狀態</option>
+            <option value="1" style="color: red;">未發送的</option>
+            <option value="2" style="color: green;">已發送的</option>
+        </select>
+    </div>
+    <div class="form-group form-group-lg col-sm-3">
+        <select class="form-control" name="filterOrder" id="filterOrder">
+            <option value="0" >逆序排列</option>
+            <option value="1" >順序排列</option>
+        </select>
+    </div>
+
+    <div class="form-group form-group-lg col-sm-3">
+        <select class="w-100 form-control filter-select" id="limit">
+            <option value="20">20 項每頁</option>
+            <option value="40">40 項每頁</option>
+            <option value="60">60 項每頁</option>
+            <option value="80">80 項每頁</option>
+            <option value="100">100 項每頁</option>
+            <option value="200">200 項每頁</option>
+            <option value="500">500 項每頁</option>
+        </select>
+    </div>
+    <div class="form-group form-group-lg col-sm-3">
+        <div class="btn btn-primary btn-lg fr" onclick="filterSubmit()">確認過濾</div>
+    </div>
+</form>
+<!-- TABLE -->
+<div class="data-wrapper def-border table-responsive" onclick="closeEye()">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>
+                    <h4>SMS<span id="countMsg"></span></h4>
+                </td>
+                <td>
+                    <h4>接收者</h4>
+                </td>
+                <td align="center">
+                    <h4>任務狀態</h4>
+                </td>
+                <td align="center">
+                    <h4>時間規則</h4>
+                </td>
+                <td>
+                    <h4>發送時間</h4>
+                </td>
+                <td align="center">
+                    <h4></h4>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="tab-content" id="every_task-content">
+
+            <tr>
+                <td colspan="10">
+                    <div class="loadingGif">
+                        <img src='{% static "Common/Icon/loading.gif" %}' id="loadingImg">
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="next">
+            <span class="text-main hand" id="next" onclick="loadData(true)">
+                下一頁 <span aria-hidden="true">&rarr;</span>
+            </span>
+        </li>
+        <li class="fr">
+            <h5 id="pageMsg"></h5>
+        </li>
+        <li class="previous fr">
+            <span class="text-main hand disable" id="previous" onclick="loadData(false)">
+                <span aria-hidden="true">&larr;</span> 上一頁
+            </span>
+        </li>
+    </ul>
+</nav>
+<script>
+    /*
+        过滤 序列化
+    */
+    _ser_filterStatus = function(val) {
+        let send_status = ''
+        let apply_status = ''
+
+        if (val == 1) {
+            send_status = false; // Fail and Wait
+        } else if (val == 2) {
+            send_status = true;  
+            apply_status = true; // Success
+        }
+
+        return {
+            'send_status': send_status,
+            'apply_status': apply_status,
+            'res': val
+        }
+    }
+    _ser_filterStatus_rev = function(res) {
+        
+        return res
+    }
+
+    _ser_filterTime = function(val) {
+        let start_date = ''
+        let end_date = ''
+
+        if (val != 0) {
+            if (val < 20) {
+                const _date = new Date()
+                const year = _date.getFullYear();
+                const month = _date.getMonth() + 1;
+                const day = _date.getDate();
+
+                if (val == 1) {
+                    start_date = year + '-' + month + '-' + day
+                    end_date = year + '-' + month + '-' + (day + 7)
+                } else {
+                    start_date = year + '-' + month + '-' + day
+                    end_date = year + '-' + month + '-' + (day + 7)
+                }
+            } else {
+                
+            }
+        }
+
+        return {
+            'start_date': start_date,
+            'end_date': end_date,
+            'res': val
+        }
+    }
+    _ser_filterTime_rev = function(res) {
+        return res
+    }
+
+    _ser_filterOrder = function(val) {
+        if (val == 1) {
+            return '+add_time'
+        } 
+        return '-add_time'
+    }
+    _ser_filterOrder_rev = function(ordering) {
+        if (ordering == '+add_time') {
+            return 1
+        }
+        return 0
+    }
+
+    /*
+        数据 序列化
+    */
+    _ser_lang = function(e) {
+        if (e == '1') { return '繁體' }
+        else if (e == '2') { return '英文' }
+    }
+</script>
+
+<script>
+    sureTrash = function(title, id) {
+        window.event? window.event.cancelBubble = true : e.stopPropagation();
+        var flag = confirm("確認要刪除嗎？");
+        if (flag) {
+            location.href = "/task?option=trash&id=" + id
+        }
+    }
+    var every_task_content = $('#every_task-content')
+
+    _clear = function() {
+        every_task_content.html('')
+    }
+
+    // Limit
+    let _limit = vGet('limit_task')
+    
+    try {
+        _limit = parseInt(_limit)
+        if (isNaN(_limit)) { _limit = 20 }
+    } catch(err) {
+        _limit = 20
+    }
+
+    _limitChange = function(limited) {
+        $('#limit').find('option').removeAttr('selected')
+        $('#limit').find('option[value="' + limited + '"]').attr('selected', true)
+        vSet('limit_task', limited)
+    }
+    _limitChange(_limit)
+
+    $('#limit').on('change', function() {
+        let limited = $('#limit').find('option:selected').val()
+        
+        _limitChange(limited)
+        location.reload()
+    })
+
+    // Data
+    const _offset = 0
+    const api_name = 'every_task'
+    const _url = head + '{{ request.get_host }}' + '/api/' + api_name
+    let filter = localStorage.getItem('filter')
+    if (!filter) {
+        filter = {
+            'status': _ser_filterStatus(0),
+            'ordering': _ser_filterOrder(0),
+            'send_time': _ser_filterTime(0)
+        }
+    } else {
+        filter = JSON.parse(filter)
+    }
+    
+    const filter_url = '&send_status=' + filter['status']['send_status'] + 
+                    '&apply_status=' + filter['status']['apply_status'] +
+                    '&ordering=' + filter['ordering'] + 
+                    '&start_date=' + filter['send_time']['start_date'] +
+                    '&end_date=' + filter['send_time']['end_date']
+
+    const default_url =  _url + 
+        '/?format=json&status=True' + '&limit=' + _limit + '&offset=' + _offset
+        
+    var offset = _offset
+    let thePage = {
+        count: 0,
+        next: default_url,
+        previous: default_url
+    }
+
+    _change_page_msg = function(offset, count) {
+        $('#countMsg').html('(' + count + ')')
+        if (count <= _limit) {
+            count = _limit
+        }
+        const text = (Math.floor(offset / _limit) + 1) + '/' + Math.abs(Math.ceil(count / _limit))
+        $('#pageMsg').html(text)
+    }
+
+    getData = function(url) {
+        url += filter_url
+
+        loadingView('every_task-content')
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dateType:'json',
+            headers: {
+                'Content-Type': 'application/json;charset=utf8'
+            },
+            success: function(e) {
+                loadingView()
+                let res = e['results']
+                
+                _clear()
+                $.each(res, function(index, item) {
+                    
+                    const sms_task = item['sms_task']
+                    const area = sms_task['area']
+                    const sms_template = sms_task['sms_template']
+                    
+                    const id = item['id']
+                    const reciver = sms_task['named'] + "(<span class='text- main'>" + area['phoned_prefix'] + '&nbsp;' + sms_task['phoned'] + "</span>)&nbsp;&nbsp;"
+                    const status = _ser_status(item['apply_status'], item['send_status'], sms_task['task_status'])
+                    const time_rule_belong = _ser_time_rule_belong(item['time_rule_belong'])
+                    const send_finish_time = _ser_send_time(item['send_finish_time'])
+                    const tip = "服務分類：" + sms_template['category']['named'] + "，模版語言：" + _ser_lang(sms_template['lang'])
+                    //  + "<span class='glyphicon glyphicon-question-sign' onmouseover='eye(" + id + ")' id='tip_" + id + "'  data-toggle='tooltip' data-placement='top' title='" + tip + "'></span>"
+                    
+                    const html = "<tr>" +
+                    "<td><h4 class='tip hand' onclick='eye(" + id + ")' id='tip_" + id + "' data-toggle='popover' title='提示' data-content='" + tip + "'>" + sms_template['service']['named'] + "</h4></td>"+
+                    "<td><h4>" + reciver + "</h4></td>"+
+                    "<td align='center'><h4>" + status + "</h4></td>"+
+                    "<td align='center'><h4>" + time_rule_belong + "</h4></td>"+
+                    "<td><h4>" + send_finish_time + "</h4></td>"+
+                    "<td align='center'><h4><span class='text-main hand' onclick='sureTrash(" + id + ", " + id + ")'><span class='glyphicon glyphicon-trash'></span></span></h4></td>"+
+                    "</tr>";
+                    
+                    every_task_content.append(html)
+                })
+
+                var previous = e['previous']
+                var next = e['next']
+                var count = e['count']
+
+                if (previous == null) {
+                    previous = _url + '/?format=json&status=True' + '&limit=' + _limit + '&offset=' + (count - _limit)
+                    // 首頁
+                    offset = 0
+                }
+                if (next == null) {
+                    next = default_url
+                    // 末頁
+                    if (count > _limit) {
+                        // alert('已經是最後壹頁！！！再按下壹頁回到首頁。')
+                    }
+                    offset = count
+                }
+                thePage.next = next 
+                thePage.previous = previous
+                thePage.count = count
+
+                _change_page_msg(offset, count)
+            },
+            error: function(e) {
+                alert('暂无記錄！！！')
+            }
+        })
+    }
+
+    loadData = function(flag) {
+        if(flag) {
+            offset += _limit
+            getData(thePage.next)
+        } else {
+            offset -= _limit
+            getData(thePage.previous)
+        }
+    }
+
+    setTimeout(function() {
+
+        loadData(true)
+    }, 318)
+
+    // 睁眼
+    eye = function(id) {
+        window.event? window.event.cancelBubble = true : e.stopPropagation();
+        $('#tip_' + id).popover('show')
+    }
+    closeEye = function() {
+        $('.tip').popover('hide')
+    }
+</script>
+<!-- FILTER -->
+<script>
+    const startYear = 2020
+    const date_filter = new Date()
+    let yearList = []
+    for (var i= 0; i< (date_filter.getFullYear() - startYear + 2); i++ ) {
+        yearList.push(startYear + i)
+    }
+
+    filterSubmit = function() {
+        let filterStatus = $('#filterStatus').children('option:selected').val()
+        let filterTime = $('#filterTime').children('option:selected').val()
+        let filterOrder = $('#filterOrder').children('option:selected').val()
+
+        let filter = {
+            'status': _ser_filterStatus(filterStatus),
+            'ordering': _ser_filterOrder(filterOrder),
+            'send_time': _ser_filterTime(filterTime)
+        }
+        
+        localStorage.setItem('filter', JSON.stringify(filter))
+        location.reload()
+    }
+
+    AddingYear = function() {
+        let content = '' +
+            '<option value="0" >全部時間</option>' +
+            '<option value="1" >一星期内</option>' +
+            '<option value="2" >一月内</option>' +
+            '<option value="3" >半年内</option>' +
+            '<option value="4" >一年内</option>'
+
+        for (var i= 0; i< (yearList.length); i++ ) {
+            content += '<option value="' + yearList[i] + '" >' + yearList[i] + '年</option>'
+        }
+        $('#filterTime').html(content)
+    }
+    locationFilter = function() {
+        const status = filter['status']['res']
+        const ordering = filter['ordering']
+        const send_time = filter['send_time']['res']
+
+        $('#filterStatus option[value=' + _ser_filterStatus_rev(status) + ']').attr('selected', true)
+        $('#filterOrder option[value=' + _ser_filterOrder_rev(ordering) + ']').attr('selected', true)
+        $('#filterTime option[value=' + _ser_filterTime_rev(send_time) + ']').attr('selected', true)
+    }
+    AddingYear()
+    locationFilter()
+</script>
+
+<style>
+</style>
+{% endblock data %}

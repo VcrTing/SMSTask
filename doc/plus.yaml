@@ -1,20 +1,36 @@
 项目复制:
   yum install -y git
-  git clone '.com'
+  git clone 'https://github.com/VcrTing/SMSTask.git'
 
 数据库:
   安装 blog:
     https://baijiahao.baidu.com/s?id=1653056691945263760&wfr=spider&for=pc
+  或者 blog: 
+    https://blog.csdn.net/m0_64280701/article/details/131544053
+    http://repo.mysql.com
+    wget http://repo.mysql.com/yum/mysql-8.0-community/el/7/x86_64/mysql80-community-release-el7-10.noarch.rpm
+    ls /etc/yum.repos.d/ -l
+    rpm -ivh ./mysql80-community-release-el7-10.noarch.rpm 
+    rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+    yum install -y mysql-community-server
+    systemctl start mysqld.service
   用户 权限:
     https://www.iteye.com/blog/cnjarchen-2221676
+    grep 'temporary password' /var/log/mysqld.log
+    mysql -u root -p
+    # CREATE USER 'vcrting'@'localhost' IDENTIFIED BY 'VcrTing.ZT123zlt';
+    ALTER USER 'root'@'localhost' IDENTIFIED BY 'VcrTing.ZT123zlt';
   创建数据库:
-    drop database NAME;
-    CREATE DATABASE [NAME] DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
-  导入数据:
-    cd /root/SMSTask/doc
-    mysqldump -u root -p DB < DB.sql
+    # drop database NAME;
+    CREATE DATABASE sms DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+  完成退出:
+    quit;
+    systemctl restart mysqld.service
   设置自启动:
     systemctl enable mysqld.service
+  导入数据:
+    cd /root/SMSTask/doc
+    mysqldump -u root -p sms < DB.sql
 
 Nginx:
   准备工作:
