@@ -25,4 +25,4 @@
   cd /root/SMSTask/CLONE
 
 刪庫:
-  
+  drop database sms;

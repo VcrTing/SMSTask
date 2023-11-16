@@ -1,2 +1,2 @@
 
-const head = 'http://'
+var head = 'http://'
